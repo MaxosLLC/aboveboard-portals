@@ -1,0 +1,5 @@
+FROM nginx:1.10.2-alpine
+
+WORKDIR /opt/build
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY build /opt/build
