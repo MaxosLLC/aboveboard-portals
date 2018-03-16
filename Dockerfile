@@ -4,7 +4,7 @@ FROM node:8-alpine
 RUN apk --no-cache add ca-certificates wget git python alpine-sdk libusb-dev && update-ca-certificates
 
 # Install yarn
-RUN mkdir -p /opt/yarn && cd /opt/yarn && wget https://yarnpkg.com/latest.tar.gz && tar zxf latest.tar.gz
+RUN mkdir -p /opt/yarn && cd /opt/yarn && wget https://yarnpkg.com/latest.tar.gz && mkdir dist && tar zxf latest.tar.gz -C dist --strip-components 1
 ENV PATH "$PATH:/opt/yarn/dist/bin"
 
 EXPOSE 3000
@@ -18,7 +18,7 @@ WORKDIR /opt/app
 ADD package.json yarn.lock /cache/
 
 # Copy cache contents (if any) from local machine
-ADD .yarn-cache.tgz /
+# ADD .yarn-cache.tgz /
 
 # Install packages + Prepare cache file
 RUN cd /cache \
