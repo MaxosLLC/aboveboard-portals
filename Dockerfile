@@ -30,4 +30,4 @@ RUN cd /cache \
 COPY . /opt/app
 
 RUN yarn
-RUN yarn run build
+RUN NODE_PATH=src/ yarn run build
