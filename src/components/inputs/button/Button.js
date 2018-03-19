@@ -7,10 +7,10 @@ import './Button.css'
 
 const Button = ({ action = false, color, children, style = {}, ...props }) => {
   const classes = classnames({
-    'circular': action,
-    'action': action,
-    'with-nav': action === 'nav'
-  })
+    circular: action,
+    action: action,
+    'with-nav': action === 'nav',
+  });
 
   return (
     <ButtonWrapper className={`${color} ${classes}`} {...props}>
@@ -19,8 +19,8 @@ const Button = ({ action = false, color, children, style = {}, ...props }) => {
           {children}
         </Label>}
     </ButtonWrapper>
-  )
-}
+  );
+};
 
 Button.propTypes = {
   action: PropTypes.oneOf([false, true, 'nav']),
@@ -29,4 +29,4 @@ Button.propTypes = {
   style: PropTypes.shape({})
 }
 
-export default Button
+export default Button;

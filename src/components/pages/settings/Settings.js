@@ -9,9 +9,14 @@ const mapStateToProps = state => ({
   connected: state.wallet.connected,
   currentUser: state.currentUser,
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
-  watchingTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished
-})
+  watchingTokens: state.localToken.queryResult
+    ? state.localToken.queryResult.data
+    : [],
+  loaded:
+    state.currentUser.id &&
+    state.localToken.isFinished &&
+    state.token.isFinished,
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -19,9 +24,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return ethereum.init({ account, password })
         .then(() => dispatch(localServices.user.patch(null, { walletAccountName: account }, { query: { email: 'local@local.com' } })))
     },
-    startWatchingToken (token) {
-      return dispatch(localServices.localToken.create(token))
-        .then(() => dispatch(localServices.localToken.find()))
+    startWatchingToken(token) {
+      return dispatch(localServices.localToken.create(token)).then(() =>
+        dispatch(localServices.localToken.find())
+      );
     },
     stopWatchingToken (token) {
       return dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
@@ -34,4 +40,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsView)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);

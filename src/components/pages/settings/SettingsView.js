@@ -29,9 +29,9 @@ class SettingsView extends Component {
     const watchingTokenOptions = tokens.map(token => {
       return {
         text: token.name,
-        value: token.address
-      }
-    })
+        value: token.address,
+      };
+    });
 
     const handleConnectWallet = () => {
       if (!account) {
@@ -53,8 +53,8 @@ class SettingsView extends Component {
         })
       }
 
-      return connectWallet(account, password)
-    }
+      return connectWallet(account, password);
+    };
 
     const handleSetMessagingAccount = () => {
       if (!messagingAddress) {
@@ -224,4 +224,4 @@ class SettingsView extends Component {
   }
 }
 
-export default SettingsView
+export default SettingsView;
