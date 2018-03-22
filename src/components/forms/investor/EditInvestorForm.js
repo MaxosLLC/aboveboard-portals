@@ -7,7 +7,6 @@ import { Dropdown, Label, Text } from 'components/inputs'
 
 import countryOptions from 'data/dropDownCountryOptions'
 
-
 const qualificationsOptions = [
   {
     text: 'US Accredited',
@@ -85,15 +84,14 @@ const validate = values => {
   return errors
 }
 
-
-const renderwhitelistAddresses = ( { initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => {
+const renderwhitelistAddresses = ({ initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => {
   const onChange = (e, data) => {
     fields.removeAll()
     data.value.map(value => {
       let name = data.options.find(option => option.value === value).text
       fields.push({
         name: name,
-        address: value,
+        address: value
       })
       return null
     })
@@ -112,24 +110,24 @@ const renderwhitelistAddresses = ( { initialWhitelists, whitelistOptions, fields
   )
 }
 
-const renderEthAddresses = ( { initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => (
+const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => (
   <Fragment>
     <Grid.Column style={{margin: 'auto'}}>
-      <Button type="button" key="submit" onClick={() => fields.push({})}>
+      <Button type='button' key='submit' onClick={() => fields.push({})}>
         Add eth Address
       </Button>
       {submitFailed && error && <span>{error}</span>}
     </Grid.Column>
     {fields.map((ethAddress, index) => (
-      <Grid key={`ethAddressGrid${index}`} padded="horizontally" celled stackable columns={2}>
+      <Grid key={`ethAddressGrid${index}`} padded='horizontally' celled stackable columns={2}>
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{padding: '10px'}}>ethAddress #{index + 1}  </Label>
+          <Label style={{padding: '10px'}}>ethAddress #{index + 1}                      </Label>
           <Icon
-            name="trash outline"
+            name='trash outline'
             key={`ethAddressIcon${index}`}
-            type="button"
-            title="Remove ethAddress"
-            size="large"
+            type='button'
+            title='Remove ethAddress'
+            size='large'
             onClick={() => fields.remove(index)}
           />
           <Text key={`ethAddressText${index}`} name={`${ethAddress}.address`} />
@@ -203,7 +201,7 @@ let EditInvestorForm = props => {
                 <Label>Issues</Label>
                 <Text name='issues' />
               </Grid.Column>
-              <FieldArray name="ethAddresses" component={renderEthAddresses} props={{ initialWhitelists, whitelistOptions}} />
+              <FieldArray name='ethAddresses' component={renderEthAddresses} props={{ initialWhitelists, whitelistOptions}} />
 
             </Grid.Row>
             { errors
@@ -245,7 +243,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     initialValues: ownProps.investor,
-    initialWhitelists: initialWhitelists,
+    initialWhitelists: initialWhitelists
   }
 }
 EditInvestorForm = connect(mapStateToProps)(EditInvestorForm)

@@ -1,5 +1,5 @@
 import feathersCloudAuthentication from 'lib/feathers/cloud/feathersAuthentication'
-import { push } from 'react-router-redux'
+import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthentication'
 
 const getParameterByName = (name, url) => {
   if (!url) url = window.location.href
@@ -17,6 +17,18 @@ const accessToken = queryStringAccessToken || window.localStorage && // eslint-d
                       window.localStorage.getItem && // eslint-disable-line
                       window.localStorage.getItem('feathers-jwt') // eslint-disable-line
 
+const publicAuthData = {
+  strategy: 'local',
+  email: 'public@aboveboard.com',
+  password: 'Public12'
+}
+
+const localAuthData = {
+  strategy: 'local',
+  email: 'local@local.com',
+  password: 'local'
+}
+
 const init = store => {
   if (accessToken) {
     const authenticationOptions = {
@@ -24,7 +36,8 @@ const init = store => {
       accessToken
     }
 
-    return store.dispatch(feathersCloudAuthentication.authenticate(authenticationOptions))
+    return store.dispatch(feathersCloudAuthentication.authenticate(publicAuthData))
+      .then(() => store.dispatch(feathersLocalAuthentication.authenticate(authenticationOptions)))
       .then(results => {
         store.dispatch({
           type: 'LOGIN_SUCCESS',
@@ -32,7 +45,15 @@ const init = store => {
           accessToken: results.value.accessToken
         })
       })
-      .catch(() => store.dispatch(push('/login')))
+      .catch(() =>
+        store.dispatch(feathersLocalAuthentication.authenticate(localAuthData))
+          .then(results => {
+            store.dispatch({
+              type: 'LOGIN_SUCCESS',
+              user: results.value.user,
+              accessToken: results.value.accessToken
+            })
+          }))
   } else {
     return Promise.resolve()
   }

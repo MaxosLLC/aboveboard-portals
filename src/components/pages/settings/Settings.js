@@ -1,9 +1,11 @@
 import { connect } from 'react-redux'
+import { each } from 'bluebird'
 import localServices from 'lib/feathers/local/feathersServices'
 import SettingsView from './SettingsView'
 import ethereum from 'lib/ethereum'
 
 const mapStateToProps = state => ({
+  appType: state.config.appType,
   connected: state.wallet.connected,
   currentUser: state.currentUser,
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
@@ -11,7 +13,7 @@ const mapStateToProps = state => ({
   loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished
 })
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     connectWallet (account, password) {
       return ethereum.init({ account, password })
@@ -23,6 +25,10 @@ const mapDispatchToProps = dispatch => {
     stopWatchingToken (token) {
       return dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
         .then(() => dispatch(localServices.localToken.find()))
+    },
+    setMessagingAddress (messagingAddress, tokens) {
+      return each(tokens, token => ethereum.setMessagingAddress(messagingAddress, token.address))
+        .then(() => localServices.user.patch(null, { messagingAddress }, { query: { email: 'local@local.com' } }))
     }
   }
 }

@@ -6,9 +6,8 @@ import store from 'redux/store'
 
 import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
-import regulatedTokenContract from 'lib/contracts/RegulatedToken'
-
-const tokenContractAddress = /herokuapp.com/.test(window.location.hostname) ? process.env.REACT_APP_DEMO_KOVAN_TOKEN_CONTRACT_ADDRESS : '0xad5e8301d7d23834c79e650449754bbc3816660f'
+import tokenContract from 'lib/contracts/RegulatedToken'
+import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
 
 let web3
 let currentAccount
@@ -118,9 +117,22 @@ export default {
     return contract.setReleaseDate.sendTransactionAsync(investorAddress, releaseDate, { from: currentAccount })
   },
 
-  transfer (investorAddress, amount) {
-    const contract = web3.eth.contract(regulatedTokenContract.abi).at(tokenContractAddress)
-    promisifyAll(contract.transfer)
-    return contract.transfer.sendTransactionAsync(investorAddress, amount, { from: currentAccount })
+  setMessagingAddress (messagingAddress, tokenAddress) {
+    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+    promisifyAll(deployedTokenContract._service)
+
+    return deployedTokenContract._service.callAsync()
+      .then(regulatorServiceAddress => {
+        const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
+        promisifyAll(deployedRegulatorServiceContract.getMessagingAddress)
+        promisifyAll(deployedRegulatorServiceContract.setMessagingAddress)
+
+        return deployedRegulatorServiceContract.getMessagingAddress.callAsync()
+          .then(currentMessagingAddress => {
+            if (currentMessagingAddress !== messagingAddress) {
+              return deployedRegulatorServiceContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount })
+            }
+          })
+      })
   }
 }
