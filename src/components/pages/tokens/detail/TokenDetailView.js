@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Grid, Header, Icon, Tab, Table } from 'semantic-ui-react'
+import { Grid, Header, Icon, Segment, Tab, Table } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class InvestorDetailView extends Component {
@@ -18,10 +18,12 @@ class InvestorDetailView extends Component {
       return shareholder && shareholder.firstName ? `${shareholder.firstName} ${shareholder.lastName}` : ''
     }
 
+    const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
+
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
-          <Table celled selectable>
+          shareholdersWithData.length ? <Table celled selectable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>#</Table.HeaderCell>
@@ -34,7 +36,7 @@ class InvestorDetailView extends Component {
             </Table.Header>
 
             <Table.Body>
-              { shareholders.map((shareholder, i) =>
+              { shareholdersWithData.map((shareholder, i) =>
                 <Table.Row key={shareholder.id} onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)} style={{ cursor: 'pointer' }}>
                   <Table.Cell>{i}</Table.Cell>
                   <Table.Cell>{shareholder.firstName}</Table.Cell>
@@ -46,10 +48,11 @@ class InvestorDetailView extends Component {
             ) }
             </Table.Body>
           </Table>
+        : <Segment>No shareholder data available</Segment>
       },
       { menuItem: 'Transactions',
         render: () =>
-          <Table celled>
+          transactions.length ? <Table celled>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Transaction Hash</Table.HeaderCell>
@@ -81,7 +84,9 @@ class InvestorDetailView extends Component {
                 </Table.Row>
             ) }
             </Table.Body>
-          </Table> }
+          </Table>
+          : <Segment>No transactions have been made yet</Segment>
+      }
     ]
 
     return (
