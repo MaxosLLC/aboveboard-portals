@@ -5,9 +5,7 @@ class Home extends Component {
   render () {
     return (
       <Segment>
-        <span>You are logged in.</span><br /><br />
-        <span>This is also the home page.</span><br /><br />
-        <span>We could add some cool stuff here, like some metrics and graphics and such.</span>
+        <span>Main Dashboard</span><br /><br />
       </Segment>
     )
   }
