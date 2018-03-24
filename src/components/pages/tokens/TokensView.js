@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { sortBy } from 'lodash/fp';
 import { Link } from 'react-router-dom';
-import { Grid, Header, Icon, Table } from 'semantic-ui-react';
+import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react';
 
 class TokensView extends Component {
+  componentDidMount() {
+    this.props.loadTokens(0);
+  }
   render() {
     const { loaded, tokens, watchingTokens, routeTo } = this.props;
 
@@ -55,6 +58,27 @@ class TokensView extends Component {
                   </Table.Row>
                 ))}
               </Table.Body>
+              <Table.Footer>
+                <Table.Row stretched>
+                  <Table.HeaderCell floated="right" colSpan="8">
+                    <Pagination
+                      floated="right"
+                      defaultActivePage={1}
+                      totalPages={
+                        this.props.queryResult
+                          ? Math.floor(
+                              this.props.queryResult.total /
+                                this.props.queryResult.limit
+                            ) + 1
+                          : 1
+                      }
+                      onPageChange={(e, { activePage }) => {
+                        this.props.loadTokens(25 * (activePage - 1));
+                      }}
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer>
             </Table>
           </div>
         ) : (

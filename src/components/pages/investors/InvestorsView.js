@@ -9,13 +9,6 @@ import {
   Table,
 } from 'semantic-ui-react';
 
-// <Table.HeaderCell>Edit</Table.HeaderCell> // TODO: reimplement once edit form is refactored to new eth addresses schema
-// <Table.Cell>
-//   <Menu.Item>
-//     <Link to={`/buyers/${investor._id}/edit`} className='ui button'>Edit Investor</Link>
-//   </Menu.Item>
-// </Table.Cell>
-
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
   'us-qib': 'US QIB',

@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Grid, Header, Icon, Segment, Tab, Table } from 'semantic-ui-react';
+import {
+  Pagination,
+  Grid,
+  Header,
+  Icon,
+  Segment,
+  Tab,
+  Table,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class InvestorDetailView extends Component {
   componentDidMount() {
-    this.props.loadShareholders();
-    this.props.loadTransactions();
+    this.props.loadShareholders(0);
+    this.props.loadTransactions(0);
   }
 
   render() {
@@ -74,6 +82,27 @@ class InvestorDetailView extends Component {
                   </Table.Row>
                 ))}
               </Table.Body>
+              <Table.Footer>
+                <Table.Row stretched>
+                  <Table.HeaderCell floated="right" colSpan="8">
+                    <Pagination
+                      floated="right"
+                      defaultActivePage={1}
+                      totalPages={
+                        this.props.queryResult
+                          ? Math.floor(
+                              this.props.queryResult.total /
+                                this.props.queryResult.limit
+                            ) + 1
+                          : 1
+                      }
+                      onPageChange={(e, { activePage }) => {
+                        this.props.loadShareholders(25 * (activePage - 1));
+                      }}
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer>
             </Table>
           ) : (
             <Segment>No shareholder data available</Segment>
@@ -135,6 +164,27 @@ class InvestorDetailView extends Component {
                   </Table.Row>
                 ))}
               </Table.Body>
+              <Table.Footer>
+                <Table.Row stretched>
+                  <Table.HeaderCell floated="right" colSpan="8">
+                    <Pagination
+                      floated="right"
+                      defaultActivePage={1}
+                      totalPages={
+                        this.props.queryResult
+                          ? Math.floor(
+                              this.props.queryResult.total /
+                                this.props.queryResult.limit
+                            ) + 1
+                          : 1
+                      }
+                      onPageChange={(e, { activePage }) => {
+                        this.props.loadTransactions(25 * (activePage - 1));
+                      }}
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer>
             </Table>
           ) : (
             <Segment>No transactions have been made yet</Segment>

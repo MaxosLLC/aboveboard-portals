@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 // import localServices from 'lib/feathers/local/feathersServices'
+import services from 'lib/feathers/local/feathersServices';
 import { push } from 'react-router-redux';
 import TokensView from './TokensView';
 
@@ -16,6 +17,8 @@ const mapDispatchToProps = dispatch => {
     routeTo(path) {
       dispatch(push(path));
     },
+    loadTokens: $skip =>
+      dispatch(services.localToken.find({ query: { $limit: 25, $skip } })),
   };
 };
 
