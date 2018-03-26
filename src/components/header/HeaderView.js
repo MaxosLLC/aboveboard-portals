@@ -10,12 +10,12 @@ class HeaderView extends Component {
   render () {
     const { currentUser, routeTo, logout } = this.props
 
-    const trigger = <Image src={profileSrc} style={{ height: '40px', margin: '12px 10px 0 0' }} />
+    const trigger = <Image src={profileSrc} style={{ height: '32px', margin: '12px 10px 0 0' }} />
 
     return currentUser.id || currentUser._id ? (
       <Menu inverted className='headerComponent' fixed='top' style={{ backgroundColor: '#03a0cc' }}>
-        <Menu.Item header onClick={() => routeTo('/')}>
-          <Image src={logoSrc} size='tiny' />
+        <Menu.Item header onClick={() => routeTo('/')} style={{ width: 210, backgroundImage: 'linear-gradient(-14deg, #094BB1 0%, #00CDDB 100%)' }}>
+          <Image src={logoSrc} style={{ height: 32 }} centered />
         </Menu.Item>
         <Menu.Menu position='right'>
           <Dropdown pointing trigger={trigger} icon={null}>
