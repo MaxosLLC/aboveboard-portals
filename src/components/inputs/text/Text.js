@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Field } from 'redux-form'
-import { Input } from 'semantic-ui-react'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
+import { Input } from 'semantic-ui-react';
 
 const CustomInput = ({
   input,
@@ -9,12 +9,11 @@ const CustomInput = ({
   placeholder,
   mandatory,
   type,
-  disabled
+  disabled,
 }) => {
   return (
     <div>
-      {mandatory
-      ? (
+      {mandatory ? (
         <Input
           fluid
           placeholder={placeholder}
@@ -26,8 +25,7 @@ const CustomInput = ({
           {...input}
           disabled={disabled}
         />
-      )
-      : (
+      ) : (
         <Input
           fluid
           placeholder={placeholder}
@@ -38,10 +36,10 @@ const CustomInput = ({
           disabled={disabled}
         />
       )}
-      {touched && error && <span className='input__error'>{error}</span>}
+      {touched && error && <span className="input__error">{error}</span>}
     </div>
-  )
-}
+  );
+};
 
 CustomInput.propTypes = {
   input: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
@@ -50,12 +48,18 @@ CustomInput.propTypes = {
   mandatory: PropTypes.bool,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
-  disabled: PropTypes.bool
-}
+  disabled: PropTypes.bool,
+};
 
-const Text = ({ name, type = 'text', mandatory = false, placeholder, disabled = false }) => {
+const Text = ({
+  name,
+  type = 'text',
+  mandatory = false,
+  placeholder,
+  disabled = false,
+}) => {
   return (
-    <div className='inputWrapper'>
+    <div className="inputWrapper">
       <Field
         name={name}
         type={type}
@@ -65,8 +69,8 @@ const Text = ({ name, type = 'text', mandatory = false, placeholder, disabled = 
         disabled={disabled}
       />
     </div>
-  )
-}
+  );
+};
 
 Text.propTypes = {
   input: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
@@ -74,7 +78,7 @@ Text.propTypes = {
   type: PropTypes.string,
   mandatory: PropTypes.bool,
   placeholder: PropTypes.string,
-  defaultValue: PropTypes.string
-}
+  defaultValue: PropTypes.string,
+};
 
-export default Text
+export default Text;

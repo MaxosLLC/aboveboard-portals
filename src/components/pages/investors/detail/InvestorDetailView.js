@@ -1,33 +1,41 @@
-import React, { Component } from 'react'
-import { Grid, Header, Icon, Table } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Grid, Header, Icon, Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class InvestorDetailView extends Component {
-  componentDidMount () {
-    this.props.loadInvestor(this.props.match.params.id)
+  componentDidMount() {
+    this.props.loadInvestor(this.props.match.params.id);
   }
 
-  render () {
-    const { loaded, investor, whitelists } = this.props
+  render() {
+    const { loaded, investor, whitelists } = this.props;
 
     const getWhitelistName = address => {
-      const whitelist = whitelists.filter(whitelist => whitelist.address === address)
+      const whitelist = whitelists.filter(
+        whitelist => whitelist.address === address
+      );
 
-      return whitelist && whitelist[0] ? whitelist[0].name : address
-    }
+      return whitelist && whitelist[0] ? whitelist[0].name : address;
+    };
 
     return (
-      <div className='investorsComponent'>
+      <div className="investorsComponent">
         <Grid centered columns={1}>
           <Grid.Column width={4}>
-            <Header as='h2' textAlign='center'>Buyer Detail</Header>
+            <Header as="h2" textAlign="center">
+              Buyer Detail
+            </Header>
           </Grid.Column>
         </Grid>
 
         <br />
 
-        { !loaded ? <span>Loading buyer details...<Icon name='spinner' loading /></span>
-          : <div>
+        {!loaded ? (
+          <span>
+            Loading buyer details...<Icon name="spinner" loading />
+          </span>
+        ) : (
+          <div>
             <Table celled>
               <Table.Header>
                 <Table.Row>
@@ -45,12 +53,22 @@ class InvestorDetailView extends Component {
                   <Table.Cell>{investor.lastName}</Table.Cell>
                   <Table.Cell>{investor.email}</Table.Cell>
                   <Table.Cell>{investor.phone}</Table.Cell>
-                  <Table.Cell>{investor.addressLine1}{investor.addressLine2 ? ` ${investor.addressLine1},` : ','} {investor.city}, {investor.state ? `${investor.state} ,` : ''} {investor.country}, {investor.zip}</Table.Cell>
+                  <Table.Cell>
+                    {investor.addressLine1}
+                    {investor.addressLine2
+                      ? ` ${investor.addressLine1},`
+                      : ','}{' '}
+                    {investor.city},{' '}
+                    {investor.state ? `${investor.state} ,` : ''}{' '}
+                    {investor.country}, {investor.zip}
+                  </Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>
 
-            <Header as='h2' textAlign='center'>Ethereum Addresses</Header>
+            <Header as="h2" textAlign="center">
+              Ethereum Addresses
+            </Header>
 
             <Table celled>
               <Table.Header>
@@ -61,29 +79,55 @@ class InvestorDetailView extends Component {
               </Table.Header>
 
               <Table.Body>
-                { (investor.ethAddresses || []).map(ethAddress => {
-                  return <Table.Row key={ethAddress.address}>
-                    <Table.Cell><Link to={`https://kovan.etherscan.io/address/${ethAddress.address}`} target='_blank' rel='noopener noreferrer'>{ethAddress.address}</Link></Table.Cell>
-                    <Table.Cell>{(ethAddress.whitelists || []).map(whitelist => {
-                      return <p key={whitelist.address}>
-                        <Link to={`https://kovan.etherscan.io/address/${whitelist.address}`} target='_blank' rel='noopener noreferrer'>{getWhitelistName(whitelist.address)}</Link>
-                      </p>
-                    })}</Table.Cell>
-                  </Table.Row>
+                {(investor.ethAddresses || []).map(ethAddress => {
+                  return (
+                    <Table.Row key={ethAddress.address}>
+                      <Table.Cell>
+                        <Link
+                          to={`https://kovan.etherscan.io/address/${
+                            ethAddress.address
+                          }`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {ethAddress.address}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>
+                        {(ethAddress.whitelists || []).map(whitelist => {
+                          return (
+                            <p key={whitelist.address}>
+                              <Link
+                                to={`https://kovan.etherscan.io/address/${
+                                  whitelist.address
+                                }`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {getWhitelistName(whitelist.address)}
+                              </Link>
+                            </p>
+                          );
+                        })}
+                      </Table.Cell>
+                    </Table.Row>
+                  );
                 })}
               </Table.Body>
             </Table>
 
             <Grid centered columns={1}>
               <Grid.Column width={4}>
-                <Link to='/buyers' className='ui button primary'>Back to Buyers</Link>
+                <Link to="/buyers" className="ui button primary">
+                  Back to Buyers
+                </Link>
               </Grid.Column>
             </Grid>
           </div>
-        }
+        )}
       </div>
-    )
+    );
   }
 }
 
-export default InvestorDetailView
+export default InvestorDetailView;
