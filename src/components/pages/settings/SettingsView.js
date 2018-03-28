@@ -4,7 +4,7 @@ import { Button, Divider, Dropdown, Header, Grid, Icon, Input, Label, Segment } 
 
 class SettingsView extends Component {
   render () {
-    const { loaded, connected, connectWallet, tokens, watchingTokens, startWatchingToken, stopWatchingToken } = this.props
+    const { loaded, appType, connected, connectWallet, currentUser, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
 
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -34,6 +34,16 @@ class SettingsView extends Component {
 
       addedTokens.forEach(startWatchingToken)
       removedTokens.forEach(stopWatchingToken)
+    }
+
+    const handleSetMessagingAccount = () => {
+      const messagingAddress = document.getElementById('messaging-account-input').value
+
+      if (!messagingAddress) {
+        return alert('Please enter a messaging address') // eslint-disable-line
+      }
+
+      setMessagingAddress(messagingAddress, watchingTokens)
     }
 
     return (
@@ -81,6 +91,16 @@ class SettingsView extends Component {
                   </div>
                   : '' }
             </Segment>
+
+            { appType === 'issuer'
+              ? <Segment>
+                <Label>Messaging Account ID</Label>
+                <Input id='messaging-account-input' name='messaging-acount' defaultValue={currentUser.messagingAddress} />
+                <br />
+                <br />
+                <Button onClick={handleSetMessagingAccount}>Save</Button>
+              </Segment>
+            : '' }
           </div>
         }
       </div>

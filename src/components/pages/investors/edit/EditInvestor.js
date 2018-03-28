@@ -15,13 +15,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadInvestor: id => dispatch(localServices.investor.find({ query: { id, $limit: 1 } })),
 
     editInvestor: data => {
-
       const dataWithAddresses = Object.assign({}, data, data.ethAddresses)
 
       return dispatch(localServices.investor.patch(ownProps.match.params.id, dataWithAddresses))
         .then(() => dispatch(push('/buyers')))
     },
-    routeTo: path => ownProps.history.push(path),
+    routeTo: path => ownProps.history.push(path)
   }
 }
 

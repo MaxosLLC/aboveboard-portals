@@ -51,7 +51,7 @@ class InvestorsView extends Component {
 
             <Table.Body>
               { investors.map((investor, i) =>
-                <Table.Row key={investor.id} style={{ cursor: 'pointer', textAlign: 'center', }}>
+                <Table.Row key={investor.id} style={{ cursor: 'pointer', textAlign: 'center' }}>
                   <Table.Cell onClick={() => handleRowClick(investor.id)}>{i + 1}</Table.Cell>
                   <Table.Cell onClick={() => handleRowClick(investor.id)}>{investor.firstName}</Table.Cell>
                   <Table.Cell onClick={() => handleRowClick(investor.id)}>{investor.lastName}</Table.Cell>

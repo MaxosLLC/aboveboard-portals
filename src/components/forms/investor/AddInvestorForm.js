@@ -84,14 +84,14 @@ const validate = values => {
   return errors
 }
 
-const renderwhitelistAddresses = ( { whitelistOptions, fields, meta: { error, submitFailed } }) => {
+const renderwhitelistAddresses = ({ whitelistOptions, fields, meta: { error, submitFailed } }) => {
   const onChange = (e, data) => {
     fields.removeAll()
     data.value.map(value => {
       let name = data.options.find(option => option.value === value).text
       fields.push({
         name: name,
-        address: value,
+        address: value
       })
       return null
     })
@@ -109,24 +109,24 @@ const renderwhitelistAddresses = ( { whitelistOptions, fields, meta: { error, su
   )
 }
 
-const renderEthAddresses = ( { whitelistOptions, fields, meta: { error, submitFailed } }) => (
+const renderEthAddresses = ({ whitelistOptions, fields, meta: { error, submitFailed } }) => (
   <Fragment>
     <Grid.Column style={{margin: 'auto'}}>
-      <Button type="button" key="submit" onClick={() => fields.push({})}>
+      <Button type='button' key='submit' onClick={() => fields.push({})}>
         Add eth Address
       </Button>
       {submitFailed && error && <span>{error}</span>}
     </Grid.Column>
     {fields.map((ethAddress, index) => (
-      <Grid key={`ethAddressGrid${index}`} padded="horizontally" celled stackable columns={2}>
+      <Grid key={`ethAddressGrid${index}`} padded='horizontally' celled stackable columns={2}>
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{padding: '10px'}}>ethAddress #{index + 1}  </Label>
+          <Label style={{padding: '10px'}}>ethAddress #{index + 1}                      </Label>
           <Icon
-            name="trash outline"
+            name='trash outline'
             key={`ethAddressIcon${index}`}
-            type="button"
-            title="Remove ethAddress"
-            size="large"
+            type='button'
+            title='Remove ethAddress'
+            size='large'
             onClick={() => fields.remove(index)}
           />
           <Text key={`ethAddressText${index}`} name={`${ethAddress}.address`} />
@@ -136,7 +136,6 @@ const renderEthAddresses = ( { whitelistOptions, fields, meta: { error, submitFa
     ))}
   </Fragment>
 )
-
 
 let AddInvestorForm = props => {
   const { handleSubmit, errors, whitelists } = props
@@ -198,7 +197,7 @@ let AddInvestorForm = props => {
                 <Label>Qualifications *</Label>
                 <Dropdown selection search name='qualifications' options={qualificationsOptions} />
               </Grid.Column>
-              <FieldArray name="ethAddresses" component={renderEthAddresses} props={{whitelistOptions}} />
+              <FieldArray name='ethAddresses' component={renderEthAddresses} props={{whitelistOptions}} />
 
             </Grid.Row>
             { errors
@@ -231,9 +230,9 @@ AddInvestorForm = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    initialValues: { ethAddresses: [ {address: '', } ] },
+    initialValues: { ethAddresses: [ {address: '' } ] },
     whitelists: state.whitelist.queryResult ? state.whitelist.queryResult.data : [],
-    errors: state.wallet.error,
+    errors: state.wallet.error
   }
 }
 AddInvestorForm = connect(mapStateToProps)(AddInvestorForm)
