@@ -29,12 +29,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     routeTo(path) {
       dispatch(push(path));
     },
-    loadShareholders: ($skip = 0) =>
+    loadShareholders: ($skip = 0, $limit = 25) =>
       dispatch(
         localServices.shareholder.find({
           query: {
             'ethAddresses.issues.address': ownProps.match.params.address,
-            $limit: 25,
+            $limit,
             $skip,
           },
         })

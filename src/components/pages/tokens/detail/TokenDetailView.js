@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import ReactDOMServer from 'react-dom/server';
+
 import moment from 'moment';
 import {
+  Button,
   Pagination,
   Grid,
   Header,
@@ -35,6 +38,78 @@ class InvestorDetailView extends Component {
     const shareholdersWithData = shareholders.filter(
       shareholder => shareholder.firstName
     );
+    const allShareholders = async () => {
+      this.props.loadShareholders(0, 0);
+      let shareholders = await this.props.shareholders;
+      this.props.loadShareholders();
+      return shareholders;
+    };
+    const printShareholders = () => {
+      let shareholders;
+      allShareholders().then(value => {
+        shareholders = value;
+
+        const shareholdersWithData = shareholders.filter(
+          shareholder => shareholder.firstName
+        );
+
+        let content = shareholdersWithData.length ? (
+          <Table celled selectable>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>#</Table.HeaderCell>
+                <Table.HeaderCell>First Name</Table.HeaderCell>
+                <Table.HeaderCell>Last Name</Table.HeaderCell>
+                <Table.HeaderCell>Email</Table.HeaderCell>
+                <Table.HeaderCell>Phone</Table.HeaderCell>
+                <Table.HeaderCell>Address</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {shareholdersWithData.map((shareholder, i) => (
+                <Table.Row
+                  key={shareholder.id}
+                  onClick={() =>
+                    routeTo(
+                      `/tokens/${token.address}/shareholders/${
+                        shareholder.id
+                      }/detail`
+                    )
+                  }
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Table.Cell>{i}</Table.Cell>
+                  <Table.Cell>{shareholder.firstName}</Table.Cell>
+                  <Table.Cell>{shareholder.lastName}</Table.Cell>
+                  <Table.Cell>{shareholder.email}</Table.Cell>
+                  <Table.Cell>{shareholder.phone}</Table.Cell>
+                  <Table.Cell>
+                    {shareholder.addressLine1}{' '}
+                    {shareholder.addressLine2
+                      ? `${shareholder.addressLine1} `
+                      : ''}, {shareholder.city},{' '}
+                    {shareholder.state ? `${shareholder.state} ,` : ''}{' '}
+                    {shareholder.country}, {shareholder.zip}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        ) : (
+          <Segment>No shareholder data available</Segment>
+        );
+
+        // ReactDOM.render(content, document.getElementById('iframeContents'))
+        let printSection = document.getElementById('iframeContents')
+          .contentWindow;
+        printSection.document.open();
+        printSection.document.write(ReactDOMServer.renderToString(content));
+        printSection.document.close();
+        printSection.focus();
+        printSection.print();
+      });
+    };
 
     const panes = [
       {
@@ -85,6 +160,9 @@ class InvestorDetailView extends Component {
               <Table.Footer>
                 <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
+                    <Button onClick={() => printShareholders()}>
+                      Print Shareholders
+                    </Button>
                     <Pagination
                       floated="right"
                       defaultActivePage={1}
@@ -97,7 +175,7 @@ class InvestorDetailView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadShareholders(25 * (activePage - 1));
+                        this.props.loadShareholders(25 * (activePage - 1), 25);
                       }}
                     />
                   </Table.HeaderCell>
@@ -194,6 +272,11 @@ class InvestorDetailView extends Component {
 
     return (
       <div className="investorsComponent">
+        <iframe
+          title="iframeContents"
+          id="iframeContents"
+          style={{ height: '0px', width: '0px', position: 'absolute' }}
+        />
         <Grid centered columns={1}>
           <Grid.Column width={10}>
             <Header as="h2" textAlign="center">
