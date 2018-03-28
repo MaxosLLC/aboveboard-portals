@@ -16,7 +16,7 @@ const qualificationByCode = {
 
 class InvestorsView extends Component {
   componentDidMount() {
-    this.props.loadInvestors(0);
+    this.props.loadInvestors();
   }
 
   render() {
@@ -102,7 +102,7 @@ class InvestorsView extends Component {
             </Table.Body>
 
             <Table.Footer>
-              <Table.Row stretched>
+              <Table.Row>
                 <Table.HeaderCell floated="right" colSpan="8">
                   <Pagination
                     floated="right"

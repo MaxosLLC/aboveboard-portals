@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 
 class InvestorDetailView extends Component {
   componentDidMount() {
-    this.props.loadShareholders(0);
-    this.props.loadTransactions(0);
+    this.props.loadShareholders();
+    this.props.loadTransactions();
   }
 
   render() {
@@ -83,7 +83,7 @@ class InvestorDetailView extends Component {
                 ))}
               </Table.Body>
               <Table.Footer>
-                <Table.Row stretched>
+                <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
                     <Pagination
                       floated="right"
@@ -165,7 +165,7 @@ class InvestorDetailView extends Component {
                 ))}
               </Table.Body>
               <Table.Footer>
-                <Table.Row stretched>
+                <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
                     <Pagination
                       floated="right"

@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
     routeTo(path) {
       dispatch(push(path));
     },
-    loadTokens: $skip =>
+    loadTokens: ($skip = 0) =>
       dispatch(services.localToken.find({ query: { $limit: 25, $skip } })),
   };
 };

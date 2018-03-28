@@ -4,7 +4,6 @@ import localServices from 'lib/feathers/local/feathersServices';
 import TokenDetailView from './TokenDetailView';
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('tokendetail state', state);
   return {
     token:
       state.token.queryResult && state.token.queryResult.data
@@ -30,7 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     routeTo(path) {
       dispatch(push(path));
     },
-    loadShareholders: $skip =>
+    loadShareholders: ($skip = 0) =>
       dispatch(
         localServices.shareholder.find({
           query: {
@@ -40,7 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           },
         })
       ),
-    loadTransactions: $skip =>
+    loadTransactions: ($skip = 0) =>
       dispatch(
         localServices.transaction.find({
           query: {

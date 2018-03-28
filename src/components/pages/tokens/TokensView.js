@@ -5,7 +5,7 @@ import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react';
 
 class TokensView extends Component {
   componentDidMount() {
-    this.props.loadTokens(0);
+    this.props.loadTokens();
   }
   render() {
     const { loaded, tokens, watchingTokens, routeTo } = this.props;
@@ -59,7 +59,7 @@ class TokensView extends Component {
                 ))}
               </Table.Body>
               <Table.Footer>
-                <Table.Row stretched>
+                <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
                     <Pagination
                       floated="right"
