@@ -1,3 +1,28 @@
+@font-face {
+  font-family: 'Futura Medium';
+  src: url(assets/fonts/Futura-Medium.woff)
+}
+
+@font-face {
+  font-family: 'ProximaNova Bold';
+  src: url(assets/fonts/ProximaNova-Bold.woff)
+}
+
+@font-face {
+  font-family: 'ProximaNova Extrabold';
+  src: url(assets/fonts/ProximaNova-Extrabold.woff)
+}
+
+@font-face {
+  font-family: 'ProximaNova Regular';
+  src: url(assets/fonts/ProximaNova-Regular.woff)
+}
+
+@font-face {
+  font-family: 'ProximaNova Semibold';
+  src: url(assets/fonts/ProximaNova-Semibold.woff)
+}
+
 body {
   margin: 0;
   padding: 0;

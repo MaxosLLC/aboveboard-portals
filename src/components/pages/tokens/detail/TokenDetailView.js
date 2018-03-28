@@ -1,18 +1,38 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Grid, Header, Icon, Segment, Tab, Table } from 'semantic-ui-react'
+import { Grid, Header, Icon, Segment, Tab, Table, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import ColorRegistry from '../../../../assets/ColorRegistry'
+import tokenIcon from '../../../../assets/image/Info.png'
+import userGraphic from '../../../../assets/image/graphic.png'
+import path from '../../../../assets/image/Path.png'
+import './TokenDetail.css'
 
 const TokenDetailView = styled.div`
-  margin-top: 60px;
+  margin-top: 0px;
 `
 
 const TokenDetailHeader = styled.h2`
   font-size: 32px;
   color: ${ColorRegistry.headColor};
+  font-family: 'Futura Medium';
+  font-weight: 200;'
+`
+
+const TypeCountLabel = styled.h3`
+  font-size: 42px;
+  color: ${ColorRegistry.bodyColor};
+  font-weight: 600;
+  line-height: 1;
+  font-family: 'ProximaNova Regular';
+`
+
+const TypeLabel = styled.p`
+  font-size: 18px;
+  color: ${ColorRegistry.bodyColor};
+  line-height: 1.22;
 `
 
 class InvestorDetailView extends Component {
@@ -22,8 +42,8 @@ class InvestorDetailView extends Component {
   }
 
   render () {
-    const { loaded, token, transactions, shareholders, routeTo } = this.props
 
+    const { loaded, token, transactions, shareholders, routeTo } = this.props
     const getShareholderName = address => {
       const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
 
@@ -105,12 +125,24 @@ class InvestorDetailView extends Component {
       <TokenDetailView>
         <Grid columns={1}>
           <Grid.Column>
-            <TokenDetailHeader> Aboveboard Common Stock </TokenDetailHeader>
-            <Header as='h3' textAlign='center'><Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>{token.name}</Link></Header>
+            <TokenDetailHeader> Aboveboard Common Stock <img src={tokenIcon} /></TokenDetailHeader> 
           </Grid.Column>
         </Grid>
+        <Grid columns={2} className='typeBoards'>
+          <Grid.Column className='typeBoard' width={5} textAlign='center'>
+            <Image src={userGraphic} centered verticalAlign='middle' className='boardImage' />
+            <TypeCountLabel> 2000 </TypeCountLabel>
+            <TypeLabel> Shareholders </TypeLabel>
+          </Grid.Column>
+          <Grid.Column className='typeBoard' width={5} textAlign='center' style={{ marginLeft: 30 }}>
+            <Image src={path} centered verticalAlign='middle' className='boardImage' />
+            <TypeCountLabel> 256+ </TypeCountLabel>
+            <TypeLabel> Total Transactions </TypeLabel>
+          </Grid.Column>    
+        </Grid>
 
-        { !loaded ? <span>Loading token details...<Icon name='spinner' loading /></span> : <Tab panes={panes} /> }
+
+        { !loaded ? <span>Loading token details...<Icon name='spinner' loading /></span> : <Tab panes={panes} style={{marginTop: 50}}/> }
       </TokenDetailView>
     )
   }

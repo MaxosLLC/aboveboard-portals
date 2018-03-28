@@ -17,6 +17,7 @@ const MainComponent = styled.div`
   margin-left: 210px;
   padding-left: 120px;
   padding-right: 120px;
+  font-family: 'ProximaNova Regular';
 `
 
 class App extends Component {
