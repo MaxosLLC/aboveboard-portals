@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import moment from 'moment';
+import React, { Component } from 'react'
+import ReactDOMServer from 'react-dom/server'
+
+import moment from 'moment'
 import {
+  Button,
   Pagination,
   Grid,
   Header,
@@ -8,33 +11,145 @@ import {
   Segment,
   Tab,
   Table,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class InvestorDetailView extends Component {
   componentDidMount() {
-    this.props.loadShareholders();
-    this.props.loadTransactions();
+    this.props.loadShareholders()
+    this.props.loadTransactions()
   }
 
   render() {
-    const { loaded, token, transactions, shareholders, routeTo } = this.props;
+    const { loaded, token, transactions, shareholders, routeTo } = this.props
 
     const getShareholderName = address => {
       const shareholder = shareholders.filter(shareholder =>
         shareholder.ethAddresses.some(
           ethAddress => ethAddress.address === address
         )
-      )[0];
+      )[0]
 
       return shareholder && shareholder.firstName
         ? `${shareholder.firstName} ${shareholder.lastName}`
-        : '';
-    };
+        : ''
+    }
 
     const shareholdersWithData = shareholders.filter(
       shareholder => shareholder.firstName
-    );
+    )
+    const allShareholders = async () => {
+      this.props.loadShareholders(0, 0)
+      let shareholders = await this.props.shareholders
+      this.props.loadShareholders()
+      return shareholders
+    }
+    const printShareholders = () => {
+      let shareholders
+      allShareholders().then(value => {
+        shareholders = value
+
+        const shareholdersWithData = shareholders.filter(
+          shareholder => shareholder.firstName
+        )
+
+        let content = shareholdersWithData.length ? (
+          <Table celled selectable>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>#</Table.HeaderCell>
+                <Table.HeaderCell>First Name</Table.HeaderCell>
+                <Table.HeaderCell>Last Name</Table.HeaderCell>
+                <Table.HeaderCell>Email</Table.HeaderCell>
+                <Table.HeaderCell>Phone</Table.HeaderCell>
+                <Table.HeaderCell>Address</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {shareholdersWithData.map((shareholder, i) => (
+                <Table.Row
+                  key={shareholder.id}
+                  onClick={() =>
+                    routeTo(
+                      `/tokens/${token.address}/shareholders/${
+                        shareholder.id
+                      }/detail`
+                    )
+                  }
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Table.Cell>{i}</Table.Cell>
+                  <Table.Cell>{shareholder.firstName}</Table.Cell>
+                  <Table.Cell>{shareholder.lastName}</Table.Cell>
+                  <Table.Cell>{shareholder.email}</Table.Cell>
+                  <Table.Cell>{shareholder.phone}</Table.Cell>
+                  <Table.Cell>
+                    {shareholder.addressLine1}{' '}
+                    {shareholder.addressLine2
+                      ? `${shareholder.addressLine1} `
+                      : ''}, {shareholder.city},{' '}
+                    {shareholder.state ? `${shareholder.state} ,` : ''}{' '}
+                    {shareholder.country}, {shareholder.zip}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        ) : (
+          <Segment>No shareholder data available</Segment>
+        )
+        // frames['iframeContents'].document.head.appendChild(cssLink)
+        // console.log("document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents')", document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents'))
+        // ReactDOM.render(content, document.getElementById('iframeContents'))
+        // printIframeDocument.body.appendChild(cssLink)
+        // var frm = iframeDoc.createElement('form');
+        // var s = printIframeDocument.createElement('script');
+        // // iframeBody.appendChild(frm);
+        // iframeBody.appendChild(s);
+        // printIframeDocument.document.write(cssLink1)
+        // printIframeDocument.document.write(cssLink2)
+        // printIframeDocument.document.write(cssLink3)
+        // let str = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>'
+        // printIframeDocument.document.write(str);
+        // document.getElementById('iframeContents').contentDocument.body.write(cssLink)
+        // document.getElementById('iframeContents').head.appendChild(cssLink)
+
+        let printIframeDocument =
+          document.getElementById('iframeContents').contentWindow.document ||
+          document.getElementById('iframeContents').contentDocument
+        let iframeBody = printIframeDocument.body
+        printIframeDocument.open()
+        printIframeDocument.write(ReactDOMServer.renderToString(content))
+        printIframeDocument.close()
+        let cssLink1 = printIframeDocument.createElement('link')
+        cssLink1.href =
+          'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.css'
+        cssLink1.rel = 'stylesheet'
+        cssLink1.type = 'text/css'
+        iframeBody.appendChild(cssLink1)
+
+        let cssLink2 = printIframeDocument.createElement('script')
+        cssLink2.href =
+          'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'
+        iframeBody.appendChild(cssLink2)
+
+        let cssLink3 = printIframeDocument.createElement('script')
+        cssLink3.href =
+          'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js'
+        iframeBody.appendChild(cssLink3)
+
+        console.log(
+          "document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents')",
+          document.getElementById('iframeContents').contentWindow,
+          document.getElementById('iframeContents').contentDocument,
+          document.getElementById('iframeContents')
+        )
+
+        document.getElementById('iframeContents').contentWindow.focus()
+        document.getElementById('iframeContents').contentWindow.print()
+      })
+    }
 
     const panes = [
       {
@@ -85,6 +200,9 @@ class InvestorDetailView extends Component {
               <Table.Footer>
                 <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
+                    <Button onClick={() => printShareholders()}>
+                      Print Shareholders
+                    </Button>
                     <Pagination
                       floated="right"
                       defaultActivePage={1}
@@ -97,7 +215,7 @@ class InvestorDetailView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadShareholders(25 * (activePage - 1));
+                        this.props.loadShareholders(25 * (activePage - 1), 25)
                       }}
                     />
                   </Table.HeaderCell>
@@ -179,7 +297,7 @@ class InvestorDetailView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadTransactions(25 * (activePage - 1));
+                        this.props.loadTransactions(25 * (activePage - 1))
                       }}
                     />
                   </Table.HeaderCell>
@@ -190,10 +308,22 @@ class InvestorDetailView extends Component {
             <Segment>No transactions have been made yet</Segment>
           ),
       },
-    ];
+    ]
 
     return (
       <div className="investorsComponent">
+        <iframe
+          title="iframeContents"
+          id="iframeContents"
+          style={{ height: '0px', width: '0px', position: 'absolute' }}
+        >
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"
+          />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js" />
+        </iframe>
         <Grid centered columns={1}>
           <Grid.Column width={10}>
             <Header as="h2" textAlign="center">
@@ -219,8 +349,8 @@ class InvestorDetailView extends Component {
           <Tab panes={panes} />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InvestorDetailView;
+export default InvestorDetailView
