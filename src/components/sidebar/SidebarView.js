@@ -11,9 +11,9 @@ class SidebarView extends Component {
     const { appType, connected, currentUser, routeTo, router } = this.props
 
     return currentUser.id || currentUser._id ? (
-      <Menu inverted vertical fixed='left' className='sidebarComponent' style={{ backgroundColor: '#03a0cc' }}>
+      <Menu inverted vertical fixed='left' className='sidebarComponent' style={{ backgroundColor: '#03a0cc', paddingTop: '60px' }}>
         { appType === 'broker' ? <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)}><Icon name='dollar' />Buyers</Menu.Item> : '' }
-        { appType === 'issuer' ? <Menu.Item name='tokens' onClick={() => routeTo('/tokens')} ><Icon name='archive' />Tokens</Menu.Item> : '' }
+        { appType === 'issuer' ? <Menu.Item name='tokens' onClick={() => routeTo('/tokens')} ><Icon name='archive' />Securities</Menu.Item> : '' }
         <Menu.Item active={tokensRegexp.test(router.location.pathname)}> Dashboard </Menu.Item>
         <Menu.Item >Wallet <Icon name='circle' color={ connected ? 'green' : 'red' }/></Menu.Item>
       </Menu>

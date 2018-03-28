@@ -2,10 +2,6 @@ body {
   padding-top: 100px;
 }
 
-.mainComponent {
-  min-height: 500px;
-}
-
 .error {
   color: red;
 }

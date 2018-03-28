@@ -23,7 +23,7 @@ class Routes extends Component {
       <Switch>
         <Route path='/login' component={Login} />
         <EnsureLoggedIn>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/' component={TokenDetail} />
           <Route exact path='/settings' component={Settings} />
           { appType === 'broker' ? <Route exact path='/buyers' component={Investors} /> : '' }
           { appType === 'broker' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }

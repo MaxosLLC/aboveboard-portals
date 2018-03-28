@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { ConnectedRouter } from 'react-router-redux'
 import { Provider } from 'react-redux'
+import styled from 'styled-components'
 import './app.css'
 
 import store from 'redux/store'
@@ -11,6 +12,13 @@ import Sidebar from 'components/sidebar/Sidebar'
 
 import Routes from './routes'
 
+const MainComponent = styled.div`
+  min-height: 500px;
+  margin-left: 210px;
+  padding-left: 120px;
+  padding-right: 120px;
+`
+
 class App extends Component {
   render () {
     return (
@@ -19,9 +27,9 @@ class App extends Component {
           <div>
             <Header history={history} />
             <Sidebar history={history} />
-            <div className='mainComponent' style={{ marginLeft: '250px', marginRight: '40px' }}>
+            <MainComponent>
               <Routes />
-            </div>
+            </MainComponent>
           </div>
         </ConnectedRouter>
       </Provider>

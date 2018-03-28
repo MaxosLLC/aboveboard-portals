@@ -2,6 +2,18 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Grid, Header, Icon, Segment, Tab, Table } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+import ColorRegistry from '../../../../assets/ColorRegistry'
+
+const TokenDetailView = styled.div`
+  margin-top: 60px;
+`
+
+const TokenDetailHeader = styled.h2`
+  font-size: 32px;
+  color: ${ColorRegistry.headColor};
+`
 
 class InvestorDetailView extends Component {
   componentDidMount () {
@@ -90,16 +102,16 @@ class InvestorDetailView extends Component {
     ]
 
     return (
-      <div className='investorsComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={10}>
-            <Header as='h2' textAlign='center'>Token Detail</Header>
+      <TokenDetailView>
+        <Grid columns={1}>
+          <Grid.Column>
+            <TokenDetailHeader> Aboveboard Common Stock </TokenDetailHeader>
             <Header as='h3' textAlign='center'><Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>{token.name}</Link></Header>
           </Grid.Column>
         </Grid>
 
         { !loaded ? <span>Loading token details...<Icon name='spinner' loading /></span> : <Tab panes={panes} /> }
-      </div>
+      </TokenDetailView>
     )
   }
 }
