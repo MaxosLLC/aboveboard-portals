@@ -1,0 +1,193 @@
+.settingsComponent .ui.segment {
+  padding: 30px 60px;
+  margin-bottom: 30px;
+}
+
+.settingsComponent .ui.divider {
+  border-bottom: solid 1px #f1f4f8;
+  margin: 19px 0;
+}
+
+.settingsComponent .title {
+  color: #094bb1;
+  margin: 0;
+  height: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.11;
+  text-align: left;
+}
+
+.settingsComponent .ui.multiple.dropdown>.label {
+  border-radius: 15px;
+  background-color: #00cddb;
+  border-color: #00cddb;
+  color: #fff;
+}
+
+.settingsComponent .ui.selection.dropdown>.search.icon {
+  padding: 10px;
+}
+
+.settingsComponent .ui.form input {
+  height: 45px;
+  border-radius: 4px;
+  background-color: #f8f9fb;
+  border-color: #f8f9fb;
+}
+
+/*message*/
+.settingsComponent .ui.message {
+  width: 412px;
+  height: 76px;
+  box-shadow: 0 1px 20px 0 rgba(180, 180, 180, 0.4);
+  color: #fff;
+  margin-bottom: 30px;
+  height: auto;
+  border-radius: unset;
+}
+
+.settingsComponent .ui.message .content p {
+  height: 14px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  margin: 0;
+}
+
+.settingsComponent .ui.message .content .header {
+  height: 14px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  margin-bottom: 11px;
+}
+
+.settingsComponent .ui.message.success {
+  background-color: #03cc88;
+}
+
+.settingsComponent .ui.message.warning {
+  background-color: #ffba53;
+}
+
+/*tokenComponent*/
+.settingsComponent .tokenComponent {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+  align-items: center;
+}
+
+.settingsComponent .tokenComponent .title {
+  width: 16%;
+}
+
+.settingsComponent .tokenComponent .watchingTokens {
+  flex: 1 1 auto;
+}
+
+/*statusComponent*/
+.settingsComponent .statusComponent .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.settingsComponent .statusComponent .title .label {
+	margin-right: 25px;
+}
+
+.settingsComponent .statusComponent .title .status {
+  display: flex;
+  align-items: center;
+  height: 17px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: left;
+  color: #4f6683;
+}
+
+.settingsComponent .statusComponent .title .status div {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.settingsComponent .statusComponent .title .status .connected {
+  background-color: #00ffc6;
+}
+
+.settingsComponent .statusComponent .title .status .disconnected {
+  background-color: #ff0061;
+}
+
+.settingsComponent .statusComponent .connectionForm .field {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+  align-items: center;
+}
+
+.settingsComponent .statusComponent .connectionForm .field label {
+  width: 16%;
+  margin: 0;
+  height: 17px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: center;
+  color: #4f6683;
+}
+
+.settingsComponent .statusComponent .connectionForm .field input {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.settingsComponent .statusComponent .connectionForm .action {
+  display: flex;
+  place-content: flex-end;
+}
+
+/*messagingComponent*/
+.settingsComponent .messagingComponent {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+  align-items: center;
+}
+
+.settingsComponent .messagingComponent .messagingForm {
+  flex: 1 1 auto;
+}
+
+.settingsComponent .messagingComponent .messagingForm .field {
+	margin: 0 30px;
+    flex: 1 1 auto;
+}
+
+.settingsComponent .messagingComponent form {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+  align-items: center;
+}
