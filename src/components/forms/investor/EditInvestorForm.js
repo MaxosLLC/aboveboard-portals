@@ -121,7 +121,7 @@ const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta:
     {fields.map((ethAddress, index) => (
       <Grid key={`ethAddressGrid${index}`} padded='horizontally' celled stackable columns={2}>
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{padding: '10px'}}>ethAddress #{index + 1}                      </Label>
+          <Label style={{padding: '10px'}}>ethAddress #{index + 1}</Label>
           <Icon
             name='trash outline'
             key={`ethAddressIcon${index}`}
@@ -131,7 +131,7 @@ const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta:
             onClick={() => fields.remove(index)}
           />
           <Text key={`ethAddressText${index}`} name={`${ethAddress}.address`} />
-          <FieldArray key={`ethAddressFieldArray${index}`} name={`${ethAddress}.whitelists`} component={renderwhitelistAddresses} props={{ initialWhitelists, whitelistOptions}} />
+          <FieldArray key={`ethAddressFieldArray${index}`} name={`${ethAddress}.whitelists`} component={renderwhitelistAddresses} props={{initialWhitelists, whitelistOptions}} />
         </Grid.Column>
       </Grid>
     ))}
@@ -201,7 +201,7 @@ let EditInvestorForm = props => {
                 <Label>Issues</Label>
                 <Text name='issues' />
               </Grid.Column>
-              <FieldArray name='ethAddresses' component={renderEthAddresses} props={{ initialWhitelists, whitelistOptions}} />
+              <FieldArray name='ethAddresses' component={renderEthAddresses} props={{initialWhitelists, whitelistOptions}} />
 
             </Grid.Row>
             { errors
