@@ -120,7 +120,7 @@ const renderEthAddresses = ({ whitelistOptions, fields, meta: { error, submitFai
     {fields.map((ethAddress, index) => (
       <Grid key={`ethAddressGrid${index}`} padded='horizontally' celled stackable columns={2}>
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{padding: '10px'}}>ethAddress #{index + 1}                      </Label>
+          <Label style={{padding: '10px'}}>ethAddress #{index + 1}</Label>
           <Icon
             name='trash outline'
             key={`ethAddressIcon${index}`}
@@ -230,7 +230,7 @@ AddInvestorForm = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    initialValues: { ethAddresses: [ {address: '' } ] },
+    initialValues: { ethAddresses: [ { address: '' } ] },
     whitelists: state.whitelist.queryResult ? state.whitelist.queryResult.data : [],
     errors: state.wallet.error
   }

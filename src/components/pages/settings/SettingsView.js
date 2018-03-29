@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { differenceBy } from 'lodash'
-import { Divider, Dropdown, Header, Icon, Input, Label, Segment, Form, Message, Container } from 'semantic-ui-react'
+import { Divider, Dropdown, Header, Icon, Segment, Form, Message, Container } from 'semantic-ui-react'
 import Button from '../../inputs/button/Button'
 import './Settings.css'
 
 class SettingsView extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     const { currentUser } = this.props
 
     this.state = {
       messageVisible: true,
-      account: '',
+      account: currentUser.walletAccountName || '',
       password: '',
       messagingAddress: currentUser.messagingAddress,
       formErrors: {
@@ -24,7 +24,7 @@ class SettingsView extends Component {
 
   render () {
     const { messageVisible, account, password, messagingAddress, formErrors } = this.state
-    const { loaded, appType, connected, connectWallet, currentUser, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
+    const { loaded, appType, connected, connectWallet, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
 
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -37,17 +37,17 @@ class SettingsView extends Component {
       if (!account) {
         this.setState({
           formErrors: {
-            ...formErrors, 
+            ...formErrors,
             account: true
           }
         })
-        return;
+        return
       }
 
       if (!password) {
         this.setState({
           formErrors: {
-            ...formErrors, 
+            ...formErrors,
             password: true
           }
         })
@@ -60,7 +60,7 @@ class SettingsView extends Component {
       if (!messagingAddress) {
         this.setState({
           formErrors: {
-            ...formErrors, 
+            ...formErrors,
             messagingAddress: true
           }
         })
@@ -75,10 +75,10 @@ class SettingsView extends Component {
     }
 
     const handleChange = (e, { name, value }) => {
-      if(!value) {
+      if (!value) {
         this.setState({
           formErrors: {
-            ...formErrors, 
+            ...formErrors,
             [name]: true
           }
         })
@@ -115,8 +115,7 @@ class SettingsView extends Component {
                   content='You can now view your Sharefolder and Transaction data'
                 />
               </div>
-              :
-              <div>
+              : <div>
                 <Message
                   onDismiss={this.handleDismiss}
                   warning
@@ -124,8 +123,7 @@ class SettingsView extends Component {
                   content='Please search and select a token you would like to follow'
                 />
               </div>
-            :
-            null
+            : null
         }
 
         { !loaded ? <span>Loading settings...<Icon name='spinner' loading /></span>
@@ -149,7 +147,7 @@ class SettingsView extends Component {
               <div className='title'>
                 <div className='label'>Wallet Connection Status</div>
                 <div className='status'>
-                  <div className={connected ? 'connected' : 'disconnectd'}></div>
+                  <div className={connected ? 'connected' : 'disconnectd'} />
                   { connected ? 'Connected' : 'Disconnected' }
                 </div>
               </div>
@@ -157,35 +155,31 @@ class SettingsView extends Component {
               <Divider />
 
               <div className='connectionForm'>
-                <Form className={(formErrors['account'] || formErrors['password'])?'warning':''} onSubmit={handleConnectWallet}>
+                <Form className={(formErrors['account'] || formErrors['password']) ? 'warning' : ''} onSubmit={handleConnectWallet}>
                   <Form.Field>
-                    <Form.Input error={formErrors['account']} label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange}/>
+                    <Form.Input error={formErrors['account']} label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange} autoComplete='new-password' />
                     {formErrors['account']
-                      ?
-                      <div className='message-wrapper'>
+                      ? <div className='message-wrapper'>
                         <Message
                           warning
                           header='Empty Field!'
                           content='Account field is required.'
                         />
                       </div>
-                      :
-                      ''
+                      : ''
                     }
                   </Form.Field>
                   <Form.Field>
-                    <Form.Input error={formErrors['password']} label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange}/>
+                    <Form.Input error={formErrors['password']} label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange} autoComplete='new-password' />
                     {formErrors['password']
-                      ?
-                      <div className='message-wrapper'>
+                      ? <div className='message-wrapper'>
                         <Message
                           warning
                           header='Empty Field!'
                           content='Account password field is required.'
                         />
                       </div>
-                      :
-                      ''
+                      : ''
                     }
                   </Form.Field>
                   <div className='action'>
@@ -197,31 +191,29 @@ class SettingsView extends Component {
 
             { appType === 'issuer'
               ? <Segment className='messagingComponent'>
-                  <div className='form-wrapper'>
-                    <div className='title'>Messaging Account ID</div>
-                    <div className='messagingForm'>
-                      <Form className={formErrors['messagingAddress']?'warning':''} onSubmit={handleSetMessagingAccount}>
-                        <Form.Field>
-                          <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress}  onChange={handleChange} />
-                        </Form.Field>
-                        <div className='action'>
-                          <Button color='teal' disabled={!connected}>Edit</Button>
-                        </div>
-                      </Form>
-                    </div>
+                <div className='form-wrapper'>
+                  <div className='title'>Messaging Account ID</div>
+                  <div className='messagingForm'>
+                    <Form className={formErrors['messagingAddress'] ? 'warning' : ''} onSubmit={handleSetMessagingAccount}>
+                      <Form.Field>
+                        <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress} onChange={handleChange} />
+                      </Form.Field>
+                      <div className='action'>
+                        <Button color='teal' disabled={!connected}>Edit</Button>
+                      </div>
+                    </Form>
                   </div>
-                  
-                  {formErrors['messagingAddress']
-                    ?
-                    <div className='message-wrapper'>
+                </div>
+
+                {formErrors['messagingAddress']
+                    ? <div className='message-wrapper'>
                       <Message
                         warning
                         header='Empty Field!'
                         content='Messaging Address field is required.'
                       />
                     </div>
-                    :
-                    ''
+                    : ''
                   }
               </Segment>
             : '' }
