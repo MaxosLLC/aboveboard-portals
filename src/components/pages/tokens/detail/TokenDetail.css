@@ -12,6 +12,15 @@
 	margin-top: 30px;
 }
 
+.TableContainer {
+
+}
+
+/* Tab style */
+.issuePanes {
+	margin-top: -50px;
+}
+
 .ui.tabular.menu {
 	border: none;
 }
@@ -33,6 +42,7 @@
 	color: #094bb1;
 }
 
+/* Table style */
 .ui.celled.table {
 	border: none;
 }
@@ -47,6 +57,7 @@
 .ui.celled.table th.idHeader {
 	color: #8f9bab;
 }
+
 .ui.celled.table tr {
 	height: 68px;
 }
@@ -56,4 +67,26 @@
 	color: #4f6683;
 	border: none;
 	border-top: solid 1px #f1f4f8;;
+}
+
+.downloadBtn {
+	cursor: pointer;
+}
+
+/* TradingOption style */
+.trading {
+	margin-top: 50px;
+	height: 55px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.calendarIcon {
+	cursor: pointer;
+	margin-left: 30px;
+}
+
+.ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before, .ui.toggle.checkbox input:focus:checked~.box:before, .ui.toggle.checkbox input:focus:checked~label:before {
+	background-color: #00ffc6 !important;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Grid, Icon, Segment, Tab, Table, Image } from 'semantic-ui-react'
+import { Grid, Icon, Segment, Tab, Table, Image, Checkbox } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -9,6 +9,7 @@ import tokenIcon from '../../../../assets/image/Info.png'
 import userGraphic from '../../../../assets/image/graphic.png'
 import path from '../../../../assets/image/Path.png'
 import downloadButton from '../../../../assets/image/downloadbutton.png'
+import calendarIcon from '../../../../assets/image/calendaricon.png'
 import './TokenDetail.css'
 
 const TokenDetailView = styled.div`
@@ -36,10 +37,35 @@ const TypeLabel = styled.p`
   line-height: 1.22;
 `
 
+const TradingOptionLabel = styled.p`
+  font-size: 18px;
+  color: ${ColorRegistry.bodyColor};
+  margin-top: auto !important;
+  margin-bottom: auto;
+  margin-right: 15px;
+  width: 130px;
+  text-align: left;
+`
+
 class InvestorDetailView extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      isTrading: false,
+    }
+    this.tradingChange = this.tradingChange.bind(this)
+  }
+
   componentDidMount () {
     this.props.loadShareholders()
     this.props.loadTransactions()
+  }
+
+  tradingChange(e, { checked }) {
+    this.setState({
+      isTrading: checked
+    })
   }
 
   render () {
@@ -51,7 +77,6 @@ class InvestorDetailView extends Component {
     }
 
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
-
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
@@ -65,7 +90,7 @@ class InvestorDetailView extends Component {
                 <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>% of Total</Table.HeaderCell>
                 <Table.HeaderCell>Last Transaction</Table.HeaderCell>
-                <Table.HeaderCell><Image src={downloadButton} /></Table.HeaderCell>
+                <Table.HeaderCell><Image className='downloadBtn' src={downloadButton} /></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -96,7 +121,7 @@ class InvestorDetailView extends Component {
                 <Table.HeaderCell>Address</Table.HeaderCell>
                 <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>Date</Table.HeaderCell>
-                <Table.HeaderCell><Image src={downloadButton} /></Table.HeaderCell>
+                <Table.HeaderCell><Image className='downloadBtn' src={downloadButton} /></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -127,6 +152,12 @@ class InvestorDetailView extends Component {
       }
     ]
 
+    const tradingOption = <div className='trading'>
+      <TradingOptionLabel className='tradingOptionLabel'> Trading: {this.state.isTrading ? 'Active' : 'Inactive' } </TradingOptionLabel>
+      <Checkbox toggle onChange={this.tradingChange}/>
+      <img className='calendarIcon' src={calendarIcon} alt='Calendar' />
+    </div>
+
     return (
       <TokenDetailView>
         <Grid columns={1}>
@@ -148,7 +179,7 @@ class InvestorDetailView extends Component {
         </Grid>
 
 
-        { !loaded ? <span>Loading token details...<Icon name='spinner' loading /></span> : <Tab panes={panes} style={{marginTop: 50}}/> }
+        { !loaded ? <span>Loading token details...<Icon name='spinner' loading /></span> : <div className='TableContainer'>{ tradingOption }<Tab panes={panes} className='issuePanes'/></div> }
       </TokenDetailView>
     )
   }
