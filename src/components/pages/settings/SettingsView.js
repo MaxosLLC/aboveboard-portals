@@ -107,7 +107,7 @@ class SettingsView extends Component {
       <div className='settingsComponent'>
         { messageVisible?
             connected?
-              <div>
+              <div className='headerAlert'>
                 <Message
                   onDismiss={handleDismiss}
                   success
@@ -159,7 +159,7 @@ class SettingsView extends Component {
               <div className='connectionForm'>
                 <Form className={(formErrors['account'] || formErrors['password'])?'warning':''} onSubmit={handleConnectWallet}>
                   <Form.Field>
-                    <Form.Input label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange}/>
+                    <Form.Input error={formErrors['account']} label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange}/>
                     {formErrors['account']
                       ?
                       <div className='message-wrapper'>
@@ -174,7 +174,7 @@ class SettingsView extends Component {
                     }
                   </Form.Field>
                   <Form.Field>
-                    <Form.Input label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange}/>
+                    <Form.Input error={formErrors['password']} label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange}/>
                     {formErrors['password']
                       ?
                       <div className='message-wrapper'>
@@ -202,7 +202,7 @@ class SettingsView extends Component {
                     <div className='messagingForm'>
                       <Form className={formErrors['messagingAddress']?'warning':''} onSubmit={handleSetMessagingAccount}>
                         <Form.Field>
-                          <Form.Input name='messagingAddress' value={messagingAddress}  onChange={handleChange} />
+                          <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' value={messagingAddress}  onChange={handleChange} />
                         </Form.Field>
                         <div className='action'>
                           <Button color='teal' disabled={!connected}>Edit</Button>
