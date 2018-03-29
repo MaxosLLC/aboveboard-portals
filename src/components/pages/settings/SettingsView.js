@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { differenceBy } from 'lodash'
-import { Divider, Dropdown, Header, Icon, Input, Label, Segment, Form, Message } from 'semantic-ui-react'
+import { Divider, Dropdown, Header, Icon, Input, Label, Segment, Form, Message, Container } from 'semantic-ui-react'
 import Button from '../../inputs/button/Button'
 import './Settings.css'
 
@@ -104,7 +104,7 @@ class SettingsView extends Component {
     }
 
     return (
-      <div className='settingsComponent'>
+      <Container className='settingsComponent'>
         { messageVisible?
             connected?
               <div className='headerAlert'>
@@ -227,7 +227,7 @@ class SettingsView extends Component {
             : '' }
           </div>
         }
-      </div>
+      </Container>
     )
   }
 }
