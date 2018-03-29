@@ -109,6 +109,8 @@
 
 .settingsComponent .tokenComponent .watchingTokens {
   flex: 1 1 auto;
+  background: #f8f9fb;
+  border: 0;
 }
 
 /*statusComponent*/
