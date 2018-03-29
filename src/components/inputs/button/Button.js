@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { Button as ButtonWrapper } from 'semantic-ui-react'
 import classnames from 'classnames'
 import Label from 'components/inputs/label/Label'
+import './Button.css'
 
-const Button = ({ action = false, color, children, ...props }) => {
+const Button = ({ action = false, color, children, style = {}, ...props }) => {
   const classes = classnames({
     'circular': action,
     'action': action,
@@ -14,7 +15,7 @@ const Button = ({ action = false, color, children, ...props }) => {
   return (
     <ButtonWrapper className={`${color} ${classes}`} {...props}>
       {children &&
-        <Label type='input'>
+        <Label type='input' style={style}>
           {children}
         </Label>}
     </ButtonWrapper>
@@ -24,7 +25,8 @@ const Button = ({ action = false, color, children, ...props }) => {
 Button.propTypes = {
   action: PropTypes.oneOf([false, true, 'nav']),
   color: PropTypes.oneOf(['brand', 'salmon', 'teal', 'red', 'green', 'black', 'gray', 'white']),
-  children: PropTypes.node
+  children: PropTypes.node,
+  style: PropTypes.shape({})
 }
 
 export default Button

@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     connectWallet (account, password) {
       return ethereum.init({ account, password })
+        .then(() => dispatch(localServices.user.patch(null, { walletAccountName: account }, { query: { email: 'local@local.com' } })))
     },
     startWatchingToken (token) {
       return dispatch(localServices.localToken.create(token))

@@ -1,10 +1,30 @@
 import React, { Component } from 'react'
 import { differenceBy } from 'lodash'
-import { Button, Divider, Dropdown, Header, Grid, Icon, Input, Label, Segment } from 'semantic-ui-react'
+import { Divider, Dropdown, Header, Icon, Segment, Form, Message, Container } from 'semantic-ui-react'
+import Button from '../../inputs/button/Button'
+import './Settings.css'
 
 class SettingsView extends Component {
+  constructor (props) {
+    super(props)
+    const { currentUser } = this.props
+
+    this.state = {
+      messageVisible: true,
+      account: currentUser.walletAccountName || '',
+      password: '',
+      messagingAddress: currentUser.messagingAddress,
+      formErrors: {
+        account: false,
+        password: false,
+        messagingAddress: false
+      }
+    }
+  }
+
   render () {
-    const { loaded, appType, connected, connectWallet, currentUser, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
+    const { messageVisible, account, password, messagingAddress, formErrors } = this.state
+    const { loaded, appType, connected, connectWallet, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
 
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -14,21 +34,68 @@ class SettingsView extends Component {
     })
 
     const handleConnectWallet = () => {
-      const account = document.getElementById('wallet-account-input').value
-      const password = document.getElementById('wallet-password-input').value
-
       if (!account) {
-        return alert('Please enter account address') // eslint-disable-line
+        this.setState({
+          formErrors: {
+            ...formErrors,
+            account: true
+          }
+        })
+        return
       }
 
       if (!password) {
-        return alert('Please enter your account password') // eslint-disable-line
+        this.setState({
+          formErrors: {
+            ...formErrors,
+            password: true
+          }
+        })
       }
 
       return connectWallet(account, password)
     }
 
-    const handleChangeWatchingTokens = () => {
+    const handleSetMessagingAccount = () => {
+      if (!messagingAddress) {
+        this.setState({
+          formErrors: {
+            ...formErrors,
+            messagingAddress: true
+          }
+        })
+        return
+      }
+
+      setMessagingAddress(messagingAddress, watchingTokens)
+    }
+
+    const handleDismiss = () => {
+      this.setState({ messageVisible: false })
+    }
+
+    const handleChange = (e, { name, value }) => {
+      if (!value) {
+        this.setState({
+          formErrors: {
+            ...formErrors,
+            [name]: true
+          }
+        })
+      } else {
+        this.setState({
+          formErrors: {
+            ...formErrors,
+            [name]: false
+          }
+        })
+      }
+
+      this.setState({ [name]: value })
+    }
+
+    const handleChangeWatchingTokens = (e, { value }) => {
+      this.watchingTokensValue = value.map(val => ({ address: val }))
       const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
       const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
 
@@ -36,74 +103,123 @@ class SettingsView extends Component {
       removedTokens.forEach(stopWatchingToken)
     }
 
-    const handleSetMessagingAccount = () => {
-      const messagingAddress = document.getElementById('messaging-account-input').value
-
-      if (!messagingAddress) {
-        return alert('Please enter a messaging address') // eslint-disable-line
-      }
-
-      setMessagingAddress(messagingAddress, watchingTokens)
-    }
-
     return (
-      <div className='settingsComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Segment>
-              <Header as='h2' textAlign='center'>Settings</Header>
-            </Segment>
-          </Grid.Column>
-        </Grid>
-
-        <br />
+      <Container className='settingsComponent'>
+        { messageVisible?
+            connected?
+              <div className='headerAlert'>
+                <Message
+                  onDismiss={handleDismiss}
+                  success
+                  header='You have successfully connected your Wallet!'
+                  content='You can now view your Sharefolder and Transaction data'
+                />
+              </div>
+              : <div>
+                <Message
+                  onDismiss={this.handleDismiss}
+                  warning
+                  header='You are not following any tokens'
+                  content='Please search and select a token you would like to follow'
+                />
+              </div>
+            : null
+        }
 
         { !loaded ? <span>Loading settings...<Icon name='spinner' loading /></span>
           : <div>
-            <Segment>
-              <Header as='h3'>Watching Tokens</Header>
+            <Segment className='tokenComponent'>
+              <Header className='title'>Followed Tokens</Header>
               <Dropdown
                 selection
                 search
                 multiple
+                className='watchingTokens'
+                icon='search'
                 name='watchingTokens'
                 defaultValue={watchingTokens.map(token => token.address)}
                 options={watchingTokenOptions}
-                onChange={(e, {value}) => { this.watchingTokensValue = value.map(val => ({ address: val })) }}
+                onChange={handleChangeWatchingTokens}
                 />
-              <br />
-              <br />
-              <Button onClick={handleChangeWatchingTokens}>Save</Button>
             </Segment>
 
-            <Segment>
-                Wallet Connection Status <Label color={connected ? 'green' : 'red'}>{ connected ? 'Connected' : 'Disconnected' }</Label>
-              { !connected
-                  ? <div>
-                    <Divider />
-                    <Label>Account</Label>
-                    <Input id='wallet-account-input' name='wallet-account' autoComplete='new-password' />
-                    <br />
-                    <Label>Password</Label>
-                    <Input id='wallet-password-input' name='wallet-password' type='password' autoComplete='new-password' />
-                    <br />
-                    <Button onClick={handleConnectWallet}>Connect</Button>
+            <Segment className='statusComponent'>
+              <div className='title'>
+                <div className='label'>Wallet Connection Status</div>
+                <div className='status'>
+                  <div className={connected ? 'connected' : 'disconnectd'} />
+                  { connected ? 'Connected' : 'Disconnected' }
+                </div>
+              </div>
+
+              <Divider />
+
+              <div className='connectionForm'>
+                <Form className={(formErrors['account'] || formErrors['password']) ? 'warning' : ''} onSubmit={handleConnectWallet}>
+                  <Form.Field>
+                    <Form.Input error={formErrors['account']} label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange} autoComplete='new-password' />
+                    {formErrors['account']
+                      ? <div className='message-wrapper'>
+                        <Message
+                          warning
+                          header='Empty Field!'
+                          content='Account field is required.'
+                        />
+                      </div>
+                      : ''
+                    }
+                  </Form.Field>
+                  <Form.Field>
+                    <Form.Input error={formErrors['password']} label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange} autoComplete='new-password' />
+                    {formErrors['password']
+                      ? <div className='message-wrapper'>
+                        <Message
+                          warning
+                          header='Empty Field!'
+                          content='Account password field is required.'
+                        />
+                      </div>
+                      : ''
+                    }
+                  </Form.Field>
+                  <div className='action'>
+                    <Button type='submit' disabled={!connected} color='teal'>Edit</Button>
                   </div>
-                  : '' }
+                </Form>
+              </div>
             </Segment>
 
             { appType === 'issuer'
-              ? <Segment>
-                <Label>Messaging Account ID</Label>
-                <Input id='messaging-account-input' name='messaging-acount' defaultValue={currentUser.messagingAddress} />
-                <br />
-                <br />
-                <Button onClick={handleSetMessagingAccount}>Save</Button>
+              ? <Segment className='messagingComponent'>
+                <div className='form-wrapper'>
+                  <div className='title'>Messaging Account ID</div>
+                  <div className='messagingForm'>
+                    <Form className={formErrors['messagingAddress'] ? 'warning' : ''} onSubmit={handleSetMessagingAccount}>
+                      <Form.Field>
+                        <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress} onChange={handleChange} />
+                      </Form.Field>
+                      <div className='action'>
+                        <Button color='teal' disabled={!connected}>Edit</Button>
+                      </div>
+                    </Form>
+                  </div>
+                </div>
+
+                {formErrors['messagingAddress']
+                    ? <div className='message-wrapper'>
+                      <Message
+                        warning
+                        header='Empty Field!'
+                        content='Messaging Address field is required.'
+                      />
+                    </div>
+                    : ''
+                  }
               </Segment>
             : '' }
           </div>
         }
-      </div>
+      </Container>
     )
   }
 }
