@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Label, Menu } from 'semantic-ui-react'
+import { Icon, Menu } from 'semantic-ui-react'
 import './Sidebar.css'
 
 const buyersRegexp = /^\/buyer/

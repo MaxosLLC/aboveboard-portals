@@ -3,7 +3,7 @@ import store from 'redux/store'
 import { Route, Switch } from 'react-router-dom'
 
 import Login from 'components/pages/login/Login'
-import Home from 'components/pages/home/Home'
+//import Home from 'components/pages/home/Home'
 import Tokens from 'components/pages/tokens/Tokens'
 import TokenDetail from 'components/pages/tokens/detail/TokenDetail'
 import Investors from 'components/pages/investors/Investors'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Grid, Header, Icon, Segment, Tab, Table, Image } from 'semantic-ui-react'
+import { Grid, Icon, Segment, Tab, Table, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -8,6 +8,7 @@ import ColorRegistry from '../../../../assets/ColorRegistry'
 import tokenIcon from '../../../../assets/image/Info.png'
 import userGraphic from '../../../../assets/image/graphic.png'
 import path from '../../../../assets/image/Path.png'
+import downloadButton from '../../../../assets/image/downloadbutton.png'
 import './TokenDetail.css'
 
 const TokenDetailView = styled.div`
@@ -42,7 +43,6 @@ class InvestorDetailView extends Component {
   }
 
   render () {
-
     const { loaded, token, transactions, shareholders, routeTo } = this.props
     const getShareholderName = address => {
       const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
@@ -58,12 +58,14 @@ class InvestorDetailView extends Component {
           shareholdersWithData.length ? <Table celled selectable>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>#</Table.HeaderCell>
-                <Table.HeaderCell>First Name</Table.HeaderCell>
-                <Table.HeaderCell>Last Name</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Phone</Table.HeaderCell>
+                <Table.HeaderCell className='idHeader'>ID</Table.HeaderCell>
+                <Table.HeaderCell>Shareholder</Table.HeaderCell>
                 <Table.HeaderCell>Address</Table.HeaderCell>
+                <Table.HeaderCell>Qualifier</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
+                <Table.HeaderCell>% of Total</Table.HeaderCell>
+                <Table.HeaderCell>Last Transaction</Table.HeaderCell>
+                <Table.HeaderCell><Image src={downloadButton} /></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -71,11 +73,13 @@ class InvestorDetailView extends Component {
               { shareholdersWithData.map((shareholder, i) =>
                 <Table.Row key={shareholder.id} onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)} style={{ cursor: 'pointer' }}>
                   <Table.Cell>{i}</Table.Cell>
-                  <Table.Cell>{shareholder.firstName}</Table.Cell>
-                  <Table.Cell>{shareholder.lastName}</Table.Cell>
-                  <Table.Cell>{shareholder.email}</Table.Cell>
-                  <Table.Cell>{shareholder.phone}</Table.Cell>
+                  <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
                   <Table.Cell>{shareholder.addressLine1} {shareholder.addressLine2 ? `${shareholder.addressLine1} ` : ''}, {shareholder.city}, {shareholder.state ? `${shareholder.state} ,` : ''} {shareholder.country}, {shareholder.zip}</Table.Cell>
+                  <Table.Cell>ABC</Table.Cell>
+                  <Table.Cell>100</Table.Cell>
+                  <Table.Cell>5%</Table.Cell>
+                  <Table.Cell>2018.20.10</Table.Cell>
+                  <Table.Cell></Table.Cell>
                 </Table.Row>
             ) }
             </Table.Body>
@@ -87,11 +91,12 @@ class InvestorDetailView extends Component {
           transactions.length ? <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Transaction Hash</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder Name</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder Address</Table.HeaderCell>
-                <Table.HeaderCell>Tokens Transferred</Table.HeaderCell>
+                <Table.HeaderCell>Hash</Table.HeaderCell>
+                <Table.HeaderCell>Shareholder</Table.HeaderCell>
+                <Table.HeaderCell>Address</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>Date</Table.HeaderCell>
+                <Table.HeaderCell><Image src={downloadButton} /></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -113,6 +118,7 @@ class InvestorDetailView extends Component {
                   </Table.Cell>
                   <Table.Cell>{transaction.tokens}</Table.Cell>
                   <Table.Cell>{moment(transaction.createdAt).format('LLL')}</Table.Cell>
+                  <Table.Cell></Table.Cell>
                 </Table.Row>
             ) }
             </Table.Body>
@@ -125,18 +131,18 @@ class InvestorDetailView extends Component {
       <TokenDetailView>
         <Grid columns={1}>
           <Grid.Column>
-            <TokenDetailHeader> Aboveboard Common Stock <img src={tokenIcon} /></TokenDetailHeader> 
+            <TokenDetailHeader> Aboveboard Common Stock <img src={tokenIcon} alt='tokenIcon' /></TokenDetailHeader> 
           </Grid.Column>
         </Grid>
         <Grid columns={2} className='typeBoards'>
           <Grid.Column className='typeBoard' width={5} textAlign='center'>
             <Image src={userGraphic} centered verticalAlign='middle' className='boardImage' />
-            <TypeCountLabel> 2000 </TypeCountLabel>
-            <TypeLabel> Shareholders </TypeLabel>
+            <TypeCountLabel> 2000 </TypeCountLabel> {/* 2000 is dummy counts for now */}
+            <TypeLabel> Shareholders </TypeLabel> 
           </Grid.Column>
           <Grid.Column className='typeBoard' width={5} textAlign='center' style={{ marginLeft: 30 }}>
             <Image src={path} centered verticalAlign='middle' className='boardImage' />
-            <TypeCountLabel> 256+ </TypeCountLabel>
+            <TypeCountLabel> 256+ </TypeCountLabel> {/* 256 is dummy counts for now */}
             <TypeLabel> Total Transactions </TypeLabel>
           </Grid.Column>    
         </Grid>

@@ -11,3 +11,49 @@
 	height: 60px;
 	margin-top: 30px;
 }
+
+.ui.tabular.menu {
+	border: none;
+}
+
+.ui.tabular.menu .active.item {
+	font-size: 18px;
+	color: #094bb1;
+	border: none;
+	border-bottom: solid 4px #094bb1;
+}
+
+.ui.tabular.menu .item {
+	font-size: 18px;
+	color: #094bb1;
+	font-family: 'ProximaNova Regular';
+}
+
+.ui.tabular.menu .item:hover {
+	color: #094bb1;
+}
+
+.ui.celled.table {
+	border: none;
+}
+
+.ui.celled.table tr th {
+	font-size: 16px;
+	color: #094bb1;
+	border: none;
+	background: transparent;
+}
+
+.ui.celled.table th.idHeader {
+	color: #8f9bab;
+}
+.ui.celled.table tr {
+	height: 68px;
+}
+
+.ui.celled.table tr td {
+	font-size: 14px;
+	color: #4f6683;
+	border: none;
+	border-top: solid 1px #f1f4f8;;
+}
