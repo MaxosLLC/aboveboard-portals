@@ -202,7 +202,7 @@ class SettingsView extends Component {
                     <div className='messagingForm'>
                       <Form className={formErrors['messagingAddress']?'warning':''} onSubmit={handleSetMessagingAccount}>
                         <Form.Field>
-                          <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' value={messagingAddress}  onChange={handleChange} />
+                          <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress}  onChange={handleChange} />
                         </Form.Field>
                         <div className='action'>
                           <Button color='teal' disabled={!connected}>Edit</Button>
