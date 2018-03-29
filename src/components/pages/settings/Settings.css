@@ -40,13 +40,22 @@
 
 /*message*/
 .settingsComponent .ui.message {
-  width: 412px;
+  display: inline-block !important;
+  width: auto;
   height: 76px;
   box-shadow: 0 1px 20px 0 rgba(180, 180, 180, 0.4);
   color: #fff;
   margin-bottom: 30px;
   height: auto;
   border-radius: unset;
+}
+
+.settingsComponent .message-wrapper {
+  margin-top: 10px;
+}
+
+.settingsComponent .message-wrapper .message {
+  margin: 0;
 }
 
 .settingsComponent .ui.message .content p {
@@ -138,14 +147,14 @@
   background-color: #ff0061;
 }
 
-.settingsComponent .statusComponent .connectionForm .field {
+.settingsComponent .statusComponent .connectionForm .input-wrapper {
   display: flex;
   flex-direction: row;
   place-content: space-between;
   align-items: center;
 }
 
-.settingsComponent .statusComponent .connectionForm .field label {
+.settingsComponent .statusComponent .connectionForm .input-wrapper label {
   width: 16%;
   margin: 0;
   height: 17px;
@@ -158,7 +167,7 @@
   color: #4f6683;
 }
 
-.settingsComponent .statusComponent .connectionForm .field input {
+.settingsComponent .statusComponent .connectionForm .input-wrapper .ui.input {
   flex: 1 1 auto;
   width: auto;
 }
@@ -171,6 +180,11 @@
 /*messagingComponent*/
 .settingsComponent .messagingComponent {
   display: flex;
+  flex-direction: column;
+}
+
+.settingsComponent .messagingComponent .form-wrapper {
+  display: flex;
   flex-direction: row;
   place-content: space-between;
   align-items: center;
@@ -182,7 +196,11 @@
 
 .settingsComponent .messagingComponent .messagingForm .field {
 	margin: 0 30px;
-    flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.settingsComponent .messagingComponent .messagingForm .message {
+  margin: 10px 30px 0;
 }
 
 .settingsComponent .messagingComponent form {
