@@ -73,6 +73,13 @@
 	cursor: pointer;
 }
 
+.sortButton {
+	margin-left: 15px;
+	height: 16px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
 /* TradingOption style */
 .trading {
 	margin-top: 50px;
