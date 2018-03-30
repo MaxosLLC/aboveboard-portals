@@ -3,7 +3,7 @@ import socketio from '@feathersjs/socketio-client'
 import auth from '@feathersjs/authentication-client'
 import io from 'socket.io-client'
 
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+const appType = process.env.REACT_APP_APP_TYPE || /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
 
 const url = appType === 'broker' ? process.env.REACT_APP_BROKER_LOCAL_API_URL || 'https://aboveboard-broker-api.herokuapp.com/'
   : process.env.REACT_APP_ISSUER_LOCAL_API_URL || 'https://aboveboard-issuer-api.herokuapp.com/'
