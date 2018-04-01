@@ -10,21 +10,25 @@ class SettingsView extends Component {
     const { currentUser } = this.props
 
     this.state = {
-      messageVisible: true,
       account: currentUser.walletAccountName || '',
       password: '',
       messagingAddress: currentUser.messagingAddress,
       formErrors: {
-        account: false,
-        password: false,
-        messagingAddress: false
+        account: !currentUser.walletAccountName,
+        password: true,
+        messagingAddress: !currentUser.messagingAddress
       }
     }
   }
 
+  componentWillUnmount () {
+    this.props.dismissConnectionMessage()
+  }
+
   render () {
-    const { messageVisible, account, password, messagingAddress, formErrors } = this.state
-    const { loaded, appType, connected, connectWallet, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
+    const { account, password, messagingAddress, formErrors } = this.state
+    const { loaded, appType, connected, connectWallet, tokens, watchingTokens, startWatchingToken,
+      stopWatchingToken, setMessagingAddress, showConnectionAlert } = this.props
 
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -71,7 +75,7 @@ class SettingsView extends Component {
     }
 
     const handleDismiss = () => {
-      this.setState({ messageVisible: false })
+      this.props.dismissConnectionMessage()
     }
 
     const handleChange = (e, { name, value }) => {
@@ -105,120 +109,97 @@ class SettingsView extends Component {
 
     return (
       <Container className='settingsComponent'>
-        { messageVisible?
-            connected?
-              <div className='headerAlert'>
-                <Message
-                  onDismiss={handleDismiss}
-                  success
-                  header='You have successfully connected your Wallet!'
-                  content='You can now view your Sharefolder and Transaction data'
-                />
-              </div>
-              : <div>
-                <Message
-                  onDismiss={this.handleDismiss}
-                  warning
-                  header='You are not following any tokens'
-                  content='Please search and select a token you would like to follow'
-                />
-              </div>
-            : null
-        }
-
-        { !loaded ? <span>Loading settings...<Icon name='spinner' loading /></span>
-          : <div>
-            <Segment className='tokenComponent'>
-              <Header className='title'>Followed Tokens</Header>
-              <Dropdown
-                selection
-                search
-                multiple
-                className='watchingTokens'
-                icon='search'
-                name='watchingTokens'
-                defaultValue={watchingTokens.map(token => token.address)}
-                options={watchingTokenOptions}
-                onChange={handleChangeWatchingTokens}
-                />
-            </Segment>
-
-            <Segment className='statusComponent'>
-              <div className='title'>
-                <div className='label'>Wallet Connection Status</div>
-                <div className='status'>
-                  <div className={connected ? 'connected' : 'disconnectd'} />
-                  { connected ? 'Connected' : 'Disconnected' }
-                </div>
-              </div>
-
-              <Divider />
-
-              <div className='connectionForm'>
-                <Form className={(formErrors['account'] || formErrors['password']) ? 'warning' : ''} onSubmit={handleConnectWallet}>
-                  <Form.Field>
-                    <Form.Input error={formErrors['account']} label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} onChange={handleChange} autoComplete='new-password' />
-                    {formErrors['account']
-                      ? <div className='message-wrapper'>
-                        <Message
-                          warning
-                          header='Empty Field!'
-                          content='Account field is required.'
-                        />
-                      </div>
-                      : ''
-                    }
-                  </Form.Field>
-                  <Form.Field>
-                    <Form.Input error={formErrors['password']} label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} onChange={handleChange} autoComplete='new-password' />
-                    {formErrors['password']
-                      ? <div className='message-wrapper'>
-                        <Message
-                          warning
-                          header='Empty Field!'
-                          content='Account password field is required.'
-                        />
-                      </div>
-                      : ''
-                    }
-                  </Form.Field>
-                  <div className='action'>
-                    <Button type='submit' disabled={!connected} color='teal'>Edit</Button>
-                  </div>
-                </Form>
-              </div>
-            </Segment>
-
-            { appType === 'issuer'
-              ? <Segment className='messagingComponent'>
-                <div className='form-wrapper'>
-                  <div className='title'>Messaging Account ID</div>
-                  <div className='messagingForm'>
-                    <Form className={formErrors['messagingAddress'] ? 'warning' : ''} onSubmit={handleSetMessagingAccount}>
-                      <Form.Field>
-                        <Form.Input error={formErrors['messagingAddress']} name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress} onChange={handleChange} />
-                      </Form.Field>
-                      <div className='action'>
-                        <Button color='teal' disabled={!connected}>Edit</Button>
-                      </div>
-                    </Form>
-                  </div>
-                </div>
-
-                {formErrors['messagingAddress']
-                    ? <div className='message-wrapper'>
-                      <Message
-                        warning
-                        header='Empty Field!'
-                        content='Messaging Address field is required.'
-                      />
-                    </div>
-                    : ''
-                  }
-              </Segment>
-            : '' }
+        { loaded && showConnectionAlert && connected
+          ? <div className='headerAlert'>
+            <Message
+              onDismiss={handleDismiss}
+              success
+              header='You have successfully connected your Wallet!'
+              content='You can now view your Shareholder and Transaction data'
+            />
           </div>
+          : ''
         }
+        { loaded && showConnectionAlert && (!watchingTokens || (watchingTokens && watchingTokens.length === 0))
+          ? <div className='headerAlert'>
+            <Message
+              onDismiss={handleDismiss}
+              warning
+              header='You are not following any tokens'
+              content='Please search and select a token you would like to follow'
+            />
+          </div>
+          : null
+        }
+        <div>
+          <Segment>
+            { !loaded ? <span>Loading settings...<Icon name='spinner' loading /></span>
+              : <div className='tokenComponent'><Header className='title'>Followed Tokens</Header>
+                <Dropdown
+                  selection
+                  search
+                  multiple
+                  className='watchingTokens'
+                  icon='search'
+                  name='watchingTokens'
+                  defaultValue={watchingTokens.map(token => token.address)}
+                  options={watchingTokenOptions}
+                  onChange={handleChangeWatchingTokens}
+                />
+              </div>
+            }
+          </Segment>
+
+          <Segment className='statusComponent'>
+            <div className='title'>
+              <div className='label'>Wallet Connection Status</div>
+              <div className='status'>
+                <div className={connected ? 'connected' : 'disconnected'} />
+                { connected ? 'Connected' : 'Disconnected' }
+              </div>
+            </div>
+
+            <Divider />
+
+            <div className='connectionForm'>
+              <Form onSubmit={handleConnectWallet}>
+                <Form.Field>
+                  <Form.Input label='Account' className='input-wrapper' placeholder='testing123' name='account' value={account} autoComplete='new-password' onChange={handleChange} />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input label='Account Password' className='input-wrapper' type='password' placeholder='password' name='password' value={password} autoComplete='new-password' onChange={handleChange} />
+                </Form.Field>
+                <div className='action'>
+                  { connected
+                    ? <Button type='submit' color='teal'>Edit</Button>
+                    : <Button type='submit' color={(!formErrors['account'] && !formErrors['password']) ? 'teal' : 'gray'} disabled={formErrors['account'] || formErrors['password']}>Connect</Button>
+                  }
+                </div>
+              </Form>
+            </div>
+          </Segment>
+
+          { appType === 'issuer'
+            ? <Segment className='messagingComponent'>
+              <div className='form-wrapper'>
+                <div className='messagingForm'>
+                  <Form onSubmit={handleSetMessagingAccount}>
+                    <Form.Field>
+                      <div className='title'>Messaging Account ID</div>
+                      <Form.Input name='messagingAddress' placeholder='^[Ada{}}sdS//s?]$' value={messagingAddress} onChange={handleChange} />
+                    </Form.Field>
+                    <div className='action'>
+                      { connected
+                        ? <Button type='submit' color='teal'>Edit</Button>
+                        : <Button type='submit' color={!formErrors['messagingAddress'] ? 'teal' : 'gray'} disabled={formErrors['messagingAddress']}>Save</Button>
+                      }
+                    </div>
+                  </Form>
+                </div>
+              </div>
+            </Segment>
+          : '' }
+        </div>
       </Container>
     )
   }

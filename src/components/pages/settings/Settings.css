@@ -1,11 +1,22 @@
 .settingsComponent .ui.segment {
   padding: 30px 60px;
   margin-bottom: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px 0 rgba(180, 180, 180, 0.3);
+  border: 0;
 }
 
 .settingsComponent .ui.divider {
   border-bottom: solid 1px #f1f4f8;
   margin: 19px 0;
+}
+
+.settingsComponent .ui.button {
+  margin: 0;
+}
+
+.settingsComponent .ui.button:disabled {
+  background-color: #d4dae1;
 }
 
 .settingsComponent .title {
@@ -29,6 +40,7 @@
 
 .settingsComponent .ui.selection.dropdown>.search.icon {
   padding: 10px;
+  color: #8d9baf;
 }
 
 .settingsComponent .ui.form input {
@@ -40,6 +52,7 @@
 
 /*message*/
 .settingsComponent .ui.message {
+  font-family: Roboto;
   display: inline-block !important;
   width: auto;
   height: 76px;
@@ -47,6 +60,10 @@
   margin-bottom: 30px;
   height: auto;
   border-radius: unset;
+}
+
+.settingsComponent .ui.message .close.icon {
+  color: #fff;
 }
 
 .settingsComponent .headerAlert .ui.message {
@@ -62,6 +79,7 @@
 }
 
 .settingsComponent .ui.message .content p {
+  font-family: Roboto;
   height: 14px;
   font-size: 14px;
   font-weight: normal;
@@ -75,6 +93,7 @@
 }
 
 .settingsComponent .ui.message .content .header {
+  font-family: Roboto;
   height: 14px;
   font-size: 14px;
   font-weight: normal;
@@ -188,29 +207,22 @@
   flex-direction: column;
 }
 
-.settingsComponent .messagingComponent .form-wrapper {
+.settingsComponent .messagingComponent .field {
   display: flex;
   flex-direction: row;
-  place-content: space-between;
+  flex: 1 1 auto;
   align-items: center;
 }
 
-.settingsComponent .messagingComponent .messagingForm {
-  flex: 1 1 auto;
-}
-
-.settingsComponent .messagingComponent .messagingForm .field {
-	margin: 0 30px;
-  flex: 1 1 auto;
-}
-
-.settingsComponent .messagingComponent .messagingForm .message {
-  margin: 10px 30px 0;
-}
-
-.settingsComponent .messagingComponent form {
+.settingsComponent .messagingComponent .action {
   display: flex;
-  flex-direction: row;
-  place-content: space-between;
-  align-items: center;
+  place-content: flex-end;
+}
+
+.settingsComponent .messagingComponent .field .title {
+  margin-right: 25px;
+}
+
+.settingsComponent .messagingComponent .field input {
+  flex: 1 1 auto;
 }
