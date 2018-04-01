@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import {
   Grid,
   Icon,
   Segment,
   Tab,
-  Table,
   Image,
-  Checkbox
+  Checkbox,
+  Modal,
+  Button
 } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
+import ShareholdersTable from './ShareholdersTable'
+import TransactionsTable from './TransactionsTable'
 import ColorRegistry from '../../../../assets/ColorRegistry'
 import tokenIcon from '../../../../assets/image/Info.png'
 import userGraphic from '../../../../assets/image/graphic.png'
 import path from '../../../../assets/image/Path.png'
-import downloadButton from '../../../../assets/image/downloadbutton.png'
 import calendarIcon from '../../../../assets/image/calendaricon.png'
-import sortButton from '../../../../assets/image/arrows.png'
 import './TokenDetail.css'
 
 const TokenDetailView = styled.div`
@@ -61,10 +60,11 @@ class InvestorDetailView extends Component {
     super()
     this.state = {
       isTrading: false,
-      shareholdersSortOption: 'shareholder',
-      transactionSortOption: 'hash'
+      showCalendar: false,
     }
     this.tradingChange = this.tradingChange.bind(this)
+    this.showCalendar = this.showCalendar.bind(this)
+    this.closeCalendar = this.closeCalendar.bind(this)
   }
 
   componentDidMount() {
@@ -72,231 +72,41 @@ class InvestorDetailView extends Component {
     this.props.loadTransactions()
   }
 
+  showCalendar() {
+    this.setState({
+      showCalendar: true
+    })
+  }
+
+  closeCalendar() {
+    this.setState({
+      showCalendar: false
+    })
+  }
+
   tradingChange(e, { checked }) {
     this.setState({
-      isTrading: checked
+      isTrading: checked,
     })
   }
 
   render() {
     const { loaded, token, transactions, shareholders, routeTo } = this.props
-    console.log(transactions)
-    const getShareholderName = address => {
-      const shareholder = shareholders.filter(shareholder =>
-        shareholder.ethAddresses.some(
-          ethAddress => ethAddress.address === address
-        )
-      )[0]
-
-      return shareholder && shareholder.firstName
-        ? `${shareholder.firstName} ${shareholder.lastName}`
-        : ''
-    }
 
     const shareholdersWithData = shareholders.filter(
       shareholder => shareholder.firstName
     )
-
-//  Sort function for Sharepoint Table.
-    if (this.state.shareholdersSortOption === 'shareholder') {
-      shareholdersWithData.sort(function(fobj, sobj) {
-        if (fobj.firstName.toLowerCase() < sobj.firstName.toLowerCase())
-          return -1
-        if (fobj.firstName.toLowerCase() > sobj.firstName.toLowerCase())
-          return 1
-        return 0
-      })
-    }
-    if (this.state.shareholdersSortOption === 'address') {
-      shareholdersWithData.sort(function(fobj, sobj) {
-        if (fobj.addressLine1.toLowerCase() < sobj.addressLine1.toLowerCase())
-          return -1
-        if (fobj.addressLine1.toLowerCase() > sobj.addressLine1.toLowerCase())
-          return 1
-        return 0
-      })
-    }
-    // if (this.state.shareholdersSortOption === 'qualifier') {
-    //   shareholdersWithData.sort(function(fobj, sobj) {
-    //     if (fobj.qualifier.toLowerCase() < sobj.qualifier.toLowerCase())
-    //       return -1
-    //     if (fobj.qualifier.toLowerCase() > sobj.qualifier.toLowerCase())
-    //       return 1
-    //     return 0
-    //   })
-    // }
-    // if (this.state.shareholdersSortOption === 'quantity') {
-    //   shareholdersWithData.sort(function(fobj, sobj) {
-    //     if (fobj.quantity.toLowerCase() < sobj.quantity.toLowerCase())  //this is dummy for now
-    //       return -1
-    //     if (fobj.quantity.toLowerCase() > sobj.quantity.toLowerCase())  //this is dummy for now
-    //       return 1
-    //     return 0
-    //   })
-    // }
-    // if (this.state.shareholdersSortOption === 'total') {
-    //   shareholdersWithData.sort(function(fobj, sobj) {
-    //     if (fobj.total.toLowerCase() < sobj.total.toLowerCase())
-    //       return -1
-    //     if (fobj.total.toLowerCase() > sobj.total.toLowerCase())
-    //       return 1
-    //     return 0
-    //   })
-    // }
-    // if (this.state.shareholdersSortOption === 'date') {
-    //   shareholdersWithData.sort(function(fobj, sobj) {
-    //     if (fobj.addressLine1.toLowerCase() < sobj.addressLine1.toLowerCase())
-    //       return -1
-    //     if (fobj.addressLine1.toLowerCase() > sobj.addressLine1.toLowerCase())
-    //       return 1
-    //     return 0
-    //   })
-    // }
-
-//  Sort function for Transaction Table
-    if (this.state.transactionSortOption === 'hash') {
-      transactions.sort(function(fobj, sobj) {
-        return parseInt(fobj.transactionHash, 16) - parseInt(sobj.transactionHash, 16)
-      })
-    }
-    // if (this.state.transactionSortOption === 'shareholder') {
-    //   transactions.sort(function(fobj, sobj) {
-    //     if (fobj.firstName.toLowerCase() < sobj.firstName.toLowerCase())
-    //       return -1
-    //     if (fobj.firstName.toLowerCase() > sobj.firstName.toLowerCase())
-    //       return 1
-    //     return 0
-    //   })
-    // }
-    if (this.state.transactionSortOption === 'address') {
-      transactions.sort(function(fobj, sobj) {
-        return parseInt(fobj.shareholderEthAddress, 16) - parseInt(sobj.shareholderEthAddress, 16)
-      })
-    }
-    if (this.state.transactionSortOption === 'quantity') {
-      transactions.sort(function(fobj, sobj) {
-        return fobj.tokens - sobj.tokens
-      })
-    }
-    // if (this.state.transactionSortOption === 'date') {
-    //   transactions.sort(function(fobj, sobj) {
-    //     if (fobj.firstName.toLowerCase() < sobj.firstName.toLowerCase())
-    //       return -1
-    //     if (fobj.firstName.toLowerCase() > sobj.firstName.toLowerCase())
-    //       return 1
-    //     return 0
-    //   })
-    // }
 
     const panes = [
       {
         menuItem: 'Shareholders',
         render: () =>
           shareholdersWithData.length ? (
-            <Table celled selectable>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell className="idHeader">ID</Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Shareholder<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'shareholder' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Address<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'address' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Qualifier<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'qualifier' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Quantity<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'quantity' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    % of Total<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'total' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Last Transaction<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ shareholdersSortOption: 'date' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    <Image className="downloadBtn" src={downloadButton} />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {shareholdersWithData.map((shareholder, i) => (
-                  <Table.Row
-                    key={shareholder.id}
-                    onClick={() =>
-                      routeTo(
-                        `/tokens/${token.address}/shareholders/${
-                          shareholder.id
-                        }/detail`
-                      )
-                    }
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <Table.Cell>{i}</Table.Cell>
-                    <Table.Cell>
-                      {shareholder.firstName} {shareholder.lastName}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {shareholder.addressLine1}{' '}
-                      {shareholder.addressLine2
-                        ? `${shareholder.addressLine1} `
-                        : ''}, {shareholder.city},{' '}
-                      {shareholder.state ? `${shareholder.state} ,` : ''}{' '}
-                      {shareholder.country}, {shareholder.zip}
-                    </Table.Cell>
-                    <Table.Cell>ABC</Table.Cell>
-                    <Table.Cell>100</Table.Cell>
-                    <Table.Cell>5%</Table.Cell>
-                    <Table.Cell>{shareholder.updatedAt}</Table.Cell>
-                    <Table.Cell />
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            <ShareholdersTable
+              shareholders={shareholders}
+              routeTo={routeTo}
+              token={token}
+            />
           ) : (
             <Segment>No shareholder data available</Segment>
           )
@@ -305,108 +115,7 @@ class InvestorDetailView extends Component {
         menuItem: 'Transactions',
         render: () =>
           transactions.length ? (
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>
-                    Hash<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ transactionSortOption: 'hash' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Shareholder<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ transactionSortOption: 'shareholder' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Address<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ transactionSortOption: 'address' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Quantity<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ transactionSortOption: 'quantity' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    Date<img
-                      className="sortButton"
-                      src={sortButton}
-                      alt="Sort"
-                      onClick={() =>
-                        this.setState({ transactionSortOption: 'date' })
-                      }
-                    />
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>
-                    <Image className="downloadBtn" src={downloadButton} />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {transactions.map(transaction => (
-                  <Table.Row key={transaction.id}>
-                    <Table.Cell>
-                      <Link
-                        to={`https://kovan.etherscan.io/tx/${
-                          transaction.transactionHash
-                        }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(
-                          transaction.transactionHash.length - 4,
-                          4
-                        )}
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {getShareholderName(transaction.shareholderEthAddress)}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Link
-                        to={`https://kovan.etherscan.io/address/${
-                          transaction.shareholderEthAddress
-                        }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(
-                          transaction.shareholderEthAddress.length - 4,
-                          4
-                        )}
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>{transaction.tokens}</Table.Cell>
-                    <Table.Cell>
-                      {moment(transaction.createdAt).format('LLL')}
-                    </Table.Cell>
-                    <Table.Cell />
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            <TransactionsTable transactions={transactions} shareholders={shareholders} />
           ) : (
             <Segment>No transactions have been made yet</Segment>
           )
@@ -420,7 +129,7 @@ class InvestorDetailView extends Component {
           Trading: {this.state.isTrading ? 'Active' : 'Inactive'}{' '}
         </TradingOptionLabel>
         <Checkbox toggle onChange={this.tradingChange} />
-        <img className="calendarIcon" src={calendarIcon} alt="Calendar" />
+        <img className="calendarIcon" src={calendarIcon} alt="Calendar" onClick={this.showCalendar} />
       </div>
     )
 
@@ -472,6 +181,22 @@ class InvestorDetailView extends Component {
             <Tab panes={panes} className="issuePanes" />
           </div>
         )}
+        <Modal size={'small'} open={this.state.showCalendar} onClose={this.closeCalendar}>
+          <Modal.Header>
+            Select the date
+          </Modal.Header>
+          <Modal.Content>
+            <p>Are you sure you want to modify the content?</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={this.closeCalendar}>
+              No
+            </Button>
+            <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+          </Modal.Actions>
+        </Modal>
+
+
       </TokenDetailView>
     )
   }
