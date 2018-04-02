@@ -8,7 +8,7 @@ import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
 import tokenContract from 'lib/contracts/RegulatedToken'
 import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
-import { walletConstants } from '../constants'
+import constants from 'app_constants'
 
 let web3
 let currentAccount
@@ -22,6 +22,7 @@ export default {
     password
   }) {
     const providerEngine = new Web3ProviderEngine()
+    const walletConstants = constants.walletConstants
 
     if (window.web3 && window.web3.currentProvider) {
       const currentProvider = new Web3(window.web3.currentProvider)
@@ -92,7 +93,7 @@ export default {
       })
       .then(() => {
         store.dispatch({ type: walletConstants.CONNECT_SUCCESS })
-        store.dispatch({ type: walletConstants.SHOW_CONNECTION_ALET, payload: true })
+        store.dispatch({ type: walletConstants.SHOW_CONNECTION_ALERT, payload: true })
       })
 
       .catch(error => {

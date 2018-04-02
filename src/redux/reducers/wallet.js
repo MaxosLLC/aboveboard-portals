@@ -1,8 +1,10 @@
-import { walletConstants } from '../../constants'
+import constants from 'app_constants'
 
 const initialState = {
   showConnectionMessage: false
 }
+
+const walletConstants = constants.walletConstants
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -14,7 +16,7 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, { error: null })
     case walletConstants.TRANSACTION_ERROR:
       return Object.assign({}, state, { error: action.error })
-    case walletConstants.SHOW_CONNECTION_ALET:
+    case walletConstants.SHOW_CONNECTION_ALERT:
       return {
         ...state,
         showConnectionAlert: action.payload

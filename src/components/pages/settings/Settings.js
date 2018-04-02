@@ -3,7 +3,9 @@ import { each } from 'bluebird'
 import localServices from 'lib/feathers/local/feathersServices'
 import SettingsView from './SettingsView'
 import ethereum from 'lib/ethereum'
-import { walletConstants } from '../../../constants'
+import constants from 'app_constants'
+
+const walletConstants = constants.walletConstants
 
 const mapStateToProps = state => ({
   appType: state.config.appType,
@@ -21,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return ethereum.init({ account, password })
         .then(() => {
           dispatch(localServices.user.patch(null, { walletAccountName: account }, { query: { email: 'local@local.com' } }))
-          dispatch({ type: walletConstants.SHOW_CONNECTION_ALET, payload: true })
+          dispatch({ type: walletConstants.SHOW_CONNECTION_ALERT, payload: true })
         })
     },
     startWatchingToken (token) {
@@ -37,7 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(() => localServices.user.patch(null, { messagingAddress }, { query: { email: 'local@local.com' } }))
     },
     dismissConnectionMessage () {
-      dispatch({ type: walletConstants.SHOW_CONNECTION_ALET, payload: false })
+      dispatch({ type: walletConstants.SHOW_CONNECTION_ALERT, payload: false })
     }
   }
 }
