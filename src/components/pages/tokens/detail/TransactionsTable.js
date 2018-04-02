@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-import moment from 'moment'
-import {
-	Table,
-	Image
-} from 'semantic-ui-react'
+import { Table, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import sort_button from '../../../../assets/image/arrows.png'
@@ -41,15 +37,22 @@ class TransactionsTable extends Component {
 				)
 			})
 		}
-		// if (this.state.transactionSortOption === 'shareholder') {
-		//   transactions.sort(function(fobj, sobj) {
-		//     if (fobj.firstName.toLowerCase() < sobj.firstName.toLowerCase())
-		//       return -1
-		//     if (fobj.firstName.toLowerCase() > sobj.firstName.toLowerCase())
-		//       return 1
-		//     return 0
-		//   })
-		// }
+
+		if (this.state.transactionSortOption === 'shareholder') {
+			transactions.sort(function(fobj, sobj) {
+				if (
+					getShareholderName(fobj.shareholderEthAddress).toLowerCase() <
+					getShareholderName(sobj.shareholderEthAddress).toLowerCase()
+				)
+					return -1
+				if (
+					getShareholderName(fobj.shareholderEthAddress).toLowerCase() >
+					getShareholderName(sobj.shareholderEthAddress).toLowerCase()
+				)
+					return 1
+				return 0
+			})
+		}
 		if (this.state.transactionSortOption === 'address') {
 			transactions.sort(function(fobj, sobj) {
 				return (
@@ -63,15 +66,13 @@ class TransactionsTable extends Component {
 				return fobj.tokens - sobj.tokens
 			})
 		}
-		// if (this.state.transactionSortOption === 'date') {
-		//   transactions.sort(function(fobj, sobj) {
-		//     if (fobj.firstName.toLowerCase() < sobj.firstName.toLowerCase())
-		//       return -1
-		//     if (fobj.firstName.toLowerCase() > sobj.firstName.toLowerCase())
-		//       return 1
-		//     return 0
-		//   })
-		// }
+		if (this.state.transactionSortOption === 'date') {
+			transactions.sort(function(fobj, sobj) {
+				if (fobj.createdAt < sobj.createdAt) return -1
+				if (fobj.createdAt > sobj.createdAt) return 1
+				return 0
+			})
+		}
 		return (
 			<Table celled>
 				<Table.Header>
@@ -129,46 +130,54 @@ class TransactionsTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{transactions.map(transaction => (
-						<Table.Row key={transaction.id}>
-							<Table.Cell>
-								<Link
-									to={`https://kovan.etherscan.io/tx/${
-										transaction.transactionHash
-									}`}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									{transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(
-										transaction.transactionHash.length - 4,
-										4
-									)}
-								</Link>
-							</Table.Cell>
-							<Table.Cell>
-								{getShareholderName(transaction.shareholderEthAddress)}
-							</Table.Cell>
-							<Table.Cell>
-								<Link
-									to={`https://kovan.etherscan.io/address/${
-										transaction.shareholderEthAddress
-									}`}
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									{transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(
-										transaction.shareholderEthAddress.length - 4,
-										4
-									)}
-								</Link>
-							</Table.Cell>
-							<Table.Cell>{transaction.tokens}</Table.Cell>
-							<Table.Cell>
-								{moment(transaction.createdAt).format('LLL')}
-							</Table.Cell>
-							<Table.Cell />
-						</Table.Row>
-					))}
+					{transactions.map(transaction => {
+						var date = new Date(transaction.createdAt)
+						return (
+							<Table.Row key={transaction.id}>
+								<Table.Cell>
+									<Link
+										to={`https://kovan.etherscan.io/tx/${
+											transaction.transactionHash
+										}`}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(
+											transaction.transactionHash.length - 4,
+											4
+										)}
+									</Link>
+								</Table.Cell>
+								<Table.Cell>
+									{getShareholderName(transaction.shareholderEthAddress)}
+								</Table.Cell>
+								<Table.Cell>
+									<Link
+										to={`https://kovan.etherscan.io/address/${
+											transaction.shareholderEthAddress
+										}`}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(
+											transaction.shareholderEthAddress.length - 4,
+											4
+										)}
+									</Link>
+								</Table.Cell>
+								<Table.Cell>{transaction.tokens}</Table.Cell>
+								<Table.Cell>
+									{date.getMonth() +
+										1 +
+										'.' +
+										date.getDate() +
+										'.' +
+										date.getFullYear()}
+								</Table.Cell>
+								<Table.Cell />
+							</Table.Row>
+						)
+					})}
 				</Table.Body>
 			</Table>
 		)

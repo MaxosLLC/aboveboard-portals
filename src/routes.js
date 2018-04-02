@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import store from 'redux/store'
 import { Route, Switch } from 'react-router-dom'
+import history from 'redux/history'
 
+import Header from 'components/header/Header'
 import Login from 'components/pages/login/Login'
-//import Home from 'components/pages/home/Home'
+import Home from 'components/pages/home/Home'
 import Tokens from 'components/pages/tokens/Tokens'
 import TokenDetail from 'components/pages/tokens/detail/TokenDetail'
 import Investors from 'components/pages/investors/Investors'
@@ -23,15 +25,18 @@ class Routes extends Component {
       <Switch>
         <Route path='/login' component={Login} />
         <EnsureLoggedIn>
-          <Route exact path='/' component={TokenDetail} />
-          <Route exact path='/settings' component={Settings} />
-          { appType === 'broker' ? <Route exact path='/buyers' component={Investors} /> : '' }
-          { appType === 'broker' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
-          { appType === 'broker' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
-          { appType === 'broker' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
-          { appType === 'issuer' ? <Route exact path='/tokens' component={Tokens} /> : '' }
-          { appType === 'issuer' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
-          { appType === 'issuer' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+          <Header history={history} />
+          <div>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/settings' component={Settings} />
+            { appType === 'broker' ? <Route exact path='/buyers' component={Investors} /> : '' }
+            { appType === 'broker' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
+            { appType === 'broker' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
+            { appType === 'broker' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
+            { appType === 'issuer' ? <Route exact path='/tokens' component={Tokens} /> : '' }
+            { appType === 'issuer' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
+            { appType === 'issuer' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+          </div>
         </EnsureLoggedIn>
       </Switch>
     )

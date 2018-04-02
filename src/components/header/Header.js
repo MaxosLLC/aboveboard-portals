@@ -6,7 +6,8 @@ import HeaderView from './HeaderView'
 const mapStateToProps = (state, ownProps) => {
   return {
     connected: state.wallet.connected,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    router: state.router
   }
 }
 

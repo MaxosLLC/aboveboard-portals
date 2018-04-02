@@ -7,7 +7,6 @@ import './app.css'
 import store from 'redux/store'
 import history from 'redux/history'
 
-import Header from 'components/header/Header'
 import Sidebar from 'components/sidebar/Sidebar'
 
 import Routes from './routes'
@@ -26,7 +25,6 @@ class App extends Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <div>
-            <Header history={history} />
             <Sidebar history={history} />
             <MainComponent>
               <Routes />

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-	Table,
-	Image
-} from 'semantic-ui-react'
+import { Table, Image } from 'semantic-ui-react'
 
 import sort_button from '../../../../assets/image/arrows.png'
 import download_button from '../../../../assets/image/downloadbutton.png'
@@ -21,6 +18,13 @@ class ShareholdersTable extends Component {
 		const shareholdersWithData = shareholders.filter(
 			shareholder => shareholder.firstName
 		)
+
+		var quantityValues = [], totalValue = 0
+		shareholdersWithData.map(shareholderWithData => {
+			quantityValues.push(shareholderWithData.ethAddresses[0].issues[0].tokens)
+			totalValue += shareholderWithData.ethAddresses[0].issues[0].tokens
+			return null
+		})
 
 		//  Sort function for Sharepoint Table.
 		if (this.state.sortOption === 'shareholder') {
@@ -68,15 +72,13 @@ class ShareholdersTable extends Component {
 		//     return 0
 		//   })
 		// }
-		// if (this.state.sortOption === 'date') {
-		//   shareholdersWithData.sort(function(fobj, sobj) {
-		//     if (fobj.addressLine1.toLowerCase() < sobj.addressLine1.toLowerCase())
-		//       return -1
-		//     if (fobj.addressLine1.toLowerCase() > sobj.addressLine1.toLowerCase())
-		//       return 1
-		//     return 0
-		//   })
-		// }
+		if (this.state.sortOption === 'date') {
+			shareholdersWithData.sort(function(fobj, sobj) {
+				if (fobj.updatedAt < sobj.updatedAt) return -1
+				if (fobj.updatedAt > sobj.updatedAt) return 1
+				return 0
+			})
+		}
 
 		return (
 			<Table celled selectable>
@@ -138,36 +140,47 @@ class ShareholdersTable extends Component {
 				</Table.Header>
 
 				<Table.Body>
-					{shareholdersWithData.map((shareholder, i) => (
-						<Table.Row
-							key={shareholder.id}
-							onClick={() =>
-								routeTo(
-									`/tokens/${token.address}/shareholders/${
-										shareholder.id
-									}/detail`
-								)
-							}
-							style={{ cursor: 'pointer' }}
-						>
-							<Table.Cell>{i}</Table.Cell>
-							<Table.Cell>
-								{shareholder.firstName} {shareholder.lastName}
-							</Table.Cell>
-							<Table.Cell>
-								{shareholder.addressLine1}{' '}
-								{shareholder.addressLine2 ? `${shareholder.addressLine1} ` : ''},{' '}
-								{shareholder.city},{' '}
-								{shareholder.state ? `${shareholder.state} ,` : ''}{' '}
-								{shareholder.country}, {shareholder.zip}
-							</Table.Cell>
-							<Table.Cell>ABC</Table.Cell>
-							<Table.Cell>100</Table.Cell>
-							<Table.Cell>5%</Table.Cell>
-							<Table.Cell>{shareholder.updatedAt}</Table.Cell>
-							<Table.Cell />
-						</Table.Row>
-					))}
+					{shareholdersWithData.map((shareholder, i) => {
+						var date = new Date(shareholder.updatedAt)
+						return (
+							<Table.Row
+								key={shareholder.id}
+								onClick={() =>
+									routeTo(
+										`/tokens/${token.address}/shareholders/${
+											shareholder.id
+										}/detail`
+									)
+								}
+								style={{ cursor: 'pointer' }}
+							>
+								<Table.Cell>{i}</Table.Cell>
+								<Table.Cell>
+									{shareholder.firstName} {shareholder.lastName}
+								</Table.Cell>
+								<Table.Cell>
+									{shareholder.addressLine1}{' '}
+									{shareholder.addressLine2
+										? `${shareholder.addressLine1} `
+										: ''}, {shareholder.city},{' '}
+									{shareholder.state ? `${shareholder.state} ,` : ''}{' '}
+									{shareholder.country}, {shareholder.zip}
+								</Table.Cell>
+								<Table.Cell>{shareholder.qualifications}</Table.Cell>
+								<Table.Cell>{quantityValues[i]}</Table.Cell>
+								<Table.Cell />
+								<Table.Cell>
+									{date.getMonth() +
+										1 +
+										'.' +
+										date.getDate() +
+										'.' +
+										date.getFullYear()}
+								</Table.Cell>
+								<Table.Cell />
+							</Table.Row>
+						)
+					})}
 				</Table.Body>
 			</Table>
 		)
