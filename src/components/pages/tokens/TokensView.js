@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { sortBy } from 'lodash/fp';
-import { Link } from 'react-router-dom';
-import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import { sortBy } from 'lodash/fp'
+import { Link } from 'react-router-dom'
+import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react'
 
 class TokensView extends Component {
   componentDidMount() {
-    this.props.loadTokens();
+    this.props.loadTokens()
   }
   render() {
-    const { loaded, tokens, watchingTokens, routeTo } = this.props;
+    const { loaded, tokens, watchingTokens, routeTo } = this.props
 
     const handleRowClick = tokenAddress => {
-      routeTo(`/tokens/${tokenAddress}/detail`);
-    };
+      routeTo(`/tokens/${tokenAddress}/detail`)
+    }
 
     const filteredWatchingTokens = tokens.filter(token => {
       return watchingTokens.some(
         watchedToken => token.address === watchedToken.address
-      );
-    });
+      )
+    })
 
     return (
       <div className="tokensComponent">
@@ -73,7 +73,7 @@ class TokensView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadTokens(25 * (activePage - 1));
+                        this.props.loadTokens(25 * (activePage - 1))
                       }}
                     />
                   </Table.HeaderCell>
@@ -88,8 +88,8 @@ class TokensView extends Component {
           </span>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default TokensView;
+export default TokensView

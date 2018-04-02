@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { Grid, Header, Icon, Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class InvestorDetailView extends Component {
   componentDidMount() {
-    this.props.loadInvestor(this.props.match.params.id);
+    this.props.loadInvestor(this.props.match.params.id)
   }
 
   render() {
-    const { loaded, investor, whitelists } = this.props;
+    const { loaded, investor, whitelists } = this.props
 
     const getWhitelistName = address => {
       const whitelist = whitelists.filter(
         whitelist => whitelist.address === address
-      );
+      )
 
-      return whitelist && whitelist[0] ? whitelist[0].name : address;
-    };
+      return whitelist && whitelist[0] ? whitelist[0].name : address
+    }
 
     return (
       <div className="investorsComponent">
@@ -107,11 +107,11 @@ class InvestorDetailView extends Component {
                                 {getWhitelistName(whitelist.address)}
                               </Link>
                             </p>
-                          );
+                          )
                         })}
                       </Table.Cell>
                     </Table.Row>
-                  );
+                  )
                 })}
               </Table.Body>
             </Table>
@@ -126,8 +126,8 @@ class InvestorDetailView extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InvestorDetailView;
+export default InvestorDetailView

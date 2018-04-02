@@ -10,23 +10,33 @@ const Button = ({ action = false, color, children, style = {}, ...props }) => {
     circular: action,
     action: action,
     'with-nav': action === 'nav',
-  });
+  })
 
   return (
     <ButtonWrapper className={`${color} ${classes}`} {...props}>
-      {children &&
-        <Label type='input' style={style}>
+      {children && (
+        <Label type="input" style={style}>
           {children}
-        </Label>}
+        </Label>
+      )}
     </ButtonWrapper>
-  );
-};
+  )
+}
 
 Button.propTypes = {
   action: PropTypes.oneOf([false, true, 'nav']),
-  color: PropTypes.oneOf(['brand', 'salmon', 'teal', 'red', 'green', 'black', 'gray', 'white']),
+  color: PropTypes.oneOf([
+    'brand',
+    'salmon',
+    'teal',
+    'red',
+    'green',
+    'black',
+    'gray',
+    'white',
+  ]),
   children: PropTypes.node,
-  style: PropTypes.shape({})
+  style: PropTypes.shape({}),
 }
 
-export default Button;
+export default Button

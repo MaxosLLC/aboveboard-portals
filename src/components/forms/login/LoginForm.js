@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { Icon } from 'semantic-ui-react';
-import { Button, Checkbox, Label, Text } from 'components/inputs';
+import React from 'react'
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import { Icon } from 'semantic-ui-react'
+import { Button, Checkbox, Label, Text } from 'components/inputs'
 
 const SigninForm = ({ handleSubmit, pristine, isSaving, errors }) => {
   return (
@@ -38,12 +38,12 @@ const SigninForm = ({ handleSubmit, pristine, isSaving, errors }) => {
       <br />
       <br />
     </form>
-  );
-};
+  )
+}
 
 const Form = reduxForm({
   form: 'login',
-})(SigninForm);
+})(SigninForm)
 
 const mapStateToProps = state => ({
   isSaving: state.currentUser.isSaving,
@@ -53,6 +53,6 @@ const mapStateToProps = state => ({
     state.form.login.submitSucceeded &&
     state.auth.isError &&
     state.auth.isError.message,
-});
+})
 
-export default connect(mapStateToProps)(Form);
+export default connect(mapStateToProps)(Form)

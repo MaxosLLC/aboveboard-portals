@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import { Input } from 'semantic-ui-react';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Field } from 'redux-form'
+import { Input } from 'semantic-ui-react'
 
 const CustomInput = ({
   input,
@@ -38,8 +38,8 @@ const CustomInput = ({
       )}
       {touched && error && <span className="input__error">{error}</span>}
     </div>
-  );
-};
+  )
+}
 
 CustomInput.propTypes = {
   input: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
@@ -49,7 +49,7 @@ CustomInput.propTypes = {
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
-};
+}
 
 const Text = ({
   name,
@@ -69,8 +69,8 @@ const Text = ({
         disabled={disabled}
       />
     </div>
-  );
-};
+  )
+}
 
 Text.propTypes = {
   input: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
@@ -79,6 +79,6 @@ Text.propTypes = {
   mandatory: PropTypes.bool,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
-};
+}
 
-export default Text;
+export default Text

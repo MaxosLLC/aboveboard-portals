@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import LoginView from './LoginView'
 
 const mapStateToProps = state => ({
-  appType: state.config.appType
+  appType: state.config.appType,
 })
 
 const mapDispatchToProps = dispatch => {
@@ -10,9 +10,9 @@ const mapDispatchToProps = dispatch => {
     login: data => {
       dispatch({
         type: 'LOGIN',
-        data
+        data,
       })
-    }
+    },
   }
 }
 

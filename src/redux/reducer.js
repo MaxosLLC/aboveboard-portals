@@ -20,7 +20,7 @@ const reducers = {
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,
   localToken: localServices.localToken.reducer,
-  router: routerReducer
+  router: routerReducer,
 }
 
 if (type === 'broker') {

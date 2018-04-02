@@ -115,10 +115,19 @@ class InvestorDetailView extends Component {
         // document.getElementById('iframeContents').contentDocument.body.write(cssLink)
         // document.getElementById('iframeContents').head.appendChild(cssLink)
 
+        window.onload = function() {
+          var frameElement = document.getElementById('text-field')
+          var doc = frameElement.contentDocument
+          doc.body.contentEditable = true
+          doc.body.innerHTML =
+            doc.body.innerHTML + '<style>body {color:red;}</style>'
+        }
+
         let printIframeDocument =
           document.getElementById('iframeContents').contentWindow.document ||
           document.getElementById('iframeContents').contentDocument
-        let iframeBody = printIframeDocument.body
+        printIframeDocument.body.contentEditable = true
+        let iframeHead = printIframeDocument.head
         printIframeDocument.open()
         printIframeDocument.write(ReactDOMServer.renderToString(content))
         printIframeDocument.close()
@@ -127,17 +136,17 @@ class InvestorDetailView extends Component {
           'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.css'
         cssLink1.rel = 'stylesheet'
         cssLink1.type = 'text/css'
-        iframeBody.appendChild(cssLink1)
+        iframeHead.appendChild(cssLink1)
 
         let cssLink2 = printIframeDocument.createElement('script')
         cssLink2.href =
           'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'
-        iframeBody.appendChild(cssLink2)
+        iframeHead.appendChild(cssLink2)
 
         let cssLink3 = printIframeDocument.createElement('script')
         cssLink3.href =
           'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js'
-        iframeBody.appendChild(cssLink3)
+        iframeHead.appendChild(cssLink3)
 
         console.log(
           "document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents')",
@@ -315,6 +324,7 @@ class InvestorDetailView extends Component {
         <iframe
           title="iframeContents"
           id="iframeContents"
+          contenteditable="true"
           style={{ height: '0px', width: '0px', position: 'absolute' }}
         >
           <link

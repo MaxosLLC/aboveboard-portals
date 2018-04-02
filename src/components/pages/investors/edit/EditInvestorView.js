@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Icon } from 'semantic-ui-react';
-import EditInvestorForm from 'components/forms/investor/EditInvestorForm';
+import React, { Component } from 'react'
+import { Icon } from 'semantic-ui-react'
+import EditInvestorForm from 'components/forms/investor/EditInvestorForm'
 
 class EditInvestorView extends Component {
   componentDidMount() {
-    this.props.loadInvestor(this.props.match.params.id);
+    this.props.loadInvestor(this.props.match.params.id)
   }
   render() {
-    const { loaded, editInvestor } = this.props;
+    const { loaded, editInvestor } = this.props
     return (
       <div className="addInvestorsComponent">
         {!loaded ? (
@@ -18,8 +18,8 @@ class EditInvestorView extends Component {
           <EditInvestorForm {...this.props} onSubmit={editInvestor} />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default EditInvestorView;
+export default EditInvestorView

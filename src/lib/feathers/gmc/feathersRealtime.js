@@ -2,7 +2,7 @@
 // import store from 'redux/store'
 
 export default {
-  init () {
+  init() {
     // gmcClient.service('message').on('created', data => console.log('portal message ', data) || store.dispatch({ type: 'NEW_MESSAGE', data }))
-  }
+  },
 }

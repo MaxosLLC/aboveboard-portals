@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import AddInvestorForm from 'components/forms/investor/AddInvestorForm'
 
 class AddInvestorView extends Component {
-  render () {
+  render() {
     const { addInvestor } = this.props
 
     return (
-      <div className='addInvestorsComponent'>
+      <div className="addInvestorsComponent">
         <AddInvestorForm onSubmit={addInvestor} />
       </div>
     )

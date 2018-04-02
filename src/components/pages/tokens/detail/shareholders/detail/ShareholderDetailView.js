@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Grid, Header, Icon, Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class ShareholderDetailView extends Component {
   componentDidMount() {
-    this.props.loadShareholder();
+    this.props.loadShareholder()
   }
 
   render() {
-    const { loaded, shareholder, tokens } = this.props;
+    const { loaded, shareholder, tokens } = this.props
 
     const getTokenName = address => {
-      const token = tokens.filter(token => token.address === address);
+      const token = tokens.filter(token => token.address === address)
 
-      return token && token[0] ? token[0].name : address;
-    };
+      return token && token[0] ? token[0].name : address
+    }
 
     return (
       <div className="shareholdersComponent">
@@ -108,11 +108,11 @@ class ShareholderDetailView extends Component {
                                 (View on Etherscan)
                               </Link>, Balance: {issue.tokens}
                             </p>
-                          );
+                          )
                         })}
                       </Table.Cell>
                     </Table.Row>
-                  );
+                  )
                 })}
               </Table.Body>
             </Table>
@@ -127,8 +127,8 @@ class ShareholderDetailView extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default ShareholderDetailView;
+export default ShareholderDetailView

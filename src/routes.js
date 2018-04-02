@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import store from 'redux/store';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react'
+import store from 'redux/store'
+import { Route, Switch } from 'react-router-dom'
 
-import Login from 'components/pages/login/Login';
-import Home from 'components/pages/home/Home';
-import Tokens from 'components/pages/tokens/Tokens';
-import TokenDetail from 'components/pages/tokens/detail/TokenDetail';
-import Investors from 'components/pages/investors/Investors';
-import InvestorDetail from 'components/pages/investors/detail/InvestorDetail';
-import ShareholderDetail from 'components/pages/tokens/detail/shareholders/detail/ShareholderDetail';
-import AddInvestor from 'components/pages/investors/add/AddInvestor';
-import EditInvestor from 'components/pages/investors/edit/EditInvestor';
-import Settings from 'components/pages/settings/Settings';
+import Login from 'components/pages/login/Login'
+import Home from 'components/pages/home/Home'
+import Tokens from 'components/pages/tokens/Tokens'
+import TokenDetail from 'components/pages/tokens/detail/TokenDetail'
+import Investors from 'components/pages/investors/Investors'
+import InvestorDetail from 'components/pages/investors/detail/InvestorDetail'
+import ShareholderDetail from 'components/pages/tokens/detail/shareholders/detail/ShareholderDetail'
+import AddInvestor from 'components/pages/investors/add/AddInvestor'
+import EditInvestor from 'components/pages/investors/edit/EditInvestor'
+import Settings from 'components/pages/settings/Settings'
 
-import EnsureLoggedIn from 'components/auth/EnsureLoggedIn';
+import EnsureLoggedIn from 'components/auth/EnsureLoggedIn'
 
 class Routes extends Component {
   render() {
-    const { appType } = store.getState().config;
+    const { appType } = store.getState().config
 
     return (
       <Switch>
@@ -70,8 +70,8 @@ class Routes extends Component {
           )}
         </EnsureLoggedIn>
       </Switch>
-    );
+    )
   }
 }
 
-export default Routes;
+export default Routes

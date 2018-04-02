@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import localServices from 'lib/feathers/local/feathersServices';
-import TokenDetailView from './TokenDetailView';
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import localServices from 'lib/feathers/local/feathersServices'
+import TokenDetailView from './TokenDetailView'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -21,13 +21,13 @@ const mapStateToProps = (state, ownProps) => {
       state.shareholder.isFinished &&
       state.transaction.isFinished &&
       state.token.isFinished,
-  };
-};
+  }
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     routeTo(path) {
-      dispatch(push(path));
+      dispatch(push(path))
     },
     loadShareholders: ($skip = 0, $limit = 25) =>
       dispatch(
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           },
         })
       ),
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(TokenDetailView);
+export default connect(mapStateToProps, mapDispatchToProps)(TokenDetailView)

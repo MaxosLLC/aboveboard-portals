@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Pagination,
   Button,
@@ -7,23 +7,23 @@ import {
   Header,
   Icon,
   Table,
-} from 'semantic-ui-react';
+} from 'semantic-ui-react'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
   'us-qib': 'US QIB',
-};
+}
 
 class InvestorsView extends Component {
   componentDidMount() {
-    this.props.loadInvestors();
+    this.props.loadInvestors()
   }
 
   render() {
-    const { loaded, investors, routeTo } = this.props;
+    const { loaded, investors, routeTo } = this.props
     const handleRowClick = investorId => {
-      routeTo(`/buyers/${investorId}/detail`);
-    };
+      routeTo(`/buyers/${investorId}/detail`)
+    }
 
     return (
       <div className="investorsComponent">
@@ -116,7 +116,7 @@ class InvestorsView extends Component {
                         : 1
                     }
                     onPageChange={(e, { activePage }) => {
-                      this.props.loadInvestors(25 * (activePage - 1));
+                      this.props.loadInvestors(25 * (activePage - 1))
                     }}
                   />
                 </Table.HeaderCell>
@@ -132,8 +132,8 @@ class InvestorsView extends Component {
           </Table>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InvestorsView;
+export default InvestorsView

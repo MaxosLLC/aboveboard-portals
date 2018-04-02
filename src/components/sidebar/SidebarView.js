@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Icon, Label, Menu } from 'semantic-ui-react';
-import './Sidebar.css';
+import React, { Component } from 'react'
+import { Icon, Label, Menu } from 'semantic-ui-react'
+import './Sidebar.css'
 
-const buyersRegexp = /^\/buyer/;
+const buyersRegexp = /^\/buyer/
 // { appType === 'broker' ? <Menu.Item name='whitelists' onClick={() => routeTo('/whitelists')} active={whitelistsRegexp.test(router.location.pathname)}><Icon name='archive' />Whitelists</Menu.Item> : '' } const whitelistsRegexp = /^\/whitelist/
-const tokensRegexp = /^\/token\/[a-zA-Z0-9-]+\/detail$/;
+const tokensRegexp = /^\/token\/[a-zA-Z0-9-]+\/detail$/
 
 class SidebarView extends Component {
   render() {
-    const { appType, connected, currentUser, routeTo, router } = this.props;
+    const { appType, connected, currentUser, routeTo, router } = this.props
 
     return currentUser.id || currentUser._id ? (
       <Menu
@@ -49,8 +49,8 @@ class SidebarView extends Component {
       </Menu>
     ) : (
       ''
-    );
+    )
   }
 }
 
-export default SidebarView;
+export default SidebarView

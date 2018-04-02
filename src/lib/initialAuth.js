@@ -4,25 +4,28 @@ import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthenticati
 const publicAuthData = {
   strategy: 'local',
   email: 'public@aboveboard.com',
-  password: 'Public12'
+  password: 'Public12',
 }
 
 const localAuthData = {
   strategy: 'local',
   email: 'local@local.com',
-  password: 'local'
+  password: 'local',
 }
 
 const init = store =>
-  store.dispatch(feathersCloudAuthentication.authenticate(publicAuthData))
-    .then(() => store.dispatch(feathersLocalAuthentication.authenticate(localAuthData)))
+  store
+    .dispatch(feathersCloudAuthentication.authenticate(publicAuthData))
+    .then(() =>
+      store.dispatch(feathersLocalAuthentication.authenticate(localAuthData))
+    )
     .then(results => {
       store.dispatch({
         type: 'LOGIN_SUCCESS',
         user: results.value.user,
-        accessToken: results.value.accessToken
+        accessToken: results.value.accessToken,
       })
     })
     .catch(e => console.error(`Login error: ${e}`))
 
-export default init;
+export default init

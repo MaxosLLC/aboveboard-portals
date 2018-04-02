@@ -11,8 +11,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "lint": "standard --fix",
-    "lint-staged": "lint-staged",
-    "prettier": "prettier --write '**/*.js'",
+    "prettier": "prettier --no-semi --write '**/*.js'",
     "precommit": "lint-staged"
   },
   "prettier": {
@@ -21,7 +20,7 @@
     "singleQuote": true
   },
   "lint-staged": {
-    "*.{js,jsx,json,css}": ["prettier --write", "git add"]
+    "*.{js,jsx,json,css}": ["prettier --no-semi --write", "git add"]
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^1.0.2",

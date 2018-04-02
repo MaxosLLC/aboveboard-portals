@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import localServices from 'lib/feathers/local/feathersServices';
-import ShareholderDetailView from './ShareholderDetailView';
+import { connect } from 'react-redux'
+import localServices from 'lib/feathers/local/feathersServices'
+import ShareholderDetailView from './ShareholderDetailView'
 
 const mapStateToProps = state => ({
   shareholder: state.shareholder.queryResult
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
     : {},
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
   loaded: state.token.isFinished && state.shareholder.isFinished,
-});
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -18,9 +18,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           query: { id: ownProps.match.params.id, $limit: 1 },
         })
       ),
-  };
-};
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   ShareholderDetailView
-);
+)

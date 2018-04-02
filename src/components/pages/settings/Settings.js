@@ -16,28 +16,47 @@ const mapStateToProps = state => ({
     state.currentUser.id &&
     state.localToken.isFinished &&
     state.token.isFinished,
-});
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    connectWallet (account, password) {
-      return ethereum.init({ account, password })
-        .then(() => dispatch(localServices.user.patch(null, { walletAccountName: account }, { query: { email: 'local@local.com' } })))
+    connectWallet(account, password) {
+      return ethereum
+        .init({ account, password })
+        .then(() =>
+          dispatch(
+            localServices.user.patch(
+              null,
+              { walletAccountName: account },
+              { query: { email: 'local@local.com' } }
+            )
+          )
+        )
     },
     startWatchingToken(token) {
       return dispatch(localServices.localToken.create(token)).then(() =>
         dispatch(localServices.localToken.find())
-      );
+      )
     },
-    stopWatchingToken (token) {
-      return dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
-        .then(() => dispatch(localServices.localToken.find()))
+    stopWatchingToken(token) {
+      return dispatch(
+        localServices.localToken.remove(null, {
+          query: { address: token.address },
+        })
+      ).then(() => dispatch(localServices.localToken.find()))
     },
-    setMessagingAddress (messagingAddress, tokens) {
-      return each(tokens, token => ethereum.setMessagingAddress(messagingAddress, token.address))
-        .then(() => localServices.user.patch(null, { messagingAddress }, { query: { email: 'local@local.com' } }))
-    }
+    setMessagingAddress(messagingAddress, tokens) {
+      return each(tokens, token =>
+        ethereum.setMessagingAddress(messagingAddress, token.address)
+      ).then(() =>
+        localServices.user.patch(
+          null,
+          { messagingAddress },
+          { query: { email: 'local@local.com' } }
+        )
+      )
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsView)
