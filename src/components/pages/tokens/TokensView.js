@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
 import { Link } from 'react-router-dom'
-import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Grid, Icon, Container } from 'semantic-ui-react'
+import './Tokens.css'
 
 class TokensView extends Component {
   render () {
@@ -16,39 +17,38 @@ class TokensView extends Component {
     })
 
     return (
-      <div className='tokensComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Header as='h2' textAlign='center'>Tokens</Header>
-          </Grid.Column>
-        </Grid>
-
-        <br />
+      <Container className='tokensComponent'>
 
         { !loaded ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : filteredWatchingTokens.length
             ? <div>
-              <Table celled selectable>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Token</Table.HeaderCell>
-                    <Table.HeaderCell>Contract Address</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                  { sortBy('name', filteredWatchingTokens).map(token =>
-                    <Table.Row key={token.address} onClick={() => handleRowClick(token.address)} style={{ cursor: 'pointer' }}>
-                      <Table.Cell>{token.name}</Table.Cell>
-                      <Table.Cell>{token.address}</Table.Cell>
-                    </Table.Row>
+              <div className='title'>
+                <Grid columns={2}>
+                  <Grid.Row>
+                    <Grid.Column className='token' width={6}>Token</Grid.Column>
+                    <Grid.Column width={10}>Contract Address</Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </div>
+              <div className='content'>
+                { sortBy('name', filteredWatchingTokens).map(token =>
+                  <Grid className='content' columns={2} key={token.address} onClick={() => handleRowClick(token.address)} style={{ cursor: 'pointer' }}>
+                    <Grid.Row>
+                      <Grid.Column className='token' width={6}>{token.name}</Grid.Column>
+                      <Grid.Column className='address' width={10}>
+                        <div>{token.address}</div>
+                        <div>
+                          <Icon name='external' />
+                        </div>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
                   ) }
-                </Table.Body>
-              </Table>
+              </div>
             </div>
             : <span>You are currently not watching any tokens. Please visit your <Link to='/settings'>settings</Link> to start watching tokens.</span>
         }
-      </div>
+      </Container>
     )
   }
 }
