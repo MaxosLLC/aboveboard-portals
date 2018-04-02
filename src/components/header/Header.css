@@ -1,3 +1,25 @@
 .headerComponent {
-  height: 70px;
+  height: 85px;
+}
+
+.headerRight {
+	display: flex;
+	align-items: center;
+}
+
+.searchIcon {
+	width: 20px !important;
+	height: 20px !important;
+	cursor: pointer;
+}
+
+.notificationIcon {
+	width: 25px !important;
+	height: 23px !important;
+	cursor: pointer;
+}
+
+.profileImg {
+	height: 40px !important;
+	border-radius: 20px;
 }

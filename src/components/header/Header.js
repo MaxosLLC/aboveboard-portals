@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+
 import HeaderView from './HeaderView'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     connected: state.wallet.connected,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    router: state.router
   }
 }
 

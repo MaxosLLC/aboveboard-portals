@@ -1,0 +1,99 @@
+.ui.two.column.grid.typeBoards {
+	padding: 14px;
+}
+
+.center.aligned.five.wide.column.typeBoard {
+	height: 232px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+}
+
+.ui.centered.middle.aligned.image.boardImage {
+	height: 60px;
+	margin-top: 30px;
+}
+
+.TableContainer {
+
+}
+
+/* Tab style */
+.issuePanes {
+	margin-top: -50px;
+}
+
+.ui.tabular.menu {
+	border: none;
+}
+
+.ui.tabular.menu .active.item {
+	font-size: 18px;
+	color: #094bb1;
+	border: none;
+	border-bottom: solid 4px #094bb1;
+}
+
+.ui.tabular.menu .item {
+	font-size: 18px;
+	color: #094bb1;
+	font-family: 'ProximaNova Regular';
+}
+
+.ui.tabular.menu .item:hover {
+	color: #094bb1;
+}
+
+/* Table style */
+.ui.celled.table {
+	border: none;
+}
+
+.ui.celled.table tr th {
+	font-size: 16px;
+	color: #094bb1;
+	border: none;
+	background: transparent;
+}
+
+.ui.celled.table th.idHeader {
+	color: #8f9bab;
+}
+
+.ui.celled.table tr {
+	height: 68px;
+}
+
+.ui.celled.table tr td {
+	font-size: 14px;
+	color: #4f6683;
+	border: none;
+	border-top: solid 1px #f1f4f8;;
+}
+
+.downloadBtn {
+	cursor: pointer;
+}
+
+.sortButton {
+	margin-left: 15px;
+	height: 16px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+/* TradingOption style */
+.trading {
+	margin-top: 50px;
+	height: 55px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.calendarIcon {
+	cursor: pointer;
+	margin-left: 30px;
+}
+
+.ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before, .ui.toggle.checkbox input:focus:checked~.box:before, .ui.toggle.checkbox input:focus:checked~label:before {
+	background-color: #00ffc6 !important;
+}
