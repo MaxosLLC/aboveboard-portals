@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
 import { Link } from 'react-router-dom'
 import { Grid, Icon, Container } from 'semantic-ui-react'
-import Button from 'components/inputs/button/Button'
 import './Tokens.css'
 
 class TokensView extends Component {
@@ -23,9 +22,6 @@ class TokensView extends Component {
         { !loaded ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : filteredWatchingTokens.length
             ? <div>
-              <div className='add-token'>
-                <Button type='submit' color='teal'>Add Token</Button>
-              </div>
               <div className='title'>
                 <Grid columns={2}>
                   <Grid.Row>
