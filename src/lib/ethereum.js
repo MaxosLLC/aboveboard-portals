@@ -8,6 +8,7 @@ import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
 import tokenContract from 'lib/contracts/RegulatedToken'
 import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
+import constants from 'app_constants'
 
 let web3
 let currentAccount
@@ -21,6 +22,7 @@ export default {
     password
   }) {
     const providerEngine = new Web3ProviderEngine()
+    const walletConstants = constants.walletConstants
 
     if (window.web3 && window.web3.currentProvider) {
       const currentProvider = new Web3(window.web3.currentProvider)
@@ -43,11 +45,11 @@ export default {
               const [txParams] = payload.params
               currentProvider.eth.sendTransactionAsync(txParams)
                 .then(data => {
-                  store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
+                  store.dispatch({ type: walletConstants.TRANSACTION_SUCCESS })
                   end(null, data)
                 })
                 .catch(error => {
-                  store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
+                  store.dispatch({ type: walletConstants.TRANSACTION_ERROR, error: error.message || error })
                   end(error)
                 })
               return
@@ -89,10 +91,14 @@ export default {
           return web3.personal.unlockAccount(currentAccount, password)
         }
       })
-      .then(() => store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' }))
+      .then(() => {
+        store.dispatch({ type: walletConstants.CONNECT_SUCCESS })
+        store.dispatch({ type: walletConstants.SHOW_CONNECTION_ALERT, payload: true })
+      })
+
       .catch(error => {
         console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
-        store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
+        store.dispatch({ type: walletConstants.CONNECT_ERROR, error })
       })
   },
 

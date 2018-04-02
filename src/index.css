@@ -1,5 +1,34 @@
+@font-face {
+  font-family: "Futura Medium";
+  src: url("./resource/fonts/aboveboard_fonts/Futura-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Proxima Nova Bold";
+  src: url("./resource/fonts/aboveboard_fonts/ProximaNova-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Proxima Nova Extrabold";
+  src: url("./resource/fonts/aboveboard_fonts/ProximaNova-Extrabold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("./resource/fonts/aboveboard_fonts/ProximaNova-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Proxima Nova Extrabold";
+  src: url("./resource/fonts/aboveboard_fonts/ProximaNova-Semibold.woff") format("woff");
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-image: url("./resource/images/setting-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 350px;
+  background-position: top 0px left 15rem;
 }
