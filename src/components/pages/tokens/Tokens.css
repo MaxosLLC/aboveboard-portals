@@ -1,0 +1,92 @@
+.tokensComponent .add-token {
+  margin-bottom: 30px;
+  display: flex;
+  place-content: flex-end;
+}
+
+.tokensComponent .add-token button {
+  width: 144px;
+  height: 50px;
+  border-radius: 4px;
+  background-color: #00cddb;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.tokensComponent .ui.column {
+  height: 69px;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.tokensComponent .ui.column >.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tokensComponent .row > .column.token {
+  padding-left: 50px;
+}
+
+/* title */
+.tokensComponent .title .row > .column {
+  font-family: Proxima Nova;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.25;
+  text-align: left;
+  color: #094bb1;
+}
+
+.tokensComponent .title .ui.grid {
+  margin: 0 0 5px 0;
+}
+
+/* content */
+.tokensComponent .content {
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.tokensComponent .content .ui.grid > .row {
+  border: solid 1px #f8f9fb;
+}
+
+.tokensComponent .content .ui.grid > .row:last-child {
+  border: 0;
+}
+
+.tokensComponent .content .ui.column:hover {
+  height: 67.5px;
+  background-color: #00cddb;
+}
+
+.tokensComponent .content .ui.column:hover .row > .column,
+.tokensComponent .content .ui.column:hover .row > .column i.icon {
+  color: #fff;
+}
+
+.tokensComponent .content .row > .column {
+  font-family: Proxima Nova;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: left;
+  color: #4f6683;
+}
+
+/* address */
+.tokensComponent .row > .column.address {
+  display: flex;
+  place-content: space-between;
+  flex-direction: row;
+}
+
+.tokensComponent .row > .column.address i.icon {
+  font-size: 16px;
+  color: #2fd6e1;
+}
