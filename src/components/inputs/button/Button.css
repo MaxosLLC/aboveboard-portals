@@ -1,0 +1,21 @@
+.ui.button, .ui.buttons {
+  font-family: Proxima Nova;
+  width: 144px;
+  height: 50px;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.ui.teal.button, .ui.teal.buttons .button {
+  background-color: #00cddb;
+}
+
+.ui.button .input, .ui.buttons .input {
+  height: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  color: #ffffff;
+}

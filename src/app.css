@@ -1,3 +1,14 @@
+body {
+  padding-top: 70px;
+  font-family: Proxima Nova;
+}
+
+.mainComponent {
+  min-height: 500px;
+  height: 100%;
+  margin-top: 90px;
+}
+
 .error {
   color: red;
 }
