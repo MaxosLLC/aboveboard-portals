@@ -5,14 +5,13 @@ import {
   Segment,
   Tab,
   Image,
-  Checkbox,
-  Modal,
-  Button
+  Checkbox
 } from 'semantic-ui-react'
 import styled from 'styled-components'
 
 import ShareholdersTable from './ShareholdersTable'
 import TransactionsTable from './TransactionsTable'
+import PauseTradingModal from './PauseTradingModal'
 import ColorRegistry from '../../../../assets/ColorRegistry'
 import tokenIcon from '../../../../assets/image/Info.png'
 import userGraphic from '../../../../assets/image/graphic.png'
@@ -181,21 +180,7 @@ class InvestorDetailView extends Component {
             <Tab panes={panes} className="issuePanes" />
           </div>
         )}
-        <Modal size={'small'} open={this.state.showCalendar} onClose={this.closeCalendar}>
-          <Modal.Header>
-            Select the date
-          </Modal.Header>
-          <Modal.Content>
-            <p>Are you sure you want to modify the content?</p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button negative onClick={this.closeCalendar}>
-              No
-            </Button>
-            <Button positive icon='checkmark' labelPosition='right' content='Yes' />
-          </Modal.Actions>
-        </Modal>
-
+        <PauseTradingModal closeCalendar={this.closeCalendar} showCalendar={this.state.showCalendar} />
 
       </TokenDetailView>
     )
