@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOMServer from 'react-dom/server'
 
 import moment from 'moment'
 import {
@@ -45,118 +44,54 @@ class InvestorDetailView extends Component {
       return shareholders
     }
     const printShareholders = () => {
-      let shareholders
       allShareholders().then(value => {
-        shareholders = value
-
+        let shareholders = value
         const shareholdersWithData = shareholders.filter(
           shareholder => shareholder.firstName
         )
+        let csvContent = 'First Name,Last Name,Email,Phone,Address\n'
+        shareholdersWithData.map(shareholder => {
+          let dataString = `${shareholder.firstName},${shareholder.lastName},${
+            shareholder.email
+          },${shareholder.phone},"${shareholder.addressLine1}, ${
+            shareholder.city
+          }, ${shareholder.country}, ${shareholder.zip}"`
+          csvContent += dataString + '\n'
+          return null
+        })
+        let download = function(content, fileName, mimeType) {
+          let a = document.createElement('a')
+          mimeType = mimeType || 'application/octet-stream'
 
-        let content = shareholdersWithData.length ? (
-          <Table celled selectable>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>#</Table.HeaderCell>
-                <Table.HeaderCell>First Name</Table.HeaderCell>
-                <Table.HeaderCell>Last Name</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Phone</Table.HeaderCell>
-                <Table.HeaderCell>Address</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-              {shareholdersWithData.map((shareholder, i) => (
-                <Table.Row
-                  key={shareholder.id}
-                  onClick={() =>
-                    routeTo(
-                      `/tokens/${token.address}/shareholders/${
-                        shareholder.id
-                      }/detail`
-                    )
-                  }
-                  style={{ cursor: 'pointer' }}
-                >
-                  <Table.Cell>{i}</Table.Cell>
-                  <Table.Cell>{shareholder.firstName}</Table.Cell>
-                  <Table.Cell>{shareholder.lastName}</Table.Cell>
-                  <Table.Cell>{shareholder.email}</Table.Cell>
-                  <Table.Cell>{shareholder.phone}</Table.Cell>
-                  <Table.Cell>
-                    {shareholder.addressLine1}{' '}
-                    {shareholder.addressLine2
-                      ? `${shareholder.addressLine1} `
-                      : ''}, {shareholder.city},{' '}
-                    {shareholder.state ? `${shareholder.state} ,` : ''}{' '}
-                    {shareholder.country}, {shareholder.zip}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        ) : (
-          <Segment>No shareholder data available</Segment>
-        )
-        // frames['iframeContents'].document.head.appendChild(cssLink)
-        // console.log("document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents')", document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents'))
-        // ReactDOM.render(content, document.getElementById('iframeContents'))
-        // printIframeDocument.body.appendChild(cssLink)
-        // var frm = iframeDoc.createElement('form');
-        // var s = printIframeDocument.createElement('script');
-        // // iframeBody.appendChild(frm);
-        // iframeBody.appendChild(s);
-        // printIframeDocument.document.write(cssLink1)
-        // printIframeDocument.document.write(cssLink2)
-        // printIframeDocument.document.write(cssLink3)
-        // let str = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>'
-        // printIframeDocument.document.write(str);
-        // document.getElementById('iframeContents').contentDocument.body.write(cssLink)
-        // document.getElementById('iframeContents').head.appendChild(cssLink)
-
-        window.onload = function() {
-          var frameElement = document.getElementById('text-field')
-          var doc = frameElement.contentDocument
-          doc.body.contentEditable = true
-          doc.body.innerHTML =
-            doc.body.innerHTML + '<style>body {color:red;}</style>'
+          if (navigator.msSaveBlob) {
+            // IE10
+            navigator.msSaveBlob(
+              new Blob([content], {
+                type: mimeType,
+              }),
+              fileName
+            )
+          } else if (URL && 'download' in a) {
+            //html5 A[download]
+            a.href = URL.createObjectURL(
+              new Blob([content], {
+                type: mimeType,
+              })
+            )
+            a.setAttribute('download', fileName)
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+          } else {
+            a.href =
+              'data:application/octet-stream,' + encodeURIComponent(content) // only this mime type is supported
+          }
         }
-
-        let printIframeDocument =
-          document.getElementById('iframeContents').contentWindow.document ||
-          document.getElementById('iframeContents').contentDocument
-        printIframeDocument.body.contentEditable = true
-        let iframeHead = printIframeDocument.head
-        printIframeDocument.open()
-        printIframeDocument.write(ReactDOMServer.renderToString(content))
-        printIframeDocument.close()
-        let cssLink1 = printIframeDocument.createElement('link')
-        cssLink1.href =
-          'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.css'
-        cssLink1.rel = 'stylesheet'
-        cssLink1.type = 'text/css'
-        iframeHead.appendChild(cssLink1)
-
-        let cssLink2 = printIframeDocument.createElement('script')
-        cssLink2.href =
-          'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'
-        iframeHead.appendChild(cssLink2)
-
-        let cssLink3 = printIframeDocument.createElement('script')
-        cssLink3.href =
-          'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js'
-        iframeHead.appendChild(cssLink3)
-
-        console.log(
-          "document.getElementById('iframeContents').contentWindow, document.getElementById('iframeContents').contentDocument, document.getElementById('iframeContents')",
-          document.getElementById('iframeContents').contentWindow,
-          document.getElementById('iframeContents').contentDocument,
-          document.getElementById('iframeContents')
+        download(
+          csvContent,
+          'AboveBoard-Shareholders.csv',
+          'text/csv;encoding:utf-8'
         )
-
-        document.getElementById('iframeContents').contentWindow.focus()
-        document.getElementById('iframeContents').contentWindow.print()
       })
     }
 
@@ -210,7 +145,7 @@ class InvestorDetailView extends Component {
                 <Table.Row>
                   <Table.HeaderCell floated="right" colSpan="8">
                     <Button onClick={() => printShareholders()}>
-                      Print Shareholders
+                      Export CSV
                     </Button>
                     <Pagination
                       floated="right"
@@ -321,19 +256,6 @@ class InvestorDetailView extends Component {
 
     return (
       <div className="investorsComponent">
-        <iframe
-          title="iframeContents"
-          id="iframeContents"
-          contenteditable="true"
-          style={{ height: '0px', width: '0px', position: 'absolute' }}
-        >
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css"
-          />
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" />
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js" />
-        </iframe>
         <Grid centered columns={1}>
           <Grid.Column width={10}>
             <Header as="h2" textAlign="center">
