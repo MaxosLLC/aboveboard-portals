@@ -1,3 +1,66 @@
 .sidebarComponent {
-  top: 70px !important;
+    max-width: 215px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    border-radius: 0 !important;
+    background-color: #03A0CC !important;
+}
+
+.connected {
+    background: #00FFC6;
+    display: inline-block;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+}
+
+.disconnected {
+    background: #FF0061;
+    display: inline-block;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+}
+
+.sidebarMenuItem {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    font-family: serif;
+    font-family: 'ProximaNova-SM', sans-serif !important;
+}
+
+.sidebarMenuItem.active {
+    display: flex !important;
+    background-color: #06B7D4 !important;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    font-family: 'ProximaNova-SM', sans-serif !important;
+}
+
+.sidebarMenuItem .menuIcon {
+    width: 22px;
+    display: inline-block !important;
+    margin-right: 15px !important;
+}
+
+.sidebarMenuItem .menuIcon-sm {
+    width: 10px;
+    display: inline-block !important;
+}
+
+.sidebarComponent a.logoContainer {
+    margin-bottom: 50px !important;
+    padding: 30px 0 !important;
+    background: linear-gradient(340deg, #094bb1 20%, #00cddb 100%) !important;
+}
+
+.siteLogo {
+    margin: 0 auto;
+    width: 70px;
 }

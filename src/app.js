@@ -16,10 +16,10 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <div>
-            <Header history={history} />
+          <div className="appComponent">
             <Sidebar history={history} />
-            <div className='mainComponent' style={{ marginLeft: '250px', marginRight: '40px' }}>
+            <div className='mainContainer'>
+              <Header history={history}/>
               <Routes />
             </div>
           </div>
