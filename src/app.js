@@ -20,7 +20,9 @@ class App extends Component {
             <Sidebar history={history} />
             <div className='mainContainer'>
               <Header history={history}/>
-              <Routes />
+              <div className="pages">
+                <Routes/>
+              </div>
             </div>
           </div>
         </ConnectedRouter>

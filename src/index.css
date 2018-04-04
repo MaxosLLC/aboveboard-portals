@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'ProximaNova-R';
+    src: url('./fonts/ProximaNova-Regular.woff');
+}
+
+@font-face {
+    font-family: 'ProximaNova-SM';
+    src: url('./fonts/ProximaNova-Semibold.woff');
+}
+
+@font-face {
+    font-family: 'ProximaNova-B';
+    src: url('./fonts/ProximaNova-Bold.woff');
+}
+
+@font-face {
+    font-family: 'ProximaNova-XB';
+    src: url('./fonts/ProximaNova-Extrabold.woff');
+}
+
+@font-face {
+    font-family: 'Futura-M';
+    src: url('./fonts/Futura-Medium.woff');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'ProximaNove-R', sans-serif !important;
+    font-size: 16px;
+}

@@ -32,6 +32,7 @@
     height: 60px;
     font-family: serif;
     font-family: 'ProximaNova-SM', sans-serif !important;
+    border-top: 0 !important
 }
 
 .sidebarMenuItem.active {

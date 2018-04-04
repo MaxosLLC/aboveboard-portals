@@ -1,3 +1,85 @@
-.headerComponent {
-  height: 70px;
+.headerComponent.menu {
+    background-color: rgba(0, 0, 0, 0);
+    padding: 40px 10% 20px;
+    box-shadow: none;
+    border: 0;
+}
+
+.headerComponent.menu .profileImage {
+    width: 40px;
+    margin-left: 20px;
+}
+
+.headerComponent.menu .headerIcon {
+    width: 20px;
+    margin-left: 20px;
+}
+
+.headerComponent.menu .msgActive:after {
+    content: '';
+    background: #FF0061;
+    width: 12px;
+    height: 12px;
+    display: block;
+    border-radius: 100%;
+    position: absolute;
+    top: 8px;
+    right: -3px;
+}
+
+.headerComponent.menu .ui.dropdown {
+    display: flex !important;
+    align-items: center;
+    position: relative;
+}
+
+.headerComponent.menu .headerDropdownMenu {
+    width: 138px;
+    box-shadow: 0 4px 20px 0 rgba(180, 180, 180, 0.3);
+    border: 0;
+    transform: translateX(35%)
+}
+
+.headerComponent.menu .headerDropdownMenu:after {
+    border: 0;
+    box-shadow: none !important;
+}
+
+.headerComponent.menu .headerDropdownMenu .ui.divider {
+    margin: 0;
+}
+
+.headerComponent.menu .msgDropdownMenu {
+    width: 138px;
+    box-shadow: 0 4px 20px 0 rgba(180, 180, 180, 0.3);
+    border: 0;
+    transform: translateX(-38%);
+}
+
+.headerComponent.menu .msgDropdownMenu:after {
+    border: 0;
+    box-shadow: none !important;
+}
+
+.headerComponent.menu .msgDropdownMenu .ui.divider {
+    margin: 0;
+}
+
+.headerComponent.menu .item {
+    font-family: 'ProximaNova-R';
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    color: #8f9bab;
+    margin-left: 20px;
+}
+
+.headerComponent.menu .item:before {
+    content: none;
+}
+
+.sender {
+    color: #03A0CC;
 }
