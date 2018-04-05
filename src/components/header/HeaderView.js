@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import { Dropdown, Divider, Image, Menu, Modal, Input } from 'semantic-ui-react'
+import { Dropdown, Divider, Image, Menu } from 'semantic-ui-react'
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import './Header.css'
 
 const profileSrc = './images/icons/defaultProfile.svg'
@@ -14,11 +15,13 @@ class HeaderView extends Component {
     const msgTrigger = <Image src={bellSrc} className='headerIcon'/>
 
     // mock messages data
-    let messages = [{sender: 'Broker ABC',message: 'You have some new transactions'}, {sender: 'Broker ABC',message: 'You have some new transactions'}]
+    let messages = [
+      {sender: 'Broker ABC',message: 'You have some new transactions'}, 
+      {sender: 'Broker ABC',message: 'You have some new transactions'}
+    ]
     let messagesSeen = false
-    
-    const messagesList = messages.map(msg => (
-        <Dropdown.Item>
+    const messagesList = messages.map((msg, index) => (
+        <Dropdown.Item key={`message-${index}`}>
           <p>{msg.message}</p>
           <small className="sender">From {msg.sender}</small>
         </Dropdown.Item>
@@ -28,6 +31,7 @@ class HeaderView extends Component {
     return currentUser.id || currentUser._id
       ? (
         <Menu className='headerComponent'>
+          <Breadcrumbs/>
           <Menu.Menu position='right'>
             <Menu.Item><Image src={searchSrc} className='headerIcon'/></Menu.Item>
             <Dropdown pointing trigger={msgTrigger} icon={null} className={!messagesSeen ? 'msgActive' : ''}>

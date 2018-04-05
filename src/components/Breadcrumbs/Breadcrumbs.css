@@ -1,0 +1,11 @@
+.breadcrumbsComponent {
+    display: flex;
+    align-items: center;
+    color: #8f9bab;
+    font-weight: 600;
+}
+
+.breadcrumbsComponent a {
+    color: #00cddb;
+    font-weight: 600;
+}

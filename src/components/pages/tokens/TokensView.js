@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
 import { Link } from 'react-router-dom'
-import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Icon, Table, Button } from 'semantic-ui-react'
+import './Tokens.css'
 
 class TokensView extends Component {
   render () {
@@ -17,25 +18,18 @@ class TokensView extends Component {
 
     return (
       <div className='tokensComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Header as='h2' textAlign='center'>Tokens</Header>
-          </Grid.Column>
-        </Grid>
-
-        <br />
-
         { !loaded ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : filteredWatchingTokens.length
-            ? <div>
-              <Table celled selectable>
+            ? <div className="tokensComponent">
+         
+            <Button floated="right" color="teal" onClick={() => routeTo('/settings')}>Add Token</Button>
+              <Table selectable stackable={true}>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell>Token</Table.HeaderCell>
                     <Table.HeaderCell>Contract Address</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
-
                 <Table.Body>
                   { sortBy('name', filteredWatchingTokens).map(token =>
                     <Table.Row key={token.address} onClick={() => handleRowClick(token.address)} style={{ cursor: 'pointer' }}>

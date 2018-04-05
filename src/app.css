@@ -26,3 +26,15 @@ body {
 .pages {
     padding: 0 10%;
 }
+
+.appComponent .ui.teal.button {
+    background-color: #00cddb;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    margin: 20px 0;
+    font-family: 'ProximaNova-R', sans-serif;
+}
+
+.appComponent .ui.teal.button:hover {
+    background-color: #03A0CC;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
+}
