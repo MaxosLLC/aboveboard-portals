@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Header, Icon, Segment, Tab, Table} from 'semantic-ui-react'
+import { Header, Icon, Segment, Tab, Table, Checkbox, Image, Modal} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import StatsCard from './../../../statsCard/StatsCard'
 import './TokenDetail.css'
 
 const userSrc = '../../images/icons/user.svg'
+const graphSrc = '../../images/icons/graph.svg'
+const calendarSrc = '../../images/icons/calendar.svg'
+const downloadSrc = '../../images/icons/download.svg'
 
 class InvestorDetailView extends Component {
   componentDidMount () {
@@ -31,9 +34,11 @@ class InvestorDetailView extends Component {
     }
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = [
-      {title: 'Shareholders', data: 2000, icon: userSrc},
-      {title: 'Total Transactions', data: 2000, icon: userSrc}
+      {title: 'Shareholders', data: shareholdersWithData.length, icon: {src: userSrc, size: '55px'}},
+      {title: 'Total Transactions', data: `${transactions.length}+`, icon: {src: graphSrc, size: '80%'}}
     ]
+
+    const modalTrigger = <Image src={calendarSrc}/>
 
     const panes = [
       { menuItem: 'Shareholders',
@@ -49,13 +54,12 @@ class InvestorDetailView extends Component {
                 <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>% of Total</Table.HeaderCell>
                 <Table.HeaderCell>Last Transaction</Table.HeaderCell>
-                <Table.HeaderCell><Icon name="download"/></Table.HeaderCell>
+                <Table.HeaderCell><Image src={downloadSrc} className="download"/></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               { shareholdersWithData.map((shareholder, i) =>
                 <Table.Row key={shareholder.id} onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)} style={{ cursor: 'pointer' }}>
-               
                   <Table.Cell>{i+1}</Table.Cell>
                   <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
                   <Table.Cell>{shareholder.city}, {shareholder.state ? `${shareholder.state} ,` : ''} {shareholder.country}, {shareholder.zip}</Table.Cell>
@@ -113,7 +117,7 @@ class InvestorDetailView extends Component {
 
     return (
       <div className='investorsComponent'>
-        <Header as='h2'>
+        <Header as='h2' className="tokenHeader">
           <Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>
             {token.name}
           </Link>
@@ -121,9 +125,17 @@ class InvestorDetailView extends Component {
         <div className="stats">
           <StatsCard stats={stats}/>
         </div>
+        <div className="tradingToggle"> 
+          <Checkbox toggle/> 
+          <Modal trigger={modalTrigger}>
+            <Modal.Content>
+              Calendar
+            </Modal.Content>
+          </Modal>
+        </div>
         { !loaded 
         ? <span>Loading token details...<Icon name='spinner' loading /></span> 
-        : <Tab menu={{ secondary: true, pointing: true }} panes={panes}  className="tableTabs"/> }
+        : <Tab menu={{ secondary: true, pointing: true }} panes={panes}  className="tableTabs"/> }  
       </div>
     )
   }
