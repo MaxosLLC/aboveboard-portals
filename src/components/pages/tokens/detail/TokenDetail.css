@@ -37,26 +37,38 @@
 .investorsComponent .tableTabs .ui.secondary a.item {
     color: #094bb1;
     min-width: 150px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     justify-content: center;
+    align-items: center;
     margin-bottom: 0;
+    font-family: 'ProximaNova-SM', sans-serif;
+    font-size: 18px;
 }
 
 .investorsComponent .tableTabs .ui.secondary a.item:hover {
     color: #094bb1;
-    min-width: 150px;
-    padding-bottom: 20px;
-    justify-content: center;
 }
 
 .investorsComponent .tableTabs .ui.secondary a.active.item {
     color: #094bb1;
+    padding-bottom: 28px;
     border-bottom: 4px solid #094bb1;
-    padding-bottom: 20px
 }
 
 .investorsComponent .tableTabs .ui.secondary a.active.item:hover {
     color: #094bb1 !important;
     border-bottom: 4px solid #094bb1;
-    padding-bottom: 20px
+}
+
+.investorsComponent .tableContainer {
+    background: #f8f9fb;
+    padding: 36px 15%;
+    width: 130%;
+    margin-left: -15%;
+    height: 100vh;
+}
+
+.investorsComponent .stats {
+    display: flex;
+    margin-bottom: 50px;
 }

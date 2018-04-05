@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Header, Icon, Segment, Tab, Table } from 'semantic-ui-react'
+import { Header, Icon, Segment, Tab, Table} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import StatsCard from './../../../statsCard/StatsCard'
 import './TokenDetail.css'
+
+const userSrc = '../../images/icons/user.svg'
 
 class InvestorDetailView extends Component {
   componentDidMount () {
@@ -27,11 +30,16 @@ class InvestorDetailView extends Component {
       return shareholder && shareholder.firstName ? `${shareholder.firstName} ${shareholder.lastName}` : ''
     }
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
+    const stats = [
+      {title: 'Shareholders', data: 2000, icon: userSrc},
+      {title: 'Total Transactions', data: 2000, icon: userSrc}
+    ]
 
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
-          shareholdersWithData.length ? <Table className="abTable" unstackable>
+          shareholdersWithData.length ? <div className="tableContainer"> 
+          <Table className="abTable" unstackable>
             <Table.Header className="tableHeader">
               <Table.Row>
                <Table.HeaderCell style={{color: '#8f9bab'}}>ID</Table.HeaderCell>
@@ -59,13 +67,14 @@ class InvestorDetailView extends Component {
                 </Table.Row>
             ) }
             </Table.Body>
-          </Table>
+          </Table></div>
         : <Segment>No shareholder data available</Segment>
       },
       { menuItem: 'Transactions',
         render: () =>
           transactions.length 
-          ?<Table className="abTable" unstackable>
+          ?<div className="tableContainer">
+          <Table className="abTable" unstackable>
             <Table.Header className="tableHeader">
               <Table.Row>
                 <Table.HeaderCell>Transaction Hash</Table.HeaderCell>
@@ -97,18 +106,21 @@ class InvestorDetailView extends Component {
                 </Table.Row>
             ) }
             </Table.Body>
-          </Table>
+          </Table></div>
           : <Segment>No transactions have been made yet</Segment>
       }
     ]
 
     return (
       <div className='investorsComponent'>
-        <Header as='h3' textAlign='center'>
+        <Header as='h2'>
           <Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>
             {token.name}
           </Link>
         </Header>
+        <div className="stats">
+          <StatsCard stats={stats}/>
+        </div>
         { !loaded 
         ? <span>Loading token details...<Icon name='spinner' loading /></span> 
         : <Tab menu={{ secondary: true, pointing: true }} panes={panes}  className="tableTabs"/> }
