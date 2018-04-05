@@ -1,0 +1,62 @@
+.investorsComponent {}
+
+.investorsComponent table.abTable {
+    border: 0;
+    background: none;
+    margin-top: 0;
+}
+
+.investorsComponent table.abTable .tableHeader tr th {
+    background: #fff;
+    padding: 20px 2%;
+    font-family: 'ProximaNova-SM', sans-serif;
+    color: #094bb1;
+    font-size: 16px;
+    border-bottom: 3px solid #f8f9fb;
+}
+
+.investorsComponent table.abTable tr td {
+    background: #fff;
+    padding: 20px 2% !important;
+    font-family: 'ProximaNova-R', sans-serif;
+    color: #8f9bab;
+    font-size: 14px;
+    border-color: #f8f9fb;
+}
+
+.investorsComponent table.abTable tbody tr:hover td {
+    background: #00cddb !important;
+    color: #fff !important;
+}
+
+.investorsComponent .tableTabs .ui.secondary {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.investorsComponent .tableTabs .ui.secondary a.item {
+    color: #094bb1;
+    min-width: 150px;
+    padding-bottom: 20px;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.investorsComponent .tableTabs .ui.secondary a.item:hover {
+    color: #094bb1;
+    min-width: 150px;
+    padding-bottom: 20px;
+    justify-content: center;
+}
+
+.investorsComponent .tableTabs .ui.secondary a.active.item {
+    color: #094bb1;
+    border-bottom: 4px solid #094bb1;
+    padding-bottom: 20px
+}
+
+.investorsComponent .tableTabs .ui.secondary a.active.item:hover {
+    color: #094bb1 !important;
+    border-bottom: 4px solid #094bb1;
+    padding-bottom: 20px
+}

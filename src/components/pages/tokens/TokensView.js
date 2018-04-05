@@ -22,7 +22,7 @@ class TokensView extends Component {
           : filteredWatchingTokens.length
             ? <div className="tokensComponent">
               <Button floated="right" color="teal" onClick={() => routeTo('/settings')}>Add Token</Button>
-              <Table className="abTable" stackable={false}>
+              <Table className="abTable" unstackable>
                 <Table.Header className="tableHeader">
                   <Table.Row >
                     <Table.HeaderCell>Token</Table.HeaderCell>

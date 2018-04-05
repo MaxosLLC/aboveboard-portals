@@ -13,7 +13,6 @@ class HeaderView extends Component {
     const {currentUser, routeTo, logout} = this.props
     const menuTrigger = <Image src={profileSrc} className='profileImage'/>
     const msgTrigger = <Image src={bellSrc} className='headerIcon'/>
-
     // mock messages data
     let messages = [
       {sender: 'Broker ABC',message: 'You have some new transactions'}, 

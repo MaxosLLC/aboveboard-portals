@@ -13,11 +13,7 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
-  render () {
-    const { appType, connected, currentUser, routeTo, router } = this.props
-
-    // check which portal link to display in the sidebar
-    const portalLinkType= appType => {
+  portalLinkType= (appType , routeTo, router) => {
       if(appType === 'broker') {
         return (
           <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className="sidebarMenuItem">
@@ -31,14 +27,15 @@ class SidebarView extends Component {
             </Menu.Item>
           )
       }
-    };
-
+  }
+  render () {
+    const { appType, connected, currentUser, routeTo, router } = this.props
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
          <Menu.Item onClick={() => routeTo('/')} className="logoContainer">
           <Image src={logoSrc} className="siteLogo"/>
         </Menu.Item>
-        {portalLinkType(appType)}
+        {this.portalLinkType(appType,routeTo, router)}
         <Menu.Item active={tokenDetailRegexp.test(router.location.pathname)}  className="sidebarMenuItem">
             <span><Image src={barsSrc} className="menuIcon"/>Dashboard</span>
         </Menu.Item>
