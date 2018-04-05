@@ -21,13 +21,13 @@ class TokensView extends Component {
         { !loaded ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : filteredWatchingTokens.length
             ? <div className="tokensComponent">
-         
-            <Button floated="right" color="teal" onClick={() => routeTo('/settings')}>Add Token</Button>
-              <Table selectable stackable={true}>
-                <Table.Header>
-                  <Table.Row>
+              <Button floated="right" color="teal" onClick={() => routeTo('/settings')}>Add Token</Button>
+              <Table className="abTable" stackable={false}>
+                <Table.Header className="tableHeader">
+                  <Table.Row >
                     <Table.HeaderCell>Token</Table.HeaderCell>
                     <Table.HeaderCell>Contract Address</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -35,6 +35,7 @@ class TokensView extends Component {
                     <Table.Row key={token.address} onClick={() => handleRowClick(token.address)} style={{ cursor: 'pointer' }}>
                       <Table.Cell>{token.name}</Table.Cell>
                       <Table.Cell>{token.address}</Table.Cell>
+                      <Table.Cell textAlign="right"><Icon name='angle right' size="large" color="teal" /></Table.Cell>
                     </Table.Row>
                   ) }
                 </Table.Body>

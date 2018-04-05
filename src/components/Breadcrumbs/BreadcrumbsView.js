@@ -8,10 +8,24 @@ class BreadcrumbsView extends Component {
     const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
     const renderCrumbs = (path, tokens) => {
       // using if instead of switch to avoid unreachable code warning
+      if(path === '/'){
+        return(
+          <div>
+          <Link to={router.location.pathname}>Dashboard ></Link> Overview
+          </div>
+        )
+      }
       if(path === '/tokens'){
         return(
           <div>
           <Link to={router.location.pathname}>Securities ></Link>  Tokens
+          </div>
+        )
+      }
+       if(path === '/buyers'){
+        return(
+          <div>
+          <Link to={router.location.pathname}>Buyers ></Link>  Whitelist
           </div>
         )
       }

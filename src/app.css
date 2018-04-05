@@ -18,23 +18,28 @@ body {
 }
 
 .mainContainer {
-    margin-left: 212px;
-    padding-right: 215px;
+    margin-left: 210px;
+    padding-right: 210px;
     width: 100%;
+    height: 100vh;
+    background-image: url('/images/Bg.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 0 -200px;
 }
 
 .pages {
     padding: 0 10%;
 }
 
-.appComponent .ui.teal.button {
+.appComponent .ui.teal {
     background-color: #00cddb;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     margin: 20px 0;
     font-family: 'ProximaNova-R', sans-serif;
 }
 
-.appComponent .ui.teal.button:hover {
+.appComponent .ui.teal:hover {
     background-color: #03A0CC;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
 }
