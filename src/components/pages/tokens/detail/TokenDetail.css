@@ -71,6 +71,7 @@
 }
 
 .investorsComponent .tableScrollContainer {
+    height: 450px;
     max-height: 450px;
     padding: 0 1% 0 0;
     overflow-y: scroll;
@@ -78,6 +79,10 @@
 
 .investorsComponent .tableScrollContainer::-webkit-scrollbar-track {
     border-radius: 10px;
+}
+
+.investorsComponent .tableScrollContainer::-webkit-scrollbar-thumb {
+    background: #4F6683;
 }
 
 .investorsComponent h2.tokenHeader,
@@ -115,4 +120,11 @@
 .investorsComponent .tradingToggle img {
     width: 20px;
     margin-left: 30px;
+}
+
+.investorsComponent .sortButton {
+    width: 12px;
+    float: right;
+    margin-top: 3px;
+    cursor: pointer;
 }

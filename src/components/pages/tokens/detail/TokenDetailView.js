@@ -9,22 +9,18 @@ const userSrc = '../../images/icons/user.svg'
 const graphSrc = '../../images/icons/graph.svg'
 const calendarSrc = '../../images/icons/calendar.svg'
 const downloadSrc = '../../images/icons/download.svg'
+const sortSrc = '../../images/icons/sortToggle.svg'
 
 class InvestorDetailView extends Component {
+  constructor(){
+    super()
+    this.state = {
+      orderBy: ''
+    }
+  }
   componentDidMount () {
     this.props.loadShareholders()
     this.props.loadTransactions()
-  }
-  transactionsPerShareholder = (ethAddress, transactions) => {  
-      return transactions.filter(ta => ta.shareholderEthAddress === ethAddress).length
-    }
-  transactionPercent = (ethAddress, transactions) => {
-      const shareHoldersTransactions = transactions.filter(ta => ta.shareholderEthAddress === ethAddress).length
-      return ((shareHoldersTransactions/transactions.length)*100)
-  }
-  lastTransactionDate = (ethAddress, transactions) => {
-      return transactions.filter(ta => ta.shareholderEthAddress === ethAddress)
-      .map(ta => ta.createdAt)[0]
   }
   getShareholderName = (address, shareholders) => {
   const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
@@ -49,38 +45,86 @@ class InvestorDetailView extends Component {
             }
           }]
   }
+  formatShareholderTableData = (shareholders, transactions) => {
+      let data  = []
+      shareholders.forEach((shareholder) => {
+        const shareholderTransctions = transactions.filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address).length
+        const lastTransactionDate = transactions
+        .filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address)
+        .map(ta => ta.createdAt)[0]
+        let row = Object.assign({}, shareholder, {
+          transactions: {
+            quantity: shareholderTransctions,
+            percent: (shareholderTransctions/transactions.length)*100,
+            lastCreated : lastTransactionDate
+          }
+        })
+        data.push(row)
+      })
+      return data;
+    }
   render () {
     const { loaded, token, transactions, shareholders, routeTo } = this.props
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions);
     const modalTrigger = <img src={calendarSrc} alt="pause trading calendar"/> 
+    let shareholderTableData = () => {
+      let data = this.formatShareholderTableData(shareholdersWithData, transactions);
+      if(this.state.orderBy === 'quantityAsc'){
+        return data.sort((a, b) => a.transactions.quantity - b.transactions.quantity)
+      }
+       if(this.state.orderBy === 'quantityDesc'){
+        return data.sort((a, b) => b.transactions.quantity - a.transactions.quantity)
+      }
+      if(this.state.orderBy === 'dateAsc'){
+        return data.sort((a, b) => a.transactions.lastCreated - b.transactions.lastCreated)
+      }
+      if(this.state.orderBy === 'dateDesc'){
+        return data.sort((a, b) => b.transactions.lastCreated - a.transactions.lastCreated)
+      }
+      if(this.state.orderBy === 'addressAsc'){
+        return data.sort((a, b) => a.country - b.country)
+      }
+      if(this.state.orderBy === 'addressDesc'){
+        return data.sort((a, b) => b.country - a.country)
+      }
+      if(this.state.orderBy === 'nameAsc'){
+        return data.sort((a, b) => a.firstName - b.firstName)
+      }
+      if(this.state.orderBy === 'nameDesc'){
+        return data.sort((a, b) => b.firstName - a.firstName)
+      }
+      if(this.state.orderBy === ''){
+        return data
+      }
+    };
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
-          shareholdersWithData.length ? <div className="tableContainer"> 
+         shareholdersWithData.length ? <div className="tableContainer"> 
           <Table className="abTable" unstackable>
             <Table.Header className="tableHeader">
               <Table.Row>
                <Table.HeaderCell style={{color: '#8f9bab'}}>ID</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder</Table.HeaderCell>
-                <Table.HeaderCell>Address</Table.HeaderCell>
-                <Table.HeaderCell>Qaulifier</Table.HeaderCell>
-                <Table.HeaderCell>Quantity</Table.HeaderCell>
-                <Table.HeaderCell>% of Total</Table.HeaderCell>
-                <Table.HeaderCell>Last Transaction</Table.HeaderCell>
+                <Table.HeaderCell>Shareholder <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'nameAsc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>Address <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'addressDesc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>Qaulifier <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityDesc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>Quantity <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityAsc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>% of Total <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityDesc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>Last Transaction <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'dateAsc'})}/></Table.HeaderCell>
                 <Table.HeaderCell><Image src={downloadSrc} className="download"/></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              { shareholdersWithData.map((shareholder, i) =>
+              { shareholderTableData().map((shareholder, i) =>
                 <Table.Row key={shareholder.id} onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)} style={{ cursor: 'pointer' }}>
                   <Table.Cell>{i+1}</Table.Cell>
                   <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
-                  <Table.Cell>{shareholder.city}, {shareholder.state ? `${shareholder.state} ,` : ''} {shareholder.country}, {shareholder.zip}</Table.Cell>
+                  <Table.Cell>{shareholder.country}</Table.Cell>
                   <Table.Cell>{shareholder.qualifications || 'N/A'}</Table.Cell>
-                  <Table.Cell>{this.transactionsPerShareholder(shareholder.ethAddresses[0].address, transactions)}</Table.Cell>
-                  <Table.Cell>{this.transactionPercent(shareholder.ethAddresses[0].address, transactions)}%</Table.Cell>
-                  <Table.Cell>{moment(this.lastTransactionDate(shareholder.ethAddresses[0].address, transactions)).format('LL')}</Table.Cell>
+                  <Table.Cell>{shareholder.transactions.quantity}</Table.Cell>
+                  <Table.Cell>{shareholder.transactions.percent}%</Table.Cell>
+                  <Table.Cell>{moment(shareholder.transactions.lastCreated).format('LL')}</Table.Cell>
                   <Table.Cell></Table.Cell>
                 </Table.Row>
             ) }
