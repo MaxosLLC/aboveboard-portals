@@ -26,20 +26,34 @@ class InvestorDetailView extends Component {
       return transactions.filter(ta => ta.shareholderEthAddress === ethAddress)
       .map(ta => ta.createdAt)[0]
   }
+  getShareholderName = (address, shareholders) => {
+  const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
+  return shareholder && shareholder.firstName
+    ? `${shareholder.firstName} ${shareholder.lastName}`
+    : ''
+  } 
+  setStats = (shareholders, transactions) => {
+    return [{
+            title: 'Shareholders',
+            data: shareholders.length,
+            icon: {
+              src: userSrc,
+              size: '55px'
+            }
+          }, {
+            title: 'Total Transactions',
+            data: `${transactions.length}+`,
+            icon: {
+              src: graphSrc,
+              size: '80%'
+            }
+          }]
+  }
   render () {
     const { loaded, token, transactions, shareholders, routeTo } = this.props
-    const getShareholderName = address => {
-      const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
-      return shareholder && shareholder.firstName ? `${shareholder.firstName} ${shareholder.lastName}` : ''
-    }
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
-    const stats = [
-      {title: 'Shareholders', data: shareholdersWithData.length, icon: {src: userSrc, size: '55px'}},
-      {title: 'Total Transactions', data: `${transactions.length}+`, icon: {src: graphSrc, size: '80%'}}
-    ]
-
-    const modalTrigger = <Image src={calendarSrc}/>
-
+    const stats = this.setStats(shareholdersWithData, transactions);
+    const modalTrigger = <img src={calendarSrc} alt="pause trading calendar"/> 
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
@@ -78,6 +92,7 @@ class InvestorDetailView extends Component {
         render: () =>
           transactions.length 
           ?<div className="tableContainer">
+          <div className="tableScrollContainer">
           <Table className="abTable" unstackable>
             <Table.Header className="tableHeader">
               <Table.Row>
@@ -98,7 +113,7 @@ class InvestorDetailView extends Component {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    {getShareholderName(transaction.shareholderEthAddress)}
+                    {this.getShareholderName(transaction.shareholderEthAddress, shareholders)}
                   </Table.Cell>
                   <Table.Cell>
                     <Link to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`} target='_blank' rel='noopener noreferrer'>
@@ -110,7 +125,9 @@ class InvestorDetailView extends Component {
                 </Table.Row>
             ) }
             </Table.Body>
-          </Table></div>
+          </Table>
+          </div>
+          </div>
           : <Segment>No transactions have been made yet</Segment>
       }
     ]
