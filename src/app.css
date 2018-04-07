@@ -43,3 +43,9 @@ body {
     background-color: #03A0CC;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
 }
+
+.appComponent .ui.segment {
+    box-shadow: 0 4px 20px 0 rgba(180, 180, 180, 0.3);
+    border-radius: 4px;
+    border: 0;
+}

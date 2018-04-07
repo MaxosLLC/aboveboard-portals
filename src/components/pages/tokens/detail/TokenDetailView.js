@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Header, Icon, Segment, Tab, Table, Checkbox, Image, Modal} from 'semantic-ui-react'
+import { Header, Icon, Segment, Tab, Table, Checkbox, Image, Modal, Popup} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import StatsCard from './../../../statsCard/StatsCard'
 import './TokenDetail.css'
@@ -9,7 +9,9 @@ const userSrc = '../../images/icons/user.svg'
 const graphSrc = '../../images/icons/graph.svg'
 const calendarSrc = '../../images/icons/calendar.svg'
 const downloadSrc = '../../images/icons/download.svg'
-const sortSrc = '../../images/icons/sortToggle.svg'
+const sortUpSrc = '../../images/icons/up.svg'
+const sortDownSrc = '../../images/icons/down.svg'
+const infoSrc = '../../images/icons/info.svg'
 
 class InvestorDetailView extends Component {
   constructor(){
@@ -56,7 +58,7 @@ class InvestorDetailView extends Component {
           transactions: {
             quantity: shareholderTransctions,
             percent: (shareholderTransctions/transactions.length)*100,
-            lastCreated : lastTransactionDate
+            lastCreated : lastTransactionDate ? lastTransactionDate : 0
           }
         })
         data.push(row)
@@ -68,6 +70,7 @@ class InvestorDetailView extends Component {
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions);
     const modalTrigger = <img src={calendarSrc} alt="pause trading calendar"/> 
+    const popupTrigger = <img src={infoSrc} alt="info" className="infoIcon"/> 
     let shareholderTableData = () => {
       let data = this.formatShareholderTableData(shareholdersWithData, transactions);
       if(this.state.orderBy === 'quantityAsc'){
@@ -77,24 +80,39 @@ class InvestorDetailView extends Component {
         return data.sort((a, b) => b.transactions.quantity - a.transactions.quantity)
       }
       if(this.state.orderBy === 'dateAsc'){
-        return data.sort((a, b) => a.transactions.lastCreated - b.transactions.lastCreated)
+         return data.sort((a, b) => new Date(a.transactions.lastCreated) - new Date(b.transactions.lastCreated))
       }
       if(this.state.orderBy === 'dateDesc'){
-        return data.sort((a, b) => b.transactions.lastCreated - a.transactions.lastCreated)
+         return data.sort((a, b) => new Date(b.transactions.lastCreated) - new Date(a.transactions.lastCreated))
       }
       if(this.state.orderBy === 'addressAsc'){
-        return data.sort((a, b) => a.country - b.country)
+        return data.sort((a, b) => a.country.localeCompare(b.country))
       }
       if(this.state.orderBy === 'addressDesc'){
-        return data.sort((a, b) => b.country - a.country)
+        return data.sort((a, b) => b.country.localeCompare(a.country))
+      }
+      if(this.state.orderBy === 'qualifierAsc'){
+        return data.sort((a, b) => {
+          a =  a.qualifications ?  a.qualifications : ''
+          b =  b.qualifications ?  b.qualifications : ''
+          return  a.localeCompare(b)
+        })
+      }
+      if(this.state.orderBy === 'qualifierDesc'){
+         return data.sort((a, b) => {
+          a =  a.qualifications ?  a.qualifications : ''
+          b =  b.qualifications ?  b.qualifications : ''
+          return  b.localeCompare(a)
+        })
       }
       if(this.state.orderBy === 'nameAsc'){
-        return data.sort((a, b) => a.firstName - b.firstName)
+        return data.sort((a, b) => a.firstName.localeCompare(b.firstName))
       }
       if(this.state.orderBy === 'nameDesc'){
-        return data.sort((a, b) => b.firstName - a.firstName)
+        return data.sort((a, b) => b.firstName.localeCompare(a.firstName))
       }
       if(this.state.orderBy === ''){
+        console.log(data)
         return data
       }
     };
@@ -106,12 +124,42 @@ class InvestorDetailView extends Component {
             <Table.Header className="tableHeader">
               <Table.Row>
                <Table.HeaderCell style={{color: '#8f9bab'}}>ID</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'nameAsc'})}/></Table.HeaderCell>
-                <Table.HeaderCell>Address <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'addressDesc'})}/></Table.HeaderCell>
-                <Table.HeaderCell>Qaulifier <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityDesc'})}/></Table.HeaderCell>
-                <Table.HeaderCell>Quantity <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityAsc'})}/></Table.HeaderCell>
-                <Table.HeaderCell>% of Total <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'quantityDesc'})}/></Table.HeaderCell>
-                <Table.HeaderCell>Last Transaction <Image src={sortSrc} className="sortButton" onClick={() => this.setState({orderBy: 'dateAsc'})}/></Table.HeaderCell>
+                <Table.HeaderCell>Shareholder 
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'nameAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'nameDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell>Address
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'addressAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'addressDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell>Qaulifier
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'qualifierAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'qualifierDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell>Quantity
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'quantityAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'quantityDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell>% of Total
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'quantityAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'quantityDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
+                <Table.HeaderCell>Last Transaction
+                  <span className="sortButtons">
+                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'dateAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'dateDesc'})}/>
+                  </span>
+                </Table.HeaderCell>
                 <Table.HeaderCell><Image src={downloadSrc} className="download"/></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -124,7 +172,7 @@ class InvestorDetailView extends Component {
                   <Table.Cell>{shareholder.qualifications || 'N/A'}</Table.Cell>
                   <Table.Cell>{shareholder.transactions.quantity}</Table.Cell>
                   <Table.Cell>{shareholder.transactions.percent}%</Table.Cell>
-                  <Table.Cell>{moment(shareholder.transactions.lastCreated).format('LL')}</Table.Cell>
+                  <Table.Cell>{shareholder.transactions.lastCreated ? moment(shareholder.transactions.lastCreated).format('LL') : 'N/A'}</Table.Cell>
                   <Table.Cell></Table.Cell>
                 </Table.Row>
             ) }
@@ -181,13 +229,18 @@ class InvestorDetailView extends Component {
         <Header as='h2' className="tokenHeader">
           <Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>
             {token.name}
+            <Popup
+              trigger={popupTrigger}
+              content='Token info goes here'
+              on='hover'
+            />
           </Link>
         </Header>
         <div className="stats">
           <StatsCard stats={stats}/>
         </div>
         <div className="tradingToggle"> 
-          <Checkbox toggle/> 
+          <Checkbox toggle defaultChecked/> 
           <Modal trigger={modalTrigger}>
             <Modal.Content>
               Calendar

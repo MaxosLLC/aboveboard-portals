@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10162.752 -1020 12.171 6">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(0,0,0,0);
+      }
+
+      .cls-2 {
+        fill: #00cddb;
+      }
+    </style>
+  </defs>
+  <g id="down" transform="translate(10162.752 -1020)">
+    <rect id="down_background" data-name="down background" class="cls-1" width="12.171" height="6"/>
+    <path id="arrow" class="cls-2" d="M0,10.79l1.237,1.368L5.777,6.079,1.237,0,0,1.368,3.519,6.079Z" transform="translate(12.158 0) rotate(90)"/>
+  </g>
+</svg>
