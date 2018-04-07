@@ -17,7 +17,8 @@ class InvestorDetailView extends Component {
   constructor(){
     super()
     this.state = {
-      orderBy: ''
+      orderBy: '',
+      trading: true
     }
   }
   componentDidMount () {
@@ -229,18 +230,16 @@ class InvestorDetailView extends Component {
         <Header as='h2' className="tokenHeader">
           <Link to={`https://kovan.etherscan.io/address/${token.address}`} target='_blank' rel='noopener noreferrer'>
             {token.name}
-            <Popup
-              trigger={popupTrigger}
-              content='Token info goes here'
-              on='hover'
-            />
+            <Popup trigger={popupTrigger} content='Token info goes here' on='hover' basic/>
           </Link>
         </Header>
         <div className="stats">
           <StatsCard stats={stats}/>
         </div>
         <div className="tradingToggle"> 
-          <Checkbox toggle defaultChecked/> 
+          <span><strong>Trading:</strong> {this.state.trading? 'Active':'Paused'}</span>
+          <Checkbox toggle onClick={() => this.setState({trading: !this.state.trading})} checked={this.state.trading}/>
+          <span className="verticalSeparator"></span>
           <Modal trigger={modalTrigger}>
             <Modal.Content>
               Calendar

@@ -131,9 +131,24 @@
     margin-left: 0;
 }
 
+.investorsComponent .tradingToggle span {
+    color: #4f6683;
+    font-size: 16px;
+    font-family: 'ProximaNove-R', sans-serif;
+    align-self: center;
+    margin-right: 30px;
+}
+
 .investorsComponent .tradingToggle img {
     width: 20px;
-    margin-left: 30px;
+    position: relative;
+}
+
+.investorsComponent .tradingToggle .verticalSeparator {
+    width: 2px;
+    height: 20px;
+    background: #F1F4F8;
+    margin: 0 30px;
 }
 
 .investorsComponent .sortButtons img {
