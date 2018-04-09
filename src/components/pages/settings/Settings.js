@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
   currentUser: state.currentUser,
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
   watchingTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished
+  loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { differenceBy } from 'lodash'
-import { Button, Divider, Dropdown, Header, Icon, Input, Label, Segment, Message } from 'semantic-ui-react'
+import { Button, Divider, Dropdown, Header, Input, Segment, Message } from 'semantic-ui-react'
 import './Settings.css'
 
 class SettingsView extends Component {
@@ -15,9 +15,28 @@ class SettingsView extends Component {
       )
     }
   }
+  walletConnectionWarningMessage = (connection) => {
+    if(!connection){
+      return (
+         <Message
+          warning
+          header='Wallet Disconnected'
+          content='You are currently not connected to your wallet'
+        />
+      )
+    }
+  }
+  componentWillMount = () =>{
+    this.setState({
+      walletEditMode:false,
+      messagingIdEditMode: false,
+      accountName: this.props.currentUser.walletAccountName,
+      accountPass: '••••••••••••••••',
+      messagingId: this.props.currentUser.messagingAddress
+    })
+  }
   render () {
-    const {
-            appType, 
+    const {appType, 
             connected, 
             connectWallet, 
             currentUser, 
@@ -27,50 +46,45 @@ class SettingsView extends Component {
             stopWatchingToken, 
             setMessagingAddress
            } = this.props
-
     const watchingTokenOptions = tokens.map(token => {
       return {
         text: token.name,
         value: token.address
       }
     })
-    console.log(this.props)
     const handleConnectWallet = () => {
       const account = document.getElementById('wallet-account-input').value
       const password = document.getElementById('wallet-password-input').value
-
       if (!account) {
         return alert('Please enter account address') // eslint-disable-line
       }
-
       if (!password) {
         return alert('Please enter your account password') // eslint-disable-line
       }
 
       return connectWallet(account, password)
+
     }
 
-      const handleChangeWatchingTokens = () => {
+    const handleChangeWatchingTokens = () => {
         const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
         const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
-
         addedTokens.forEach(startWatchingToken)
         removedTokens.forEach(stopWatchingToken)
     }
 
     const handleSetMessagingAccount = () => {
       const messagingAddress = document.getElementById('messaging-account-input').value
-
       if (!messagingAddress) {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
-
       setMessagingAddress(messagingAddress, watchingTokens)
     }
 
     return (
       <div className='settingsComponent'>
         {this.noTokensMessage(watchingTokens)}
+        {this.walletConnectionWarningMessage(connected)}
         <Segment>
          <div className="inputContainer" style={{justifyContent: 'space-between'}}>
           <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Followed Tokens</Header>
@@ -106,8 +120,10 @@ class SettingsView extends Component {
               <Input 
                 id='wallet-account-input' 
                 name='wallet-account' 
-                defaultValue={connected ? currentUser.walletAccountName : '' }
+                defaultValue={this.state.accountName}
                 className="settingInput"
+                disabled={!this.state.walletEditMode}
+                onChange={(e) => this.setState({accountName: e.target.value})}
               />
             </div>
            
@@ -117,13 +133,26 @@ class SettingsView extends Component {
                 id='wallet-password-input' 
                 name='wallet-password' 
                 type='password' 
-                defaultValue={connected ? "password" : '' }
+                placeholder={this.state.accountPass}
                 className="settingInput"
+                disabled={!this.state.walletEditMode}
+                onChange={(e) => this.setState({accountPass: e.target.value}) }
                 />
             </div>
             <div className="buttonContainer">
-              <Button>Cancel</Button>
-              <Button  color="teal" onClick={handleConnectWallet}>{connected?'Disconnect':'Connect'}</Button>
+              <Button style={{background: 'none'}} className={this.state.walletEditMode ? '': 'hide'}>Cancel</Button>
+              {this.state.walletEditMode 
+                ?<Button  
+                    color={!this.state.accountName.length || !this.state.accountPass.length ? '': 'teal'} 
+                    onClick={handleConnectWallet}
+                    disabled={!this.state.accountName.length || !this.state.accountPass.length}
+                  >Connect</Button>
+                :<Button  
+                    color="teal"
+                    onClick={() => this.setState({walletEditMode: true})}
+                    disabled={!this.state.accountName.length || !this.state.accountPass.length}
+                  >Disconnect</Button> 
+              }
             </div>
           </div>
         </Segment>
@@ -135,14 +164,25 @@ class SettingsView extends Component {
               <Input
                 id='messaging-account-input' 
                 name='messaging-acount' 
-                defaultValue={currentUser.messagingAddress}
+                defaultValue={this.state.messagingId}
                 className="settingInput"
                 style={{width: '79%', marginLeft: 0}}
+                disabled={!this.state.messagingIdEditMode}
+                onChange={(e) => this.setState({messagingId: e.target.value}) }
                 />
             </div>
            <div className="buttonContainer">
-              <Button>Cancel</Button>
-              <Button  color="teal" onClick={handleSetMessagingAccount}>{connected?'Edit':'Save'}</Button>
+              <Button style={{background: 'none'}} className={this.state.messagingIdEditMode ?'': 'hide'}>Cancel</Button>
+              {this.state.messagingIdEditMode
+               ? <Button 
+                  color={!this.state.messagingId.length ? '':'teal'} 
+                  onClick={handleSetMessagingAccount}
+                  disabled={!this.state.messagingId.length}>Save</Button>
+                : <Button
+                color="teal"
+                onClick={() => this.setState({messagingIdEditMode: true})}
+                >Edit</Button>
+              }
            </div>
           </Segment>
         : '' }

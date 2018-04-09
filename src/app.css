@@ -78,3 +78,7 @@ body {
 .appComponent .ui.success.message {
     background: #03CC88;
 }
+
+.appComponent .hide {
+    display: none;
+}
