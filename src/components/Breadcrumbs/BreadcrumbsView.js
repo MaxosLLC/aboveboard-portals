@@ -11,31 +11,31 @@ class BreadcrumbsView extends Component {
         case path === '/':
            return(
               <div>
-              <Link to={router.location.pathname}>Dashboard ></Link> Overview
+              <Link to={router.location.pathname}>Dashboard &nbsp;>&nbsp;</Link> Overview
               </div>
             )
          case path === '/tokens':
            return(
               <div>
-              <Link to={router.location.pathname}>Securities ></Link>  Tokens
+              <Link to={router.location.pathname}>Securities &nbsp;>&nbsp;</Link>  Tokens
               </div>
             )
           case path === '/buyers':
              return(
               <div>
-              <Link to={router.location.pathname}>Buyers ></Link>  Whitelist
+              <Link to={router.location.pathname}>Buyers &nbsp;>&nbsp;</Link>  Whitelist
               </div>
             )
           case path === '/settings':
             return(
               <div>
-              <Link to="/profile">User ></Link>  Settings
+              <Link to="/profile">User &nbsp;>&nbsp;</Link>  Settings
               </div>
             )
           case path === '/profile':
             return(
               <div>
-              <Link to="/profile">User ></Link>  Profile
+              <Link to="/profile">User &nbsp;>&nbsp;</Link>  Profile
               </div>
             )
           case tokenDetailRegexp.test(path):

@@ -66,7 +66,7 @@ class InvestorDetailView extends Component {
       })
       return data;
     }
-     shareholderTableData = (shareholders, transactions) => {
+    shareholderTableData = (shareholders, transactions) => {
       let data = this.formatShareholderTableData(shareholders, transactions);
       switch(this.state.orderBy){
         case 'quantityAsc':
@@ -82,13 +82,13 @@ class InvestorDetailView extends Component {
         case 'addressDesc':
           return data.sort((a, b) => b.country.localeCompare(a.country))
         case 'qualifierAsc':
-           return data.sort((a, b) => {
+            return data.sort((a, b) => {
           a =  a.qualifications ?  a.qualifications : ''
           b =  b.qualifications ?  b.qualifications : ''
           return  a.localeCompare(b)
         })
         case 'qualifierDesc':
-           return data.sort((a, b) => {
+            return data.sort((a, b) => {
           a =  a.qualifications ?  a.qualifications : ''
           b =  b.qualifications ?  b.qualifications : ''
           return  b.localeCompare(a)
@@ -100,7 +100,42 @@ class InvestorDetailView extends Component {
         default: 
           return data
       }
-    }
+  }
+    transactionsTableData = (shareholders, transactions) => {
+      console.log(transactions)
+      switch(this.state.orderBy){
+        case 'tQuantityAsc':
+          return transactions.sort((a, b) => a.tokens - b.tokens)
+        case 'tQuantityDesc':
+          return transactions.sort((a, b) => b.tokens - a.tokens)
+        case 'hashAsc':
+          return transactions.sort((a, b) => a.transactionHash - b.transactionHash)
+        case 'hashDesc':
+          return transactions.sort((a, b) => b.transactionHash - a.transactionHash)
+        case 'tDateAsc':
+          return transactions.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        case 'tDateDesc':
+          return transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        case 'tAddressAsc':
+          return transactions.sort((a, b) => a.contractAddress.localeCompare(b.contractAddress))
+        case 'tAddressDesc':
+          return transactions.sort((a, b) => b.contractAddress.localeCompare(a.contractAddress))
+        case 'tNameAsc': 
+          return transactions.sort((a, b) => {
+            a = this.getShareholderName(a.shareholderEthAddress, shareholders)
+            b = this.getShareholderName(b.shareholderEthAddress, shareholders)
+            return a.localeCompare(b)
+          })
+        case 'tNameDesc': 
+          return transactions.sort((a, b) => {
+            a = this.getShareholderName(a.shareholderEthAddress, shareholders)
+            b = this.getShareholderName(b.shareholderEthAddress, shareholders)
+            return b.localeCompare(a)
+          })
+        default: 
+          return transactions
+      }
+  }
   render () {
     const { loaded, token, transactions, shareholders, routeTo } = this.props
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
@@ -175,41 +210,68 @@ class InvestorDetailView extends Component {
         render: () =>
           transactions.length 
           ?<div className="tableContainer">
-          <div className="tableScrollContainer">
-          <Table className="abTable" unstackable>
-            <Table.Header className="tableHeader">
-              <Table.Row>
-                <Table.HeaderCell>Transaction Hash</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder Name</Table.HeaderCell>
-                <Table.HeaderCell>Shareholder Address</Table.HeaderCell>
-                <Table.HeaderCell>Tokens Transferred</Table.HeaderCell>
-                <Table.HeaderCell>Date</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+            <div className="tableScrollContainer">
+              <Table className="abTable" unstackable>
+                <Table.Header className="tableHeader">
+                  <Table.Row>
+                    <Table.HeaderCell>Hash
+                      <span className="sortButtons">
+                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'hashAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'hashDesc'})}/>
+                      </span>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Shareholder
+                      <span className="sortButtons">
+                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tNameAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tNameDesc'})}/>
+                      </span>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Address
+                      <span className="sortButtons">
+                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tAddressAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tAddressDesc'})}/>
+                      </span>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Quantity
+                        <span className="sortButtons">
+                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tQuantityAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tQuantityDesc'})}/>
+                      </span>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>Date
+                      <span className="sortButtons">
+                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tDateAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tDateDesc'})}/>
+                      </span>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-            <Table.Body>
-              { transactions.map(transaction =>
-                <Table.Row key={transaction.id}>
-                  <Table.Cell>
-                    <Link to={`https://kovan.etherscan.io/tx/${transaction.transactionHash}`} target='_blank' rel='noopener noreferrer'>
-                      {transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(transaction.transactionHash.length - 4, 4)}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    {this.getShareholderName(transaction.shareholderEthAddress, shareholders)}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`} target='_blank' rel='noopener noreferrer'>
-                      {transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(transaction.shareholderEthAddress.length - 4, 4)}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{transaction.tokens}</Table.Cell>
-                  <Table.Cell>{moment(transaction.createdAt).format('LL')}</Table.Cell>
-                </Table.Row>
-            ) }
-            </Table.Body>
-          </Table>
-          </div>
+                <Table.Body>
+                  { this.transactionsTableData(shareholdersWithData, transactions).map(transaction =>
+                    <Table.Row key={transaction.id}>
+                      <Table.Cell>
+                        <Link to={`https://kovan.etherscan.io/tx/${transaction.transactionHash}`} target='_blank' rel='noopener noreferrer'>
+                          {transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(transaction.transactionHash.length - 4, 4)}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>
+                        {this.getShareholderName(transaction.shareholderEthAddress, shareholders) 
+                        ? this.getShareholderName(transaction.shareholderEthAddress, shareholders)
+                        : 'N/A'}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Link to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`} target='_blank' rel='noopener noreferrer'>
+                          {transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(transaction.shareholderEthAddress.length - 4, 4)}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>{transaction.tokens}</Table.Cell>
+                      <Table.Cell>{moment(transaction.createdAt).format('LL')}</Table.Cell>
+                    </Table.Row>
+                ) }
+                </Table.Body>
+              </Table>
+            </div>
           </div>
           : <Segment>No transactions have been made yet</Segment>
       }
