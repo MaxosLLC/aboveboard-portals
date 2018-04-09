@@ -7,50 +7,47 @@ class BreadcrumbsView extends Component {
     const { router, tokens } = this.props
     const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
     const renderCrumbs = (path, tokens) => {
-      // using if instead of switch to avoid unreachable code warning
-      if(path === '/'){
-        return(
-          <div>
-          <Link to={router.location.pathname}>Dashboard ></Link> Overview
-          </div>
-        )
-      }
-      if(path === '/tokens'){
-        return(
-          <div>
-          <Link to={router.location.pathname}>Securities ></Link>  Tokens
-          </div>
-        )
-      }
-       if(path === '/buyers'){
-        return(
-          <div>
-          <Link to={router.location.pathname}>Buyers ></Link>  Whitelist
-          </div>
-        )
-      }
-      if(path === '/settings'){
-        return(
-          <div>
-          <Link to="/profile">User ></Link>  Settings
-          </div>
-        )
-      }
-      if(path === '/profile'){
-        return(
-          <div>
-          <Link to="/profile">User ></Link>  Profile
-          </div>
-        )
-      }
-      if(tokenDetailRegexp.test(path)){
-        const tokenAddress = path.split('/')[path.split('/').length -2];
-        const currentToken = tokens.filter(token => token.address === tokenAddress)[0];
-        return(
-          <div>
-            <Link to="/tokens">Securities ></Link> {currentToken.name}
-          </div>
-        )
+      switch(true){
+        case path === '/':
+           return(
+              <div>
+              <Link to={router.location.pathname}>Dashboard ></Link> Overview
+              </div>
+            )
+         case path === '/tokens':
+           return(
+              <div>
+              <Link to={router.location.pathname}>Securities ></Link>  Tokens
+              </div>
+            )
+          case path === '/buyers':
+             return(
+              <div>
+              <Link to={router.location.pathname}>Buyers ></Link>  Whitelist
+              </div>
+            )
+          case path === '/settings':
+            return(
+              <div>
+              <Link to="/profile">User ></Link>  Settings
+              </div>
+            )
+          case path === '/profile':
+            return(
+              <div>
+              <Link to="/profile">User ></Link>  Profile
+              </div>
+            )
+          case tokenDetailRegexp.test(path):
+            const tokenAddress = path.split('/')[path.split('/').length -2];
+            const currentToken = tokens.filter(token => token.address === tokenAddress)[0];
+            return(
+              <div>
+                <Link to="/tokens">Securities ></Link> {currentToken.name}
+              </div>
+            )
+          default: 
+            return ''
       }
     }
     return (

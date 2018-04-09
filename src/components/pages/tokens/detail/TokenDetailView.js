@@ -66,57 +66,47 @@ class InvestorDetailView extends Component {
       })
       return data;
     }
+     shareholderTableData = (shareholders, transactions) => {
+      let data = this.formatShareholderTableData(shareholders, transactions);
+      switch(this.state.orderBy){
+        case 'quantityAsc':
+          return data.sort((a, b) => a.transactions.quantity - b.transactions.quantity)
+        case 'quantityDesc':
+          return data.sort((a, b) => b.transactions.quantity - a.transactions.quantity)
+        case 'dateAsc':
+          return data.sort((a, b) => new Date(a.transactions.lastCreated) - new Date(b.transactions.lastCreated))
+        case 'dateDesc':
+          return data.sort((a, b) => new Date(b.transactions.lastCreated) - new Date(a.transactions.lastCreated))
+        case 'addressAsc':
+          return data.sort((a, b) => a.country.localeCompare(b.country))
+        case 'addressDesc':
+          return data.sort((a, b) => b.country.localeCompare(a.country))
+        case 'qualifierAsc':
+           return data.sort((a, b) => {
+          a =  a.qualifications ?  a.qualifications : ''
+          b =  b.qualifications ?  b.qualifications : ''
+          return  a.localeCompare(b)
+        })
+        case 'qualifierDesc':
+           return data.sort((a, b) => {
+          a =  a.qualifications ?  a.qualifications : ''
+          b =  b.qualifications ?  b.qualifications : ''
+          return  b.localeCompare(a)
+        })
+        case 'nameAsc': 
+          return data.sort((a, b) => a.firstName.localeCompare(b.firstName))
+        case 'nameDesc': 
+          return data.sort((a, b) => b.firstName.localeCompare(a.firstName))
+        default: 
+          return data
+      }
+    }
   render () {
     const { loaded, token, transactions, shareholders, routeTo } = this.props
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions);
     const modalTrigger = <img src={calendarSrc} alt="pause trading calendar"/> 
     const popupTrigger = <img src={infoSrc} alt="info" className="infoIcon"/> 
-    let shareholderTableData = () => {
-      let data = this.formatShareholderTableData(shareholdersWithData, transactions);
-      if(this.state.orderBy === 'quantityAsc'){
-        return data.sort((a, b) => a.transactions.quantity - b.transactions.quantity)
-      }
-       if(this.state.orderBy === 'quantityDesc'){
-        return data.sort((a, b) => b.transactions.quantity - a.transactions.quantity)
-      }
-      if(this.state.orderBy === 'dateAsc'){
-         return data.sort((a, b) => new Date(a.transactions.lastCreated) - new Date(b.transactions.lastCreated))
-      }
-      if(this.state.orderBy === 'dateDesc'){
-         return data.sort((a, b) => new Date(b.transactions.lastCreated) - new Date(a.transactions.lastCreated))
-      }
-      if(this.state.orderBy === 'addressAsc'){
-        return data.sort((a, b) => a.country.localeCompare(b.country))
-      }
-      if(this.state.orderBy === 'addressDesc'){
-        return data.sort((a, b) => b.country.localeCompare(a.country))
-      }
-      if(this.state.orderBy === 'qualifierAsc'){
-        return data.sort((a, b) => {
-          a =  a.qualifications ?  a.qualifications : ''
-          b =  b.qualifications ?  b.qualifications : ''
-          return  a.localeCompare(b)
-        })
-      }
-      if(this.state.orderBy === 'qualifierDesc'){
-         return data.sort((a, b) => {
-          a =  a.qualifications ?  a.qualifications : ''
-          b =  b.qualifications ?  b.qualifications : ''
-          return  b.localeCompare(a)
-        })
-      }
-      if(this.state.orderBy === 'nameAsc'){
-        return data.sort((a, b) => a.firstName.localeCompare(b.firstName))
-      }
-      if(this.state.orderBy === 'nameDesc'){
-        return data.sort((a, b) => b.firstName.localeCompare(a.firstName))
-      }
-      if(this.state.orderBy === ''){
-        console.log(data)
-        return data
-      }
-    };
     const panes = [
       { menuItem: 'Shareholders',
         render: () =>
@@ -165,7 +155,7 @@ class InvestorDetailView extends Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              { shareholderTableData().map((shareholder, i) =>
+              { this.shareholderTableData(shareholdersWithData, transactions).map((shareholder, i) =>
                 <Table.Row key={shareholder.id} onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)} style={{ cursor: 'pointer' }}>
                   <Table.Cell>{i+1}</Table.Cell>
                   <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
@@ -237,7 +227,7 @@ class InvestorDetailView extends Component {
           <StatsCard stats={stats}/>
         </div>
         <div className="tradingToggle"> 
-          <span><strong>Trading:</strong> {this.state.trading? 'Active':'Paused'}</span>
+          <span><strong>Trading:</strong> { this.state.trading ? 'Active':'Paused' }</span>
           <Checkbox toggle onClick={() => this.setState({trading: !this.state.trading})} checked={this.state.trading}/>
           <span className="verticalSeparator"></span>
           <Modal trigger={modalTrigger}>
