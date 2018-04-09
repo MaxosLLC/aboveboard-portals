@@ -1,10 +1,32 @@
 import React, { Component } from 'react'
 import { differenceBy } from 'lodash'
-import { Button, Divider, Dropdown, Header, Grid, Icon, Input, Label, Segment } from 'semantic-ui-react'
+import { Button, Divider, Dropdown, Header, Icon, Input, Label, Segment, Message } from 'semantic-ui-react'
+import './Settings.css'
 
 class SettingsView extends Component {
+  noTokensMessage = (tokens) => {
+    if(tokens.length < 1){
+      return (
+         <Message
+          warning
+          header='You are not following any tokens'
+          content='Please search and select a token you would like to follow'
+        />
+      )
+    }
+  }
   render () {
-    const { loaded, appType, connected, connectWallet, currentUser, tokens, watchingTokens, startWatchingToken, stopWatchingToken, setMessagingAddress } = this.props
+    const {
+            appType, 
+            connected, 
+            connectWallet, 
+            currentUser, 
+            tokens, 
+            watchingTokens, 
+            startWatchingToken, 
+            stopWatchingToken, 
+            setMessagingAddress
+           } = this.props
 
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -12,7 +34,7 @@ class SettingsView extends Component {
         value: token.address
       }
     })
-
+    console.log(this.props)
     const handleConnectWallet = () => {
       const account = document.getElementById('wallet-account-input').value
       const password = document.getElementById('wallet-password-input').value
@@ -28,12 +50,12 @@ class SettingsView extends Component {
       return connectWallet(account, password)
     }
 
-    const handleChangeWatchingTokens = () => {
-      const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
-      const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
+      const handleChangeWatchingTokens = () => {
+        const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
+        const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
 
-      addedTokens.forEach(startWatchingToken)
-      removedTokens.forEach(stopWatchingToken)
+        addedTokens.forEach(startWatchingToken)
+        removedTokens.forEach(stopWatchingToken)
     }
 
     const handleSetMessagingAccount = () => {
@@ -48,62 +70,84 @@ class SettingsView extends Component {
 
     return (
       <div className='settingsComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Segment>
-              <Header as='h2' textAlign='center'>Settings</Header>
-            </Segment>
-          </Grid.Column>
-        </Grid>
+        {this.noTokensMessage(watchingTokens)}
+        <Segment>
+         <div className="inputContainer" style={{justifyContent: 'space-between'}}>
+          <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Followed Tokens</Header>
+          <Dropdown
+            selection
+            search
+            multiple
+            name='watchingTokens'
+            defaultValue={watchingTokens.map(token => token.address)}
+            options={watchingTokenOptions}
+            onChange={(e, {value}) => { 
+              this.watchingTokensValue = value.map(val => ({ address: val })) 
+              handleChangeWatchingTokens()
+              }}
+            icon="search"
+            className="settingInput"
+            style={{width: '84%', marginLeft: 0}}
+            />
+         </div>
+        </Segment>
 
-        <br />
-
-        { !loaded ? <span>Loading settings...<Icon name='spinner' loading /></span>
-          : <div>
-            <Segment>
-              <Header as='h3'>Watching Tokens</Header>
-              <Dropdown
-                selection
-                search
-                multiple
-                name='watchingTokens'
-                defaultValue={watchingTokens.map(token => token.address)}
-                options={watchingTokenOptions}
-                onChange={(e, {value}) => { this.watchingTokensValue = value.map(val => ({ address: val })) }}
+        <Segment>
+          <Header as='h4' className="settingHeader">Wallet Connection Status
+            <span className="connectionIndicator">
+              <span className={connected ? 'connected' : 'disconnected'}></span>
+              {connected ? 'Connected' : 'Disconnected'}
+            </span>
+          </Header> 
+            <div>
+            <Divider />
+            <div className="inputContainer">
+              <label>Account</label>
+              <Input 
+                id='wallet-account-input' 
+                name='wallet-account' 
+                defaultValue={connected ? currentUser.walletAccountName : '' }
+                className="settingInput"
+              />
+            </div>
+           
+            <div  className="inputContainer">
+              <label>Password</label>
+              <Input 
+                id='wallet-password-input' 
+                name='wallet-password' 
+                type='password' 
+                defaultValue={connected ? "password" : '' }
+                className="settingInput"
                 />
-              <br />
-              <br />
-              <Button onClick={handleChangeWatchingTokens}>Save</Button>
-            </Segment>
-
-            <Segment>
-                Wallet Connection Status <Label color={connected ? 'green' : 'red'}>{ connected ? 'Connected' : 'Disconnected' }</Label>
-              { !connected
-                  ? <div>
-                    <Divider />
-                    <Label>Account</Label>
-                    <Input id='wallet-account-input' name='wallet-account' autoComplete='new-password' />
-                    <br />
-                    <Label>Password</Label>
-                    <Input id='wallet-password-input' name='wallet-password' type='password' autoComplete='new-password' />
-                    <br />
-                    <Button onClick={handleConnectWallet}>Connect</Button>
-                  </div>
-                  : '' }
-            </Segment>
-
-            { appType === 'issuer'
-              ? <Segment>
-                <Label>Messaging Account ID</Label>
-                <Input id='messaging-account-input' name='messaging-acount' defaultValue={currentUser.messagingAddress} />
-                <br />
-                <br />
-                <Button onClick={handleSetMessagingAccount}>Save</Button>
-              </Segment>
-            : '' }
+            </div>
+            <div className="buttonContainer">
+              <Button>Cancel</Button>
+              <Button  color="teal" onClick={handleConnectWallet}>{connected?'Disconnect':'Connect'}</Button>
+            </div>
           </div>
-        }
+        </Segment>
+
+        { appType === 'issuer'
+          ? <Segment>
+            <div className="inputContainer"  style={{justifyContent: 'space-between'}}>
+              <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Messaging Account ID</Header> 
+              <Input
+                id='messaging-account-input' 
+                name='messaging-acount' 
+                defaultValue={currentUser.messagingAddress}
+                className="settingInput"
+                style={{width: '79%', marginLeft: 0}}
+                />
+            </div>
+           <div className="buttonContainer">
+              <Button>Cancel</Button>
+              <Button  color="teal" onClick={handleSetMessagingAccount}>{connected?'Edit':'Save'}</Button>
+           </div>
+          </Segment>
+        : '' }
       </div>
+
     )
   }
 }

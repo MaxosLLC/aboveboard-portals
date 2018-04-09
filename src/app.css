@@ -49,3 +49,32 @@ body {
     border-radius: 4px;
     border: 0;
 }
+
+.appComponent .ui.divider {
+    border-top-color: #F1F4F8 !important;
+}
+
+.appComponent .ui.message {
+    box-shadow: 0 4px 20px 0 rgba(180, 180, 180, 0.3);
+    border-radius: 0;
+    border: 0;
+    color: #fff;
+    font-family: 'ProximaNova-R', sans-serif;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.appComponent .ui.message .header {
+    color: #fff;
+    font-family: 'ProximaNova-SM', sans-serif;
+    font-size: 14px;
+}
+
+.appComponent .ui.warning.message {
+    background: #FFBA53;
+}
+
+.appComponent .ui.success.message {
+    background: #03CC88;
+}

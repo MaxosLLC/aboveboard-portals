@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Dropdown, Divider, Image, Menu } from 'semantic-ui-react'
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import './Header.css'
 
 const profileSrc = './images/icons/defaultProfile.svg'

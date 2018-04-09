@@ -1,0 +1,107 @@
+.settingsComponent {
+    padding: 13% 0;
+}
+
+.settingsComponent .segment {
+    padding: 4% 6.5% 20px;
+    margin: 30px 0 0;
+}
+
+.settingsComponent h4.settingHeader {
+    font-family: 'ProximaNova-SM', sans-serif;
+    color: #094bb1;
+    font-size: 18px;
+}
+
+.settingsComponent .inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: 'ProximaNova-R', sans-serif;
+    color: #4F6683;
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+.settingsComponent .inputContainer .settingInput {
+    width: 90%;
+    margin-left: 20px;
+}
+
+.settingsComponent .inputContainer .settingInput input {
+    width: 10%;
+}
+
+.settingsComponent .settingInput input,
+.selection.dropdown.settingInput {
+    font-family: 'ProximaNova-R', sans-serif;
+    font-size: 16px;
+    color: #4F6683;
+    background: #F8F9FB;
+    border: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.settingsComponent .settingInput i.search.icon {
+    line-height: 1 !important;
+    top: .7em !important;
+}
+
+.settingsComponent .settingInput .label {
+    background: #00CDDB;
+    color: #fff;
+    font-family: 'ProximaNova-R', sans-serif;
+    border-radius: 20px;
+    padding: 8px 15px !important;
+    box-shadow: none !important;
+}
+
+.settingsComponent .settingInput .label:hover {
+    background-color: #03A0CC !important;
+    color: #fff !important;
+    font-family: 'ProximaNova-R', sans-serif;
+    border-radius: 20px;
+    padding: 8px 15px !important;
+    box-shadow: none;
+}
+
+.settingsComponent .buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.settingsComponent button.button {
+    margin: 0 0 0 20px !important;
+    min-width: 120px;
+    max-width: 300px;
+}
+
+.settingsComponent .connectionIndicator {
+    font-family: 'ProximaNova-R', sans-serif;
+    color: #4F6683;
+    font-size: 14px;
+}
+
+.settingsComponent .connected {
+    background: #00FFC6;
+    display: inline-block;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    margin-left: 30px;
+}
+
+.settingsComponent .disconnected {
+    background: #FF0061;
+    display: inline-block;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    margin-left: 30px;
+}
