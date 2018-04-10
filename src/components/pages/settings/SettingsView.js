@@ -9,19 +9,23 @@ class SettingsView extends Component {
       return (
          <Message
           warning
+          hidden={this.state.warningMessageHidden}
+          onDismiss={() => this.setState({ warningMessageHidden: true })}
           header='You are not following any tokens'
           content='Please search and select a token you would like to follow'
         />
       )
     }
   }
-  walletConnectionWarningMessage = (connection) => {
-    if(!connection){
+  walletErrorMessage = (error) => {
+    if(error){
       return (
          <Message
-          warning
-          header='Wallet Disconnected'
-          content='You are currently not connected to your wallet'
+          negative
+          hidden={this.state.errorMessage}
+          onDismiss={() => this.setState({errorMessage: true})}
+          header='Failed connection atempt'
+          content='Please make sure you have enetered the right account name and password for your wallet'
         />
       )
     }
@@ -31,20 +35,22 @@ class SettingsView extends Component {
       walletEditMode:false,
       messagingIdEditMode: false,
       accountName: this.props.currentUser.walletAccountName,
-      accountPass: '••••••••••••••••',
-      messagingId: this.props.currentUser.messagingAddress
+      accountPass: '',
+      messagingId: this.props.currentUser.messagingAddress,
+      errorMessage: this.props.error,
+      warningMessageHidden: false,
     })
   }
   render () {
     const {appType, 
             connected, 
             connectWallet, 
-            currentUser, 
             tokens, 
             watchingTokens, 
             startWatchingToken, 
             stopWatchingToken, 
-            setMessagingAddress
+            setMessagingAddress,
+            error
            } = this.props
     const watchingTokenOptions = tokens.map(token => {
       return {
@@ -61,7 +67,7 @@ class SettingsView extends Component {
       if (!password) {
         return alert('Please enter your account password') // eslint-disable-line
       }
-
+      this.setState({errorMessage: false})
       return connectWallet(account, password)
 
     }
@@ -78,13 +84,16 @@ class SettingsView extends Component {
       if (!messagingAddress) {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
-      setMessagingAddress(messagingAddress, watchingTokens)
+      // this throws a big number ops error everytime - needs fixing 
+      setMessagingAddress(messagingAddress, watchingTokens).then(() => {
+        this.setState({ messagingIdEditMode: false })
+      }).catch(err => console.log(err))
     }
 
     return (
       <div className='settingsComponent'>
         {this.noTokensMessage(watchingTokens)}
-        {this.walletConnectionWarningMessage(connected)}
+        {this.walletErrorMessage(error)}
         <Segment>
          <div className="inputContainer" style={{justifyContent: 'space-between'}}>
           <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Followed Tokens</Header>
@@ -127,31 +136,33 @@ class SettingsView extends Component {
               />
             </div>
            
-            <div  className="inputContainer">
+            <div className="inputContainer">
               <label>Password</label>
               <Input 
                 id='wallet-password-input' 
                 name='wallet-password' 
-                type='password' 
-                placeholder={this.state.accountPass}
+                type='password'
+                defaultValue={this.state.accountPass}
                 className="settingInput"
                 disabled={!this.state.walletEditMode}
                 onChange={(e) => this.setState({accountPass: e.target.value}) }
                 />
             </div>
             <div className="buttonContainer">
-              <Button style={{background: 'none'}} className={this.state.walletEditMode ? '': 'hide'}>Cancel</Button>
+              <Button 
+              style={{background: 'none'}} 
+              className={this.state.walletEditMode ? '': 'hide'}
+              onClick={() => this.setState({ walletEditMode: false})}>Cancel</Button>
               {this.state.walletEditMode 
                 ?<Button  
-                    color={!this.state.accountName.length || !this.state.accountPass.length ? '': 'teal'} 
+                    color={!this.state.accountName.length || !this.state.accountPass.length ? 'grey': 'teal'} 
                     onClick={handleConnectWallet}
                     disabled={!this.state.accountName.length || !this.state.accountPass.length}
                   >Connect</Button>
                 :<Button  
                     color="teal"
                     onClick={() => this.setState({walletEditMode: true})}
-                    disabled={!this.state.accountName.length || !this.state.accountPass.length}
-                  >Disconnect</Button> 
+                  >Edit</Button> 
               }
             </div>
           </div>
@@ -172,10 +183,13 @@ class SettingsView extends Component {
                 />
             </div>
            <div className="buttonContainer">
-              <Button style={{background: 'none'}} className={this.state.messagingIdEditMode ?'': 'hide'}>Cancel</Button>
+              <Button 
+              style={{background: 'none'}} 
+              className={this.state.messagingIdEditMode ?'': 'hide'}
+              onClick={() => this.setState({ messagingIdEditMode: false })}>Cancel</Button>
               {this.state.messagingIdEditMode
                ? <Button 
-                  color={!this.state.messagingId.length ? '':'teal'} 
+                  color={!this.state.messagingId.length ? 'grey':'teal'} 
                   onClick={handleSetMessagingAccount}
                   disabled={!this.state.messagingId.length}>Save</Button>
                 : <Button

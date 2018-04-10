@@ -32,14 +32,23 @@ body {
     padding: 0 10%;
 }
 
-.appComponent .ui.teal {
+.appComponent .ui.teal,
+.appComponent .ui.teal:focus,
+.appComponent .ui.teal:visited,
+.appComponent .ui.teal:active {
     background-color: #00cddb;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     margin: 20px 0;
     font-family: 'ProximaNova-R', sans-serif;
 }
+.appComponent .ui.grey {
+    background-color : #d5d8db;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    margin: 20px 0;
+    font-family: 'ProximaNova-R', sans-serif;
+}
 
-.appComponent .ui.teal:hover {
+.appComponent .ui.teal:hover{
     background-color: #03A0CC;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0);
 }
@@ -77,6 +86,10 @@ body {
 
 .appComponent .ui.success.message {
     background: #03CC88;
+}
+
+.appComponent .ui.negative.message {
+    background: #FF0061;
 }
 
 .appComponent .hide {
