@@ -25,6 +25,9 @@ class InvestorDetailView extends Component {
     this.props.loadShareholders()
     this.props.loadTransactions()
   }
+  updateLocalState = (stateObject) => {
+    this.setState(stateObject)
+  }
   getShareholderName = (address, shareholders) => {
   const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
   return shareholder && shareholder.firstName
@@ -152,38 +155,38 @@ class InvestorDetailView extends Component {
                <Table.HeaderCell style={{color: '#8f9bab'}}>ID</Table.HeaderCell>
                 <Table.HeaderCell>Shareholder 
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'nameAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'nameDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'nameAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'nameDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Address
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'addressAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'addressDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'addressAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'addressDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Qaulifier
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'qualifierAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'qualifierDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'qualifierAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'qualifierDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Quantity
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'quantityAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'quantityDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'quantityAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'quantityDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell>% of Total
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'quantityAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'quantityDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'quantityAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'quantityDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell>Last Transaction
                   <span className="sortButtons">
-                    <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'dateAsc'})}/>
-                    <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'dateDesc'})}/>
+                    <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'dateAsc'})}/>
+                    <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'dateDesc'})}/>
                   </span>
                 </Table.HeaderCell>
                 <Table.HeaderCell><Image src={downloadSrc} className="download"/></Table.HeaderCell>
@@ -216,32 +219,32 @@ class InvestorDetailView extends Component {
                   <Table.Row>
                     <Table.HeaderCell>Hash
                       <span className="sortButtons">
-                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'hashAsc'})}/>
-                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'hashDesc'})}/>
+                        <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'hashAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'hashDesc'})}/>
                       </span>
                     </Table.HeaderCell>
                     <Table.HeaderCell>Shareholder
                       <span className="sortButtons">
-                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tNameAsc'})}/>
-                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tNameDesc'})}/>
+                        <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'tNameAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'tNameDesc'})}/>
                       </span>
                     </Table.HeaderCell>
                     <Table.HeaderCell>Address
                       <span className="sortButtons">
-                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tAddressAsc'})}/>
-                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tAddressDesc'})}/>
+                        <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'tAddressAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'tAddressDesc'})}/>
                       </span>
                     </Table.HeaderCell>
                     <Table.HeaderCell>Quantity
                         <span className="sortButtons">
-                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tQuantityAsc'})}/>
-                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tQuantityDesc'})}/>
+                        <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'tQuantityAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'tQuantityDesc'})}/>
                       </span>
                     </Table.HeaderCell>
                     <Table.HeaderCell>Date
                       <span className="sortButtons">
-                        <Image src={sortUpSrc} onClick={() => this.setState({orderBy: 'tDateAsc'})}/>
-                        <Image src={sortDownSrc} onClick={() => this.setState({orderBy: 'tDateDesc'})}/>
+                        <Image src={sortUpSrc} onClick={() => this.updateLocalState({orderBy: 'tDateAsc'})}/>
+                        <Image src={sortDownSrc} onClick={() => this.updateLocalState({orderBy: 'tDateDesc'})}/>
                       </span>
                     </Table.HeaderCell>
                   </Table.Row>
@@ -290,7 +293,7 @@ class InvestorDetailView extends Component {
         </div>
         <div className="tradingToggle"> 
           <span><strong>Trading:</strong> { this.state.trading ? 'Active':'Paused' }</span>
-          <Checkbox toggle onClick={() => this.setState({trading: !this.state.trading})} checked={this.state.trading}/>
+          <Checkbox toggle onClick={() => this.updateLocalState({trading: !this.state.trading})} checked={this.state.trading}/>
           <span className="verticalSeparator"></span>
           <Modal trigger={modalTrigger}>
             <Modal.Content>
