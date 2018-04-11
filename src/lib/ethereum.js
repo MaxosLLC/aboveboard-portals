@@ -91,7 +91,7 @@ export default {
       })
       .then(() => store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' }))
       .catch(error => {
-     //console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
+        console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
         store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
       })
   },

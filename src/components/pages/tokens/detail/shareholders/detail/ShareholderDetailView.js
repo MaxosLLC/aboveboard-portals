@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Header, Icon, Table } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import '../../../Tokens.css'
 
 class ShareholderDetailView extends Component {
   componentDidMount () {
@@ -9,27 +10,19 @@ class ShareholderDetailView extends Component {
 
   render () {
     const { loaded, shareholder, tokens } = this.props
-
     const getTokenName = address => {
       const token = tokens.filter(token => token.address === address)
-
       return token && token[0] ? token[0].name : address
     }
 
     return (
       <div className='shareholdersComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Header as='h2' textAlign='center'>Shareholder Detail</Header>
-          </Grid.Column>
-        </Grid>
-
-        <br />
-
+       
+        <Header as='h2' className="shareholderHeader">Shareholder Details</Header> 
         { !loaded ? <span>Loading shareholder details...<Icon name='spinner' loading /></span>
           : <div>
-            <Table celled>
-              <Table.Header>
+            <Table className="abTable" unstackable>
+              <Table.Header className="tableHeader">
                 <Table.Row>
                   <Table.HeaderCell>First Name</Table.HeaderCell>
                   <Table.HeaderCell>Last Name</Table.HeaderCell>
@@ -43,17 +36,16 @@ class ShareholderDetailView extends Component {
                 <Table.Row key={shareholder.recipient}>
                   <Table.Cell>{shareholder.firstName}</Table.Cell>
                   <Table.Cell>{shareholder.lastName}</Table.Cell>
-                  <Table.Cell>{shareholder.email}</Table.Cell>
-                  <Table.Cell>{shareholder.phone}</Table.Cell>
+                  <Table.Cell>{shareholder.phone ? shareholder.email : 'N/A' }</Table.Cell>
+                  <Table.Cell>{shareholder.phone ? shareholder.phone : 'N/A' }</Table.Cell>
                   <Table.Cell>{shareholder.addressLine1}{shareholder.addressLine2 ? ` ${shareholder.addressLine1},` : ','} {shareholder.city}, {shareholder.state ? `${shareholder.state} ,` : ''} {shareholder.country}, {shareholder.zip}</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>
 
-            <Header as='h2' textAlign='center'>Ethereum Addresses</Header>
-
-            <Table celled>
-              <Table.Header>
+            <Header as='h2' className="shareholderHeader">Ethereum Addresses</Header>
+              <Table className="abTable" unstackable>
+              <Table.Header className="tableHeader">
                 <Table.Row>
                   <Table.HeaderCell>Address</Table.HeaderCell>
                   <Table.HeaderCell>Tokens</Table.HeaderCell>
@@ -73,12 +65,7 @@ class ShareholderDetailView extends Component {
                 })}
               </Table.Body>
             </Table>
-
-            <Grid centered columns={1}>
-              <Grid.Column width={4}>
-                <Link to='/tokens' className='ui button primary'>Back to Tokens</Link>
-              </Grid.Column>
-            </Grid>
+            <Link to='/tokens' className='ui right floated button teal'>Back to Tokens</Link>
           </div>
         }
       </div>

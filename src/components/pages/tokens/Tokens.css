@@ -1,13 +1,13 @@
 .tokensComponent {}
 
 .tokensComponent table.abTable,
-.investorsComponent table.abTable {
+.shareholdersComponent table.abTable {
     border: 0;
     background: none;
 }
 
 .tokensComponent table.abTable .tableHeader tr th,
-.investorsComponent table.abTable .tableHeader tr th {
+.shareholdersComponent table.abTable .tableHeader tr th {
     background: #fff;
     padding: 20px 2%;
     font-family: 'ProximaNova-SM', sans-serif;
@@ -16,8 +16,16 @@
     border-bottom: 3px solid #f8f9fb;
 }
 
+.shareholdersComponent h2.shareholderHeader {
+    font-family: 'Futura-M', sans-serif;
+    font-size: 22px;
+    color: #8F9BAB;
+    transition: all .3s ease;
+    font-weight: 400;
+}
+
 .tokensComponent table.abTable tr td,
-.investorsComponent table.abTable tr td {
+.shareholdersComponent table.abTable tr td {
     background: #fff;
     padding: 20px 2% !important;
     font-family: 'ProximaNova-R', sans-serif;
@@ -27,7 +35,7 @@
 }
 
 .tokensComponent table.abTable tbody tr:hover td,
-.investorsComponent table.abTable tbody tr:hover td {
+.shareholdersComponent table.abTable tbody tr:hover td {
     background: #00cddb !important;
     color: #fff !important;
 }

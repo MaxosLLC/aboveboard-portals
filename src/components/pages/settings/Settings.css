@@ -1,5 +1,5 @@
 .settingsComponent {
-    padding: 13% 0;
+    padding: 2% 0;
 }
 
 .settingsComponent .segment {
@@ -34,7 +34,11 @@
 }
 
 .settingsComponent .inputContainer .settingInput input {
-    width: 10%;
+    width: 80%;
+}
+
+.settingsComponent .inputContainer .settingInput label {
+    width: 20%;
 }
 
 .settingsComponent .settingInput input,

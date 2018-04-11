@@ -4,6 +4,18 @@ import { Button, Divider, Dropdown, Header, Input, Segment, Message } from 'sema
 import './Settings.css'
 
 class SettingsView extends Component {
+  componentWillMount = () => {
+    this.setState({
+      walletEditMode: false,
+      messagingIdEditMode: false,
+      accountName: this.props.currentUser.walletAccountName,
+      accountPass: '',
+      messagingId: this.props.currentUser.messagingAddress,
+      errorMessage: this.props.error,
+      errorMessagingAddress: this.props.error,
+      warningMessageHidden: false
+    })
+  }
   noTokensMessage = (tokens) => {
     if(tokens.length < 1){
       return (
@@ -30,19 +42,10 @@ class SettingsView extends Component {
       )
     }
   }
-  componentWillMount = () =>{
-    this.setState({
-      walletEditMode:false,
-      messagingIdEditMode: false,
-      accountName: this.props.currentUser.walletAccountName,
-      accountPass: '',
-      messagingId: this.props.currentUser.messagingAddress,
-      errorMessage: this.props.error,
-      warningMessageHidden: false,
-    })
-  }
+
+
   render () {
-    const {appType, 
+    const { appType, 
             connected, 
             connectWallet, 
             tokens, 
@@ -52,24 +55,26 @@ class SettingsView extends Component {
             setMessagingAddress,
             error
            } = this.props
+           console.log(this.props)
+    const account = document.getElementById('wallet-account-input')
+    const password = document.getElementById('wallet-password-input')
+    const messagingAddress = document.getElementById('messaging-account-input')
     const watchingTokenOptions = tokens.map(token => {
       return {
         text: token.name,
         value: token.address
       }
     })
+    
     const handleConnectWallet = () => {
-      const account = document.getElementById('wallet-account-input').value
-      const password = document.getElementById('wallet-password-input').value
-      if (!account) {
+      if (!account.value) {
         return alert('Please enter account address') // eslint-disable-line
       }
-      if (!password) {
+      if (!password.value) {
         return alert('Please enter your account password') // eslint-disable-line
       }
       this.setState({errorMessage: false})
-      return connectWallet(account, password)
-
+      connectWallet(account.value, password.value)
     }
 
     const handleChangeWatchingTokens = () => {
@@ -80,14 +85,15 @@ class SettingsView extends Component {
     }
 
     const handleSetMessagingAccount = () => {
-      const messagingAddress = document.getElementById('messaging-account-input').value
-      if (!messagingAddress) {
+      if (!messagingAddress.value) {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
-      // this throws a big number ops error everytime - needs fixing 
-      setMessagingAddress(messagingAddress, watchingTokens).then(() => {
-        this.setState({ messagingIdEditMode: false })
-      }).catch(err => console.log(err))
+      // this throws a big number ops error everytime
+      setMessagingAddress(messagingAddress.value, watchingTokens)
+      .then()
+      .catch(err => {
+        console.log(err)
+      })
     }
 
     return (
@@ -152,7 +158,13 @@ class SettingsView extends Component {
               <Button 
               style={{background: 'none'}} 
               className={this.state.walletEditMode ? '': 'hide'}
-              onClick={() => this.setState({ walletEditMode: false})}>Cancel</Button>
+              onClick={() => {
+                if(!connected){
+                  account.value = ''
+                  password.value = ''
+                }
+                return this.setState({walletEditMode: false})
+              } }>Done</Button>
               {this.state.walletEditMode 
                 ?<Button  
                     color={!this.state.accountName.length || !this.state.accountPass.length ? 'grey': 'teal'} 
@@ -186,11 +198,11 @@ class SettingsView extends Component {
               <Button 
               style={{background: 'none'}} 
               className={this.state.messagingIdEditMode ?'': 'hide'}
-              onClick={() => this.setState({ messagingIdEditMode: false })}>Cancel</Button>
+              onClick={() => this.setState({ messagingIdEditMode: false })}>Done</Button>
               {this.state.messagingIdEditMode
                ? <Button 
                   color={!this.state.messagingId.length ? 'grey':'teal'} 
-                  onClick={handleSetMessagingAccount}
+                  onClick={handleSetMessagingAccount}   // TODO: needs fix for ops error on setMessagingAddress
                   disabled={!this.state.messagingId.length}>Save</Button>
                 : <Button
                 color="teal"

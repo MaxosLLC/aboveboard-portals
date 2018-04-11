@@ -5,7 +5,8 @@ import './Breadcrumbs.css'
 class BreadcrumbsView extends Component {
   render () {
     const { router, tokens } = this.props
-    const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
+    const tokenDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/detail$/
+    const shareholderDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/shareholders\/[0-9a-zA-Z\s-]+\/detail$/
     const renderCrumbs = (path, tokens) => {
       switch(true){
         case path === '/':
@@ -43,7 +44,16 @@ class BreadcrumbsView extends Component {
             const currentToken = tokens.filter(token => token.address === tokenAddress)[0];
             return(
               <div>
-                <Link to="/tokens">Securities ></Link> {currentToken.name}
+                <Link to="/tokens">Securities &nbsp;>&nbsp;</Link> {currentToken.name}
+              </div>
+            )
+          case shareholderDetailRegexp.test(path):
+            const shareholderAddress = path.split('/')[path.split('/').length -2];
+            const tokensAddress = path.split('/')[path.split('/').length -4];
+            return(
+              <div>
+               <Link to="/tokens">Securities &nbsp;>&nbsp;</Link> 
+               <Link to={`/tokens/${tokensAddress}/detail`}>Token &nbsp;>&nbsp;</Link>  {shareholderAddress}
               </div>
             )
           default: 
