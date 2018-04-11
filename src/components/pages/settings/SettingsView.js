@@ -11,9 +11,8 @@ class SettingsView extends Component {
       accountName: this.props.currentUser.walletAccountName,
       accountPass: '',
       messagingId: this.props.currentUser.messagingAddress,
-      errorMessage: this.props.error,
-      errorMessagingAddress: this.props.error,
-      warningMessageHidden: false
+      hideErrorMessage: false,
+      hideWarningMessage: false
     })
   }
   noTokensMessage = (tokens) => {
@@ -21,8 +20,6 @@ class SettingsView extends Component {
       return (
          <Message
           warning
-          hidden={this.state.warningMessageHidden}
-          onDismiss={() => this.setState({ warningMessageHidden: true })}
           header='You are not following any tokens'
           content='Please search and select a token you would like to follow'
         />
@@ -34,8 +31,8 @@ class SettingsView extends Component {
       return (
          <Message
           negative
-          hidden={this.state.errorMessage}
-          onDismiss={() => this.setState({errorMessage: true})}
+          hidden={this.state.hideErrorMessage}
+          onDismiss={() => this.hideErrorMessage(true)}
           header='Failed connection atempt'
           content='Please make sure you have enetered the right account name and password for your wallet'
         />
@@ -43,7 +40,27 @@ class SettingsView extends Component {
     }
   }
 
-
+  hideErrorMessage = (bool) => {
+    this.setState({ hideErrorMessage: bool })
+  }
+  hideWarningMessage = (bool) => {
+    this.setState({ hideWarningMessage: bool })
+  }
+  setAccountToTarget = (e) => {
+    this.setState({ accountName: e.target.value })
+  }
+  setPassToTarget = (e) => {
+    this.setState({ accountPass: e.target.value })
+  }
+  setMessagingIdToTarget = (e) => {
+    this.setState({ messagingId: e.target.value })
+  }
+  messgingAddressEdit = (bool) => {
+    this.setState({ messagingIdEditMode: bool })
+  }
+  walletEdit = (bool) => {
+    this.setState({ walletEditMode: bool })
+  }
   render () {
     const { appType, 
             connected, 
@@ -55,7 +72,6 @@ class SettingsView extends Component {
             setMessagingAddress,
             error
            } = this.props
-           console.log(this.props)
     const account = document.getElementById('wallet-account-input')
     const password = document.getElementById('wallet-password-input')
     const messagingAddress = document.getElementById('messaging-account-input')
@@ -73,7 +89,7 @@ class SettingsView extends Component {
       if (!password.value) {
         return alert('Please enter your account password') // eslint-disable-line
       }
-      this.setState({errorMessage: false})
+      this.hideErrorMessage(false)
       connectWallet(account.value, password.value)
     }
 
@@ -138,7 +154,7 @@ class SettingsView extends Component {
                 defaultValue={this.state.accountName}
                 className="settingInput"
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setState({accountName: e.target.value})}
+                onChange={(e) => this.setAccountToTarget(e) }
               />
             </div>
            
@@ -151,7 +167,7 @@ class SettingsView extends Component {
                 defaultValue={this.state.accountPass}
                 className="settingInput"
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setState({accountPass: e.target.value}) }
+                onChange={(e) => this.setPassToTarget(e) }
                 />
             </div>
             <div className="buttonContainer">
@@ -163,7 +179,7 @@ class SettingsView extends Component {
                   account.value = ''
                   password.value = ''
                 }
-                return this.setState({walletEditMode: false})
+                return this.walletEdit(false)
               } }>Done</Button>
               {this.state.walletEditMode 
                 ?<Button  
@@ -173,7 +189,7 @@ class SettingsView extends Component {
                   >Connect</Button>
                 :<Button  
                     color="teal"
-                    onClick={() => this.setState({walletEditMode: true})}
+                    onClick={() => this.walletEdit(true)}
                   >Edit</Button> 
               }
             </div>
@@ -191,14 +207,14 @@ class SettingsView extends Component {
                 className="settingInput"
                 style={{width: '79%', marginLeft: 0}}
                 disabled={!this.state.messagingIdEditMode}
-                onChange={(e) => this.setState({messagingId: e.target.value}) }
+                onChange={(e) => this.setMessagingIdToTarget(e) }
                 />
             </div>
            <div className="buttonContainer">
               <Button 
               style={{background: 'none'}} 
               className={this.state.messagingIdEditMode ?'': 'hide'}
-              onClick={() => this.setState({ messagingIdEditMode: false })}>Done</Button>
+                onClick={() => this.messgingAddressEdit(false)}>Done</Button>
               {this.state.messagingIdEditMode
                ? <Button 
                   color={!this.state.messagingId.length ? 'grey':'teal'} 
@@ -206,7 +222,7 @@ class SettingsView extends Component {
                   disabled={!this.state.messagingId.length}>Save</Button>
                 : <Button
                 color="teal"
-                onClick={() => this.setState({messagingIdEditMode: true})}
+                onClick={() => this.messgingAddressEdit(true)}
                 >Edit</Button>
               }
            </div>

@@ -7,6 +7,10 @@ body {
 .appComponent {
     width: 100%;
     height: 100%;
+    font-family: 'ProximaNove-R',
+    sans-serif !important;
+    font-size: 16px;
+    color: #8f9bab;
 }
 
 .error {
