@@ -1,6 +1,14 @@
-import React, { Component } from 'react'
-import { differenceBy } from 'lodash'
-import { Button, Divider, Dropdown, Header, Input, Segment, Message } from 'semantic-ui-react'
+import React, {Component} from 'react'
+import {differenceBy} from 'lodash'
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Header,
+  Input,
+  Segment,
+  Message
+} from 'semantic-ui-react'
 import './Settings.css'
 
 class SettingsView extends Component {
@@ -16,72 +24,64 @@ class SettingsView extends Component {
     })
   }
   noTokensMessage = (tokens) => {
-    if(tokens.length < 1){
-      return (
-         <Message
-          warning
-          header='You are not following any tokens'
-          content='Please search and select a token you would like to follow'
-        />
-      )
+    if (tokens.length < 1) {
+      return (<Message
+        warning
+        header='You are not following any tokens'
+        content='Please search and select a token you would like to follow'/>)
     }
   }
   walletErrorMessage = (error) => {
-    if(error){
-      return (
-         <Message
-          negative
-          hidden={this.state.hideErrorMessage}
-          onDismiss={() => this.hideErrorMessage(true)}
-          header='Failed connection atempt'
-          content='Please make sure you have enetered the right account name and password for your wallet'
-        />
-      )
+    if (error) {
+      return (<Message
+        negative
+        hidden={this.state.hideErrorMessage}
+        onDismiss={() => this.hideErrorMessage(true)}
+        header='Failed connection atempt'
+        content='Please make sure you have enetered the right account name and password for your wallet'/>)
     }
   }
 
   hideErrorMessage = (bool) => {
-    this.setState({ hideErrorMessage: bool })
+    this.setState({hideErrorMessage: bool})
   }
   hideWarningMessage = (bool) => {
-    this.setState({ hideWarningMessage: bool })
+    this.setState({hideWarningMessage: bool})
   }
   setAccountToTarget = (e) => {
-    this.setState({ accountName: e.target.value })
+    this.setState({accountName: e.target.value})
   }
   setPassToTarget = (e) => {
-    this.setState({ accountPass: e.target.value })
+    this.setState({accountPass: e.target.value})
   }
   setMessagingIdToTarget = (e) => {
-    this.setState({ messagingId: e.target.value })
+    this.setState({messagingId: e.target.value})
   }
   messgingAddressEdit = (bool) => {
-    this.setState({ messagingIdEditMode: bool })
+    this.setState({messagingIdEditMode: bool})
   }
   walletEdit = (bool) => {
-    this.setState({ walletEditMode: bool })
+    this.setState({walletEditMode: bool})
   }
-  render () {
-    const { appType, 
-            connected, 
-            connectWallet, 
-            tokens, 
-            watchingTokens, 
-            startWatchingToken, 
-            stopWatchingToken, 
-            setMessagingAddress,
-            error
-           } = this.props
+  render() {
+    const {
+      appType,
+      connected,
+      connectWallet,
+      tokens,
+      watchingTokens,
+      startWatchingToken,
+      stopWatchingToken,
+      setMessagingAddress,
+      error
+    } = this.props
     const account = document.getElementById('wallet-account-input')
     const password = document.getElementById('wallet-password-input')
     const messagingAddress = document.getElementById('messaging-account-input')
     const watchingTokenOptions = tokens.map(token => {
-      return {
-        text: token.name,
-        value: token.address
-      }
+      return {text: token.name, value: token.address}
     })
-    
+
     const handleConnectWallet = () => {
       if (!account.value) {
         return alert('Please enter account address') // eslint-disable-line
@@ -94,10 +94,10 @@ class SettingsView extends Component {
     }
 
     const handleChangeWatchingTokens = () => {
-        const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
-        const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
-        addedTokens.forEach(startWatchingToken)
-        removedTokens.forEach(stopWatchingToken)
+      const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
+      const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
+      addedTokens.forEach(startWatchingToken)
+      removedTokens.forEach(stopWatchingToken)
     }
 
     const handleSetMessagingAccount = () => {
@@ -106,10 +106,10 @@ class SettingsView extends Component {
       }
       // this throws a big number ops error everytime
       setMessagingAddress(messagingAddress.value, watchingTokens)
-      .then()
-      .catch(err => {
-        console.log(err)
-      })
+        .then()
+        .catch(err => {
+          console.log(err)
+        })
     }
 
     return (
@@ -117,119 +117,148 @@ class SettingsView extends Component {
         {this.noTokensMessage(watchingTokens)}
         {this.walletErrorMessage(error)}
         <Segment>
-         <div className="inputContainer" style={{justifyContent: 'space-between'}}>
-          <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Followed Tokens</Header>
-          <Dropdown
-            selection
-            search
-            multiple
-            name='watchingTokens'
-            defaultValue={watchingTokens.map(token => token.address)}
-            options={watchingTokenOptions}
-            onChange={(e, {value}) => { 
-              this.watchingTokensValue = value.map(val => ({ address: val })) 
+          <div
+            className="inputContainer"
+            style={{
+            justifyContent: 'space-between'
+          }}>
+            <Header
+              as='h4'
+              className="settingHeader"
+              style={{
+              marginBottom: 0
+            }}>Followed Tokens</Header>
+            <Dropdown
+              selection
+              search
+              multiple
+              name='watchingTokens'
+              defaultValue={watchingTokens.map(token => token.address)}
+              options={watchingTokenOptions}
+              onChange={(e, {value}) => {
+              this.watchingTokensValue = value.map(val => ({address: val}))
               handleChangeWatchingTokens()
-              }}
-            icon="search"
-            className="settingInput"
-            style={{width: '84%', marginLeft: 0}}
-            />
-         </div>
+            }}
+              icon="search"
+              className="settingInput"
+              style={{
+              width: '84%',
+              marginLeft: 0
+            }}/>
+          </div>
         </Segment>
 
         <Segment>
           <Header as='h4' className="settingHeader">Wallet Connection Status
             <span className="connectionIndicator">
-              <span className={connected ? 'connected' : 'disconnected'}></span>
-              {connected ? 'Connected' : 'Disconnected'}
+              <span
+                className={connected
+                ? 'connected'
+                : 'disconnected'}></span>
+              {connected
+                ? 'Connected'
+                : 'Disconnected'}
             </span>
-          </Header> 
-            <div>
-            <Divider />
+          </Header>
+          <div>
+            <Divider/>
             <div className="inputContainer">
               <label>Account</label>
-              <Input 
-                id='wallet-account-input' 
-                name='wallet-account' 
+              <Input
+                id='wallet-account-input'
+                name='wallet-account'
                 defaultValue={this.state.accountName}
                 className="settingInput"
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setAccountToTarget(e) }
-              />
+                onChange={(e) => this.setAccountToTarget(e)}/>
             </div>
-           
+
             <div className="inputContainer">
               <label>Password</label>
-              <Input 
-                id='wallet-password-input' 
-                name='wallet-password' 
+              <Input
+                id='wallet-password-input'
+                name='wallet-password'
                 type='password'
                 defaultValue={this.state.accountPass}
                 className="settingInput"
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setPassToTarget(e) }
-                />
+                onChange={(e) => this.setPassToTarget(e)}/>
             </div>
             <div className="buttonContainer">
-              <Button 
-              style={{background: 'none'}} 
-              className={this.state.walletEditMode ? '': 'hide'}
-              onClick={() => {
-                if(!connected){
+              <Button
+                style={{
+                background: 'none'
+              }}
+                className={this.state.walletEditMode
+                ? ''
+                : 'hide'}
+                onClick={() => {
+                if (!connected) {
                   account.value = ''
                   password.value = ''
                 }
                 return this.walletEdit(false)
-              } }>Done</Button>
-              {this.state.walletEditMode 
-                ?<Button  
-                    color={!this.state.accountName.length || !this.state.accountPass.length ? 'grey': 'teal'} 
+              }}>Done</Button>
+              {this.state.walletEditMode
+                ? <Button
+                    color={!this.state.accountName.length || !this.state.accountPass.length
+                    ? 'grey'
+                    : 'teal'}
                     onClick={handleConnectWallet}
-                    disabled={!this.state.accountName.length || !this.state.accountPass.length}
-                  >Connect</Button>
-                :<Button  
-                    color="teal"
-                    onClick={() => this.walletEdit(true)}
-                  >Edit</Button> 
-              }
+                    disabled={!this.state.accountName.length || !this.state.accountPass.length}>Connect</Button>
+                : <Button color="teal" onClick={() => this.walletEdit(true)}>Edit</Button>
+}
             </div>
           </div>
         </Segment>
 
-        { appType === 'issuer'
+        {appType === 'issuer'
           ? <Segment>
-            <div className="inputContainer"  style={{justifyContent: 'space-between'}}>
-              <Header as='h4' className="settingHeader" style={{marginBottom: 0}}>Messaging Account ID</Header> 
-              <Input
-                id='messaging-account-input' 
-                name='messaging-acount' 
-                defaultValue={this.state.messagingId}
-                className="settingInput"
-                style={{width: '79%', marginLeft: 0}}
-                disabled={!this.state.messagingIdEditMode}
-                onChange={(e) => this.setMessagingIdToTarget(e) }
-                />
-            </div>
-           <div className="buttonContainer">
-              <Button 
-              style={{background: 'none'}} 
-              className={this.state.messagingIdEditMode ?'': 'hide'}
-                onClick={() => this.messgingAddressEdit(false)}>Done</Button>
-              {this.state.messagingIdEditMode
-               ? <Button 
-                  color={!this.state.messagingId.length ? 'grey':'teal'} 
-                  onClick={handleSetMessagingAccount}   // TODO: needs fix for ops error on setMessagingAddress
-                  disabled={!this.state.messagingId.length}>Save</Button>
-                : <Button
-                color="teal"
-                onClick={() => this.messgingAddressEdit(true)}
-                >Edit</Button>
-              }
-           </div>
-          </Segment>
-        : '' }
+              <div
+                className="inputContainer"
+                style={{
+                justifyContent: 'space-between'
+              }}>
+                <Header
+                  as='h4'
+                  className="settingHeader"
+                  style={{
+                  marginBottom: 0
+                }}>Messaging Account ID</Header>
+                <Input
+                  id='messaging-account-input'
+                  name='messaging-acount'
+                  defaultValue={this.state.messagingId}
+                  className="settingInput"
+                  style={{
+                  width: '79%',
+                  marginLeft: 0
+                }}
+                  disabled={!this.state.messagingIdEditMode}
+                  onChange={(e) => this.setMessagingIdToTarget(e)}/>
+              </div>
+              <div className="buttonContainer">
+                <Button
+                  style={{
+                  background: 'none'
+                }}
+                  className={this.state.messagingIdEditMode
+                  ? ''
+                  : 'hide'}
+                  onClick={() => this.messgingAddressEdit(false)}>Done</Button>
+                {this.state.messagingIdEditMode
+                  ? <Button 
+                      color={!this.state.messagingId.length
+                          ? 'grey'
+                          : 'teal'} 
+                      onClick={handleSetMessagingAccount} // TODO: needs fix for ops error on setMessagingAddress
+                      disabled={!this.state.messagingId.length}>Save</Button>
+                  : <Button color="teal" onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
+                  }
+              </div>
+            </Segment>
+          : ''}
       </div>
-
     )
   }
 }

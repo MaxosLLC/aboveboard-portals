@@ -1,0 +1,16 @@
+{
+    "jsx": {
+        "formatJSX": true,
+        "attrsOnSameLineAsTag": false,
+        "maxAttrsOnTag": 3,
+        "firstAttributeOnSameLine": true,
+        "formatJSXExpressions": true,
+        "JSXExpressionsSingleLine": true,
+        "alignWithFirstAttribute": false,
+        "spaceInJSXExpressionContainers": " ",
+        "removeSpaceBeforeClosingJSX": false,
+        "closingTagOnNewLine": false,
+        "JSXAttributeQuotes": "",
+        "htmlOptions": {}
+    }
+}
