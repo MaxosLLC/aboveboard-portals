@@ -5,8 +5,7 @@ import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthenticati
 import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
 import ethereum from 'lib/ethereum'
-
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 const removeJwtFromLocalStorage = () => {
   if (window.localStorage && window.localStorage.removeItem) {

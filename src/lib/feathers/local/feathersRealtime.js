@@ -1,8 +1,7 @@
 import client from 'lib/feathers/local/feathersClient'
 import localServices from 'lib/feathers/local/feathersServices'
 import store from 'redux/store'
-
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/

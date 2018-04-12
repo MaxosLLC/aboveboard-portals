@@ -1,4 +1,4 @@
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 module.exports = {
   init (store) {

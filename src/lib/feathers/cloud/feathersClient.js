@@ -3,7 +3,7 @@ import socketio from '@feathersjs/socketio-client'
 import auth from '@feathersjs/authentication-client'
 import io from 'socket.io-client'
 
-const url = process.env.REACT_APP_CLOUD_API_URL || 'https://aboveboard-cloud-api.herokuapp.com/'
+const url = window.REACT_APP_APP_TYPE ? 'https://aboveboard-cloud-api-prod.herokuapp.com/' : (process.env.REACT_APP_CLOUD_API_URL || 'https://aboveboard-cloud-api.herokuapp.com/')
 
 const socket = io(url, {
   transports: ['websocket']

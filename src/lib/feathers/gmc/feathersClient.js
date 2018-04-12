@@ -3,7 +3,7 @@ import socketio from '@feathersjs/socketio-client'
 import auth from '@feathersjs/authentication-client'
 import io from 'socket.io-client'
 
-const url = process.env.REACT_APP_GMC_API_URL || 'https://aboveboard-gmc-api.herokuapp.com/'
+const url = window.REACT_APP_APP_TYPE ? 'https://aboveboard-gmc-api-prod.herokuapp.com/' : (process.env.REACT_APP_GMC_API_URL || 'https://aboveboard-gmc-api.herokuapp.com/')
 
 const socket = io(url, {
   transports: ['websocket']

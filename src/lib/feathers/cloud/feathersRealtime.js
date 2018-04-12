@@ -1,8 +1,7 @@
 import client from 'lib/feathers/cloud/feathersClient'
 import services from 'lib/feathers/cloud/feathersServices'
 import store from 'redux/store'
-
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 export default {
   init () {

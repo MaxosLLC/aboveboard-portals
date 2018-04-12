@@ -1,7 +1,6 @@
 import reduxifyServices from 'feathers-redux'
 import feathersClient from './feathersClient'
-
-const appType = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 const services = [ 'user', 'token' ]
 
