@@ -1,7 +1,7 @@
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import localServices from 'lib/feathers/local/feathersServices';
-import TokenDetailView from './TokenDetailView';
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import localServices from 'lib/feathers/local/feathersServices'
+import TokenDetailView from './TokenDetailView'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -20,14 +20,14 @@ const mapStateToProps = (state, ownProps) => {
     loaded:
       state.shareholder.isFinished &&
       state.transaction.isFinished &&
-      state.token.isFinished,
-  };
-};
+      state.token.isFinished
+  }
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    routeTo(path) {
-      dispatch(push(path));
+    routeTo (path) {
+      dispatch(push(path))
     },
     loadShareholders: ($skip = 0) =>
       dispatch(
@@ -35,8 +35,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           query: {
             'ethAddresses.issues.address': ownProps.match.params.address,
             $limit: 25,
-            $skip,
-          },
+            $skip
+          }
         })
       ),
     loadTransactions: ($skip = 0) =>
@@ -45,11 +45,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           query: {
             contractAddress: ownProps.match.params.address,
             $limit: 25,
-            $skip,
-          },
+            $skip
+          }
         })
-      ),
-  };
-};
+      )
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(TokenDetailView);
+export default connect(mapStateToProps, mapDispatchToProps)(TokenDetailView)

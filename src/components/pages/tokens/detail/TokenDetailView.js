@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import moment from 'moment';
+import React, { Component } from 'react'
+import moment from 'moment'
 import {
   Pagination,
   Grid,
@@ -7,34 +7,34 @@ import {
   Icon,
   Segment,
   Tab,
-  Table,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+  Table
+} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class InvestorDetailView extends Component {
-  componentDidMount() {
-    this.props.loadShareholders();
-    this.props.loadTransactions();
+  componentDidMount () {
+    this.props.loadShareholders()
+    this.props.loadTransactions()
   }
 
-  render() {
-    const { loaded, token, transactions, shareholders, routeTo } = this.props;
+  render () {
+    const { loaded, token, transactions, shareholders, routeTo } = this.props
 
     const getShareholderName = address => {
       const shareholder = shareholders.filter(shareholder =>
         shareholder.ethAddresses.some(
           ethAddress => ethAddress.address === address
         )
-      )[0];
+      )[0]
 
       return shareholder && shareholder.firstName
         ? `${shareholder.firstName} ${shareholder.lastName}`
-        : '';
-    };
+        : ''
+    }
 
     const shareholdersWithData = shareholders.filter(
       shareholder => shareholder.firstName
-    );
+    )
 
     const panes = [
       {
@@ -84,9 +84,9 @@ class InvestorDetailView extends Component {
               </Table.Body>
               <Table.Footer>
                 <Table.Row>
-                  <Table.HeaderCell floated="right" colSpan="8">
+                  <Table.HeaderCell floated='right' colSpan='8'>
                     <Pagination
-                      floated="right"
+                      floated='right'
                       defaultActivePage={1}
                       totalPages={
                         this.props.queryResult
@@ -97,7 +97,7 @@ class InvestorDetailView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadShareholders(25 * (activePage - 1));
+                        this.props.loadShareholders(25 * (activePage - 1))
                       }}
                     />
                   </Table.HeaderCell>
@@ -106,7 +106,7 @@ class InvestorDetailView extends Component {
             </Table>
           ) : (
             <Segment>No shareholder data available</Segment>
-          ),
+          )
       },
       {
         menuItem: 'Transactions',
@@ -131,8 +131,8 @@ class InvestorDetailView extends Component {
                         to={`https://kovan.etherscan.io/tx/${
                           transaction.transactionHash
                         }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target='_blank'
+                        rel='noopener noreferrer'
                       >
                         {transaction.transactionHash.substr(0, 4)}...{transaction.transactionHash.substr(
                           transaction.transactionHash.length - 4,
@@ -148,8 +148,8 @@ class InvestorDetailView extends Component {
                         to={`https://kovan.etherscan.io/address/${
                           transaction.shareholderEthAddress
                         }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target='_blank'
+                        rel='noopener noreferrer'
                       >
                         {transaction.shareholderEthAddress.substr(0, 4)}...{transaction.shareholderEthAddress.substr(
                           transaction.shareholderEthAddress.length - 4,
@@ -166,9 +166,9 @@ class InvestorDetailView extends Component {
               </Table.Body>
               <Table.Footer>
                 <Table.Row>
-                  <Table.HeaderCell floated="right" colSpan="8">
+                  <Table.HeaderCell floated='right' colSpan='8'>
                     <Pagination
-                      floated="right"
+                      floated='right'
                       defaultActivePage={1}
                       totalPages={
                         this.props.queryResult
@@ -179,7 +179,7 @@ class InvestorDetailView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadTransactions(25 * (activePage - 1));
+                        this.props.loadTransactions(25 * (activePage - 1))
                       }}
                     />
                   </Table.HeaderCell>
@@ -188,22 +188,22 @@ class InvestorDetailView extends Component {
             </Table>
           ) : (
             <Segment>No transactions have been made yet</Segment>
-          ),
-      },
-    ];
+          )
+      }
+    ]
 
     return (
-      <div className="investorsComponent">
+      <div className='investorsComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={10}>
-            <Header as="h2" textAlign="center">
+            <Header as='h2' textAlign='center'>
               Token Detail
             </Header>
-            <Header as="h3" textAlign="center">
+            <Header as='h3' textAlign='center'>
               <Link
                 to={`https://kovan.etherscan.io/address/${token.address}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 {token.name}
               </Link>
@@ -213,14 +213,14 @@ class InvestorDetailView extends Component {
 
         {!loaded ? (
           <span>
-            Loading token details...<Icon name="spinner" loading />
+            Loading token details...<Icon name='spinner' loading />
           </span>
         ) : (
           <Tab panes={panes} />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InvestorDetailView;
+export default InvestorDetailView

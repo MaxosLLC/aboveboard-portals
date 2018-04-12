@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
-import { reduxForm, FieldArray } from 'redux-form';
-import { Link } from 'react-router-dom';
+import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import { reduxForm, FieldArray } from 'redux-form'
+import { Link } from 'react-router-dom'
 import {
   Dropdown as DropdownForFieldArray,
   Button,
@@ -10,131 +10,131 @@ import {
   Header,
   Label as OriginalLabel,
   Segment,
-  Icon,
-} from 'semantic-ui-react';
-import { Dropdown, Label, Text } from 'components/inputs';
+  Icon
+} from 'semantic-ui-react'
+import { Dropdown, Label, Text } from 'components/inputs'
 
-import countryOptions from 'data/dropDownCountryOptions';
+import countryOptions from 'data/dropDownCountryOptions'
 
 const qualificationsOptions = [
   {
     text: 'US Accredited',
-    value: 'us-accredited',
+    value: 'us-accredited'
   },
   {
     text: 'US QIB',
-    value: 'us-qib',
-  },
-];
+    value: 'us-qib'
+  }
+]
 
-const emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,16}$/i;
+const emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,16}$/i
 const phoneRegexp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i; // eslint-disable-line
-const postalAndZipCodeRegexp = /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i;
+const postalAndZipCodeRegexp = /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i
 
 const validate = values => {
-  const errors = {};
+  const errors = {}
 
   if (!values.firstName) {
-    errors.firstName = 'Required';
+    errors.firstName = 'Required'
   } else if (values.firstName.length > 60) {
-    errors.firstName = 'First name must be less than 60 characters';
+    errors.firstName = 'First name must be less than 60 characters'
   }
 
   if (!values.lastName) {
-    errors.lastName = 'Required';
+    errors.lastName = 'Required'
   } else if (values.lastName.length > 60) {
-    errors.lastName = 'Last name must be less than 60 characters';
+    errors.lastName = 'Last name must be less than 60 characters'
   }
 
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = 'Required'
   } else if (!emailRegexp.test(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Invalid email address'
   } else if (values.email.length > 100) {
-    errors.email = 'Email must be less than 100 characters';
+    errors.email = 'Email must be less than 100 characters'
   }
 
   if (values.phone && !phoneRegexp.test(values.phone)) {
-    errors.phone = 'Phone must be a valid phone number';
+    errors.phone = 'Phone must be a valid phone number'
   }
 
   if (!values.addressLine1) {
-    errors.addressLine1 = 'Required';
+    errors.addressLine1 = 'Required'
   } else if (values.addressLine1.length > 120) {
-    errors.addressLine1 = 'Address must be less than 120 characters';
+    errors.addressLine1 = 'Address must be less than 120 characters'
   }
 
   if (values.addressLine2 && values.addressLine2.length > 120) {
-    errors.addressLine2 = 'Address must be less than 120 characters';
+    errors.addressLine2 = 'Address must be less than 120 characters'
   }
 
   if (!values.city) {
-    errors.city = 'Required';
+    errors.city = 'Required'
   } else if (values.city.length > 60) {
-    errors.city = 'City must be less than 60 characters';
+    errors.city = 'City must be less than 60 characters'
   }
 
   if (values.state && values.state.length > 60) {
-    errors.state = 'State must be less than 60 characters';
+    errors.state = 'State must be less than 60 characters'
   }
 
   if (!values.country) {
-    errors.country = 'Required';
+    errors.country = 'Required'
   } else if (values.country.length > 60) {
-    errors.country = 'Country must be less than 60 characters';
+    errors.country = 'Country must be less than 60 characters'
   }
 
   if (!values.zip) {
-    errors.zip = 'Required';
+    errors.zip = 'Required'
   } else if (!postalAndZipCodeRegexp.test(values.zip)) {
-    errors.zip = 'Zip/Postal Code code must be valid';
+    errors.zip = 'Zip/Postal Code code must be valid'
   }
 
-  return errors;
-};
+  return errors
+}
 
 const renderwhitelistAddresses = ({
   whitelistOptions,
   fields,
-  meta: { error, submitFailed },
+  meta: { error, submitFailed }
 }) => {
   const onChange = (e, data) => {
-    fields.removeAll();
+    fields.removeAll()
     data.value.map(value => {
-      let name = data.options.find(option => option.value === value).text;
+      let name = data.options.find(option => option.value === value).text
       fields.push({
         name: name,
-        address: value,
-      });
-      return null;
-    });
-  };
+        address: value
+      })
+      return null
+    })
+  }
   return (
     <Fragment>
       <Grid.Column style={{ padding: '10px' }}>
         <DropdownForFieldArray
-          placeholder="Add Whitelist Address:"
+          placeholder='Add Whitelist Address:'
           selection
           search
           multiple
-          name="whitelists"
+          name='whitelists'
           options={whitelistOptions}
           onChange={onChange}
         />
         {submitFailed && error && <span>{error}</span>}
       </Grid.Column>
     </Fragment>
-  );
-};
+  )
+}
 
 const renderEthAddresses = ({
   whitelistOptions,
   fields,
-  meta: { error, submitFailed },
+  meta: { error, submitFailed }
 }) => (
   <Fragment>
     <Grid.Column style={{ margin: 'auto' }}>
-      <Button type="button" key="submit" onClick={() => fields.push({})}>
+      <Button type='button' key='submit' onClick={() => fields.push({})}>
         Add eth Address
       </Button>
       {submitFailed && error && <span>{error}</span>}
@@ -142,7 +142,7 @@ const renderEthAddresses = ({
     {fields.map((ethAddress, index) => (
       <Grid
         key={`ethAddressGrid${index}`}
-        padded="horizontally"
+        padded='horizontally'
         celled
         stackable
         columns={2}
@@ -168,91 +168,91 @@ const renderEthAddresses = ({
       </Grid>
     ))}
   </Fragment>
-);
+)
 
 let AddInvestorForm = props => {
-  const { handleSubmit, errors, whitelists, pristine, submitting } = props;
+  const { handleSubmit, errors, whitelists, pristine, submitting } = props
 
   const whitelistOptions = whitelists.map(whitelist => {
     return {
       text: whitelist.name,
-      value: whitelist.address,
-    };
-  });
+      value: whitelist.address
+    }
+  })
   return (
     <form onSubmit={handleSubmit}>
       <Container text>
-        <Segment textAlign="center">
-          <Header as="h2" textAlign="center">
+        <Segment textAlign='center'>
+          <Header as='h2' textAlign='center'>
             Add Buyer
           </Header>
-          <Grid stackable divided="vertically" columns={2}>
+          <Grid stackable divided='vertically' columns={2}>
             <Grid.Row>
               <Grid.Column>
                 <Label>First Name *</Label>
-                <Text name="firstName" />
+                <Text name='firstName' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Last Name *</Label>
-                <Text name="lastName" />
+                <Text name='lastName' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Email *</Label>
-                <Text name="email" />
+                <Text name='email' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Phone</Label>
-                <Text name="phone" />
+                <Text name='phone' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Address Line 1*</Label>
-                <Text name="addressLine1" />
+                <Text name='addressLine1' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Address Line 2</Label>
-                <Text name="addressLine2" />
+                <Text name='addressLine2' />
               </Grid.Column>
               <Grid.Column>
                 <Label>City *</Label>
-                <Text name="city" />
+                <Text name='city' />
               </Grid.Column>
               <Grid.Column>
                 <Label>State/Province</Label>
-                <Text name="state" />
+                <Text name='state' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Country *</Label>
                 <Dropdown
                   selection
                   search
-                  name="country"
+                  name='country'
                   options={countryOptions}
                 />
               </Grid.Column>
               <Grid.Column>
                 <Label>Zip/Postal Code *</Label>
-                <Text name="zip" />
+                <Text name='zip' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Qualifications *</Label>
                 <Dropdown
                   selection
                   search
-                  name="qualifications"
+                  name='qualifications'
                   options={qualificationsOptions}
                 />
               </Grid.Column>
               <FieldArray
-                name="ethAddresses"
+                name='ethAddresses'
                 component={renderEthAddresses}
                 props={{ whitelistOptions }}
               />
             </Grid.Row>
             {errors ? (
               <Grid.Row>
-                <Grid.Column width={16} textAlign="center">
+                <Grid.Column width={16} textAlign='center'>
                   <Segment>
-                    <OriginalLabel color="red">{errors}</OriginalLabel>
+                    <OriginalLabel color='red'>{errors}</OriginalLabel>
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
@@ -260,11 +260,11 @@ let AddInvestorForm = props => {
               ''
             )}
             <Grid.Row>
-              <Grid.Column width={16} textAlign="center">
-                <Button type="submit" disabled={pristine || submitting}>
+              <Grid.Column width={16} textAlign='center'>
+                <Button type='submit' disabled={pristine || submitting}>
                   Save
                 </Button>
-                <Link to="/buyers" className="ui button secondary">
+                <Link to='/buyers' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>
@@ -273,14 +273,14 @@ let AddInvestorForm = props => {
         </Segment>
       </Container>
     </form>
-  );
-};
+  )
+}
 
 AddInvestorForm = reduxForm({
   form: 'AddInvestor',
   validate,
-  enableReinitialize: true,
-})(AddInvestorForm);
+  enableReinitialize: true
+})(AddInvestorForm)
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -288,8 +288,8 @@ const mapStateToProps = (state, ownProps) => {
     whitelists: state.whitelist.queryResult
       ? state.whitelist.queryResult.data
       : [],
-    errors: state.wallet.error,
-  };
-};
-AddInvestorForm = connect(mapStateToProps)(AddInvestorForm);
-export default AddInvestorForm;
+    errors: state.wallet.error
+  }
+}
+AddInvestorForm = connect(mapStateToProps)(AddInvestorForm)
+export default AddInvestorForm

@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import { sortBy } from 'lodash/fp';
-import { Link } from 'react-router-dom';
-import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import { sortBy } from 'lodash/fp'
+import { Link } from 'react-router-dom'
+import { Pagination, Grid, Header, Icon, Table } from 'semantic-ui-react'
 
 class TokensView extends Component {
-  componentDidMount() {
-    this.props.loadTokens();
+  componentDidMount () {
+    this.props.loadTokens()
   }
-  render() {
-    const { loaded, tokens, watchingTokens, routeTo } = this.props;
+  render () {
+    const { loaded, tokens, watchingTokens, routeTo } = this.props
 
     const handleRowClick = tokenAddress => {
-      routeTo(`/tokens/${tokenAddress}/detail`);
-    };
+      routeTo(`/tokens/${tokenAddress}/detail`)
+    }
 
     const filteredWatchingTokens = tokens.filter(token => {
       return watchingTokens.some(
         watchedToken => token.address === watchedToken.address
-      );
-    });
+      )
+    })
 
     return (
-      <div className="tokensComponent">
+      <div className='tokensComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={4}>
-            <Header as="h2" textAlign="center">
+            <Header as='h2' textAlign='center'>
               Tokens
             </Header>
           </Grid.Column>
@@ -34,7 +34,7 @@ class TokensView extends Component {
 
         {!loaded ? (
           <span>
-            Loading tokens...<Icon name="spinner" loading />
+            Loading tokens...<Icon name='spinner' loading />
           </span>
         ) : filteredWatchingTokens.length ? (
           <div>
@@ -60,9 +60,9 @@ class TokensView extends Component {
               </Table.Body>
               <Table.Footer>
                 <Table.Row>
-                  <Table.HeaderCell floated="right" colSpan="8">
+                  <Table.HeaderCell floated='right' colSpan='8'>
                     <Pagination
-                      floated="right"
+                      floated='right'
                       defaultActivePage={1}
                       totalPages={
                         this.props.queryResult
@@ -73,7 +73,7 @@ class TokensView extends Component {
                           : 1
                       }
                       onPageChange={(e, { activePage }) => {
-                        this.props.loadTokens(25 * (activePage - 1));
+                        this.props.loadTokens(25 * (activePage - 1))
                       }}
                     />
                   </Table.HeaderCell>
@@ -84,12 +84,12 @@ class TokensView extends Component {
         ) : (
           <span>
             You are currently not watching any tokens. Please visit your{' '}
-            <Link to="/settings">settings</Link> to start watching tokens.
+            <Link to='/settings'>settings</Link> to start watching tokens.
           </span>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default TokensView;
+export default TokensView

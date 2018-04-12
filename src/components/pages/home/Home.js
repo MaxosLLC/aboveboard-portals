@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Segment } from 'semantic-ui-react';
+import React, { Component } from 'react'
+import { Segment } from 'semantic-ui-react'
 
 class Home extends Component {
-  render() {
+  render () {
     return (
       <Segment>
         <span>Main Dashboard</span><br /><br />
       </Segment>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

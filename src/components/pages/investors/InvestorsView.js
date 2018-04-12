@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Pagination,
   Button,
   Grid,
   Header,
   Icon,
-  Table,
-} from 'semantic-ui-react';
+  Table
+} from 'semantic-ui-react'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
-  'us-qib': 'US QIB',
-};
+  'us-qib': 'US QIB'
+}
 
 class InvestorsView extends Component {
-  componentDidMount() {
-    this.props.loadInvestors();
+  componentDidMount () {
+    this.props.loadInvestors()
   }
 
-  render() {
-    const { loaded, investors, routeTo } = this.props;
+  render () {
+    const { loaded, investors, routeTo } = this.props
     const handleRowClick = investorId => {
-      routeTo(`/buyers/${investorId}/detail`);
-    };
+      routeTo(`/buyers/${investorId}/detail`)
+    }
 
     return (
-      <div className="investorsComponent">
+      <div className='investorsComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={4}>
-            <Header as="h2" textAlign="center" style={{ marginBottom: '20px' }}>
+            <Header as='h2' textAlign='center' style={{ marginBottom: '20px' }}>
               Buyers
             </Header>
           </Grid.Column>
@@ -37,7 +37,7 @@ class InvestorsView extends Component {
 
         {!loaded ? (
           <span>
-            Loading buyers...<Icon name="spinner" loading />
+            Loading buyers...<Icon name='spinner' loading />
           </span>
         ) : (
           <Table celled compact selectable>
@@ -92,7 +92,7 @@ class InvestorsView extends Component {
                   >
                     <Button
                       onClick={() => routeTo(`/buyers/${investor.id}/edit`)}
-                      className="ui button right floated"
+                      className='ui button right floated'
                     >
                       Edit
                     </Button>
@@ -103,9 +103,9 @@ class InvestorsView extends Component {
 
             <Table.Footer>
               <Table.Row>
-                <Table.HeaderCell floated="right" colSpan="8">
+                <Table.HeaderCell floated='right' colSpan='8'>
                   <Pagination
-                    floated="right"
+                    floated='right'
                     defaultActivePage={1}
                     totalPages={
                       this.props.queryResult
@@ -116,14 +116,14 @@ class InvestorsView extends Component {
                         : 1
                     }
                     onPageChange={(e, { activePage }) => {
-                      this.props.loadInvestors(25 * (activePage - 1));
+                      this.props.loadInvestors(25 * (activePage - 1))
                     }}
                   />
                 </Table.HeaderCell>
               </Table.Row>
               <Table.Row>
-                <Table.HeaderCell colSpan="8">
-                  <Link to="/buyers/add" className="ui button right floated">
+                <Table.HeaderCell colSpan='8'>
+                  <Link to='/buyers/add' className='ui button right floated'>
                     Add Buyer
                   </Link>
                 </Table.HeaderCell>
@@ -132,8 +132,8 @@ class InvestorsView extends Component {
           </Table>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InvestorsView;
+export default InvestorsView

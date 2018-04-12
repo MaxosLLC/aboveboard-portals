@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import { Grid, Header, Icon, Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Grid, Header, Icon, Table } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class ShareholderDetailView extends Component {
-  componentDidMount() {
-    this.props.loadShareholder();
+  componentDidMount () {
+    this.props.loadShareholder()
   }
 
-  render() {
-    const { loaded, shareholder, tokens } = this.props;
+  render () {
+    const { loaded, shareholder, tokens } = this.props
 
     const getTokenName = address => {
-      const token = tokens.filter(token => token.address === address);
+      const token = tokens.filter(token => token.address === address)
 
-      return token && token[0] ? token[0].name : address;
-    };
+      return token && token[0] ? token[0].name : address
+    }
 
     return (
-      <div className="shareholdersComponent">
+      <div className='shareholdersComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={4}>
-            <Header as="h2" textAlign="center">
+            <Header as='h2' textAlign='center'>
               Shareholder Detail
             </Header>
           </Grid.Column>
@@ -30,7 +30,7 @@ class ShareholderDetailView extends Component {
 
         {!loaded ? (
           <span>
-            Loading shareholder details...<Icon name="spinner" loading />
+            Loading shareholder details...<Icon name='spinner' loading />
           </span>
         ) : (
           <div>
@@ -64,7 +64,7 @@ class ShareholderDetailView extends Component {
               </Table.Body>
             </Table>
 
-            <Header as="h2" textAlign="center">
+            <Header as='h2' textAlign='center'>
               Ethereum Addresses
             </Header>
 
@@ -85,8 +85,8 @@ class ShareholderDetailView extends Component {
                           to={`https://kovan.etherscan.io/address/${
                             ethAddress.address
                           }`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target='_blank'
+                          rel='noopener noreferrer'
                         >
                           {ethAddress.address}
                         </Link>
@@ -102,24 +102,24 @@ class ShareholderDetailView extends Component {
                                 to={`https://kovan.etherscan.io/address/${
                                   issue.address
                                 }`}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                target='_blank'
+                                rel='noopener noreferrer'
                               >
                                 (View on Etherscan)
                               </Link>, Balance: {issue.tokens}
                             </p>
-                          );
+                          )
                         })}
                       </Table.Cell>
                     </Table.Row>
-                  );
+                  )
                 })}
               </Table.Body>
             </Table>
 
             <Grid centered columns={1}>
               <Grid.Column width={4}>
-                <Link to="/tokens" className="ui button primary">
+                <Link to='/tokens' className='ui button primary'>
                   Back to Tokens
                 </Link>
               </Grid.Column>
@@ -127,8 +127,8 @@ class ShareholderDetailView extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default ShareholderDetailView;
+export default ShareholderDetailView

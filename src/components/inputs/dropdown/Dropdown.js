@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown as DropdownWrapper } from 'semantic-ui-react';
-import { Field } from 'redux-form';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Dropdown as DropdownWrapper } from 'semantic-ui-react'
+import { Field } from 'redux-form'
 
 const CustomInput = initialValue => ({
   input: { value, onChange, onBlur },
@@ -9,7 +9,7 @@ const CustomInput = initialValue => ({
   options,
   multiple,
   search,
-  selection,
+  selection
 }) => {
   return (
     <div>
@@ -22,18 +22,18 @@ const CustomInput = initialValue => ({
         search={search}
         selection={selection}
       />
-      {touched && error && <span className="input__error">{error}</span>}
+      {touched && error && <span className='input__error'>{error}</span>}
     </div>
-  );
-};
+  )
+}
 
 CustomInput.propTypes = {
   input: PropTypes.object,
   options: PropTypes.array,
   multiple: PropTypes.bool,
   search: PropTypes.bool,
-  selection: PropTypes.bool,
-};
+  selection: PropTypes.bool
+}
 
 const Dropdown = ({
   name,
@@ -42,10 +42,10 @@ const Dropdown = ({
   search = false,
   selection = false,
   initialValue,
-  defaultValue,
+  defaultValue
 }) => (
   <Field
-    className="dropdown"
+    className='dropdown'
     name={name}
     component={CustomInput(initialValue)}
     options={options}
@@ -53,13 +53,13 @@ const Dropdown = ({
     search={search}
     selection={selection}
   />
-);
+)
 Dropdown.propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
   multiple: PropTypes.bool,
   search: PropTypes.bool,
-  selection: PropTypes.bool,
-};
+  selection: PropTypes.bool
+}
 
-export default Dropdown;
+export default Dropdown

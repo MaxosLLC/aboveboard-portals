@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { differenceBy } from 'lodash';
+import React, { Component } from 'react'
+import { differenceBy } from 'lodash'
 import {
   Button,
   Divider,
@@ -9,8 +9,8 @@ import {
   Icon,
   Input,
   Label,
-  Segment,
-} from 'semantic-ui-react';
+  Segment
+} from 'semantic-ui-react'
 
 class SettingsView extends Component {
   render () {
@@ -19,13 +19,13 @@ class SettingsView extends Component {
     const watchingTokenOptions = tokens.map(token => {
       return {
         text: token.name,
-        value: token.address,
-      };
-    });
+        value: token.address
+      }
+    })
 
     const handleConnectWallet = () => {
-      const account = document.getElementById('wallet-account-input').value;
-      const password = document.getElementById('wallet-password-input').value;
+      const account = document.getElementById('wallet-account-input').value
+      const password = document.getElementById('wallet-password-input').value
 
       if (!account) {
         return alert('Please enter account address'); // eslint-disable-line
@@ -35,24 +35,24 @@ class SettingsView extends Component {
         return alert('Please enter your account password'); // eslint-disable-line
       }
 
-      return connectWallet(account, password);
-    };
+      return connectWallet(account, password)
+    }
 
     const handleChangeWatchingTokens = () => {
       const addedTokens = differenceBy(
         this.watchingTokensValue,
         watchingTokens,
         'address'
-      );
+      )
       const removedTokens = differenceBy(
         watchingTokens,
         this.watchingTokensValue,
         'address'
-      );
+      )
 
-      addedTokens.forEach(startWatchingToken);
-      removedTokens.forEach(stopWatchingToken);
-    };
+      addedTokens.forEach(startWatchingToken)
+      removedTokens.forEach(stopWatchingToken)
+    }
 
     const handleSetMessagingAccount = () => {
       const messagingAddress = document.getElementById('messaging-account-input').value
@@ -65,11 +65,11 @@ class SettingsView extends Component {
     }
 
     return (
-      <div className="settingsComponent">
+      <div className='settingsComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={4}>
             <Segment>
-              <Header as="h2" textAlign="center">
+              <Header as='h2' textAlign='center'>
                 Settings
               </Header>
             </Segment>
@@ -80,23 +80,23 @@ class SettingsView extends Component {
 
         {!loaded ? (
           <span>
-            Loading settings...<Icon name="spinner" loading />
+            Loading settings...<Icon name='spinner' loading />
           </span>
         ) : (
           <div>
             <Segment>
-              <Header as="h3">Watching Tokens</Header>
+              <Header as='h3'>Watching Tokens</Header>
               <Dropdown
                 selection
                 search
                 multiple
-                name="watchingTokens"
+                name='watchingTokens'
                 defaultValue={watchingTokens.map(token => token.address)}
                 options={watchingTokenOptions}
                 onChange={(e, { value }) => {
                   this.watchingTokensValue = value.map(val => ({
-                    address: val,
-                  }));
+                    address: val
+                  }))
                 }}
               />
               <br />
@@ -114,17 +114,17 @@ class SettingsView extends Component {
                   <Divider />
                   <Label>Account</Label>
                   <Input
-                    id="wallet-account-input"
-                    name="wallet-account"
-                    autoComplete="new-password"
+                    id='wallet-account-input'
+                    name='wallet-account'
+                    autoComplete='new-password'
                   />
                   <br />
                   <Label>Password</Label>
                   <Input
-                    id="wallet-password-input"
-                    name="wallet-password"
-                    type="password"
-                    autoComplete="new-password"
+                    id='wallet-password-input'
+                    name='wallet-password'
+                    type='password'
+                    autoComplete='new-password'
                   />
                   <br />
                   <Button onClick={handleConnectWallet}>Connect</Button>
@@ -146,8 +146,8 @@ class SettingsView extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default SettingsView;
+export default SettingsView

@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import localServices from 'lib/feathers/local/feathersServices';
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import localServices from 'lib/feathers/local/feathersServices'
 
-import EditInvestorView from './EditInvestorView';
+import EditInvestorView from './EditInvestorView'
 
 const mapStateToProps = state => ({
   investor: state.investor.queryResult
@@ -11,8 +11,8 @@ const mapStateToProps = state => ({
   whitelists: state.whitelist.queryResult
     ? state.whitelist.queryResult.data
     : [],
-  loaded: state.whitelist.isFinished && state.investor.isFinished,
-});
+  loaded: state.whitelist.isFinished && state.investor.isFinished
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -20,13 +20,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(localServices.investor.find({ query: { id, $limit: 1 } })),
 
     editInvestor: data => {
-      const dataWithAddresses = data;
+      const dataWithAddresses = data
       return dispatch(
         localServices.investor.patch(data._id, dataWithAddresses)
-      ).then(() => dispatch(push('/buyers')));
+      ).then(() => dispatch(push('/buyers')))
     },
-    routeTo: path => ownProps.history.push(path),
-  };
-};
+    routeTo: path => ownProps.history.push(path)
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditInvestorView);
+export default connect(mapStateToProps, mapDispatchToProps)(EditInvestorView)

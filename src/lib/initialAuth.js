@@ -25,4 +25,4 @@ const init = store =>
     })
     .catch(e => console.error(`Login error: ${e}`))
 
-export default init;
+export default init

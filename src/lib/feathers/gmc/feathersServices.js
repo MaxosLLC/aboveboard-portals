@@ -1,4 +1,4 @@
-import reduxifyServices from 'feathers-redux';
-import feathersClient from './feathersClient';
+import reduxifyServices from 'feathers-redux'
+import feathersClient from './feathersClient'
 
-export default reduxifyServices(feathersClient, ['message']);
+export default reduxifyServices(feathersClient, ['message'])
