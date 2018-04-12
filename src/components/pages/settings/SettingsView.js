@@ -12,7 +12,7 @@ import {
 import './Settings.css'
 
 class SettingsView extends Component {
-  componentWillMount = () => {
+  componentWillMount () {
     this.setState({
       walletEditMode: false,
       messagingIdEditMode: false,
@@ -23,48 +23,48 @@ class SettingsView extends Component {
       hideWarningMessage: false
     })
   }
-  noTokensMessage = (tokens) => {
+  noTokensMessage (tokens) {
     if (tokens.length < 1) {
       return (<Message
         warning
         header='You are not following any tokens'
-        content='Please search and select a token you would like to follow'/>)
+        content='Please search and select a token you would like to follow' />)
     }
   }
-  walletErrorMessage = (error) => {
-    if(!this.state.hideErrorMessage){
+  walletErrorMessage (error) {
+    if (!this.state.hideErrorMessage) {
       if (error) {
         return (<Message
           negative
           onDismiss={() => this.hideErrorMessage(true)}
           header='Failed connection atempt'
-          content='Please make sure you have enetered the right account name and password for your wallet'/>)
+          content='Please make sure you have enetered the right account name and password for your wallet' />)
       }
     }
   }
 
-  hideErrorMessage = (bool) => {
+  hideErrorMessage (bool) {
     this.setState({hideErrorMessage: bool})
   }
-  hideWarningMessage = (bool) => {
+  hideWarningMessage (bool) {
     this.setState({hideWarningMessage: bool})
   }
-  setAccountToTarget = (e) => {
+  setAccountToTarget (e) {
     this.setState({accountName: e.target.value})
   }
-  setPassToTarget = (e) => {
+  setPassToTarget (e) {
     this.setState({accountPass: e.target.value})
   }
-  setMessagingIdToTarget = (e) => {
+  setMessagingIdToTarget (e) {
     this.setState({messagingId: e.target.value})
   }
-  messgingAddressEdit = (bool) => {
+  messgingAddressEdit (bool) {
     this.setState({messagingIdEditMode: bool})
   }
-  walletEdit = (bool) => {
+  walletEdit (bool) {
     this.setState({walletEditMode: bool})
   }
-  render() {
+  render () {
     const {
       appType,
       connected,
@@ -119,16 +119,16 @@ class SettingsView extends Component {
         {this.walletErrorMessage(error)}
         <Segment>
           <div
-            className="inputContainer"
+            className='inputContainer'
             style={{
-            justifyContent: 'space-between'
-          }}>
+              justifyContent: 'space-between'
+            }}>
             <Header
               as='h4'
-              className="settingHeader"
+              className='settingHeader'
               style={{
-              marginBottom: 0
-            }}>Followed Tokens</Header>
+                marginBottom: 0
+              }}>Followed Tokens</Header>
             <Dropdown
               selection
               search
@@ -137,77 +137,77 @@ class SettingsView extends Component {
               defaultValue={watchingTokens.map(token => token.address)}
               options={watchingTokenOptions}
               onChange={(e, {value}) => {
-              this.watchingTokensValue = value.map(val => ({address: val}))
-              handleChangeWatchingTokens()
-            }}
-              icon="search"
-              className="settingInput"
+                this.watchingTokensValue = value.map(val => ({address: val}))
+                handleChangeWatchingTokens()
+              }}
+              icon='search'
+              className='settingInput'
               style={{
-              width: '87%',
-              marginLeft: 0
-            }}/>
+                width: '87%',
+                marginLeft: 0
+              }} />
           </div>
         </Segment>
 
         <Segment>
-          <Header as='h4' className="settingHeader" style={{marginTop: '20px'}}>Wallet Connection Status
-            <span className="connectionIndicator">
+          <Header as='h4' className='settingHeader' style={{marginTop: '20px'}}>Wallet Connection Status
+            <span className='connectionIndicator'>
               <span
                 className={connected
                 ? 'connected'
-                : 'disconnected'}></span>
+                : 'disconnected'} />
               {connected
                 ? 'Connected'
                 : 'Disconnected'}
             </span>
           </Header>
           <div>
-            <Divider/>
-            <div className="inputContainer">
+            <Divider />
+            <div className='inputContainer'>
               <label>Account</label>
               <Input
                 id='wallet-account-input'
                 name='wallet-account'
                 defaultValue={this.state.accountName}
-                className="settingInput"
+                className='settingInput'
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setAccountToTarget(e)}/>
+                onChange={(e) => this.setAccountToTarget(e)} />
             </div>
 
-            <div className="inputContainer">
+            <div className='inputContainer'>
               <label>Password</label>
               <Input
                 id='wallet-password-input'
                 name='wallet-password'
                 type='password'
                 defaultValue={this.state.accountPass}
-                className="settingInput"
+                className='settingInput'
                 disabled={!this.state.walletEditMode}
-                onChange={(e) => this.setPassToTarget(e)}/>
+                onChange={(e) => this.setPassToTarget(e)} />
             </div>
-            <div className="buttonContainer">
+            <div className='buttonContainer'>
               <Button
                 style={{
-                background: 'none'
-              }}
+                  background: 'none'
+                }}
                 className={this.state.walletEditMode
                 ? ''
                 : 'hide'}
                 onClick={() => {
-                if (!connected) {
-                  account.value = ''
-                  password.value = ''
-                }
-                return this.walletEdit(false)
-              }}>Done</Button>
+                  if (!connected) {
+                    account.value = ''
+                    password.value = ''
+                  }
+                  return this.walletEdit(false)
+                }}>Done</Button>
               {this.state.walletEditMode
                 ? <Button
-                    color={!this.state.accountName.length || !this.state.accountPass.length
+                  color={!this.state.accountName || !this.state.accountName.length || !this.state.accountPass || !this.state.accountPass.length
                     ? 'grey'
                     : 'teal'}
-                    onClick={handleConnectWallet}
-                    disabled={!this.state.accountName.length || !this.state.accountPass.length}>Connect</Button>
-                : <Button color="teal" onClick={() => this.walletEdit(true)}>Edit</Button>
+                  onClick={handleConnectWallet}
+                  disabled={!this.state.accountName || !this.state.accountName.length || !this.state.accountPass || !this.state.accountPass.length}>Connect</Button>
+                : <Button color='teal' onClick={() => this.walletEdit(true)}>Edit</Button>
               }
             </div>
           </div>
@@ -215,49 +215,49 @@ class SettingsView extends Component {
 
         {appType === 'issuer'
           ? <Segment>
-              <div
-                className="inputContainer"
-                style={{
+            <div
+              className='inputContainer'
+              style={{
                 justifyContent: 'space-between'
               }}>
-                <Header
-                  as='h4'
-                  className="settingHeader"
-                  style={{
+              <Header
+                as='h4'
+                className='settingHeader'
+                style={{
                   marginBottom: 0
                 }}>Messaging Account ID</Header>
-                <Input
-                  id='messaging-account-input'
-                  name='messaging-acount'
-                  defaultValue={this.state.messagingId}
-                  className="settingInput"
-                  style={{
+              <Input
+                id='messaging-account-input'
+                name='messaging-acount'
+                defaultValue={this.state.messagingId}
+                className='settingInput'
+                style={{
                   width: '83%',
                   marginLeft: 0
                 }}
-                  disabled={!this.state.messagingIdEditMode}
-                  onChange={(e) => this.setMessagingIdToTarget(e)}/>
-              </div>
-              <div className="buttonContainer">
-                <Button
-                  style={{
+                disabled={!this.state.messagingIdEditMode}
+                onChange={(e) => this.setMessagingIdToTarget(e)} />
+            </div>
+            <div className='buttonContainer'>
+              <Button
+                style={{
                   background: 'none'
                 }}
-                  className={this.state.messagingIdEditMode
+                className={this.state.messagingIdEditMode
                   ? ''
                   : 'hide'}
-                  onClick={() => this.messgingAddressEdit(false)}>Done</Button>
-                {this.state.messagingIdEditMode
-                  ? <Button 
-                      color={!this.state.messagingId.length
+                onClick={() => this.messgingAddressEdit(false)}>Done</Button>
+              {this.state.messagingIdEditMode
+                  ? <Button
+                    color={!this.state.messagingId.length
                           ? 'grey'
-                          : 'teal'} 
-                      onClick={handleSetMessagingAccount} // TODO: needs fix for ops error on setMessagingAddress
-                      disabled={!this.state.messagingId.length}>Save</Button>
-                  : <Button color="teal" onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
+                          : 'teal'}
+                    onClick={handleSetMessagingAccount} // TODO: needs fix for ops error on setMessagingAddress
+                    disabled={!this.state.messagingId.length}>Save</Button>
+                  : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
                   }
-              </div>
-            </Segment>
+            </div>
+          </Segment>
           : ''}
       </div>
     )

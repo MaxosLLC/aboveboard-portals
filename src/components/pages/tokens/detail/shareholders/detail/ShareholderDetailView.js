@@ -4,13 +4,13 @@ import {Link} from 'react-router-dom'
 import '../../../Tokens.css'
 
 class ShareholderDetailView extends Component {
-  componentDidMount() {
+  componentDidMount () {
     this
       .props
       .loadShareholder()
   }
 
-  render() {
+  render () {
     const {loaded, shareholder, tokens} = this.props
     const getTokenName = address => {
       const token = tokens.filter(token => token.address === address)
@@ -22,12 +22,12 @@ class ShareholderDetailView extends Component {
     return (
       <div className='shareholdersComponent'>
 
-        <Header as='h2' className="shareholderHeader">Shareholder Details</Header>
+        <Header as='h2' className='shareholderHeader'>Shareholder Details</Header>
         {!loaded
-          ? <span>Loading shareholder details...<Icon name='spinner' loading/></span>
+          ? <span>Loading shareholder details...<Icon name='spinner' loading /></span>
           : <div>
-            <Table className="abTable" unstackable>
-              <Table.Header className="tableHeader">
+            <Table className='abTable' unstackable>
+              <Table.Header className='tableHeader'>
                 <Table.Row>
                   <Table.HeaderCell>First Name</Table.HeaderCell>
                   <Table.HeaderCell>Last Name</Table.HeaderCell>
@@ -57,9 +57,9 @@ class ShareholderDetailView extends Component {
               </Table.Body>
             </Table>
 
-            <Header as='h2' className="shareholderHeader">Ethereum Addresses</Header>
-            <Table className="abTable" unstackable>
-              <Table.Header className="tableHeader">
+            <Header as='h2' className='shareholderHeader'>Ethereum Addresses</Header>
+            <Table className='abTable' unstackable>
+              <Table.Header className='tableHeader'>
                 <Table.Row>
                   <Table.HeaderCell>Address</Table.HeaderCell>
                   <Table.HeaderCell>Tokens</Table.HeaderCell>
@@ -76,14 +76,14 @@ class ShareholderDetailView extends Component {
                         rel='noopener noreferrer'>{ethAddress.address}</Link>
                     </Table.Cell>
                     <Table.Cell>{(ethAddress.issues || []).map(issue => {
-                        return <p key={issue.address}>
-                          <Link to={`/tokens/${issue.address}/detail`}>{getTokenName(issue.address)}</Link>
-                          <Link
-                            to={`https://kovan.etherscan.io/address/${issue.address}`}
-                            target='_blank'
-                            rel='noopener noreferrer'>(View on Etherscan)</Link>, Balance: {issue.tokens}
-                        </p>
-                      })}</Table.Cell>
+                      return <p key={issue.address}>
+                        <Link to={`/tokens/${issue.address}/detail`}>{getTokenName(issue.address)}</Link>
+                        <Link
+                          to={`https://kovan.etherscan.io/address/${issue.address}`}
+                          target='_blank'
+                          rel='noopener noreferrer'>(View on Etherscan)</Link>, Balance: {issue.tokens}
+                      </p>
+                    })}</Table.Cell>
                   </Table.Row>
                 })}
               </Table.Body>
