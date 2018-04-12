@@ -45,9 +45,7 @@ class TokensView extends Component {
                   </Table.Body>
                 </Table>
               </div>
-            : <Segment>You are currently not watching any tokens. Please visit your
-              <Link to='/settings'>settings</Link>
-              to start watching tokens.</Segment>
+            : <Segment>You are currently not watching any tokens. Please visit your <Link to='/settings'>settings</Link> to start watching tokens.</Segment>
 }
       </div>
     )

@@ -32,13 +32,14 @@ class SettingsView extends Component {
     }
   }
   walletErrorMessage = (error) => {
-    if (error) {
-      return (<Message
-        negative
-        hidden={this.state.hideErrorMessage}
-        onDismiss={() => this.hideErrorMessage(true)}
-        header='Failed connection atempt'
-        content='Please make sure you have enetered the right account name and password for your wallet'/>)
+    if(!this.state.hideErrorMessage){
+      if (error) {
+        return (<Message
+          negative
+          onDismiss={() => this.hideErrorMessage(true)}
+          header='Failed connection atempt'
+          content='Please make sure you have enetered the right account name and password for your wallet'/>)
+      }
     }
   }
 
@@ -142,14 +143,14 @@ class SettingsView extends Component {
               icon="search"
               className="settingInput"
               style={{
-              width: '84%',
+              width: '87%',
               marginLeft: 0
             }}/>
           </div>
         </Segment>
 
         <Segment>
-          <Header as='h4' className="settingHeader">Wallet Connection Status
+          <Header as='h4' className="settingHeader" style={{marginTop: '20px'}}>Wallet Connection Status
             <span className="connectionIndicator">
               <span
                 className={connected
@@ -207,7 +208,7 @@ class SettingsView extends Component {
                     onClick={handleConnectWallet}
                     disabled={!this.state.accountName.length || !this.state.accountPass.length}>Connect</Button>
                 : <Button color="teal" onClick={() => this.walletEdit(true)}>Edit</Button>
-}
+              }
             </div>
           </div>
         </Segment>
@@ -231,7 +232,7 @@ class SettingsView extends Component {
                   defaultValue={this.state.messagingId}
                   className="settingInput"
                   style={{
-                  width: '79%',
+                  width: '83%',
                   marginLeft: 0
                 }}
                   disabled={!this.state.messagingIdEditMode}
