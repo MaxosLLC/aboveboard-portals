@@ -1,6 +1,6 @@
 import { appType } from 'lib/util'
 
-module.exports = {
+export default {
   init (store) {
     store.dispatch({ type: 'SET_APP_TYPE', appType })
   }
