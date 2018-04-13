@@ -18,9 +18,9 @@ app.use((req, res, next) => {
     const ip = ipCandidates[ipCandidates.length - 1]
     req.ip = ip
 
-    const ips = ALLOWED_IPS ? ALLOWED_IPS.split(' ').filter(i => !!i) : []
+    const ips = ALLOWED_IPS ? ALLOWED_IPS.split(' ').filter(i => i) : []
 
-    if (ips.length > 0 && ips.indexOf(ip) < 0) {
+    if (ips.length && ips.indexOf(ip) < 0) {
       res.status(403).send(`Your IP is not allowed!
         IP: ${ip}
         Please use AboveBoard VPN provided.`)
