@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { convertArrayToCSV } from 'convert-array-to-csv'
 import moment from 'moment'
 import {
   Header,
@@ -165,10 +164,10 @@ class InvestorDetailView extends Component {
       // TODO: needs pre-formatted or joined data from DB - would help render shareholder data faster
       // convertArrayToCSV won't convert nested objects
     if (src === 'shareholders') {
-      return `data:application/octet-stream,${convertArrayToCSV(this.formatShareholderTableData(this.props.shareholders, this.props.transactions))}`
+      return `data:application/octet-stream,${this.formatShareholderTableData(this.props.shareholders, this.props.transactions)}` // TODO: convert from array to CSV
     }
     if (src === 'transactions') {
-      return `data:application/octet-stream,${convertArrayToCSV(this.props.transactions)}`
+      return `data:application/octet-stream,${this.props.transactions}` // TODO: convert from array to CSV
     }
   }
   render () {
