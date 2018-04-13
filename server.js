@@ -10,11 +10,11 @@ app.use((req, res, next) => {
 
   if (ALLOWED_IPS) {
     const ipCandidates = (req.headers['x-forwarded-for'] ||
-      req.connection.remoteAddress ||
-      req.socket.remoteAddress ||
-      req.connection.socket.remoteAddress)
-        .split(',')[0]
-        .split(':')
+			req.connection.remoteAddress ||
+			req.socket.remoteAddress ||
+			req.connection.socket.remoteAddress)
+				.split(',')[0]
+				.split(':')
     const ip = ipCandidates[ipCandidates.length - 1]
     req.ip = ip
 
@@ -22,8 +22,8 @@ app.use((req, res, next) => {
 
     if (ips.length > 0 && ips.indexOf(ip) < 0) {
       res.status(403).send(`Your IP is not allowed!
-        IP: ${ip}
-        Please use AboveBoard VPN provided.`)
+				IP: ${ip}
+				Please use AboveBoard VPN provided.`)
       return
     }
   }
