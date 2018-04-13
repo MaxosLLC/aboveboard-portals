@@ -1,8 +1,17 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { reduxForm, FieldArray } from 'redux-form'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Dropdown as DropdownForFieldArray, Button, Container, Grid, Header, Label as OriginalLabel, Segment, Icon } from 'semantic-ui-react'
+import {
+  Dropdown as DropdownForFieldArray,
+  Button,
+  Container,
+  Grid,
+  Header,
+  Label as OriginalLabel,
+  Segment,
+  Icon
+} from 'semantic-ui-react'
 import { Dropdown, Label, Text } from 'components/inputs'
 
 import countryOptions from 'data/dropDownCountryOptions'
@@ -19,7 +28,7 @@ const qualificationsOptions = [
 ]
 
 const emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,16}$/i
-const phoneRegexp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i // eslint-disable-line
+const phoneRegexp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i; // eslint-disable-line
 const postalAndZipCodeRegexp = /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i
 
 const validate = values => {
@@ -84,7 +93,12 @@ const validate = values => {
   return errors
 }
 
-const renderwhitelistAddresses = ({ initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => {
+const renderwhitelistAddresses = ({
+  initialWhitelists,
+  whitelistOptions,
+  fields,
+  meta: { error, submitFailed }
+}) => {
   const onChange = (e, data) => {
     fields.removeAll()
     data.value.map(value => {
@@ -99,7 +113,12 @@ const renderwhitelistAddresses = ({ initialWhitelists, whitelistOptions, fields,
   return (
     <Fragment>
       <Grid.Column style={{ padding: '10px' }}>
-        <DropdownForFieldArray placeholder='Add Whitelist Address:' selection search multiple name='whitelists'
+        <DropdownForFieldArray
+          placeholder='Add Whitelist Address:'
+          selection
+          search
+          multiple
+          name='whitelists'
           options={whitelistOptions}
           onChange={onChange}
           defaultValue={initialWhitelists}
@@ -110,18 +129,29 @@ const renderwhitelistAddresses = ({ initialWhitelists, whitelistOptions, fields,
   )
 }
 
-const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta: { error, submitFailed } }) => (
+const renderEthAddresses = ({
+  initialWhitelists,
+  whitelistOptions,
+  fields,
+  meta: { error, submitFailed }
+}) => (
   <Fragment>
-    <Grid.Column style={{margin: 'auto'}}>
+    <Grid.Column style={{ margin: 'auto' }}>
       <Button type='button' key='submit' onClick={() => fields.push({})}>
         Add eth Address
       </Button>
       {submitFailed && error && <span>{error}</span>}
     </Grid.Column>
     {fields.map((ethAddress, index) => (
-      <Grid key={`ethAddressGrid${index}`} padded='horizontally' celled stackable columns={2}>
+      <Grid
+        key={`ethAddressGrid${index}`}
+        padded='horizontally'
+        celled
+        stackable
+        columns={2}
+      >
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{padding: '10px'}}>ethAddress #{index + 1}</Label>
+          <Label style={{ padding: '10px' }}>ethAddress #{index + 1} </Label>
           <Icon
             name='trash outline'
             key={`ethAddressIcon${index}`}
@@ -131,7 +161,12 @@ const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta:
             onClick={() => fields.remove(index)}
           />
           <Text key={`ethAddressText${index}`} name={`${ethAddress}.address`} />
-          <FieldArray key={`ethAddressFieldArray${index}`} name={`${ethAddress}.whitelists`} component={renderwhitelistAddresses} props={{initialWhitelists, whitelistOptions}} />
+          <FieldArray
+            key={`ethAddressFieldArray${index}`}
+            name={`${ethAddress}.whitelists`}
+            component={renderwhitelistAddresses}
+            props={{ initialWhitelists, whitelistOptions }}
+          />
         </Grid.Column>
       </Grid>
     ))}
@@ -139,7 +174,14 @@ const renderEthAddresses = ({ initialWhitelists, whitelistOptions, fields, meta:
 )
 
 let EditInvestorForm = props => {
-  const { handleSubmit, errors, whitelists, initialWhitelists } = props
+  const {
+    handleSubmit,
+    errors,
+    whitelists,
+    initialWhitelists,
+    pristine,
+    submitting
+  } = props
   const whitelistOptions = whitelists.map(whitelist => {
     return {
       text: whitelist.name,
@@ -150,7 +192,9 @@ let EditInvestorForm = props => {
     <form onSubmit={handleSubmit}>
       <Container text>
         <Segment textAlign='center'>
-          <Header as='h2' textAlign='center'>Edit Buyer</Header>
+          <Header as='h2' textAlign='center'>
+            Edit Buyer
+          </Header>
           <Grid stackable divided='vertically' columns={2}>
             <Grid.Row>
               <Grid.Column>
@@ -187,7 +231,12 @@ let EditInvestorForm = props => {
               </Grid.Column>
               <Grid.Column>
                 <Label>Country *</Label>
-                <Dropdown selection search name='country' options={countryOptions} />
+                <Dropdown
+                  selection
+                  search
+                  name='country'
+                  options={countryOptions}
+                />
               </Grid.Column>
               <Grid.Column>
                 <Label>Zip/Postal Code *</Label>
@@ -195,28 +244,42 @@ let EditInvestorForm = props => {
               </Grid.Column>
               <Grid.Column>
                 <Label>Qualifications *</Label>
-                <Dropdown selection search name='qualifications' options={qualificationsOptions} />
+                <Dropdown
+                  selection
+                  search
+                  name='qualifications'
+                  options={qualificationsOptions}
+                />
               </Grid.Column>
               <Grid.Column>
                 <Label>Issues</Label>
                 <Text name='issues' />
               </Grid.Column>
-              <FieldArray name='ethAddresses' component={renderEthAddresses} props={{initialWhitelists, whitelistOptions}} />
-
+              <FieldArray
+                name='ethAddresses'
+                component={renderEthAddresses}
+                props={{ initialWhitelists, whitelistOptions }}
+              />
             </Grid.Row>
-            { errors
-              ? <Grid.Row>
+            {errors ? (
+              <Grid.Row>
                 <Grid.Column width={16} textAlign='center'>
                   <Segment>
                     <OriginalLabel color='red'>{errors}</OriginalLabel>
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-            : '' }
+            ) : (
+              ''
+            )}
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
-                <Button type='submit'>Save</Button>
-                <Link to='/buyers' className='ui button secondary'>Cancel</Link>
+                <Button type='submit' disabled={pristine || submitting}>
+                  Save
+                </Button>
+                <Link to='/buyers' className='ui button secondary'>
+                  Cancel
+                </Link>
               </Grid.Column>
             </Grid.Row>
           </Grid>

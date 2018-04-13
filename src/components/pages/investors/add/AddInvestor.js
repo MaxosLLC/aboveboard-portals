@@ -8,7 +8,10 @@ import AddInvestorView from './AddInvestorView'
 const addInvestorToWhitelists = investor =>
   mapSeries(investor.ethAddresses || [], ethAddress => {
     return mapSeries(ethAddress.whitelists || [], whitelist => {
-      return ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address)
+      return ethereum.addInvestorToWhitelist(
+        ethAddress.address,
+        whitelist.address
+      )
     })
   })
 

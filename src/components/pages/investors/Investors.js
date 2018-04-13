@@ -5,13 +5,17 @@ import InvestorsView from './InvestorsView'
 
 const mapStateToProps = state => ({
   investors: state.investor.queryResult ? state.investor.queryResult.data : [],
+  queryResult: state.investor.queryResult,
   loaded: state.investor.isFinished
 })
 
 const mapDispatchToProps = dispatch => {
   return {
-    routeTo (path) { dispatch(push(path)) },
-    loadInvestors: () => dispatch(services.investor.find({}))
+    routeTo (path) {
+      dispatch(push(path))
+    },
+    loadInvestors: ($skip = 0) =>
+      dispatch(services.investor.find({ query: { $limit: 25, $skip } }))
   }
 }
 
