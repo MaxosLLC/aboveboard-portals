@@ -162,7 +162,7 @@ class InvestorDetailView extends Component {
     }
   }
   getCsvData (src) {
-      // TODO: needs pre-formatted or joined data from DB - could also be used to render shareholder data faster
+      // TODO: needs pre-formatted or joined data from DB - would help render shareholder data faster
       // convertArrayToCSV won't convert nested objects
     if (src === 'shareholders') {
       return `data:application/octet-stream,${convertArrayToCSV(this.formatShareholderTableData(this.props.shareholders, this.props.transactions))}`
