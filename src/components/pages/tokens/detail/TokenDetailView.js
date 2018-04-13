@@ -74,8 +74,8 @@ class InvestorDetailView extends Component {
         .map(ta => ta.createdAt)[0]
       let row = Object.assign({}, shareholder, {
         transactions: {
-          quantity: shareholderTransctions,
-          percent: (shareholderTransctions / transactions.length) * 100,
+          quantity: shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0),
+          percent: (shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0) / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100,
           lastCreated: lastTransactionDate || 0
         }
       })
@@ -206,7 +206,7 @@ class InvestorDetailView extends Component {
                           onClick={() => this.updateLocalState({orderBy: 'addressDesc'})} />
                       </span>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>Qaulifier
+                  <Table.HeaderCell>Qualifier
                       <span className='sortButtons'>
                         <Image
                           src={sortUpSrc}
