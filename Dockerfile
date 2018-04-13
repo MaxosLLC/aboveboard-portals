@@ -7,18 +7,12 @@ RUN apk --no-cache add ca-certificates wget git python alpine-sdk libusb-dev && 
 RUN mkdir -p /opt/yarn && cd /opt/yarn && wget https://yarnpkg.com/latest.tar.gz && mkdir dist && tar zxf latest.tar.gz -C dist --strip-components 1
 ENV PATH "$PATH:/opt/yarn/dist/bin"
 
-EXPOSE 3000
-CMD ["node", "./server.js"]
-
 # Create the working dir
 RUN mkdir -p /opt/app && mkdir /cache
 WORKDIR /opt/app
 
 # Do not use cache when we change node dependencies in package.json
 ADD package.json yarn.lock /cache/
-
-# Copy cache contents (if any) from local machine
-# ADD .yarn-cache.tgz /
 
 # Install packages + Prepare cache file
 RUN cd /cache \
@@ -31,3 +25,6 @@ COPY . /opt/app
 
 RUN yarn
 RUN NODE_PATH=src/ yarn run build
+
+EXPOSE 3000
+CMD ["node", "./server.js"]
