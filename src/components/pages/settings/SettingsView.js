@@ -166,7 +166,7 @@ class SettingsView extends Component {
               icon='search'
               className='settingInput'
               style={{
-                width: '83%',
+                width: '84%',
                 marginLeft: 0
               }} />
           </div>
@@ -258,7 +258,7 @@ class SettingsView extends Component {
                 defaultValue={this.state.messagingId}
                 className='settingInput'
                 style={{
-                  width: '83%',
+                  width: '79%',
                   marginLeft: 0
                 }}
                 disabled={!this.state.messagingIdEditMode}
