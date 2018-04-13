@@ -7,9 +7,7 @@ import {
   Tab,
   Table,
   Checkbox,
-  Image,
-  Modal,
-  Popup
+  Image
 } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import StatsCard from './../../../statsCard/StatsCard'
@@ -17,11 +15,9 @@ import './TokenDetail.css'
 
 const userSrc = '../../images/icons/user.svg'
 const graphSrc = '../../images/icons/graph.svg'
-const calendarSrc = '../../images/icons/calendar.svg'
 const downloadSrc = '../../images/icons/download.svg'
 const sortUpSrc = '../../images/icons/up.svg'
 const sortDownSrc = '../../images/icons/down.svg'
-const infoSrc = '../../images/icons/info.svg'
 
 class InvestorDetailView extends Component {
   constructor () {
@@ -131,7 +127,6 @@ class InvestorDetailView extends Component {
     }
   }
   transactionsTableData (shareholders, transactions) {
-    console.log(transactions)
     switch (this.state.orderBy) {
       case 'tQuantityAsc':
         return transactions.sort((a, b) => a.tokens - b.tokens)
@@ -165,12 +160,20 @@ class InvestorDetailView extends Component {
         return transactions
     }
   }
+  getCsvData (src) {
+      // TODO: needs pre-formatted or joined data from DB - would help render shareholder data faster
+      // convertArrayToCSV won't convert nested objects
+    if (src === 'shareholders') {
+      return `data:application/octet-stream,${this.formatShareholderTableData(this.props.shareholders, this.props.transactions)}` // TODO: convert from array to CSV
+    }
+    if (src === 'transactions') {
+      return `data:application/octet-stream,${this.props.transactions}` // TODO: convert from array to CSV
+    }
+  }
   render () {
     const {loaded, token, transactions, shareholders, routeTo} = this.props
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions)
-    const modalTrigger = <img src={calendarSrc} alt='pause trading calendar' />
-    const popupTrigger = <img src={infoSrc} alt='info' className='infoIcon' />
     const panes = [
       {
         menuItem: 'Shareholders',
@@ -243,7 +246,7 @@ class InvestorDetailView extends Component {
                           onClick={() => this.updateLocalState({orderBy: 'dateDesc'})} />
                       </span>
                   </Table.HeaderCell>
-                  <Table.HeaderCell><Image src={downloadSrc} className='download' /></Table.HeaderCell>
+                  <Table.HeaderCell><a href={this.getCsvData('shareholders')} download='shareholders.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -328,6 +331,7 @@ class InvestorDetailView extends Component {
                             onClick={() => this.updateLocalState({orderBy: 'tDateDesc'})} />
                         </span>
                     </Table.HeaderCell>
+                    <Table.HeaderCell><a href={this.getCsvData('transactions')} download='transactions.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -366,6 +370,7 @@ class InvestorDetailView extends Component {
                         </Table.Cell>
                         <Table.Cell>{transaction.tokens}</Table.Cell>
                         <Table.Cell>{moment(transaction.createdAt).format('LL')}</Table.Cell>
+                        <Table.Cell />
                       </Table.Row>)}
                 </Table.Body>
               </Table>
@@ -374,7 +379,6 @@ class InvestorDetailView extends Component {
           : <Segment>No transactions have been made yet</Segment>
       }
     ]
-
     return (
       <div className='investorsComponent'>
         <Header as='h2' className='tokenHeader'>
@@ -383,7 +387,6 @@ class InvestorDetailView extends Component {
             target='_blank'
             rel='noopener noreferrer'>
             {token.name}
-            <Popup trigger={popupTrigger} content='Token info goes here' on='hover' basic />
           </Link>
         </Header>
         <div className='stats'>
@@ -391,7 +394,7 @@ class InvestorDetailView extends Component {
         </div>
         <div className='tradingToggle'>
           <span>
-            <strong>Trading:</strong>
+            <strong>Trading: </strong>
             {this.state.trading
               ? 'Active'
               : 'Paused'}</span>
@@ -401,12 +404,6 @@ class InvestorDetailView extends Component {
               trading: !this.state.trading
             })}
             checked={this.state.trading} />
-          <span className='verticalSeparator' />
-          <Modal trigger={modalTrigger}>
-            <Modal.Content>
-              Calendar
-            </Modal.Content>
-          </Modal>
         </div>
         {!loaded
           ? <span>Loading token details...<Icon name='spinner' loading /></span>
