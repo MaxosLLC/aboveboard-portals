@@ -74,7 +74,7 @@ class InvestorDetailView extends Component {
       let row = Object.assign({}, shareholder, {
         transactions: {
           quantity: shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0),
-          percent: (shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0) / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100,
+          percent: ((shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0) / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100).toFixed(1),
           lastCreated: lastTransactionDate || 0
         }
       })
