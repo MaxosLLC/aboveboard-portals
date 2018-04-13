@@ -8,8 +8,7 @@ import config from './reducers/config'
 import wallet from './reducers/wallet'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
-
-const type = /issuer/.test(window.location.hostname) ? 'issuer' : 'broker'
+import { appType } from 'lib/util'
 
 const reducers = {
   auth: feathersAuthentication.reducer,
@@ -23,7 +22,7 @@ const reducers = {
   router: routerReducer
 }
 
-if (type === 'broker') {
+if (appType === 'broker') {
   reducers.whitelist = cloudServices.whitelist.reducer
 }
 

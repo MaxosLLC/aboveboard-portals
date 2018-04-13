@@ -2,8 +2,7 @@ import feathers from '@feathersjs/feathers'
 import socketio from '@feathersjs/socketio-client'
 import auth from '@feathersjs/authentication-client'
 import io from 'socket.io-client'
-
-const appType = window.REACT_APP_APP_TYPE || (/issuer/.test(window.location.hostname) ? 'issuer' : 'broker')
+import { appType } from 'lib/util'
 
 const url = window.REACT_APP_APP_TYPE ? `${window.location.hostname}:3031`
   : appType === 'broker' ? process.env.REACT_APP_BROKER_LOCAL_API_URL || 'https://aboveboard-broker-api.herokuapp.com/'
