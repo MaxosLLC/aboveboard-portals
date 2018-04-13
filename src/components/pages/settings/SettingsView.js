@@ -166,7 +166,11 @@ class SettingsView extends Component {
               icon='search'
               className='settingInput'
               style={{
+<<<<<<< HEAD
                 width: '83%',
+=======
+                width: '84%',
+>>>>>>> rebased from dev x2
                 marginLeft: 0
               }} />
           </div>
