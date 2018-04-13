@@ -68,7 +68,6 @@ class InvestorDetailView extends Component {
     shareholders.forEach((shareholder) => {
       const shareholderTransctions = transactions
         .filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address)
-        .length
       const lastTransactionDate = transactions
         .filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address)
         .map(ta => ta.createdAt)[0]
