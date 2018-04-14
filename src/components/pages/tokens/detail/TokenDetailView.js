@@ -1,23 +1,16 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-import {
-  Header,
-  Icon,
-  Segment,
-  Tab,
-  Table,
-  Checkbox,
-  Image
-} from 'semantic-ui-react'
+import { Checkbox, Header, Icon, Image, Segment, Tab, Table } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import StatsCard from './../../../statsCard/StatsCard'
+import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
-const userSrc = '../../images/icons/user.svg'
-const graphSrc = '../../images/icons/graph.svg'
-const downloadSrc = '../../images/icons/download.svg'
-const sortUpSrc = '../../images/icons/up.svg'
-const sortDownSrc = '../../images/icons/down.svg'
+const iconsPath = '../../images/icons'
+const userSrc = `${iconsPath}/user.svg`
+const graphSrc = `${iconsPath}/graph.svg`
+const downloadSrc = `${iconsPath}/download.svg`
+const sortUpSrc = `${iconsPath}/up.svg`
+const sortDownSrc = `${iconsPath}/down.svg`
 
 class InvestorDetailView extends Component {
   constructor () {
@@ -64,26 +57,25 @@ class InvestorDetailView extends Component {
     ]
   }
   formatShareholderTableData (shareholders, transactions) {
-    let data = []
-    shareholders.forEach((shareholder) => {
+    return shareholders.map(shareholder => {
       const shareholderTransctions = transactions
-        .filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address)
-      const lastTransactionDate = transactions
-        .filter(ta => ta.shareholderEthAddress === shareholder.ethAddresses[0].address)
-        .map(ta => ta.createdAt)[0]
-      let row = Object.assign({}, shareholder, {
+        .filter(({ shareholderEthAddress }) => shareholderEthAddress === shareholder.ethAddresses[0].address)
+      const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
+      const quantity = shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0)
+      const percent = ((quantity / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100).toFixed(1)
+
+      return Object.assign({}, shareholder, {
         transactions: {
-          quantity: shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0),
-          percent: ((shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0) / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100).toFixed(1),
-          lastCreated: lastTransactionDate || 0
+          quantity,
+          percent,
+          lastCreated
         }
       })
-      data.push(row)
     })
-    return data
   }
   shareholderTableData (shareholders, transactions) {
-    let data = this.formatShareholderTableData(shareholders, transactions)
+    const data = this.formatShareholderTableData(shareholders, transactions)
+
     switch (this.state.orderBy) {
       case 'quantityAsc':
         return data.sort((a, b) => a.transactions.quantity - b.transactions.quantity)
@@ -173,6 +165,24 @@ class InvestorDetailView extends Component {
     const {loaded, token, transactions, shareholders, routeTo} = this.props
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions)
+
+    const shareholderHeaders = [
+      { name: 'Shareholder', alias: 'name' },
+      { name: 'Address' },
+      { name: 'Qualifier' },
+      { name: 'Quantity' },
+      { name: '% of Total', alias: 'quantity' },
+      { name: 'Last Transaction', alias: 'date' }
+    ]
+
+    const transactionsHeaders = [
+      { name: 'Hash' },
+      { name: 'Shareholder', alias: 'tName' },
+      { name: 'Address', alias: 'tAddress' },
+      { name: 'Quantity', alias: 'tQuantity' },
+      { name: 'Date', alias: 'tDate' },
+    ]
+
     const panes = [
       {
         menuItem: 'Shareholders',
@@ -185,66 +195,18 @@ class InvestorDetailView extends Component {
                     style={{
                       color: '#8f9bab'
                     }}>ID</Table.HeaderCell>
-                  <Table.HeaderCell>Shareholder
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'nameAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'nameDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Address
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'addressAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'addressDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Qualifier
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'qualifierAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'qualifierDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Quantity
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'quantityAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'quantityDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>% of Total
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'quantityAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'quantityDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell>Last Transaction
-                      <span className='sortButtons'>
-                        <Image
-                          src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'dateAsc'})} />
-                        <Image
-                          src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: 'dateDesc'})} />
-                      </span>
-                  </Table.HeaderCell>
+                  { shareholderHeaders.map((shareholderHeader, i) => 
+                    <Table.HeaderCell key={`${shareholderHeader.name}${i}`}>{shareholderHeader.name}
+                        <span className='sortButtons'>
+                          <Image
+                            src={sortUpSrc}
+                            onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Asc`})} />
+                          <Image
+                            src={sortDownSrc}
+                            onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Desc`})} />
+                        </span>
+                    </Table.HeaderCell>
+                  ) }
                   <Table.HeaderCell><a href={this.getCsvData('shareholders')} download='shareholders.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -280,56 +242,18 @@ class InvestorDetailView extends Component {
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
                   <Table.Row>
-                    <Table.HeaderCell>Hash
-                        <span className='sortButtons'>
+                    { transactionsHeaders.map(transactionsHeader =>
+                      <Table.HeaderCell>{transactionsHeader.name}
+                          <span className='sortButtons'>
+                            <Image
+                              src={sortUpSrc}
+                              onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Asc`})} />
                           <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'hashAsc'})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'hashDesc'})} />
-                        </span>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>Shareholder
-                        <span className='sortButtons'>
-                          <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tNameAsc'})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tNameDesc'})} />
-                        </span>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>Address
-                        <span className='sortButtons'>
-                          <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tAddressAsc'})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tAddressDesc'})} />
-                        </span>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>Quantity
-                        <span className='sortButtons'>
-                          <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tQuantityAsc'})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tQuantityDesc'})} />
-                        </span>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>Date
-                        <span className='sortButtons'>
-                          <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tDateAsc'})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: 'tDateDesc'})} />
-                        </span>
-                    </Table.HeaderCell>
+                              src={sortDownSrc}
+                              onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Desc`})} />
+                          </span>
+                      </Table.HeaderCell>
+                    ) }
                     <Table.HeaderCell><a href={this.getCsvData('transactions')} download='transactions.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -389,7 +313,10 @@ class InvestorDetailView extends Component {
           </Link>
         </Header>
         <div className='stats'>
-          <StatsCard stats={stats} />
+          { loaded
+            ? <StatsCard stats={stats} />
+            : ''
+          }
         </div>
         <div className='tradingToggle'>
           <span>

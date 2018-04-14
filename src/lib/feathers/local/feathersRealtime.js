@@ -15,14 +15,14 @@ export default {
         if (tokenDetailRegexp.test(window.location.pathname)) {
           const address = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, $limit: 1 } }))
+          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address } }))
         }
       })
       client.service('shareholder').on('patched', data => { // TODO: optimize
         if (tokenDetailRegexp.test(window.location.pathname)) {
           const address = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, $limit: 1 } }))
+          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address } }))
         }
 
         if (shareholderDetailRegexp.test(window.location.pathname)) {
