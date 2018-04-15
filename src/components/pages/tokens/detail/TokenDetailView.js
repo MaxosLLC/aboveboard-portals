@@ -118,6 +118,13 @@ class InvestorDetailView extends Component {
     }
   }
   transactionsTableData (shareholders, transactions) {
+    transactions = transactions.map(transaction => { // TODO: remove once tx data is cleared and stable
+      if (!transaction.fromEthAddress) {
+        transaction.fromEthAddress = '0x51595ee792a82607071109b61fff7925585c0e4b'
+      }
+
+      return transaction
+    })
     switch (this.state.orderBy) {
       case 'tQuantityAsc':
         return transactions.sort((a, b) => a.tokens - b.tokens)
@@ -135,6 +142,8 @@ class InvestorDetailView extends Component {
         return transactions.sort((a, b) => a.contractAddress.localeCompare(b.contractAddress))
       case 'tAddressDesc':
         return transactions.sort((a, b) => b.contractAddress.localeCompare(a.contractAddress))
+      case 'tFrom':
+        return transactions.sort((a, b) => b.fromEthAddress.localeCompare(a.fromEthAddress))
       case 'tNameAsc':
         return transactions.sort((a, b) => {
           a = this.getShareholderName(a.shareholderEthAddress, shareholders)
@@ -177,6 +186,7 @@ class InvestorDetailView extends Component {
 
     const transactionsHeaders = [
       { name: 'Hash' },
+      { name: 'From', alias: 'tFrom' },
       { name: 'Shareholder', alias: 'tName' },
       { name: 'Address', alias: 'tAddress' },
       { name: 'Quantity', alias: 'tQuantity' },
@@ -242,8 +252,8 @@ class InvestorDetailView extends Component {
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
                   <Table.Row>
-                    { transactionsHeaders.map(transactionsHeader =>
-                      <Table.HeaderCell>{transactionsHeader.name}
+                    { transactionsHeaders.map((transactionsHeader, i) =>
+                      <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}
                           <span className='sortButtons'>
                             <Image
                               src={sortUpSrc}
@@ -272,6 +282,18 @@ class InvestorDetailView extends Component {
                               .substr(0, 4)}...{transaction
                               .transactionHash
                               .substr(transaction.transactionHash.length - 4, 4)}
+                          </Link>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Link
+                            to={`https://kovan.etherscan.io/address/${transaction.fromEthAddress}`}
+                            target='_blank'
+                            rel='noopener noreferrer'>
+                            {transaction
+                              .fromEthAddress
+                              .substr(0, 4)}...{transaction
+                              .fromEthAddress
+                              .substr(transaction.fromEthAddress.length - 4, 4)}
                           </Link>
                         </Table.Cell>
                         <Table.Cell>
