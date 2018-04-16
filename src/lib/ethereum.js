@@ -84,15 +84,18 @@ export default {
     return web3.eth.getAccountsAsync()
       .then(accounts => {
         currentAccount = account || accounts[0]
-
         if (account && password) {
           return web3.personal.unlockAccount(currentAccount, password)
         }
       })
-      .then(() => store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' }))
+      .then(() => {
+        store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
+        return true // returning bool for messsage display in settings
+      })
       .catch(error => {
         console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
         store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
+        return false
       })
   },
 

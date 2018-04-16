@@ -30,7 +30,7 @@ class BreadcrumbsView extends Component {
         case path === '/settings':
           return (
             <div>
-              <Link to='/profile'>User &nbsp;>&nbsp;</Link>  Settings
+              <Link to='#'>User &nbsp;>&nbsp;</Link>  Settings
               </div>
           )
         case path === '/profile':
