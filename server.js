@@ -9,7 +9,7 @@ app.use((req, res, next) => {
   const { ALLOWED_IPS } = process.env
 
   if (ALLOWED_IPS) {
-    const ipCandidates = (req.headers['x-forwarded-for'] ||
+    const ipCandidates = (
       req.connection.remoteAddress ||
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress)
