@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
     if (ips.length && ips.indexOf(ip) < 0) {
       res.status(403).send(`Your IP is not allowed!
-        IP: ${ip}
+        IP: ${req.connection.remoteAddress}
         Please use AboveBoard VPN provided.`)
       return
     }
