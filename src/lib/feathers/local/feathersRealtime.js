@@ -38,6 +38,13 @@ export default {
           store.dispatch(localServices.transaction.find({ query: { contractAddress: address } }))
         }
       })
+      client.service('localToken').on('patched', data => {
+        if (tokenDetailRegexp.test(window.location.pathname)) {
+          const address = window.location.pathname.split('/')[2]
+
+          store.dispatch(localServices.localToken.find({ query: { address } }))
+        }
+      })
     }
   }
 }

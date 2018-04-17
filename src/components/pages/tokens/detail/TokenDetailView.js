@@ -27,6 +27,9 @@ class InvestorDetailView extends Component {
     this
       .props
       .loadTransactions()
+    this
+      .props
+      .loadLocalToken()
   }
   updateLocalState (stateObject) {
     this.setState(stateObject)
@@ -57,12 +60,25 @@ class InvestorDetailView extends Component {
     ]
   }
   formatShareholderTableData (shareholders, transactions) {
+    const { address, tokensTransferred } = this.props.localToken
+
     return shareholders.map(shareholder => {
       const shareholderTransctions = transactions
         .filter(({ shareholderEthAddress }) => shareholderEthAddress === shareholder.ethAddresses[0].address)
       const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
-      const quantity = shareholderTransctions.reduce((result, trans) => trans.tokens + result, 0)
-      const percent = ((quantity / transactions.reduce((result, trans) => trans.tokens + result, 0)) * 100).toFixed(1)
+
+      const quantity = shareholder.ethAddresses.reduce((result, ethAddress) => {
+        if (result) { return result }
+
+        if (Array.isArray(ethAddress.issues)) {
+          const issues = ethAddress.issues.filter(issue => issue.address === address)
+
+          if (issues && issues.length) {
+            return issues[0].tokens || 0
+          }
+        }
+      }, 0)
+      const percent = (quantity / tokensTransferred * 100).toFixed(1)
 
       return Object.assign({}, shareholder, {
         transactions: {
