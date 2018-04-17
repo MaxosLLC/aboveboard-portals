@@ -206,7 +206,7 @@ class InvestorDetailView extends Component {
       { name: 'Shareholder', alias: 'tName' },
       { name: 'Address', alias: 'tAddress' },
       { name: 'Quantity', alias: 'tQuantity' },
-      { name: 'Date', alias: 'tDate' },
+      { name: 'Date', alias: 'tDate' }
     ]
 
     const panes = [
@@ -221,16 +221,16 @@ class InvestorDetailView extends Component {
                     style={{
                       color: '#8f9bab'
                     }}>ID</Table.HeaderCell>
-                  { shareholderHeaders.map((shareholderHeader, i) => 
+                  { shareholderHeaders.map((shareholderHeader, i) =>
                     <Table.HeaderCell key={`${shareholderHeader.name}${i}`}>{shareholderHeader.name}
-                        <span className='sortButtons'>
-                          <Image
-                            src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Asc`})} />
-                          <Image
-                            src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Desc`})} />
-                        </span>
+                      <span className='sortButtons'>
+                        <Image
+                          src={sortUpSrc}
+                          onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Asc`})} />
+                        <Image
+                          src={sortDownSrc}
+                          onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Desc`})} />
+                      </span>
                     </Table.HeaderCell>
                   ) }
                   <Table.HeaderCell><a href={this.getCsvData('shareholders')} download='shareholders.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
@@ -270,14 +270,14 @@ class InvestorDetailView extends Component {
                   <Table.Row>
                     { transactionsHeaders.map((transactionsHeader, i) =>
                       <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}
-                          <span className='sortButtons'>
-                            <Image
-                              src={sortUpSrc}
-                              onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Asc`})} />
+                        <span className='sortButtons'>
                           <Image
-                              src={sortDownSrc}
-                              onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Desc`})} />
-                          </span>
+                            src={sortUpSrc}
+                            onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Asc`})} />
+                          <Image
+                            src={sortDownSrc}
+                            onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Desc`})} />
+                        </span>
                       </Table.HeaderCell>
                     ) }
                     <Table.HeaderCell><a href={this.getCsvData('transactions')} download='transactions.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>

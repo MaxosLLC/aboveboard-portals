@@ -5,6 +5,7 @@ import {
   Divider,
   Dropdown,
   Header,
+  Icon,
   Input,
   Segment,
   Message
@@ -82,6 +83,7 @@ class SettingsView extends Component {
   render () {
     const {
       appType,
+      loaded,
       connected,
       connectWallet,
       currentUser,
@@ -152,7 +154,7 @@ class SettingsView extends Component {
               style={{
                 marginBottom: 0
               }}>Followed Tokens</Header>
-            <Dropdown
+            { loaded ? <Dropdown
               selection
               search
               multiple
@@ -168,7 +170,7 @@ class SettingsView extends Component {
               style={{
                 width: '84%',
                 marginLeft: 0
-              }} />
+              }} /> : <span>Loading available tokens...<Icon name='spinner' loading /></span> }
           </div>
         </Segment>
 
