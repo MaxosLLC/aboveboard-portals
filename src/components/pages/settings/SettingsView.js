@@ -241,52 +241,50 @@ class SettingsView extends Component {
           </div>
         </Segment>
 
-        {appType === 'issuer'
-          ? <Segment>
-            <div
-              className='inputContainer'
+        <Segment>
+          <div
+            className='inputContainer'
+            style={{
+              justifyContent: 'space-between'
+            }}>
+            <Header
+              as='h4'
+              className='settingHeader'
               style={{
-                justifyContent: 'space-between'
-              }}>
-              <Header
-                as='h4'
-                className='settingHeader'
-                style={{
-                  marginBottom: 0
-                }}>Messaging Account ID</Header>
-              <Input
-                id='messaging-account-input'
-                name='messaging-acount'
-                defaultValue={this.state.messagingId}
-                className='settingInput'
-                style={{
-                  width: '79%',
-                  marginLeft: 0
-                }}
-                disabled={!this.state.messagingIdEditMode}
-                onChange={(e) => this.setMessagingIdToTarget(e)} />
-            </div>
-            <div className='buttonContainer'>
-              <Button
-                style={{
-                  background: 'none'
-                }}
-                className={this.state.messagingIdEditMode
-                  ? ''
-                  : 'hide'}
-                onClick={() => this.messgingAddressEdit(false)}>Cancel</Button>
-              {this.state.messagingIdEditMode
-                  ? <Button
-                    color={!this.state.messagingId.length
-                          ? 'grey'
-                          : 'teal'}
-                    onClick={handleSetMessagingAccount}
-                    disabled={!this.state.messagingId.length}>Save</Button>
-                  : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
-                  }
-            </div>
-          </Segment>
-          : ''}
+                marginBottom: 0
+              }}>Messaging Account ID</Header>
+            <Input
+              id='messaging-account-input'
+              name='messaging-acount'
+              defaultValue={this.state.messagingId}
+              className='settingInput'
+              style={{
+                width: '79%',
+                marginLeft: 0
+              }}
+              disabled={!this.state.messagingIdEditMode}
+              onChange={(e) => this.setMessagingIdToTarget(e)} />
+          </div>
+          <div className='buttonContainer'>
+            <Button
+              style={{
+                background: 'none'
+              }}
+              className={this.state.messagingIdEditMode
+                ? ''
+                : 'hide'}
+              onClick={() => this.messgingAddressEdit(false)}>Cancel</Button>
+            {this.state.messagingIdEditMode
+                ? <Button
+                  color={!this.state.messagingId.length
+                        ? 'grey'
+                        : 'teal'}
+                  onClick={handleSetMessagingAccount}
+                  disabled={!this.state.messagingId.length}>Save</Button>
+                : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
+                }
+          </div>
+        </Segment>
       </div>
     )
   }
