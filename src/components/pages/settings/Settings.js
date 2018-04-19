@@ -3,7 +3,7 @@ import { each } from 'bluebird'
 import localServices from 'lib/feathers/local/feathersServices'
 import SettingsView from './SettingsView'
 import ethereum from 'lib/ethereum'
-import appType from 'lib/util'
+import { appType } from 'lib/util'
 
 const mapStateToProps = state => ({
   appType: state.config.appType,
