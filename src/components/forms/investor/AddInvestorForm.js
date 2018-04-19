@@ -288,7 +288,7 @@ const mapStateToProps = (state, ownProps) => {
     whitelists: state.whitelist.queryResult
       ? state.whitelist.queryResult.data
       : [],
-    errors: state.wallet.error
+    errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }
 AddInvestorForm = connect(mapStateToProps)(AddInvestorForm)
