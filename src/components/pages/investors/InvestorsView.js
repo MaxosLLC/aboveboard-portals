@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Pagination,
-  Button,
-  Grid,
-  Header,
-  Icon,
-  Table
-} from 'semantic-ui-react'
+import { Pagination, Grid, Header, Icon, Input, Image, Segment, Table } from 'semantic-ui-react'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
   'us-qib': 'US QIB'
 }
+
+const iconsPath = '/images/icons'
+const sortUpSrc = `${iconsPath}/up.svg`
+const sortDownSrc = `${iconsPath}/down.svg`
 
 class InvestorsView extends Component {
   componentDidMount () {
@@ -20,10 +17,17 @@ class InvestorsView extends Component {
   }
 
   render () {
-    const { loaded, investors, routeTo } = this.props
-    const handleRowClick = investorId => {
-      routeTo(`/buyers/${investorId}/detail`)
-    }
+    const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search } = this.props
+
+    const investorsHeaders = [
+      { name: '#', sortOption: '_id' },
+      { name: 'First Name', sortOption: 'firstName' },
+      { name: 'Last Name', sortOption: 'lastName' },
+      { name: 'Email', sortOption: 'email' },
+      { name: 'Phone', sortOption: 'phone' },
+      { name: 'Address', sortOption: 'country' },
+      { name: 'Qualifications', sortOption: 'qualifications' }
+    ]
 
     return (
       <div className='investorsComponent'>
@@ -35,102 +39,86 @@ class InvestorsView extends Component {
           </Grid.Column>
         </Grid>
 
-        {!loaded ? (
-          <span>
-            Loading buyers...<Icon name='spinner' loading />
-          </span>
-        ) : (
-          <Table celled compact selectable>
-            <Table.Header>
-              <Table.Row style={{ textAlign: 'center' }}>
-                <Table.HeaderCell>#</Table.HeaderCell>
-                <Table.HeaderCell>First Name</Table.HeaderCell>
-                <Table.HeaderCell>Last Name</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Phone</Table.HeaderCell>
-                <Table.HeaderCell>Address</Table.HeaderCell>
-                <Table.HeaderCell>Qualifications</Table.HeaderCell>
-                <Table.HeaderCell>Edit</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+        <div>
+          <Input loading={!loaded} icon='user' placeholder='Search...' onChange={(e, { value }) => setSearch(value)} value={search.investors} />
+          <Link to='/buyers/add' className='ui button right floated'>
+            Add Buyer
+          </Link>
+        </div>
 
-            <Table.Body>
-              {investors.map((investor, i) => (
-                <Table.Row
-                  key={investor.id}
-                  style={{ cursor: 'pointer', textAlign: 'center' }}
-                >
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {i + 1}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {investor.firstName}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {investor.lastName}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {investor.email}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {investor.phone}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {investor.addressLine1}
-                    {investor.addressLine2
-                      ? ` ${investor.addressLine2},`
-                      : ','}{' '}
-                    {investor.city},{' '}
-                    {investor.state ? `${investor.state}, ` : ''}
-                    {investor.country}, {investor.zip}
-                  </Table.Cell>
-                  <Table.Cell onClick={() => handleRowClick(investor.id)}>
-                    {qualificationByCode[investor.qualifications] || ''}
-                  </Table.Cell>
-                  <Table.Cell
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Button
-                      onClick={() => routeTo(`/buyers/${investor.id}/edit`)}
-                      className='ui button right floated'
-                    >
-                      Edit
-                    </Button>
-                  </Table.Cell>
+        { !loaded
+          ? <span>Loading buyer details...<Icon name='spinner' loading /></span>
+          : investors.length
+          ? <div className='tableContainer'>
+            <Table className='abTable' unstackable>
+              <Table.Header className='tableHeader'>
+                <Table.Row>
+                  { investorsHeaders.map((investorsHeader, i) =>
+                    <Table.HeaderCell key={`${investorsHeader.name}${i}`}>{investorsHeader.name}
+                      <span className='sortButtons'>
+                        <Image
+                          src={sortUpSrc}
+                          onClick={() => { setSort({ [investorsHeader.sortOption]: 1 }) }} />
+                        <Image
+                          src={sortDownSrc}
+                          onClick={() => { setSort({ [investorsHeader.sortOption]: -1 }) }} />
+                      </span>
+                    </Table.HeaderCell>
+                  ) }
                 </Table.Row>
-              ))}
-            </Table.Body>
+              </Table.Header>
+              <Table.Body>
+                {investors
+                  .map((investor, i) =>
+                    <Table.Row
+                      key={investor.id}
+                      onClick={() => routeTo(`/buyers/${investor.id}/detail`) }
+                      style={{
+                        cursor: 'pointer'
+                      }}>
+                        <Table.Cell>{i + 1}</Table.Cell>
+                        <Table.Cell>{investor.firstName}</Table.Cell>
+                        <Table.Cell>{investor.lastName}</Table.Cell>
+                        <Table.Cell>{investor.email}</Table.Cell>
+                        <Table.Cell>{investor.phone}</Table.Cell>
+                        <Table.Cell>
+                          {investor.addressLine1}
+                          {investor.addressLine2
+                            ? ` ${investor.addressLine2},`
+                            : ','}{' '}
+                          {investor.city},{' '}
+                          {investor.state ? `${investor.state}, ` : ''}
+                          {investor.country}, {investor.zip}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {qualificationByCode[investor.qualifications] || ''}
+                        </Table.Cell>
+                      </Table.Row>
+                  )}
+              </Table.Body>
 
-            <Table.Footer>
-              <Table.Row>
-                <Table.HeaderCell floated='right' colSpan='8'>
-                  <Pagination
-                    floated='right'
-                    defaultActivePage={1}
-                    totalPages={
-                      this.props.queryResult
-                        ? Math.floor(
-                            this.props.queryResult.total /
-                              this.props.queryResult.limit
-                          ) + 1
-                        : 1
-                    }
-                    onPageChange={(e, { activePage }) => {
-                      this.props.loadInvestors(25 * (activePage - 1))
-                    }}
-                  />
-                </Table.HeaderCell>
-              </Table.Row>
-              <Table.Row>
-                <Table.HeaderCell colSpan='8'>
-                  <Link to='/buyers/add' className='ui button right floated'>
-                    Add Buyer
-                  </Link>
-                </Table.HeaderCell>
-              </Table.Row>
-            </Table.Footer>
-          </Table>
-        )}
+              { queryResult.total > queryResult.limit ? <Table.Footer>
+                <Table.Row>
+                  <Table.HeaderCell floated='right' colSpan='8'>
+                    <Pagination
+                      floated='right'
+                      activePage={page.investors + 1}
+                      totalPages={
+                        queryResult
+                          ? Math.floor(
+                              queryResult.total /
+                                queryResult.limit
+                            ) + 1
+                          : 1
+                      }
+                      onPageChange={(e, { activePage }) => setPage(activePage - 1)}
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer> : null }
+            </Table>
+          </div>
+          : <Segment>{ search.investors ? 'No buyers match your search criteria' : 'No buyer data available' }</Segment> }
       </div>
     )
   }

@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
-const iconsPath = '../../images/icons'
+const iconsPath = '/images/icons'
 const userSrc = `${iconsPath}/user.svg`
 const graphSrc = `${iconsPath}/graph.svg`
 const downloadSrc = `${iconsPath}/download.svg`
