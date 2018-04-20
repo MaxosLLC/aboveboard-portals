@@ -306,7 +306,8 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     initialValues: ownProps.investor,
-    initialWhitelists: initialWhitelists
+    initialWhitelists: initialWhitelists,
+    errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }
 EditInvestorForm = connect(mapStateToProps)(EditInvestorForm)

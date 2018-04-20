@@ -77,6 +77,8 @@ class InvestorDetailView extends Component {
             return issues[0].tokens || 0
           }
         }
+
+        return result
       }, 0)
       const percent = (quantity / tokensTransferred * 100).toFixed(1)
 

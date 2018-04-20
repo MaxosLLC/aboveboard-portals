@@ -5,6 +5,10 @@ import {Icon, Table, Button, Segment} from 'semantic-ui-react'
 import './Tokens.css'
 
 class TokensView extends Component {
+  componentDidMount () {
+    this.props.loadLocalTokens()
+  }
+
   render () {
     const {loaded, tokens, watchingTokens, routeTo} = this.props
 
