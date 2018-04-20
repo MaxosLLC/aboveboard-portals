@@ -9,6 +9,13 @@ const mapStateToProps = (state, ownProps) => ({
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
   shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
+  queryResult: {
+    shareholders: state.shareholder.questResult,
+    transactions: state.transaction.questResult
+  },
+  page: state.page,
+  sort: state.sort,
+  search: state.search,
   loaded: state.shareholder.isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
 })
 
@@ -41,7 +48,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           .then(() => allData)
 
       return fetchPage(0)
-    }
+    },
+    setPage: (model, page) => dispatch({ type: 'SET_PAGE', model, page }),
+    setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
+    setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search })
   }
 }
 

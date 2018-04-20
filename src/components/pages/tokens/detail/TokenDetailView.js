@@ -164,16 +164,13 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, transactions, shareholders, routeTo } = this.props
-    const { activeIndex, page, sort, search } = this.state
+    const { loaded, token, transactions, shareholders, routeTo, page, sort, search, setPage, setSort, setSearch } = this.props
+    const { activeIndex } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions)
 
     const handleSearch = (e, { value }) => {
-      this.setState({ search: { [activeIndex === 0 ? 'shareholders' : 'transactions']: value } })
-      activeIndex === 0
-        ? this.props.loadShareholders(sort.shareholders, page.shareholders, value)
-        : this.props.loadTransactions(sort.transactions, page.transactions, value)
+      setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', value)
     }
 
     const shareholderHeaders = [
@@ -211,10 +208,10 @@ class InvestorDetailView extends Component {
                       <span className='sortButtons'>
                         <Image
                           src={sortUpSrc}
-                          onClick={() => { this.setState({ sort: { shareholders: { [shareholderHeader.sortOption]: 1 } } }); this.props.loadShareholders({ [shareholderHeader.sortOption]: 1 }, page.shareholders, search.shareholders) }} />
+                          onClick={() => { setSort('shareholders', { [shareholderHeader.sortOption]: 1 }) }} />
                         <Image
                           src={sortDownSrc}
-                          onClick={() => { this.setState({ sort: { shareholders: { [shareholderHeader.sortOption]: -1 } } }); this.props.loadShareholders({ [shareholderHeader.sortOption]: -1 }, page.shareholders, search.shareholders) }} />
+                          onClick={() => { setSort('shareholders', { [shareholderHeader.sortOption]: -1 }) }} />
                       </span>
                     </Table.HeaderCell>
                   ) }
@@ -258,10 +255,10 @@ class InvestorDetailView extends Component {
                         <span className='sortButtons'>
                           <Image
                             src={sortUpSrc}
-                            onClick={() => { this.setState({ sort: { transactions: { [transactionsHeader.sortOption]: 1 } } }); this.props.loadTransactions({ [transactionsHeader.sortOption]: 1 }, page.transactions, search.transactions) }} />
+                            onClick={() => { setSort('transactions', { [transactionsHeader.sortOption]: 1 }) }} />
                           <Image
                             src={sortDownSrc}
-                            onClick={() => { this.setState({ sort: { transactions: { [transactionsHeader.sortOption]: -1 } } }); this.props.loadTransactions({ [transactionsHeader.sortOption]: -1 }, page.transactions, search.transactions) }} />
+                            onClick={() => { setSort('transactions', { [transactionsHeader.sortOption]: -1 }) }} />
                         </span>
                       </Table.HeaderCell>
                     ) }

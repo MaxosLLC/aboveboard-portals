@@ -6,6 +6,9 @@ import feathersAuthentication from 'lib/feathers/cloud/feathersAuthentication'
 import currentUser from './reducers/currentUser'
 import config from './reducers/config'
 import wallet from './reducers/wallet'
+import page from './reducers/page'
+import sort from './reducers/sort'
+import search from './reducers/search'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 import { appType } from 'lib/util'
@@ -15,6 +18,9 @@ const reducers = {
   currentUser,
   config,
   wallet,
+  page,
+  sort,
+  search,
   form: formReducer,
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,
