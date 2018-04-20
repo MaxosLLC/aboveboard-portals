@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => ({
   shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
   queryResult: {
-    shareholders: state.shareholder.questResult,
-    transactions: state.transaction.questResult
+    shareholders: state.shareholder.queryResult,
+    transactions: state.transaction.queryResult
   },
   page: state.page,
   sort: state.sort,
@@ -21,16 +21,16 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    routeTo (path) { dispatch(push(path)) },
-    loadShareholders: ($sort = { createdAt: -1 }, page = 0, search = '') => {
-      const query = { 'ethAddresses.issues.address': ownProps.match.params.address, $sort, $skip: page * 25 }
-      if (search) { query.search = search }
-      dispatch(localServices.shareholder.find({ query }))
+    routeTo: path => dispatch(push(path)),
+    loadShareholders: () => {
+      const query = { 'ethAddresses.issues.address': ownProps.match.params.address }
+
+      return dispatch(localServices.shareholder.find({ query })).then(({ value }) => value)
     },
-    loadTransactions: ($sort = { createdAt: -1 }, page = 0, search) => {
-      const query = { contractAddress: ownProps.match.params.address, $sort, $skip: page * 25 }
-      if (search) { query.search = search }
-      dispatch(localServices.transaction.find({ query }))
+    loadTransactions: () => {
+      const query = { contractAddress: ownProps.match.params.address }
+
+      return dispatch(localServices.transaction.find({ query })).then(({ value }) => value)
     },
     loadLocalToken: () => dispatch(localServices.localToken.find({ query: { address: ownProps.match.params.address } })),
     loadAll: type => {

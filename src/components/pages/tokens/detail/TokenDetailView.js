@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { join } from 'bluebird'
 import moment from 'moment'
 import { Checkbox, Header, Icon, Image, Input, Segment, Tab, Table } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
@@ -44,36 +45,23 @@ class InvestorDetailView extends Component {
   constructor () {
     super()
     this.state = {
-      orderBy: '',
       trading: true,
       activeIndex: 0,
-      sort: {
-        transactions: { createdAt: -1 },
-        shareholders: { createdAt: -1 }
-      },
-      page: {
-        transactions: 0,
-        shareholders: 0
-      },
-      search: {
-        transactions: '',
-        shareholders: ''
-      }
+      totalShareholders: 0,
+      totalTransactions: 0
     }
   }
   componentDidMount () {
-    this
-      .props
-      .loadShareholders()
-    this
-      .props
-      .loadTransactions()
+    join(
+      this.props.loadShareholders(),
+      this.props.loadTransactions(),
+      ({ total: totalShareholders }, { total: totalTransactions }) => {
+        this.setState({ totalShareholders, totalTransactions })
+      })
+
     this
       .props
       .loadLocalToken()
-  }
-  updateLocalState (stateObject) {
-    this.setState(stateObject)
   }
   getShareholderName (address, shareholders) {
     const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
@@ -85,14 +73,14 @@ class InvestorDetailView extends Component {
     return [
       {
         title: 'Shareholders',
-        data: shareholders.length,
+        data: shareholders,
         icon: {
           src: userSrc,
           size: '55px'
         }
       }, {
         title: 'Total Transactions',
-        data: `${transactions.length}+`,
+        data: `${transactions}+`,
         icon: {
           src: graphSrc,
           size: '80%'
@@ -164,10 +152,10 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, transactions, shareholders, routeTo, page, sort, search, setPage, setSort, setSearch } = this.props
-    const { activeIndex } = this.state
+    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, sort, search, setPage, setSort, setSearch } = this.props
+    const { activeIndex, totalShareholders, totalTransactions } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
-    const stats = this.setStats(shareholdersWithData, transactions)
+    const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
       setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', value)
@@ -342,7 +330,7 @@ class InvestorDetailView extends Component {
               : 'Paused'}</span>
           <Checkbox
             toggle
-            onClick={() => this.updateLocalState({
+            onClick={() => this.setState({
               trading: !this.state.trading
             })}
             checked={this.state.trading} />
