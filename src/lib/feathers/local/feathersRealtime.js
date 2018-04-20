@@ -6,23 +6,35 @@ import { appType } from 'lib/util'
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
 
+const getCurrentQueryParams = model => {
+  const { page, sort, search } = store.getState()
+
+  const params = { $skip: page[model] * 25, $sort: sort[model] }
+
+  if (search[model]) { params.search = search[model] }
+
+  return params
+}
+
 export default {
   init () {
     if (appType === 'broker') {
 
     } else {
-      client.service('shareholder').on('created', data => { // TODO: optimize
+      client.service('shareholder').on('created', data => {
         if (tokenDetailRegexp.test(window.location.pathname)) {
+          const { $skip, $sort, search } = getCurrentQueryParams('shareholders')
           const address = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address } }))
+          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
         }
       })
-      client.service('shareholder').on('patched', data => { // TODO: optimize
+      client.service('shareholder').on('patched', data => {
         if (tokenDetailRegexp.test(window.location.pathname)) {
+          const { $skip, $sort, search } = getCurrentQueryParams('shareholders')
           const address = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address } }))
+          store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
         }
 
         if (shareholderDetailRegexp.test(window.location.pathname)) {
@@ -31,11 +43,12 @@ export default {
           store.dispatch(localServices.shareholder.find({ query: { id, $limit: 1 } }))
         }
       })
-      client.service('transaction').on('created', data => { // TODO: optimize
+      client.service('transaction').on('created', data => {
         if (tokenDetailRegexp.test(window.location.pathname)) {
+          const { $skip, $sort, search } = getCurrentQueryParams('transactions')
           const address = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.transaction.find({ query: { contractAddress: address } }))
+          store.dispatch(localServices.transaction.find({ query: { contractAddress: address, search, $skip, $sort } }))
         }
       })
       client.service('localToken').on('patched', data => {
