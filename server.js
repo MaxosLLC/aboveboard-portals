@@ -5,31 +5,6 @@ const fs = require('fs')
 
 const app = express()
 
-app.use((req, res, next) => {
-  const { ALLOWED_IPS } = process.env
-
-  if (ALLOWED_IPS) {
-    const ipCandidates = (
-      req.connection.remoteAddress ||
-      req.socket.remoteAddress ||
-      req.connection.socket.remoteAddress)
-        .split(',')[0]
-        .split(':')
-    const ip = ipCandidates[ipCandidates.length - 1]
-    req.ip = ip
-
-    const ips = ALLOWED_IPS ? ALLOWED_IPS.split(' ').filter(i => i) : []
-
-    if (ips.length && ips.indexOf(ip) < 0) {
-      res.status(403).send(`Your IP is not allowed!
-        IP: ${req.connection.remoteAddress}
-        Please use AboveBoard VPN provided.`)
-      return
-    }
-  }
-  next()
-})
-
 router.use(express.static(path.join(__dirname, 'build')))
 router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build/index.html'))
