@@ -5,19 +5,19 @@ import { appType } from 'lib/util'
 
 export default {
   init () {
-    client.service('token').on('created', data => { // TODO: optimize
-      store.dispatch(services.token.find({}))
+    client.service('token').on('created', data => {
+      store.dispatch(services.token.find())
     })
-    client.service('token').on('patched', data => { // TODO: optimize
-      store.dispatch(services.token.find({}))
+    client.service('token').on('patched', data => {
+      store.dispatch(services.token.find())
     })
 
     if (appType === 'broker') {
-      client.service('whitelist').on('created', data => { // TODO: optimize
-        store.dispatch(services.whitelist.find({}))
+      client.service('whitelist').on('created', data => {
+        store.dispatch(services.whitelist.find())
       })
-      client.service('whitelist').on('patched', data => { // TODO: optimize
-        store.dispatch(services.whitelist.find({}))
+      client.service('whitelist').on('patched', data => {
+        store.dispatch(services.whitelist.find())
       })
     }
   }

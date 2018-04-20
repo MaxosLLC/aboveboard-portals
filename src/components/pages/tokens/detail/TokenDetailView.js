@@ -242,7 +242,7 @@ class InvestorDetailView extends Component {
                             ) + 1
                           : 1
                       }
-                      onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1) }
+                      onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1)}
                     />
                   </Table.HeaderCell>
                 </Table.Row>
@@ -338,7 +338,7 @@ class InvestorDetailView extends Component {
                               ) + 1
                             : 1
                         }
-                        onPageChange={(e, { activePage }) => setPage('transactions', activePage - 1) }
+                        onPageChange={(e, { activePage }) => setPage('transactions', activePage - 1)}
                       />
                     </Table.HeaderCell>
                   </Table.Row>
@@ -365,14 +365,11 @@ class InvestorDetailView extends Component {
         <div className='tradingToggle'>
           <span>
             <strong>Trading: </strong>
-            {this.state.trading
-              ? 'Active'
-              : 'Paused'}</span>
+            {this.state.trading ? 'Active' : 'Paused'}
+          </span>
           <Checkbox
             toggle
-            onClick={() => this.setState({
-              trading: !this.state.trading
-            })}
+            onClick={() => this.setState({ trading: !this.state.trading })}
             checked={this.state.trading} />
         </div>
         <div>
@@ -383,10 +380,7 @@ class InvestorDetailView extends Component {
           ? <span>Loading token details...<Icon name='spinner' loading /></span>
           : <Tab
             activeIndex={activeIndex}
-            menu={{
-              secondary: true,
-              pointing: true
-            }}
+            menu={{ secondary: true, pointing: true }}
             panes={panes}
             onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', ''); this.setState({ activeIndex }) }}
             className='tableTabs' />}
