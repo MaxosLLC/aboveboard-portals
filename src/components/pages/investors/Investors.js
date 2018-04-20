@@ -12,8 +12,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     routeTo: path => dispatch(push(path)),
-    loadInvestors: ($skip = 0) =>
-      dispatch(services.investor.find({ query: { $limit: 25, $skip } }))
+    loadInvestors: (page = 0) =>
+      dispatch(services.investor.find({ query: { $skip: page * 25 } }))
   }
 }
 

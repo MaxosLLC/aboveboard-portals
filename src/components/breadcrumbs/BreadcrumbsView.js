@@ -4,7 +4,7 @@ import './Breadcrumbs.css'
 
 class BreadcrumbsView extends Component {
   render () {
-    const { router, tokens } = this.props
+    const { loaded, router, tokens } = this.props
     const tokenDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/detail$/
     const shareholderDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/shareholders\/[0-9a-zA-Z\s-]+\/detail$/
     const renderCrumbs = (path, tokens) => {
@@ -62,7 +62,7 @@ class BreadcrumbsView extends Component {
     }
     return (
       <div className='breadcrumbsComponent'>
-        {renderCrumbs(router.location.pathname, tokens)}
+        { loaded ? renderCrumbs(router.location.pathname, tokens) : '' }
       </div>
     )
   }

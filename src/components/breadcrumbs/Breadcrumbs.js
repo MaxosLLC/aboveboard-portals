@@ -5,6 +5,7 @@ import BreadcrumbsView from './BreadcrumbsView'
 const mapStateToProps = state => {
   return {
     tokens: state.token.queryResult ? state.token.queryResult.data : [],
+    loaded: state.token.isFinished,
     router: state.router
   }
 }

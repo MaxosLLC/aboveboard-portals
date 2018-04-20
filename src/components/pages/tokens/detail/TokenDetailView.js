@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-import { Checkbox, Header, Icon, Image, Segment, Tab, Table } from 'semantic-ui-react'
+import { Checkbox, Header, Icon, Image, Input, Segment, Tab, Table } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
@@ -12,12 +12,53 @@ const downloadSrc = `${iconsPath}/download.svg`
 const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
 
+const convertToCSVSafeObject = obj => {
+  return Object.keys(obj).reduce((csvObj, key) => {
+    if (key === 'ethAddresses') {
+      csvObj.ethAddresses = (obj[key] || []).map(({ address }) => address).join('-')
+    } else {
+      const value = (obj[key] + '').replace(/,/, ' ')
+      csvObj[key] = value
+    }
+
+    return csvObj
+  }, {})
+}
+
+const processDownload = (type, href) => {
+  const tempAnchor = document.createElement('a')
+  tempAnchor.download = `${type}s.csv`
+  tempAnchor.href = href
+  tempAnchor.onclick = e => {
+    const that = this
+    setTimeout(() => {
+      window.URL.revokeObjectURL(that.href)
+    }, 1500)
+  }
+
+  tempAnchor.click()
+  tempAnchor.remove()
+}
+
 class InvestorDetailView extends Component {
   constructor () {
     super()
     this.state = {
       orderBy: '',
-      trading: true
+      trading: true,
+      activeIndex: 0,
+      sort: {
+        transactions: { createdAt: -1 },
+        shareholders: { createdAt: -1 }
+      },
+      page: {
+        transactions: 0,
+        shareholders: 0
+      },
+      search: {
+        transactions: '',
+        shareholders: ''
+      }
     }
   }
   componentDidMount () {
@@ -91,124 +132,66 @@ class InvestorDetailView extends Component {
       })
     })
   }
-  shareholderTableData (shareholders, transactions) {
-    const data = this.formatShareholderTableData(shareholders, transactions)
+  downloadCsvData (type) {
+    if (type === 'shareholder') {
+      this.props.loadAll('shareholder')
+        .then(shareholders => {
+          const headers = 'ID, First Name, Last Name, Email, Phone, Address Line1, City, State, Country, Zip, Ethereum Addresses\n'
+          const csvSafeData = shareholders.map(convertToCSVSafeObject)
 
-    switch (this.state.orderBy) {
-      case 'quantityAsc':
-        return data.sort((a, b) => a.transactions.quantity - b.transactions.quantity)
-      case 'quantityDesc':
-        return data.sort((a, b) => b.transactions.quantity - a.transactions.quantity)
-      case 'dateAsc':
-        return data.sort((a, b) => new Date(a.transactions.lastCreated) - new Date(b.transactions.lastCreated))
-      case 'dateDesc':
-        return data.sort((a, b) => new Date(b.transactions.lastCreated) - new Date(a.transactions.lastCreated))
-      case 'addressAsc':
-        return data.sort((a, b) => a.country.localeCompare(b.country))
-      case 'addressDesc':
-        return data.sort((a, b) => b.country.localeCompare(a.country))
-      case 'qualifierAsc':
-        return data.sort((a, b) => {
-          a = a.qualifications
-            ? a.qualifications
-            : ''
-          b = b.qualifications
-            ? b.qualifications
-            : ''
-          return a.localeCompare(b)
-        })
-      case 'qualifierDesc':
-        return data.sort((a, b) => {
-          a = a.qualifications
-            ? a.qualifications
-            : ''
-          b = b.qualifications
-            ? b.qualifications
-            : ''
-          return b.localeCompare(a)
-        })
-      case 'nameAsc':
-        return data.sort((a, b) => a.firstName.localeCompare(b.firstName))
-      case 'nameDesc':
-        return data.sort((a, b) => b.firstName.localeCompare(a.firstName))
-      default:
-        return data
-    }
-  }
-  transactionsTableData (shareholders, transactions) {
-    transactions = transactions.map(transaction => { // TODO: remove once tx data is cleared and stable
-      if (!transaction.fromEthAddress) {
-        transaction.fromEthAddress = '0x51595ee792a82607071109b61fff7925585c0e4b'
-      }
+          const csv = csvSafeData.reduce((result, shareholder) => {
+            const { id, firstName, lastName, email, phone, addressLine1, city, state, country, zip, ethAddresses } = shareholder
+            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1},${city},${state},${country},${zip},${ethAddresses}\n`
+          }, headers)
 
-      return transaction
-    })
-    switch (this.state.orderBy) {
-      case 'tQuantityAsc':
-        return transactions.sort((a, b) => a.tokens - b.tokens)
-      case 'tQuantityDesc':
-        return transactions.sort((a, b) => b.tokens - a.tokens)
-      case 'hashAsc':
-        return transactions.sort((a, b) => a.transactionHash - b.transactionHash)
-      case 'hashDesc':
-        return transactions.sort((a, b) => b.transactionHash - a.transactionHash)
-      case 'tDateAsc':
-        return transactions.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-      case 'tDateDesc':
-        return transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      case 'tAddressAsc':
-        return transactions.sort((a, b) => a.contractAddress.localeCompare(b.contractAddress))
-      case 'tAddressDesc':
-        return transactions.sort((a, b) => b.contractAddress.localeCompare(a.contractAddress))
-      case 'tFrom':
-        return transactions.sort((a, b) => b.fromEthAddress.localeCompare(a.fromEthAddress))
-      case 'tNameAsc':
-        return transactions.sort((a, b) => {
-          a = this.getShareholderName(a.shareholderEthAddress, shareholders)
-          b = this.getShareholderName(b.shareholderEthAddress, shareholders)
-          return a.localeCompare(b)
+          return processDownload(type, `data:text/csv;charset=utf-8,${csv}`)
         })
-      case 'tNameDesc':
-        return transactions.sort((a, b) => {
-          a = this.getShareholderName(a.shareholderEthAddress, shareholders)
-          b = this.getShareholderName(b.shareholderEthAddress, shareholders)
-          return b.localeCompare(a)
+    }
+
+    if (type === 'transaction') {
+      this.props.loadAll('transaction')
+        .then(transactions => {
+          const headers = 'ID, Transaction Hash, Contract Address, Shareholder Ethereum Address, From Ethereum Address, Tokens, Date, Timestamp\n'
+          const csvSafeData = transactions.map(convertToCSVSafeObject)
+
+          const csv = csvSafeData.reduce((result, transaction) => {
+            const { id, transactionHash, contractAddress, shareholderEthAddress, fromEthAddress, tokens, createdAt } = transaction
+            return `${result}${id},${transactionHash},${contractAddress},${shareholderEthAddress},${fromEthAddress},${tokens},${moment(createdAt).format('MMMM Do YYYY - h:mm:ss a')},${(new Date(createdAt)).getTime()}\n`
+          }, headers)
+
+          return processDownload(type, `data:text/csv;charset=utf-8,${csv}`)
         })
-      default:
-        return transactions
-    }
-  }
-  getCsvData (src) {
-      // TODO: needs pre-formatted or joined data from DB - would help render shareholder data faster
-      // convertArrayToCSV won't convert nested objects
-    if (src === 'shareholders') {
-      return `data:application/octet-stream,${this.formatShareholderTableData(this.props.shareholders, this.props.transactions)}` // TODO: convert from array to CSV
-    }
-    if (src === 'transactions') {
-      return `data:application/octet-stream,${this.props.transactions}` // TODO: convert from array to CSV
     }
   }
   render () {
-    const {loaded, token, transactions, shareholders, routeTo} = this.props
+    const { loaded, token, transactions, shareholders, routeTo } = this.props
+    const { activeIndex, page, sort, search } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(shareholdersWithData, transactions)
 
+    const handleSearch = (e, { value }) => {
+      this.setState({ search: { [activeIndex === 0 ? 'shareholders' : 'transactions']: value } })
+      activeIndex === 0
+        ? this.props.loadShareholders(sort.shareholders, page.shareholders, value)
+        : this.props.loadTransactions(sort.transactions, page.transactions, value)
+    }
+
     const shareholderHeaders = [
-      { name: 'Shareholder', alias: 'name' },
-      { name: 'Address' },
-      { name: 'Qualifier' },
-      { name: 'Quantity' },
-      { name: '% of Total', alias: 'quantity' },
-      { name: 'Last Transaction', alias: 'date' }
+      { name: 'Shareholder', sortOption: 'lastName' },
+      { name: 'Address', sortOption: 'country' },
+      { name: 'Qualifier', sortOption: 'qualifier' },
+      { name: 'Quantity', sortOption: 'ethaddress.issues.tokens' },
+      { name: '% of Total', sortOption: 'ethaddress.issues.tokens' },
+      { name: 'Last Transaction', sortOption: 'updatedAt' }
     ]
 
     const transactionsHeaders = [
-      { name: 'Hash' },
-      { name: 'From', alias: 'tFrom' },
-      { name: 'Shareholder', alias: 'tName' },
-      { name: 'Address', alias: 'tAddress' },
-      { name: 'Quantity', alias: 'tQuantity' },
-      { name: 'Date', alias: 'tDate' }
+      { name: 'Hash', sortOption: 'transactionHash' },
+      { name: 'From', sortOption: 'fromEthAddress' },
+      { name: 'Shareholder', sortOption: 'shareholderEthAddress' },
+      { name: 'Address', sortOption: 'country' },
+      { name: 'Quantity', sortOption: 'tokens' },
+      { name: 'Date', sortOption: 'createdAt' }
     ]
 
     const panes = [
@@ -228,19 +211,19 @@ class InvestorDetailView extends Component {
                       <span className='sortButtons'>
                         <Image
                           src={sortUpSrc}
-                          onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Asc`})} />
+                          onClick={() => { this.setState({ sort: { shareholders: { [shareholderHeader.sortOption]: 1 } } }); this.props.loadShareholders({ [shareholderHeader.sortOption]: 1 }, page.shareholders, search.shareholders) }} />
                         <Image
                           src={sortDownSrc}
-                          onClick={() => this.updateLocalState({orderBy: `${shareholderHeader.alias || shareholderHeader.name.toLowerCase()}Desc`})} />
+                          onClick={() => { this.setState({ sort: { shareholders: { [shareholderHeader.sortOption]: -1 } } }); this.props.loadShareholders({ [shareholderHeader.sortOption]: -1 }, page.shareholders, search.shareholders) }} />
                       </span>
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell><a href={this.getCsvData('shareholders')} download='shareholders.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {this
-                    .shareholderTableData(shareholdersWithData, transactions)
+                    .formatShareholderTableData(shareholdersWithData, transactions)
                     .map((shareholder, i) => <Table.Row
                       key={shareholder.id}
                       onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)}
@@ -275,20 +258,19 @@ class InvestorDetailView extends Component {
                         <span className='sortButtons'>
                           <Image
                             src={sortUpSrc}
-                            onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Asc`})} />
+                            onClick={() => { this.setState({ sort: { transactions: { [transactionsHeader.sortOption]: 1 } } }); this.props.loadTransactions({ [transactionsHeader.sortOption]: 1 }, page.transactions, search.transactions) }} />
                           <Image
                             src={sortDownSrc}
-                            onClick={() => this.updateLocalState({orderBy: `${transactionsHeader.alias || transactionsHeader.name.toLowerCase()}Desc`})} />
+                            onClick={() => { this.setState({ sort: { transactions: { [transactionsHeader.sortOption]: -1 } } }); this.props.loadTransactions({ [transactionsHeader.sortOption]: -1 }, page.transactions, search.transactions) }} />
                         </span>
                       </Table.HeaderCell>
                     ) }
-                    <Table.HeaderCell><a href={this.getCsvData('transactions')} download='transactions.csv'><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                    <Table.HeaderCell><a onClick={() => this.downloadCsvData('transaction')}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
-                  {this
-                      .transactionsTableData(shareholdersWithData, transactions)
+                  {transactions
                       .map(transaction => <Table.Row key={transaction.id}>
                         <Table.Cell>
                           <Link
@@ -353,10 +335,7 @@ class InvestorDetailView extends Component {
           </Link>
         </Header>
         <div className='stats'>
-          { loaded
-            ? <StatsCard stats={stats} />
-            : ''
-          }
+          <StatsCard stats={stats} />
         </div>
         <div className='tradingToggle'>
           <span>
@@ -371,14 +350,20 @@ class InvestorDetailView extends Component {
             })}
             checked={this.state.trading} />
         </div>
+        <div>
+          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} />
+        </div>
+        <br />
         {!loaded
           ? <span>Loading token details...<Icon name='spinner' loading /></span>
           : <Tab
+            activeIndex={activeIndex}
             menu={{
               secondary: true,
               pointing: true
             }}
             panes={panes}
+            onTabChange={(e, { activeIndex }) => { this.setState({ activeIndex }) }}
             className='tableTabs' />}
       </div>
     )

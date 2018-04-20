@@ -16,8 +16,6 @@ const removeJwtFromLocalStorage = () => {
 function * loginSuccess ({ user, accessToken }) {
   if (!user.messagingAddress && appType === 'issuer') {
     yield store.dispatch(push('/settings'))
-  } else {
-    yield store.dispatch(push('/'))
   }
 
   yield ethereum.init({

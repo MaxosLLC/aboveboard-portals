@@ -82,7 +82,6 @@ class SettingsView extends Component {
   }
   render () {
     const {
-      appType,
       loaded,
       connected,
       connectWallet,
