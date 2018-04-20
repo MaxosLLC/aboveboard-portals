@@ -10,11 +10,10 @@ const mapStateToProps = (state, ownProps) => ({
   shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
   queryResult: {
-    shareholders: state.shareholder.queryResult,
-    transactions: state.transaction.queryResult
+    shareholders: state.shareholder.queryResult || { total: 0, limit: 0 },
+    transactions: state.transaction.queryResult || { total: 0, limit: 0 }
   },
   page: state.page,
-  sort: state.sort,
   search: state.search,
   loaded: state.shareholder.isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
 })

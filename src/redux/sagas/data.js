@@ -16,7 +16,12 @@ function * fetch ({ model }) {
 
   if (search[model]) { query.search = search[model] }
 
-  yield store.dispatch(localServices[model.replace(/s$/, '')].find({ query }))
+  const { value } = yield store.dispatch(localServices[model.replace(/s$/, '')].find({ query }))
+
+  if (!value.data[0] && value.total && $skip > 0) {
+    const firstPageQuery = Object.assign({}, query, { $skip: 0 })
+    yield store.dispatch(localServices[model.replace(/s$/, '')].find({ query: firstPageQuery }))
+  }
 }
 
 export default function * watchAuth () {

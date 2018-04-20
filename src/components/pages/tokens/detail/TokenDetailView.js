@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { join } from 'bluebird'
 import moment from 'moment'
-import { Checkbox, Header, Icon, Image, Input, Segment, Tab, Table } from 'semantic-ui-react'
+import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
@@ -152,7 +152,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, sort, search, setPage, setSort, setSearch } = this.props
+    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch } = this.props
     const { activeIndex, totalShareholders, totalTransactions } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
@@ -227,9 +227,29 @@ class InvestorDetailView extends Component {
                       <Table.Cell />
                     </Table.Row>)}
               </Table.Body>
+
+              { queryResult.shareholders.total > queryResult.shareholders.limit ? <Table.Footer>
+                <Table.Row>
+                  <Table.HeaderCell floated='right' colSpan='8'>
+                    <Pagination
+                      floated='right'
+                      activePage={page.shareholders + 1}
+                      totalPages={
+                        queryResult.shareholders
+                          ? Math.floor(
+                              queryResult.shareholders.total /
+                                queryResult.shareholders.limit
+                            ) + 1
+                          : 1
+                      }
+                      onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1) }
+                    />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Footer> : null }
             </Table>
           </div>
-          : <Segment>No shareholder data available</Segment>
+          : <Segment>{ search.shareholders ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
       }, {
         menuItem: 'Transactions',
         render: () => transactions.length
@@ -303,10 +323,30 @@ class InvestorDetailView extends Component {
                         <Table.Cell />
                       </Table.Row>)}
                 </Table.Body>
+
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell floated='right' colSpan='8'>
+                      <Pagination
+                        floated='right'
+                        activePage={page.transactions + 1}
+                        totalPages={
+                          queryResult.transactions
+                            ? Math.floor(
+                                queryResult.transactions.total /
+                                  queryResult.transactions.limit
+                              ) + 1
+                            : 1
+                        }
+                        onPageChange={(e, { activePage }) => setPage('transactions', activePage - 1) }
+                      />
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
               </Table>
             </div>
           </div>
-          : <Segment>No transactions have been made yet</Segment>
+          : <Segment>{ search.transactions ? 'No transactions match your search criteria' : 'No transactions have been made yet' }</Segment>
       }
     ]
     return (
@@ -336,7 +376,7 @@ class InvestorDetailView extends Component {
             checked={this.state.trading} />
         </div>
         <div>
-          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} />
+          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />
         </div>
         <br />
         {!loaded
@@ -348,7 +388,7 @@ class InvestorDetailView extends Component {
               pointing: true
             }}
             panes={panes}
-            onTabChange={(e, { activeIndex }) => { this.setState({ activeIndex }) }}
+            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', ''); this.setState({ activeIndex }) }}
             className='tableTabs' />}
       </div>
     )
