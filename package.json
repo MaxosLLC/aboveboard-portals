@@ -1,7 +1,7 @@
 {
     "name": "aboveboard-portal",
-    "author": "Jordan Denison",
-    "version": "0.0.1",
+    "author": "Aboveboard",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
         "heroku-postbuild": "yarn run build",
