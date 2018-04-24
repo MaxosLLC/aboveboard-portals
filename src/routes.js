@@ -24,9 +24,9 @@ class Routes extends Component {
         { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
         { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
         { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
-        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
-        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
-        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+        { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
+        { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
+        { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
       </Switch>
     )
   }

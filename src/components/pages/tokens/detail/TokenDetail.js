@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import ethereum from 'lib/ethereum'
 import localServices from 'lib/feathers/local/feathersServices'
 import localClient from 'lib/feathers/local/feathersClient'
 import TokenDetailView from './TokenDetailView'
@@ -50,7 +51,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setPage: (model, page) => dispatch({ type: 'SET_PAGE', model, page }),
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
-    setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search })
+    setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
+    setTokenTrading: (tokenAddress, trading) =>
+      ethereum.setTradingLock(tokenAddress, !trading)
+        .then(() => dispatch(localServices.localToken.patch(null, { trading }, { query: { address: tokenAddress } })))
   }
 }
 

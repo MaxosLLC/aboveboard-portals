@@ -152,7 +152,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch } = this.props
+    const { loaded, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading } = this.props
     const { activeIndex, totalShareholders, totalTransactions } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
@@ -369,8 +369,8 @@ class InvestorDetailView extends Component {
           </span>
           <Checkbox
             toggle
-            onClick={() => this.setState({ trading: !this.state.trading })}
-            checked={this.state.trading} />
+            onChange={(e, { checked }) => setTokenTrading(token.address, checked)}
+            checked={localToken.trading} />
         </div>
         <div>
           <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />

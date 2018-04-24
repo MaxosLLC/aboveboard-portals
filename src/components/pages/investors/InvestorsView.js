@@ -71,7 +71,7 @@ class InvestorsView extends Component {
               <Table.Body>
                 {investors
                   .map((investor, i) =>
-                    <Table.Row>
+                    <Table.Row key={investor.id + i}>
                       <Table.Cell>{i + 1}</Table.Cell>
                       <Table.Cell>{investor.firstName}</Table.Cell>
                       <Table.Cell>{investor.lastName}</Table.Cell>
@@ -113,7 +113,7 @@ class InvestorsView extends Component {
                       activePage={page.investors + 1}
                       totalPages={
                         queryResult
-                          ? Math.floor(queryResult.total /queryResult.limit) + 1
+                          ? Math.floor(queryResult.total / queryResult.limit) + 1
                           : 1
                       }
                       onPageChange={(e, { activePage }) => setPage(activePage - 1)}

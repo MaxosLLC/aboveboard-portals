@@ -32,16 +32,14 @@ export default {
         handleRequest (payload, next, end) {
           switch (payload.method) {
             case 'web3_clientVersion':
-              currentProvider.version.getNode(end)
-              return
+              return currentProvider.version.getNode(end)
 
             case 'eth_accounts':
-              currentProvider.eth.getAccounts(end)
-              return
+              return currentProvider.eth.getAccounts(end)
 
             case 'eth_sendTransaction':
               const [txParams] = payload.params
-              currentProvider.eth.sendTransactionAsync(txParams)
+              return currentProvider.eth.sendTransactionAsync(txParams)
                 .then(data => {
                   store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
                   end(null, data)
@@ -50,12 +48,10 @@ export default {
                   store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
                   end(error)
                 })
-              return
 
             case 'eth_sign':
               const [address, message] = payload.params
-              currentProvider.eth.sign(address, message, end)
-              return
+              return currentProvider.eth.sign(address, message, end)
 
             default:
               next()
@@ -88,14 +84,11 @@ export default {
           return web3.personal.unlockAccount(currentAccount, password)
         }
       })
-      .then(() => {
-        store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
-        return true // returning bool for messsage display in settings
-      })
+      .then(() => store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' }))
       .catch(error => {
         console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
-        store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
-        return false
+        return store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
+          .then(() => false)
       })
   },
 
@@ -136,6 +129,19 @@ export default {
               return deployedRegulatorServiceContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount })
             }
           })
+      })
+  },
+
+  setTradingLock (tokenAddress, locked) {
+    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+    promisifyAll(deployedTokenContract._service)
+
+    return deployedTokenContract._service.callAsync()
+      .then(regulatorServiceAddress => {
+        const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
+        promisifyAll(deployedRegulatorServiceContract.setLocked)
+
+        return deployedRegulatorServiceContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
       })
   }
 }
