@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import cloudServices from 'lib/feathers/cloud/feathersServices'
-// import gmcServices from 'lib/feathers/gmc/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
 import feathersAuthentication from 'lib/feathers/cloud/feathersAuthentication'
 import currentUser from './reducers/currentUser'
