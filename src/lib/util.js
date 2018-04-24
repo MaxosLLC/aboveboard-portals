@@ -1,1 +1,1 @@
-export const appType = window.REACT_APP_APP_TYPE || (/issuer/.test(window.location.hostname) ? 'issuer' : 'broker')
+export const appType = window.REACT_APP_APP_TYPE || (/issuer/.test(window.location.hostname) ? 'issuer' : /direct/.test(window.location.hostname) ? 'direct' : 'broker')

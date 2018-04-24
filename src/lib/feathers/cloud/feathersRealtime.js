@@ -12,7 +12,7 @@ export default {
       store.dispatch(services.token.find())
     })
 
-    if (appType === 'broker') {
+    if (appType === 'broker' || appType === 'direct') {
       client.service('whitelist').on('created', data => {
         store.dispatch(services.whitelist.find())
       })

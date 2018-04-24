@@ -3,7 +3,7 @@ import { Dropdown, Divider, Image, Menu } from 'semantic-ui-react'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import './Header.css'
 
-const profileSrc = './images/icons/defaultProfile.svg'
+const profileSrc = '/images/icons/defaultProfile.svg'
 
 class HeaderView extends Component {
   render () {

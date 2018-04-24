@@ -20,13 +20,13 @@ class Routes extends Component {
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/settings' component={Settings} />
-        { appType === 'broker' ? <Route exact path='/buyers' component={Investors} /> : '' }
-        { appType === 'broker' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
-        { appType === 'broker' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
-        { appType === 'broker' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
-        { appType === 'issuer' ? <Route exact path='/tokens' component={Tokens} /> : '' }
-        { appType === 'issuer' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
-        { appType === 'issuer' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers' component={Investors} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
+        { appType === 'broker' || appType === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
       </Switch>
     )
   }

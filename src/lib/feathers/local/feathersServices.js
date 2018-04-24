@@ -4,6 +4,7 @@ import { appType } from 'lib/util'
 
 const servicesByType = {
   broker: [ 'user', 'localToken', 'investor' ],
+  direct: [ 'user', 'investor', 'localToken', 'shareholder', 'transaction' ],
   issuer: [ 'user', 'localToken', 'shareholder', 'transaction' ]
 }
 

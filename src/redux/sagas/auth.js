@@ -30,7 +30,7 @@ function * loginSuccess ({ user, accessToken }) {
   yield store.dispatch(localServices.user.patch(null, { ethAddresses: [ { address: ethAddress } ] }, { query: { email: 'local@local.com' } }))
   yield store.dispatch(cloudServices.token.find())
   yield store.dispatch(localServices.localToken.find())
-  if (appType === 'broker') {
+  if (appType === 'broker' || appType === 'direct') {
     yield store.dispatch(cloudServices.whitelist.find())
   }
 }

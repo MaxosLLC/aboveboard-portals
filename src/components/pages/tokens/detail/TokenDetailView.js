@@ -203,29 +203,29 @@ class InvestorDetailView extends Component {
                       </span>
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {this
-                    .formatShareholderTableData(shareholdersWithData, transactions)
-                    .map((shareholder, i) => <Table.Row
-                      key={shareholder.id}
-                      onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)}
-                      style={{
-                        cursor: 'pointer'
-                      }}>
-                      <Table.Cell>{i + 1}</Table.Cell>
-                      <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
-                      <Table.Cell>{shareholder.country}</Table.Cell>
-                      <Table.Cell>{shareholder.qualifications || 'N/A'}</Table.Cell>
-                      <Table.Cell>{shareholder.transactions.quantity}</Table.Cell>
-                      <Table.Cell>{shareholder.transactions.percent}%</Table.Cell>
-                      <Table.Cell>{shareholder.transactions.lastCreated
-                          ? moment(shareholder.transactions.lastCreated).format('LL')
-                          : 'N/A'}</Table.Cell>
-                      <Table.Cell />
-                    </Table.Row>)}
+                  .formatShareholderTableData(shareholdersWithData, transactions)
+                  .map((shareholder, i) => <Table.Row
+                    key={shareholder.id}
+                    onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)}
+                    style={{
+                      cursor: 'pointer'
+                    }}>
+                    <Table.Cell>{i + 1}</Table.Cell>
+                    <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
+                    <Table.Cell>{shareholder.country}</Table.Cell>
+                    <Table.Cell>{shareholder.qualifications || 'N/A'}</Table.Cell>
+                    <Table.Cell>{shareholder.transactions.quantity}</Table.Cell>
+                    <Table.Cell>{shareholder.transactions.percent}%</Table.Cell>
+                    <Table.Cell>{shareholder.transactions.lastCreated
+                        ? moment(shareholder.transactions.lastCreated).format('LL')
+                        : 'N/A'}</Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>)}
               </Table.Body>
 
               { queryResult.shareholders.total > queryResult.shareholders.limit ? <Table.Footer>
@@ -270,7 +270,7 @@ class InvestorDetailView extends Component {
                         </span>
                       </Table.HeaderCell>
                     ) }
-                    <Table.HeaderCell><a onClick={() => this.downloadCsvData('transaction')}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                    <Table.HeaderCell><a onClick={() => this.downloadCsvData('transaction')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 

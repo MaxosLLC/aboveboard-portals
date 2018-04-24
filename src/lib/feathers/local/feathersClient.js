@@ -6,6 +6,7 @@ import { appType } from 'lib/util'
 
 const url = window.REACT_APP_APP_TYPE ? `${window.location.hostname}:3031`
   : appType === 'broker' ? process.env.REACT_APP_BROKER_LOCAL_API_URL || 'https://aboveboard-broker-api.herokuapp.com/'
+  : appType === 'direct' ? process.env.REACT_APP_DIRECT_LOCAL_API_URL || 'https://aboveboard-direct-api.herokuapp.com/'
   : process.env.REACT_APP_ISSUER_LOCAL_API_URL || 'https://aboveboard-issuer-api.herokuapp.com/'
 
 const socket = io(url, {

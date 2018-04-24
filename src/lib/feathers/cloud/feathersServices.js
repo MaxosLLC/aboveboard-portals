@@ -4,7 +4,7 @@ import { appType } from 'lib/util'
 
 const services = [ 'user', 'token' ]
 
-if (appType === 'broker') {
+if (appType === 'broker' || appType === 'direct') {
   services.push('whitelist')
 }
 

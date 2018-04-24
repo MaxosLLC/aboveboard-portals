@@ -11,7 +11,6 @@ import sort from './reducers/sort'
 import search from './reducers/search'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
-import { appType } from 'lib/util'
 
 const reducers = {
   auth: feathersAuthentication.reducer,
@@ -28,7 +27,7 @@ const reducers = {
   router: routerReducer
 }
 
-if (appType === 'broker') {
+if (cloudServices.whitelist) {
   reducers.whitelist = cloudServices.whitelist.reducer
 }
 

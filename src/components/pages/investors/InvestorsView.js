@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Pagination, Grid, Header, Icon, Input, Image, Segment, Table } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } from 'semantic-ui-react'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
@@ -65,35 +65,43 @@ class InvestorsView extends Component {
                       </span>
                     </Table.HeaderCell>
                   ) }
+                  <Table.HeaderCell>Edit</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {investors
                   .map((investor, i) =>
-                    <Table.Row
-                      key={investor.id}
-                      onClick={() => routeTo(`/buyers/${investor.id}/detail`) }
-                      style={{
-                        cursor: 'pointer'
-                      }}>
-                        <Table.Cell>{i + 1}</Table.Cell>
-                        <Table.Cell>{investor.firstName}</Table.Cell>
-                        <Table.Cell>{investor.lastName}</Table.Cell>
-                        <Table.Cell>{investor.email}</Table.Cell>
-                        <Table.Cell>{investor.phone}</Table.Cell>
-                        <Table.Cell>
-                          {investor.addressLine1}
-                          {investor.addressLine2
+                    <Table.Row>
+                      <Table.Cell>{i + 1}</Table.Cell>
+                      <Table.Cell>{investor.firstName}</Table.Cell>
+                      <Table.Cell>{investor.lastName}</Table.Cell>
+                      <Table.Cell>{investor.email}</Table.Cell>
+                      <Table.Cell>{investor.phone}</Table.Cell>
+                      <Table.Cell>
+                        {investor.addressLine1}
+                        {investor.addressLine2
                             ? ` ${investor.addressLine2},`
                             : ','}{' '}
-                          {investor.city},{' '}
-                          {investor.state ? `${investor.state}, ` : ''}
-                          {investor.country}, {investor.zip}
-                        </Table.Cell>
-                        <Table.Cell>
-                          {qualificationByCode[investor.qualifications] || ''}
-                        </Table.Cell>
-                      </Table.Row>
+                        <br />
+                        {investor.city},{' '}
+                        {investor.state ? `${investor.state}, ` : ''}
+                        <br />
+                        {investor.country}, {investor.zip}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {qualificationByCode[investor.qualifications] || ''}
+                      </Table.Cell>
+                      <Table.Cell style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                          onClick={() => routeTo(`/buyers/${investor.id}/edit`)}>
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => routeTo(`/buyers/${investor.id}/detail`)}>
+                          Details
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
                   )}
               </Table.Body>
 
@@ -105,10 +113,7 @@ class InvestorsView extends Component {
                       activePage={page.investors + 1}
                       totalPages={
                         queryResult
-                          ? Math.floor(
-                              queryResult.total /
-                                queryResult.limit
-                            ) + 1
+                          ? Math.floor(queryResult.total /queryResult.limit) + 1
                           : 1
                       }
                       onPageChange={(e, { activePage }) => setPage(activePage - 1)}
