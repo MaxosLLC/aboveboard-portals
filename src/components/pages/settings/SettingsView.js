@@ -1,15 +1,6 @@
 import React, {Component} from 'react'
 import {differenceBy} from 'lodash'
-import {
-  Button,
-  Divider,
-  Dropdown,
-  Header,
-  Icon,
-  Input,
-  Segment,
-  Message
-} from 'semantic-ui-react'
+import { Button, Divider, Dropdown, Header, Icon, Input, Segment, Message } from 'semantic-ui-react'
 import './Settings.css'
 
 class SettingsView extends Component {
