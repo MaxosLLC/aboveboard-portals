@@ -14,7 +14,7 @@ const removeJwtFromLocalStorage = () => {
 }
 
 function * loginSuccess ({ user, accessToken }) {
-  if (!user.messagingAddress && appType === 'issuer') {
+  if (!user.messagingAddress && appType === 'issuer' || !user.messagingAddress && appType === 'broker') {
     yield store.dispatch(push('/settings'))
   }
 
