@@ -18,6 +18,7 @@ ADD package.json yarn.lock /cache/
 RUN cd /cache \
   && yarn config set cache-folder /usr/local/share/.cache/yarn \
   && yarn \
+  && yarn global add forever \
   && cd /opt/app && ln -s /cache/node_modules node_modules \
   && tar czf /.yarn-cache.tgz /usr/local/share/.cache/yarn
 
@@ -27,4 +28,4 @@ RUN yarn
 RUN NODE_PATH=src/ yarn run build
 
 EXPOSE 3000
-CMD ["node", "./server.js"]
+CMD ["forever", "start", "./server.js"]
