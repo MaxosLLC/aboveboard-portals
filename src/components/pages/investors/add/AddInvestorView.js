@@ -3,11 +3,11 @@ import AddInvestorForm from 'components/forms/investor/AddInvestorForm'
 
 class AddInvestorView extends Component {
   render () {
-    const { addInvestor } = this.props
+    const { addInvestor, connected } = this.props
 
     return (
       <div className='addInvestorsComponent'>
-        <AddInvestorForm onSubmit={addInvestor} />
+        { !connected ? 'Please connect your wallet.' : <AddInvestorForm onSubmit={addInvestor} /> }
       </div>
     )
   }

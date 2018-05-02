@@ -88,7 +88,7 @@ class SettingsView extends Component {
     const password = document.getElementById('wallet-password-input')
     const messagingAddress = document.getElementById('messaging-account-input')
     const watchingTokenOptions = tokens.map(token => {
-      return {text: token.name, value: token.address}
+      return { text: token.name, value: token.address }
     })
 
     const handleConnectWallet = () => {
@@ -98,14 +98,16 @@ class SettingsView extends Component {
       if (!password.value) {
         return alert('Please enter your account password') // eslint-disable-line
       }
-      connectWallet(account.value, password.value).then(res => {
-        if (!res) {
-          this.hideErrorMessage(false)
-          this.hideSuccessMessage(true)
-        } else {
-          this.hideSuccessMessage(false)
-        }
-      })
+
+      connectWallet(account.value, password.value)
+        .then(res => {
+          if (res) {
+            this.hideSuccessMessage(false)
+          } else {
+            this.hideErrorMessage(false)
+            this.hideSuccessMessage(true)
+          }
+        })
     }
 
     const handleChangeWatchingTokens = () => {
@@ -119,12 +121,8 @@ class SettingsView extends Component {
       if (!messagingAddress.value) {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
-      // this throws a big number ops error everytime
+
       setMessagingAddress(messagingAddress.value, watchingTokens)
-        .then()
-        .catch(err => {
-          console.log(err)
-        })
     }
 
     return (
