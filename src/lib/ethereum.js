@@ -1,13 +1,15 @@
 import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
-import { promisifyAll } from 'bluebird'
 import store from 'redux/store'
+import Promise from 'bluebird'
 
 import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
 import tokenContract from 'lib/contracts/RegulatedToken'
 import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
+
+const { promisifyAll } = Promise
 
 let web3
 let currentAccount
@@ -38,12 +40,15 @@ export default {
               return currentProvider.eth.getAccounts(end)
 
             case 'eth_sendTransaction':
-              const [txParams] = payload.params
-              return currentProvider.eth.sendTransactionAsync(txParams)
-                .then(data => {
-                  store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
-                  end(null, data)
-                })
+              return Promise.try(() => {
+                const [txParams] = payload.params
+
+                return currentProvider.eth.sendTransactionAsync(txParams)
+                  .then(data => {
+                    store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
+                    end(null, data)
+                  })
+              })
                 .catch(error => {
                   store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
                   end(error)
@@ -104,7 +109,13 @@ export default {
   addInvestorToWhitelist (investorAddress, contractAddress) {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.add)
-    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount })
+    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
+  },
+
+  removeInvestorFromWhitelist (investorAddress, contractAddress) {
+    const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
+    promisifyAll(contract.remove)
+    return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
   },
 
   setRegDWhitelistReleaseDate (investorAddress, contractAddress, releaseDate) {

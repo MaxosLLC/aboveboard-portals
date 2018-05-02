@@ -1,4 +1,4 @@
-import { mapSeries } from 'bluebird'
+import { each } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import services from 'lib/feathers/local/feathersServices'
@@ -6,8 +6,8 @@ import ethereum from 'lib/ethereum'
 import AddInvestorView from './AddInvestorView'
 
 const addInvestorToWhitelists = investor =>
-  mapSeries(investor.ethAddresses || [], ethAddress => {
-    return mapSeries(ethAddress.whitelists || [], whitelist => {
+  each(investor.ethAddresses || [], ethAddress => {
+    return each(ethAddress.whitelists || [], whitelist => {
       return ethereum.addInvestorToWhitelist(
         ethAddress.address,
         whitelist.address
