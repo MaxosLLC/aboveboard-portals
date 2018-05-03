@@ -28,4 +28,4 @@ RUN yarn
 RUN NODE_PATH=src/ yarn run build
 
 EXPOSE 3000
-CMD ["forever", "start", "./server.js"]
+CMD ["forever", "./server.js"]
