@@ -73,6 +73,7 @@ class SettingsView extends Component {
   }
   render () {
     const {
+      appType,
       loaded,
       connected,
       connectWallet,
@@ -229,7 +230,7 @@ class SettingsView extends Component {
           </div>
         </Segment>
 
-        <Segment>
+        { appType !== 'direct' ? <Segment>
           <div
             className='inputContainer'
             style={{
@@ -272,7 +273,7 @@ class SettingsView extends Component {
                 : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
                 }
           </div>
-        </Segment>
+        </Segment> : null }
       </div>
     )
   }
