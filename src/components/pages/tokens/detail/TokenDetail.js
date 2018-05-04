@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
   shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
+  totalTransactions: state.totals.transactions[ownProps.match.params.address] || 0,
   queryResult: {
     shareholders: state.shareholder.queryResult || { total: 0, limit: 0 },
     transactions: state.transaction.queryResult || { total: 0, limit: 0 }
@@ -30,7 +31,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadTransactions: () => {
       const query = { contractAddress: ownProps.match.params.address }
 
-      return dispatch(localServices.transaction.find({ query })).then(({ value }) => value)
+      return dispatch(localServices.transaction.find({ query })).then(({ value }) => {
+        dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress: ownProps.match.params.address, tokens: value.total })
+        return value
+      })
     },
     loadLocalToken: () => dispatch(localServices.localToken.find({ query: { address: ownProps.match.params.address } })),
     loadAll: type => {

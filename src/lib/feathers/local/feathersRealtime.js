@@ -46,9 +46,10 @@ export default {
       client.service('transaction').on('created', data => {
         if (tokenDetailRegexp.test(window.location.pathname)) {
           const { $skip, $sort, search } = getCurrentQueryParams('transactions')
-          const address = window.location.pathname.split('/')[2]
+          const contractAddress = window.location.pathname.split('/')[2]
 
-          store.dispatch(localServices.transaction.find({ query: { contractAddress: address, search, $skip, $sort } }))
+          store.dispatch({ type: 'INCREMENT_TOTAL_TRANSACTIONS', contractAddress })
+          store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
         }
       })
       client.service('localToken').on('patched', data => {

@@ -8,6 +8,7 @@ import wallet from './reducers/wallet'
 import page from './reducers/page'
 import sort from './reducers/sort'
 import search from './reducers/search'
+import totals from './reducers/totals'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 
@@ -19,6 +20,7 @@ const reducers = {
   page,
   sort,
   search,
+  totals,
   form: formReducer,
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,

@@ -159,8 +159,8 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading } = this.props
-    const { activeIndex, totalShareholders, totalTransactions } = this.state
+    const { loaded, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
+    const { activeIndex, totalShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
 
