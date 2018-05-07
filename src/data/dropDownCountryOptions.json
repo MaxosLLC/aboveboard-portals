@@ -20,8 +20,8 @@
     "text": "American Samoa"
   },
   {
-    "value": "AndorrA",
-    "text": "AndorrA"
+    "value": "Andorra",
+    "text": "Andorra"
   },
   {
     "value": "Angola",
@@ -104,8 +104,12 @@
     "text": "Bhutan"
   },
   {
-    "value": "Bolivia",
-    "text": "Bolivia"
+    "value": "Bolivia (Plurinational State of)",
+    "text": "Bolivia (Plurinational State of)"
+  },
+  {
+    "value": "Bonaire, Sint Eustatius and Saba",
+    "text": "Bonaire, Sint Eustatius and Saba"
   },
   {
     "value": "Bosnia and Herzegovina",
@@ -144,6 +148,10 @@
     "text": "Burundi"
   },
   {
+    "value": "Cabo Verde",
+    "text": "Cabo Verde"
+  },
+  {
     "value": "Cambodia",
     "text": "Cambodia"
   },
@@ -154,10 +162,6 @@
   {
     "value": "Canada",
     "text": "Canada"
-  },
-  {
-    "value": "Cape Verde",
-    "text": "Cape Verde"
   },
   {
     "value": "Cayman Islands",
@@ -200,8 +204,8 @@
     "text": "Congo"
   },
   {
-    "value": "Congo, The Democratic Republic of the",
-    "text": "Congo, The Democratic Republic of the"
+    "value": "Congo (Democratic Republic of the)",
+    "text": "Congo (Democratic Republic of the)"
   },
   {
     "value": "Cook Islands",
@@ -212,8 +216,8 @@
     "text": "Costa Rica"
   },
   {
-    "value": "Cote D\"Ivoire",
-    "text": "Cote D\"Ivoire"
+    "value": "Côte d'Ivoire",
+    "text": "Côte d'Ivoire"
   },
   {
     "value": "Croatia",
@@ -224,12 +228,16 @@
     "text": "Cuba"
   },
   {
+    "value": "Curaçao",
+    "text": "Curaçao"
+  },
+  {
     "value": "Cyprus",
     "text": "Cyprus"
   },
   {
-    "value": "Czech Republic",
-    "text": "Czech Republic"
+    "value": "Czechia",
+    "text": "Czechia"
   },
   {
     "value": "Denmark",
@@ -376,12 +384,12 @@
     "text": "Haiti"
   },
   {
-    "value": "Heard Island and Mcdonald Islands",
-    "text": "Heard Island and Mcdonald Islands"
+    "value": "Heard Island and McDonald Islands",
+    "text": "Heard Island and McDonald Islands"
   },
   {
-    "value": "Holy See (Vatican City State)",
-    "text": "Holy See (Vatican City State)"
+    "value": "Holy See",
+    "text": "Holy See"
   },
   {
     "value": "Honduras",
@@ -408,8 +416,8 @@
     "text": "Indonesia"
   },
   {
-    "value": "Iran, Islamic Republic Of",
-    "text": "Iran, Islamic Republic Of"
+    "value": "Iran (Islamic Republic of)",
+    "text": "Iran (Islamic Republic of)"
   },
   {
     "value": "Iraq",
@@ -460,12 +468,12 @@
     "text": "Kiribati"
   },
   {
-    "value": "Korea, Democratic People\"S Republic of",
-    "text": "Korea, Democratic People\"S Republic of"
+    "value": "Korea (Democratic People's Republic of)",
+    "text": "Korea (Democratic People's Republic of)"
   },
   {
-    "value": "Korea, Republic of",
-    "text": "Korea, Republic of"
+    "value": "Korea (Republic of)",
+    "text": "Korea (Republic of)"
   },
   {
     "value": "Kuwait",
@@ -476,8 +484,8 @@
     "text": "Kyrgyzstan"
   },
   {
-    "value": "Lao People\"S Democratic Republic",
-    "text": "Lao People\"S Democratic Republic"
+    "value": "Lao People's Democratic Republic",
+    "text": "Lao People's Democratic Republic"
   },
   {
     "value": "Latvia",
@@ -496,8 +504,8 @@
     "text": "Liberia"
   },
   {
-    "value": "Libyan Arab Jamahiriya",
-    "text": "Libyan Arab Jamahiriya"
+    "value": "Libya",
+    "text": "Libya"
   },
   {
     "value": "Liechtenstein",
@@ -516,8 +524,8 @@
     "text": "Macao"
   },
   {
-    "value": "Macedonia, The Former Yugoslav Republic of",
-    "text": "Macedonia, The Former Yugoslav Republic of"
+    "value": "Macedonia (the former Yugoslav Republic of)",
+    "text": "Macedonia (the former Yugoslav Republic of)"
   },
   {
     "value": "Madagascar",
@@ -568,12 +576,12 @@
     "text": "Mexico"
   },
   {
-    "value": "Micronesia, Federated States of",
-    "text": "Micronesia, Federated States of"
+    "value": "Micronesia (Federated States of)",
+    "text": "Micronesia (Federated States of)"
   },
   {
-    "value": "Moldova, Republic of",
-    "text": "Moldova, Republic of"
+    "value": "Moldova (Republic of)",
+    "text": "Moldova (Republic of)"
   },
   {
     "value": "Monaco",
@@ -582,6 +590,10 @@
   {
     "value": "Mongolia",
     "text": "Mongolia"
+  },
+  {
+    "value": "Montenegro",
+    "text": "Montenegro"
   },
   {
     "value": "Montserrat",
@@ -614,10 +626,6 @@
   {
     "value": "Netherlands",
     "text": "Netherlands"
-  },
-  {
-    "value": "Netherlands Antilles",
-    "text": "Netherlands Antilles"
   },
   {
     "value": "New Caledonia",
@@ -668,8 +676,8 @@
     "text": "Palau"
   },
   {
-    "value": "Palestinian Territory, Occupied",
-    "text": "Palestinian Territory, Occupied"
+    "value": "Palestine, State of",
+    "text": "Palestine, State of"
   },
   {
     "value": "Panama",
@@ -712,8 +720,8 @@
     "text": "Qatar"
   },
   {
-    "value": "Reunion",
-    "text": "Reunion"
+    "value": "Réunion",
+    "text": "Réunion"
   },
   {
     "value": "Romania",
@@ -724,12 +732,16 @@
     "text": "Russian Federation"
   },
   {
-    "value": "RWANDA",
-    "text": "RWANDA"
+    "value": "Rwanda",
+    "text": "Rwanda"
   },
   {
-    "value": "Saint Helena",
-    "text": "Saint Helena"
+    "value": "Saint Barthélemy",
+    "text": "Saint Barthélemy"
+  },
+  {
+    "value": "Saint Helena, Ascension and Tristan da Cunha",
+    "text": "Saint Helena, Ascension and Tristan da Cunha"
   },
   {
     "value": "Saint Kitts and Nevis",
@@ -738,6 +750,10 @@
   {
     "value": "Saint Lucia",
     "text": "Saint Lucia"
+  },
+  {
+    "value": "Saint Martin (French part)",
+    "text": "Saint Martin (French part)"
   },
   {
     "value": "Saint Pierre and Miquelon",
@@ -768,8 +784,8 @@
     "text": "Senegal"
   },
   {
-    "value": "Serbia and Montenegro",
-    "text": "Serbia and Montenegro"
+    "value": "Serbia",
+    "text": "Serbia"
   },
   {
     "value": "Seychelles",
@@ -782,6 +798,10 @@
   {
     "value": "Singapore",
     "text": "Singapore"
+  },
+  {
+    "value": "Sint Maarten (Dutch part)",
+    "text": "Sint Maarten (Dutch part)"
   },
   {
     "value": "Slovakia",
@@ -806,6 +826,10 @@
   {
     "value": "South Georgia and the South Sandwich Islands",
     "text": "South Georgia and the South Sandwich Islands"
+  },
+  {
+    "value": "South Sudan",
+    "text": "South Sudan"
   },
   {
     "value": "Spain",
@@ -844,8 +868,8 @@
     "text": "Syrian Arab Republic"
   },
   {
-    "value": "Taiwan, Province of China",
-    "text": "Taiwan, Province of China"
+    "value": "Taiwan, Province of China[a]",
+    "text": "Taiwan, Province of China[a]"
   },
   {
     "value": "Tajikistan",
@@ -912,12 +936,12 @@
     "text": "United Arab Emirates"
   },
   {
-    "value": "United Kingdom",
-    "text": "United Kingdom"
+    "value": "United Kingdom of Great Britain and Northern Ireland",
+    "text": "United Kingdom of Great Britain and Northern Ireland"
   },
   {
-    "value": "United States",
-    "text": "United States"
+    "value": "United States of America",
+    "text": "United States of America"
   },
   {
     "value": "United States Minor Outlying Islands",
@@ -936,20 +960,20 @@
     "text": "Vanuatu"
   },
   {
-    "value": "Venezuela",
-    "text": "Venezuela"
+    "value": "Venezuela (Bolivarian Republic of)",
+    "text": "Venezuela (Bolivarian Republic of)"
   },
   {
     "value": "Viet Nam",
     "text": "Viet Nam"
   },
   {
-    "value": "Virgin Islands, British",
-    "text": "Virgin Islands, British"
+    "value": "Virgin Islands (British)",
+    "text": "Virgin Islands (British)"
   },
   {
-    "value": "Virgin Islands, U.S.",
-    "text": "Virgin Islands, U.S."
+    "value": "Virgin Islands (U.S.)",
+    "text": "Virgin Islands (U.S.)"
   },
   {
     "value": "Wallis and Futuna",
