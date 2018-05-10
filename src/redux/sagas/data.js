@@ -24,10 +24,15 @@ function * fetch ({ model }) {
   }
 }
 
+function * update() {
+  
+}
+
 export default function * watchAuth () {
   yield all([
     takeLatest('SET_PAGE', fetch),
     takeLatest('SET_SORT', fetch),
-    takeLatest('SET_SEARCH', fetch)
+    takeLatest('SET_SEARCH', fetch),
+    takeLatest('UPDATE', update)
   ])
 }
