@@ -65,3 +65,11 @@
     margin: 0 auto;
     width: 70px;
 }
+
+.updatesAvailable {
+    top: 64px;
+    width: 210px;
+    text-align: center;
+    color: white;
+    position: absolute;
+}

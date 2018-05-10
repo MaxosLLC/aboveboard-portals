@@ -20,6 +20,9 @@ class SidebarView extends Component {
         <Menu.Item onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
         </Menu.Item>
+          <div className='updatesAvailable' onClick={() => { window.alert('aaa')}}>
+            Updates Available
+          </div>
         { appType === 'broker' || appType === 'direct'
           ? <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
