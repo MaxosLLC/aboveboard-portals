@@ -131,12 +131,12 @@ class InvestorDetailView extends Component {
     if (type === 'shareholder') {
       this.props.loadAll('shareholder')
         .then(shareholders => {
-          const headers = 'ID, First Name, Last Name, Email, Phone, Address Line1, City, State, Country, Zip, Ethereum Addresses, Balance\n'
+          const headers = 'ID, First Name, Last Name, Email, Phone, Address, City, State, Country, Zip, Ethereum Addresses, Balance\n'
           const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, shareholder) => {
-            const { id, firstName, lastName, email, phone, addressLine1, city, state, country, zip, ethAddresses, balance } = shareholder
-            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1},${city},${state},${country},${zip},${ethAddresses},${balance}\n`
+            const { id, firstName, lastName, email, phone, addressLine1, addressLine2, city, state, country, zip, ethAddresses, balance } = shareholder
+            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1}${addressLine2 ? ' ' + addressLine2 : '' },${city},${state},${country},${zip},${ethAddresses},${balance}\n`
           }, headers)
 
           return processDownload(type, `data:text/csv;charset=utf-8,${encodeURI(csv)}`)
