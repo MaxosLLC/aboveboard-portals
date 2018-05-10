@@ -19,11 +19,29 @@ class SidebarView extends Component {
   constructor(props) {
     super(props)
     this.onClickUpdate = this.onClickUpdate.bind(this)
+    this.isUpdateAvailable = this.isUpdateAvailable.bind(this)
   }
 
   onClickUpdate() {
     const { currentUser } = this.props
     debugger
+  }
+
+  // Check if update is available
+  isUpdateAvailable() {
+    const { currentUser } = this.props
+    let lastUpdated = new Date(currentUser.lastUpdated).getTime()
+    let updateAvailableSince = new Date(currentUser.updateAvailableSince).getTime()
+
+    if (isNaN(lastUpdated)) {
+      lastUpdated = 0
+    }
+
+    if (isNaN(updateAvailableSince)) {
+      updateAvailableSince = 0
+    }
+
+    return updateAvailableSince > lastUpdated
   }
 
   render () {
