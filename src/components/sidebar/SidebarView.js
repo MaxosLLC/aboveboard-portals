@@ -15,28 +15,31 @@ const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 class SidebarView extends Component {
   render () {
     const { appType, connected, currentUser, routeTo, router } = this.props
+
+    const MenuItem = Menu.Item
+
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
-        <Menu.Item onClick={() => routeTo('/')} className='logoContainer'>
+        <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
-        </Menu.Item>
+        </MenuItem>
         { appType === 'broker' || appType === 'direct'
-          ? <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+          ? <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
-          </Menu.Item>
+          </MenuItem>
         : null }
         { appType === 'issuer' || appType === 'direct'
-          ? <Menu.Item name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+          ? <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Securities</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
-          </Menu.Item>
+          </MenuItem>
         : null }
-        <Menu.Item active={tokenDetailRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+        <MenuItem active={tokenDetailRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
           <span><Image src={barsSrc} className='menuIcon' />Dashboard</span>
-        </Menu.Item>
-        <Menu.Item className='sidebarMenuItem'>
+        </MenuItem>
+        <MenuItem className='sidebarMenuItem'>
           <span><Image src={walletSrc} className='menuIcon' />Wallet</span>
           <span className={connected ? 'connected' : 'disconnected'} />
-        </Menu.Item>
+        </MenuItem>
       </Menu>
     ) : ''
   }

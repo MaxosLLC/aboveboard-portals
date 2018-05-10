@@ -23,6 +23,6 @@ const init = store =>
         accessToken: results.value.accessToken
       })
     })
-    .catch(e => console.error(`Login error: ${e}`))
+    .catch(e => console.error(`Login error: ${JSON.stringify(e, null, 2)}`))
 
 export default init

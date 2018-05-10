@@ -70,7 +70,7 @@ export default {
     }
 
     // Use an RPC provider to route all other requests
-    if (process.env.REACT_APP_NODE_ENV === 'local-dev') {
+    if (process.env.REACT_APP_NODE_ENV === 'local-dev' || process.env.REACT_APP_NODE_ENV === 'test') {
       providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(`${walletHost}:${walletPort}`)))
     } else {
       providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider('https://kovan.infura.io/O4y6ossOQVPXYvf8PDB4'))) // TODO: implement redundantRPC
@@ -81,12 +81,13 @@ export default {
     web3 = new Web3(providerEngine)
 
     promisifyAll(web3.eth)
+    promisifyAll(web3.personal)
 
     return web3.eth.getAccountsAsync()
       .then(accounts => {
         currentAccount = account || accounts[0]
         if (account && password) {
-          return web3.personal.unlockAccount(currentAccount, password)
+          return web3.personal.unlockAccountAsync(currentAccount, password)
         }
       })
       .then(() => {
@@ -97,7 +98,6 @@ export default {
       .catch(error => {
         console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
         return store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
-          .then(() => true)
       })
   },
 
