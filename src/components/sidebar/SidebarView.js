@@ -23,7 +23,7 @@ class SidebarView extends Component {
   }
 
   onClickUpdate() {
-    const { currentUser } = this.props
+    this.props.update()
   }
 
   // Check if update is available
@@ -84,7 +84,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    update: page => dispatch({ type: 'UPDATE' })
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarView)

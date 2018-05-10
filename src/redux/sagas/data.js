@@ -25,7 +25,7 @@ function * fetch ({ model }) {
 }
 
 function * update() {
-  
+
 }
 
 export default function * watchAuth () {
