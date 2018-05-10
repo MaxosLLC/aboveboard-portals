@@ -1,5 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects'
 import store from 'redux/store'
+import request from 'superagent'
+
 import localServices from 'lib/feathers/local/feathersServices'
 
 function * fetch ({ model }) {
@@ -25,7 +27,10 @@ function * fetch ({ model }) {
 }
 
 function * update() {
-
+  // Request update
+  const res = yield request
+    .post(`${window.location.hostname:3001}/update`)
+    .send()
 }
 
 export default function * watchAuth () {
