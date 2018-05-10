@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Image } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+
 import './Sidebar.css'
 
 const walletSrc = '/images/icons/wallet.svg'
@@ -45,4 +47,12 @@ class SidebarView extends Component {
   }
 }
 
-export default SidebarView
+const mapStateToProps = state => ({
+  currentUser: state.currentUser
+})
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarView)
