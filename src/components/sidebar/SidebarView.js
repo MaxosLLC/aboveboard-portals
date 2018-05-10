@@ -15,6 +15,17 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
+
+  constructor(props) {
+    super(props)
+    this.onClickUpdate = this.onClickUpdate.bind(this)
+  }
+
+  onClickUpdate() {
+    const { currentUser } = this.props
+    debugger
+  }
+
   render () {
     const { appType, connected, currentUser, routeTo, router } = this.props
     return currentUser.id || currentUser._id ? (
@@ -22,9 +33,9 @@ class SidebarView extends Component {
         <Menu.Item onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
         </Menu.Item>
-          <div className='updatesAvailable' onClick={() => { window.alert('aaa')}}>
-            Updates Available
-          </div>
+        <div className='updatesAvailable' onClick={this.onClickUpdate}>
+          Updates Available
+        </div>
         { appType === 'broker' || appType === 'direct'
           ? <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
