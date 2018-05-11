@@ -40,6 +40,9 @@ function * update() {
 
     // Give 1 second timeout
     yield delay(1000)
+
+    // reload page
+    window.location.reload();
   } catch (e) {
     console.error(e)
     store.dispatch({

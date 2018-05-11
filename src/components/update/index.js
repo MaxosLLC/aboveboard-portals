@@ -29,8 +29,7 @@ class UpdateNotification extends Component {
     if (isNaN(updateAvailableSince)) {
       updateAvailableSince = 0
     }
-    return true;
-    //return updateAvailableSince > lastUpdated
+    return updateAvailableSince > lastUpdated
   }
 
   render () {
