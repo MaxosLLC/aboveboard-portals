@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Menu, Image } from 'semantic-ui-react'
-import { connect } from 'react-redux'
 
 import './Sidebar.css'
 
@@ -18,8 +17,6 @@ class SidebarView extends Component {
 
   constructor(props) {
     super(props)
-    this.onClickUpdate = this.onClickUpdate.bind(this)
-    this.isUpdateAvailable = this.isUpdateAvailable.bind(this)
   }
 
   onClickUpdate() {
@@ -51,12 +48,6 @@ class SidebarView extends Component {
           <Image src={logoSrc} className='siteLogo' />
         </Menu.Item>
 
-        { this.isUpdateAvailable() &&
-          <div className='updatesAvailable' onClick={this.onClickUpdate}>
-            Updates Available
-          </div>
-        }
-
         { appType === 'broker' || appType === 'direct'
           ? <Menu.Item name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
@@ -79,14 +70,4 @@ class SidebarView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.currentUser
-})
-
-const mapDispatchToProps = dispatch => {
-  return {
-    update: page => dispatch({ type: 'UPDATE' })
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarView)
+export default SidebarView
