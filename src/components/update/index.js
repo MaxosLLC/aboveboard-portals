@@ -29,17 +29,19 @@ class UpdateNotification extends Component {
     if (isNaN(updateAvailableSince)) {
       updateAvailableSince = 0
     }
-    return updateAvailableSince > lastUpdated
+    return true;
+    //return updateAvailableSince > lastUpdated
   }
 
   render () {
-    const { appType, connected, currentUser, routeTo, router } = this.props
+    const { currentUser } = this.props
+
     return (<div>
       { this.isUpdateAvailable() &&
         <Message
           negative
-          header='An update is available'
-          content='Please click here to update!'
+          header={currentUser.updating ? 'Update is in progress' : 'An update is available'}
+          content={currentUser.updating ? 'After the successful update this page will be refreshed to load the new version.': 'Please click here to update!'}
           onClick={this.onClickUpdate}
         />
       }

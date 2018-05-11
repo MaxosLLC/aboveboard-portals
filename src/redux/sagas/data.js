@@ -1,4 +1,6 @@
 import { all, takeLatest } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+
 import store from 'redux/store'
 import request from 'superagent'
 
@@ -26,11 +28,26 @@ function * fetch ({ model }) {
   }
 }
 
+//const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
 function * update() {
-  // Request update
-  const res = yield request
-    .post(`${window.location.hostname}:3001/update`)
-    .send()
+
+  try {
+    // Request update
+    const res = yield request
+      .post(`${window.location.hostname}:3001/update`)
+      .send()
+
+    // Give 1 second timeout
+    yield delay(1000)
+  } catch (e) {
+    console.error(e)
+    store.dispatch({
+      type: 'UPDATE_FAILED'
+    })
+
+    window.alert('Failed to update!')
+  }
 }
 
 export default function * watchAuth () {

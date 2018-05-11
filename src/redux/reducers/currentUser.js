@@ -19,6 +19,9 @@ export default (state = {}, action) => {
     case 'UPDATE':
       return {...state, updating: true}
 
+    case 'UPDATE_FAILED':
+      return {...state, updating: false}
+    
     default:
       return state
   }
