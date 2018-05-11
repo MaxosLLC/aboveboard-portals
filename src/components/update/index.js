@@ -29,7 +29,6 @@ class UpdateNotification extends Component {
     if (isNaN(updateAvailableSince)) {
       updateAvailableSince = 0
     }
-
     return updateAvailableSince > lastUpdated
   }
 
@@ -41,6 +40,7 @@ class UpdateNotification extends Component {
           negative
           header='An update is available'
           content='Please click here to update!'
+          onClick={this.onClickUpdate}
         />
       }
       </div>)
