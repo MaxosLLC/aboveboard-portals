@@ -14,6 +14,7 @@ if (!/test/.test(MONGO_TEST_DATABASE)) {
 }
 
 const testUser = {
+  id: 'test',
   email: 'local@local.com',
   password: '$2a$12$bzRHsmTkWP5tavHMOl9rMe1QAGm26dERz2EcGCE4EFrsn7cuBfbVa',
   walletHost: 'http://testrpc',
