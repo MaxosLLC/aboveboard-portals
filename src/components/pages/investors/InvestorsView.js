@@ -14,8 +14,18 @@ const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
 
 class InvestorsView extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.onSelectCSV = this.onSelectCSV.bind(this)
+  }
   componentDidMount () {
     this.props.loadInvestors()
+  }
+
+  onSelectCSV(e) {
+
   }
 
   render () {
@@ -50,7 +60,10 @@ class InvestorsView extends Component {
         <div className='csvUpload'>
           <small>Import buyers with CSV file:</small>
           <div>
-            <Input type='file'/>
+            <Input 
+              onChange={this.onSelectCSV}
+              type='file'
+            />
           </div>
         </div>
 
