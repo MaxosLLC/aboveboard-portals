@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } from 'semantic-ui-react'
 
+import './investors.css'
+
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
   'us-qib': 'US QIB'
@@ -46,7 +48,10 @@ class InvestorsView extends Component {
           </Link>
         </div>
         <div className='csvUpload'>
-          <small>Or import with CSV file here:</small>
+          <small>Import buyers with CSV file:</small>
+          <div>
+            <Input type='file'/>
+          </div>
         </div>
 
         { !loaded
