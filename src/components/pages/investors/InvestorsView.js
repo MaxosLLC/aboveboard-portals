@@ -25,7 +25,21 @@ class InvestorsView extends Component {
   }
 
   onSelectCSV(e) {
+    if(!window.FileReader) window.alert('File operation is not allowed!'); // Browser is not compatible
 
+    const reader = new FileReader();
+
+    reader.onload = function(evt) {
+        if(evt.target.error || evt.target.readyState !== 2) {
+            window.alert('Error while reading file')
+            return
+        }
+
+        let csvString = evt.target.result
+        console.info(csvString)
+    }
+
+    reader.readAsText(e.target.files[0])
   }
 
   render () {
