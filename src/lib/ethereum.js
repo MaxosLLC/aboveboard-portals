@@ -116,6 +116,12 @@ export default {
     return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
   },
 
+  addInvestorsToWhitelist (aryInvestorAddress, contractAddress) {
+    const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
+    promisifyAll(contract.addBuyers)
+    return contract.addBuyers.sendTransactionAsync(aryInvestorAddress, { from: currentAccount, gas: 67501 })
+  },
+
   removeInvestorFromWhitelist (investorAddress, contractAddress) {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.remove)
