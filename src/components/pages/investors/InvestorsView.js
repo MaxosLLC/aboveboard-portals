@@ -45,6 +45,9 @@ class InvestorsView extends Component {
             Add Buyer
           </Link>
         </div>
+        <div className='csvUpload'>
+          <small>Or import with CSV file here:</small>
+        </div>
 
         { !loaded
           ? <span>Loading buyer details...<Icon name='spinner' loading /></span>
