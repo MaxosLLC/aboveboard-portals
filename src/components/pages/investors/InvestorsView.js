@@ -24,20 +24,22 @@ class InvestorsView extends Component {
 
   constructor(props) {
     super(props)
-
     this.onSelectCSV = this.onSelectCSV.bind(this)
   }
+
   componentDidMount () {
     this.props.loadInvestors()
   }
 
   async onSelectCSV(e) {
+    const target = e.target
     const str = await readFile(e.target.files[0])
     const rows = await csvToJson(str)
     const buyers = rows.map(row => {
       return arrayToBuyer(row)
     })
     this.props.addInvestorsToWhitelists(buyers/*,whitelists*/)
+    target.value = ''
   }
 
   render () {
