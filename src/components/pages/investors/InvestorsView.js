@@ -24,6 +24,11 @@ class InvestorsView extends Component {
   constructor(props) {
     super(props)
     this.onSelectCSV = this.onSelectCSV.bind(this)
+    this.onChangeWhitelists = this.onChangeWhitelists.bind(this)
+
+    this.state = {
+      whitelists: []
+    }
   }
 
   componentDidMount () {
@@ -37,8 +42,32 @@ class InvestorsView extends Component {
     const buyers = rows.map(row => {
       return arrayToBuyer(row)
     })
-    this.props.addInvestorsToWhitelists(buyers/*,whitelists*/)
+
+    try {
+      await this.props.addInvestorsToWhitelists(buyers, this.state.whitelists)
+    } catch (e) {
+      console.error(e)
+      // TODO: render error message here
+    }
+
     target.value = ''
+  }
+
+  onChangeWhitelists(e, data) {
+    const whitelists = []
+    data.value.map(value => {
+      let name = data.options.find(option => option.value === value).text
+      whitelists.push({
+        name: name,
+        address: value
+      })
+    })
+
+    console.info('Whitelist', whitelists)
+
+    this.setState({
+      whitelists
+    })
   }
 
   render () {
@@ -76,13 +105,7 @@ class InvestorsView extends Component {
           </Link>
         </div>
         <div className='csvUpload'>
-          <small>Import buyers with CSV file:</small>
-          <div>
-            <Input 
-              onChange={this.onSelectCSV}
-              type='file'
-            />
-          </div>
+          <small>First choose whitelists and select the CSV file to upload.</small>
 
           <Fragment>
             <Grid.Column style={{ padding: '10px' }}>
@@ -93,9 +116,20 @@ class InvestorsView extends Component {
                 multiple
                 name='whitelists'
                 options={whitelistOptions}
+                onChange={this.onChangeWhitelists}
               />
             </Grid.Column>
           </Fragment>
+
+          <div>
+            <Input 
+              onChange={this.onSelectCSV}
+              type='file'
+              disabled={this.state.whitelists.length === 0}
+            />
+          </div>
+
+
         </div>
 
         { !loaded
