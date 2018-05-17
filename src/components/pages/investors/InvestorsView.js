@@ -4,7 +4,7 @@ import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } 
 import CSV from 'csvtojson'
 
 import { readFile } from 'lib/file'
-import { csvToJson } from 'lib/csv'
+import { csvToJson, arrayToBuyer } from 'lib/csv'
 import './investors.css'
 
 
@@ -17,6 +17,8 @@ const qualificationByCode = {
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
+
+
 
 class InvestorsView extends Component {
 
@@ -31,8 +33,11 @@ class InvestorsView extends Component {
 
   async onSelectCSV(e) {
     const str = await readFile(e.target.files[0])
-    const csv = await csvToJson(str)
-    console.info(csv)
+    const rows = await csvToJson(str)
+    const buyers = rows.map(row => {
+      return arrayToBuyer(row)
+    })
+    this.props.addInvestorsToWhitelists(buyers/*,whitelists*/)
   }
 
   render () {
