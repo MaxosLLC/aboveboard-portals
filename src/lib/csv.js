@@ -13,3 +13,24 @@ export const csvToJson = (str, isHeader = true) => {
 			})
 	})
 }
+
+export const arrayToBuyer = (arr) => {
+	const fields = ['firstName', 'lastName', 'email', 'phone', 'addressLine1', 'addressLine2', 'city', 'state', 'country', 'zip', 'qualifications']
+	const buyer = {}
+
+	fields.map((field, index) => {
+		if (arr[index] !== undefined) {
+			buyer[field] = arr[index]
+		}
+	})
+
+	const aryEth = []
+	for (let index = fields.length; index < arr.length; index ++) {
+		if (arr[index]) {
+			aryEth.push({
+				address: arr[index]
+			})
+		}
+	}
+	return buyer
+}
