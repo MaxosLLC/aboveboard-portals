@@ -1,5 +1,5 @@
 export const readFile = (file) => {
-	new Promise((resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		if(!window.FileReader) {
 			reject('The browser is not supporting files!')
 			return
@@ -11,6 +11,7 @@ export const readFile = (file) => {
       if(evt.target.error || evt.target.readyState !== 2) {
       	console.error(evt.target.error)
 				reject('Failed to read the file!')
+				return
       }
       resolve(evt.target.result)
     }
