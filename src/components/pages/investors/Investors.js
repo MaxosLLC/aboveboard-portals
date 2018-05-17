@@ -3,7 +3,9 @@ import { push } from 'react-router-redux'
 import { each } from 'bluebird'
 
 import services from 'lib/feathers/local/feathersServices'
+import ethereum from 'lib/ethereum'
 import InvestorsView from './InvestorsView'
+
 
 const mapStateToProps = state => ({
   investors: state.investor.queryResult ? state.investor.queryResult.data : [],
