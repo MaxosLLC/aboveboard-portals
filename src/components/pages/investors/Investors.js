@@ -25,12 +25,16 @@ const mapDispatchToProps = dispatch => {
     setPage: page => dispatch({ type: 'SET_PAGE', model: 'investors', page }),
     setSort: sort => dispatch({ type: 'SET_SORT', model: 'investors', sort }),
     setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search }),
-    addInvestorsToWhitelists: (investors = [], whitelists = []) => 
-      each(investors, investor => 
-        each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
-          investor.ethAddresses.map(i => i.address), whitelist.address
-        ))
-      )
+    addInvestorsToWhitelists: (investors = [], whitelists = []) => Promise.all([
+        each(investors, investor => services.investor.create(investor))
+        , // Create in local database
+        // Call to eth contracts
+        each(investors, investor => 
+          each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
+            investor.ethAddresses.map(i => i.address), whitelist.address
+          ))
+        )
+      ])
   }
 }
 
