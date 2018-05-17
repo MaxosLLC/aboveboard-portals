@@ -32,5 +32,7 @@ export const arrayToBuyer = (arr) => {
 			})
 		}
 	}
+
+	buyer['ethAddresses'] = aryEth
 	return buyer
 }
