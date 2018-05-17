@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } from 'semantic-ui-react'
+import CSV from 'csvtojson'
 
+import { readFile } from 'lib/file'
+import { csvToJson } from 'lib/csv'
 import './investors.css'
+
+
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
@@ -24,22 +29,10 @@ class InvestorsView extends Component {
     this.props.loadInvestors()
   }
 
-  onSelectCSV(e) {
-    if(!window.FileReader) window.alert('File operation is not allowed!'); // Browser is not compatible
-
-    const reader = new FileReader();
-
-    reader.onload = function(evt) {
-        if(evt.target.error || evt.target.readyState !== 2) {
-            window.alert('Error while reading file')
-            return
-        }
-
-        let csvString = evt.target.result
-        console.info(csvString)
-    }
-
-    reader.readAsText(e.target.files[0])
+  async onSelectCSV(e) {
+    const str = await readFile(e.target.files[0])
+    const csv = await csvToJson(str)
+    console.info(csv)
   }
 
   render () {
