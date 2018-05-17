@@ -6,13 +6,15 @@ import services from 'lib/feathers/local/feathersServices'
 import ethereum from 'lib/ethereum'
 import InvestorsView from './InvestorsView'
 
-
 const mapStateToProps = state => ({
   investors: state.investor.queryResult ? state.investor.queryResult.data : [],
   queryResult: state.investor.queryResult || { total: 0, limit: 0 },
   page: state.page,
   search: state.search,
-  loaded: state.investor.isFinished
+  loaded: state.investor.isFinished,
+  whitelists: state.whitelist.queryResult
+      ? state.whitelist.queryResult.data
+      : [],
 })
 
 const mapDispatchToProps = dispatch => {

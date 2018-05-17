@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } from 'semantic-ui-react'
-import CSV from 'csvtojson'
+import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
 
 import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
@@ -43,8 +42,13 @@ class InvestorsView extends Component {
   }
 
   render () {
-    const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search } = this.props
-
+    const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search, whitelists } = this.props
+    const whitelistOptions = whitelists.map(whitelist => {
+      return {
+        text: whitelist.name,
+        value: whitelist.address
+      }
+    })
     const investorsHeaders = [
       { name: '#', sortOption: '_id' },
       { name: 'First Name', sortOption: 'firstName' },
@@ -79,6 +83,19 @@ class InvestorsView extends Component {
               type='file'
             />
           </div>
+
+          <Fragment>
+            <Grid.Column style={{ padding: '10px' }}>
+              <Dropdown
+                placeholder='Add Whitelist Address:'
+                selection
+                search
+                multiple
+                name='whitelists'
+                options={whitelistOptions}
+              />
+            </Grid.Column>
+          </Fragment>
         </div>
 
         { !loaded
