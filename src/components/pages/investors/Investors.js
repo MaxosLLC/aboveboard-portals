@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => {
     addInvestorsToWhitelists: (investors = [], whitelists) => 
       each(investors, investor => 
         each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
-          investor.ethAddresses.map(i => i.address) ,whitelist.address
+          investor.ethAddresses.map(i => i.address), whitelist.address
         ))
       )
   }
