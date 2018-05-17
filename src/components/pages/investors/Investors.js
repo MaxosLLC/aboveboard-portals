@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { each } from 'bluebird'
+
 import services from 'lib/feathers/local/feathersServices'
 import InvestorsView from './InvestorsView'
 
@@ -18,7 +20,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(services.investor.find({ query: { $skip: page * 25 } })),
     setPage: page => dispatch({ type: 'SET_PAGE', model: 'investors', page }),
     setSort: sort => dispatch({ type: 'SET_SORT', model: 'investors', sort }),
-    setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search })
+    setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search }),
+    addInvestorsToWhitelists: (investors = [], whitelists) => 
+      each(investors, investor => 
+        each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
+          investor.ethAddresses.map(i => i.address) ,whitelist.address
+        ))
+      )
   }
 }
 
