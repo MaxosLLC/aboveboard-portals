@@ -21,7 +21,7 @@ export default (state = {}, action) => {
 
     case 'UPDATE_FAILED':
       return {...state, updating: false}
-    
+
     default:
       return state
   }

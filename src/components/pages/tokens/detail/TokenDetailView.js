@@ -136,7 +136,7 @@ class InvestorDetailView extends Component {
 
           const csv = csvSafeData.reduce((result, shareholder) => {
             const { id, firstName, lastName, email, phone, addressLine1, addressLine2, city, state, country, zip, ethAddresses, balance } = shareholder
-            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1}${addressLine2 ? ' ' + addressLine2 : '' },${city},${state},${country},${zip},${ethAddresses},${balance}\n`
+            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1}${addressLine2 ? ' ' + addressLine2 : ''},${city},${state},${country},${zip},${ethAddresses},${balance}\n`
           }, headers)
 
           return processDownload(type, `data:text/csv;charset=utf-8,${encodeURI(csv)}`)

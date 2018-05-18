@@ -17,6 +17,5 @@ promisifyAll(regulatedToken.transfer)
 const transfer = (to, amount) =>
   regulatedToken.mint.sendTransactionAsync(currentAccount, 1000000, { from: currentAccount })
     .then(() => regulatedToken.transfer.sendTransactionAsync(to, amount, { from: currentAccount }))
-  
 
 module.exports = { transfer }

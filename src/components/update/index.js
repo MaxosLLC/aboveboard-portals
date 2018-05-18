@@ -5,19 +5,18 @@ import { connect } from 'react-redux'
 import './update.css'
 
 class UpdateNotification extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onClickUpdate = this.onClickUpdate.bind(this)
     this.isUpdateAvailable = this.isUpdateAvailable.bind(this)
   }
 
-  onClickUpdate() {
+  onClickUpdate () {
     this.props.update()
   }
 
   // Check if update is available
-  isUpdateAvailable() {
+  isUpdateAvailable () {
     const { currentUser } = this.props
     let lastUpdated = new Date(currentUser.lastUpdated).getTime()
     let updateAvailableSince = new Date(currentUser.updateAvailableSince).getTime()
@@ -40,11 +39,11 @@ class UpdateNotification extends Component {
         <Message
           negative
           header={currentUser.updating ? 'Update is in progress' : 'An update is available'}
-          content={currentUser.updating ? 'After the successful update this page will be refreshed to load the new version.': 'Please click here to update!'}
+          content={currentUser.updating ? 'After the successful update this page will be refreshed to load the new version.' : 'Please click here to update!'}
           onClick={this.onClickUpdate}
         />
       }
-      </div>)
+    </div>)
   }
 }
 

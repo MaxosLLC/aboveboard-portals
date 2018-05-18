@@ -28,10 +28,9 @@ function * fetch ({ model }) {
   }
 }
 
-//const delay = (ms) => new Promise(res => setTimeout(res, ms))
+// const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
-function * update() {
-
+function * update () {
   try {
     // Request update
     const res = yield request
@@ -42,7 +41,7 @@ function * update() {
     yield delay(1000)
 
     // reload page
-    window.location.reload();
+    window.location.reload()
   } catch (e) {
     console.error(e)
     store.dispatch({

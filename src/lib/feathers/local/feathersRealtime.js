@@ -21,7 +21,6 @@ export default {
     if (appType === 'broker') {
 
     } else {
-
       // Watch user profile changes
       client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user}))
 

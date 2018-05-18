@@ -14,17 +14,16 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
   }
 
-  onClickUpdate() {
+  onClickUpdate () {
     this.props.update()
   }
 
   // Check if update is available
-  isUpdateAvailable() {
+  isUpdateAvailable () {
     const { currentUser } = this.props
     let lastUpdated = new Date(currentUser.lastUpdated).getTime()
     let updateAvailableSince = new Date(currentUser.updateAvailableSince).getTime()

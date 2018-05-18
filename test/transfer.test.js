@@ -1,9 +1,9 @@
 import { ClientFunction, Selector } from 'testcafe'
-import { ReactSelector } from 'testcafe-react-selectors';
+import { ReactSelector } from 'testcafe-react-selectors'
 import { transfer } from './helpers/ethereum'
 
-fixture `Broker Portal`
-  .page `http://aboveboard-broker-portal-test:3100/settings`
+fixture`Broker Portal` // eslint-disable-line
+  .page`http://aboveboard-broker-portal-test:3100/settings`
 
 const testBuyer = {
   firstName: 'Firstnametest',
@@ -22,7 +22,7 @@ const testBuyer = {
 const getLocation = ClientFunction(() => document.location.pathname)
 
 const createBuyer = async t =>
-  await t
+  t
     .click(ReactSelector('MenuItem').withProps('name', 'buyers'))
     .click(ReactSelector('Link').withProps('to', '/buyers/add'))
     .typeText(ReactSelector('Text').withProps('name', 'firstName'), testBuyer.firstName)
@@ -41,15 +41,15 @@ const createBuyer = async t =>
     .click(ReactSelector('Button').withProps('type', 'submit'))
 
 const followToken = async t =>
-  await t
+  t
     .click(Selector('div').withAttribute('name', 'watchingTokens'))
     .click(Selector('div').withAttribute('name', 'watchingTokens').find('div.item').nth(0))
 
 const verifyShareholderData = async t =>
-  await t
+  t
     .expect(Selector('tr').withAttribute('name', 'shareholders').find('td').nth(1).innerText).eql(`${testBuyer.firstName} ${testBuyer.lastName}`)
 
-test('Token Transfer', async t => {
+test('Token Transfer', async t => { // eslint-disable-line
   await t.wait(3000)
 
   await followToken(t)
