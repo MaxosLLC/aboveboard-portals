@@ -21,6 +21,10 @@ export default {
     if (appType === 'broker') {
 
     } else {
+
+      // Watch user profile changes
+      client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user}))
+
       client.service('shareholder').on('created', data => {
         if (tokenDetailRegexp.test(window.location.pathname)) {
           const { $skip, $sort, search } = getCurrentQueryParams('shareholders')

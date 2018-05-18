@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { ConnectedRouter } from 'react-router-redux'
 import { Provider } from 'react-redux'
+import { Message } from 'semantic-ui-react'
+
 import './app.css'
 
 import store from 'redux/store'
@@ -8,6 +10,7 @@ import history from 'redux/history'
 
 import Header from 'components/header/Header'
 import Sidebar from 'components/sidebar/Sidebar'
+import Update from 'components/update'
 
 import Routes from './routes'
 
@@ -20,6 +23,7 @@ class App extends Component {
             <Sidebar history={history} />
             <div className='mainContainer'>
               <Header history={history} />
+              <Update />
               <div className='pages'>
                 <Routes />
               </div>

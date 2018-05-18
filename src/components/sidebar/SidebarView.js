@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Image } from 'semantic-ui-react'
+
 import './Sidebar.css'
 
 const walletSrc = '/images/icons/wallet.svg'
@@ -13,6 +14,32 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  onClickUpdate() {
+    this.props.update()
+  }
+
+  // Check if update is available
+  isUpdateAvailable() {
+    const { currentUser } = this.props
+    let lastUpdated = new Date(currentUser.lastUpdated).getTime()
+    let updateAvailableSince = new Date(currentUser.updateAvailableSince).getTime()
+
+    if (isNaN(lastUpdated)) {
+      lastUpdated = 0
+    }
+
+    if (isNaN(updateAvailableSince)) {
+      updateAvailableSince = 0
+    }
+
+    return updateAvailableSince > lastUpdated
+  }
+
   render () {
     const { appType, connected, currentUser, routeTo, router } = this.props
 
