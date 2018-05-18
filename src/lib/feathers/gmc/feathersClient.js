@@ -11,6 +11,6 @@ const socket = io(url, {
 
 const feathersClient = feathers()
   .configure(socketio(socket, { timeout: 10000, 'force new connection': true }))
-  .configure(auth({ storage: window.localStorage }))
+  .configure(auth({ storage: window.localStorage, storageKey: 'gmc-feathers-jwt' }))
 
 export default feathersClient

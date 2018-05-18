@@ -13,7 +13,7 @@ const getParameterByName = (name, url) => {
 
 const queryStringAccessToken = getParameterByName('accessToken')
 
-const accessToken = queryStringAccessToken || (window.localStorage && window.localStorage.getItem && window.localStorage.getItem('feathers-jwt'))
+const accessToken = queryStringAccessToken || (window.localStorage && window.localStorage.getItem && window.localStorage.getItem('local-feathers-jwt'))
 
 const init = store => {
   if (accessToken) {
