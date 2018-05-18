@@ -6,8 +6,6 @@ import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
 import './investors.css'
 
-
-
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
   'us-qib': 'US QIB'
@@ -17,11 +15,8 @@ const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
 
-
-
 class InvestorsView extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSelectCSV = this.onSelectCSV.bind(this)
     this.onChangeWhitelists = this.onChangeWhitelists.bind(this)
@@ -35,7 +30,7 @@ class InvestorsView extends Component {
     this.props.loadInvestors()
   }
 
-  async onSelectCSV(e) {
+  async onSelectCSV (e) {
     const target = e.target
     const str = await readFile(e.target.files[0])
     const rows = await csvToJson(str)
@@ -53,7 +48,7 @@ class InvestorsView extends Component {
     target.value = ''
   }
 
-  onChangeWhitelists(e, data) {
+  onChangeWhitelists (e, data) {
     const whitelists = []
     data.value.map(value => {
       let name = data.options.find(option => option.value === value).text
@@ -122,13 +117,12 @@ class InvestorsView extends Component {
           </Fragment>
 
           <div>
-            <Input 
+            <Input
               onChange={this.onSelectCSV}
               type='file'
               disabled={this.state.whitelists.length === 0}
             />
           </div>
-
 
         </div>
 

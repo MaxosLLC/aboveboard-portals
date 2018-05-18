@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
   loaded: state.investor.isFinished,
   whitelists: state.whitelist.queryResult
       ? state.whitelist.queryResult.data
-      : [],
+      : []
 })
 
 const mapDispatchToProps = dispatch => {
@@ -26,15 +26,14 @@ const mapDispatchToProps = dispatch => {
     setSort: sort => dispatch({ type: 'SET_SORT', model: 'investors', sort }),
     setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search }),
     addInvestorsToWhitelists: (investors = [], whitelists = []) => Promise.all([
-        each(investors, investor => services.investor.create(investor))
-        , // Create in local database
+      each(investors, investor => services.investor.create(investor)),         // Create in local database
         // Call to eth contracts
-        each(investors, investor => 
+      each(investors, investor =>
           each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
             investor.ethAddresses.map(i => i.address), whitelist.address
           ))
         )
-      ])
+    ])
   }
 }
 
