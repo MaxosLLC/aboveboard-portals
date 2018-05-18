@@ -1,6 +1,9 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { each } from 'bluebird'
+
 import services from 'lib/feathers/local/feathersServices'
+import ethereum from 'lib/ethereum'
 import InvestorsView from './InvestorsView'
 
 const mapStateToProps = state => ({
@@ -8,7 +11,10 @@ const mapStateToProps = state => ({
   queryResult: state.investor.queryResult || { total: 0, limit: 0 },
   page: state.page,
   search: state.search,
-  loaded: state.investor.isFinished
+  loaded: state.investor.isFinished,
+  whitelists: state.whitelist.queryResult
+      ? state.whitelist.queryResult.data
+      : []
 })
 
 const mapDispatchToProps = dispatch => {
@@ -18,7 +24,16 @@ const mapDispatchToProps = dispatch => {
       dispatch(services.investor.find({ query: { $skip: page * 25 } })),
     setPage: page => dispatch({ type: 'SET_PAGE', model: 'investors', page }),
     setSort: sort => dispatch({ type: 'SET_SORT', model: 'investors', sort }),
-    setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search })
+    setSearch: search => dispatch({ type: 'SET_SEARCH', model: 'investors', search }),
+    addInvestorsToWhitelists: (investors = [], whitelists = []) => Promise.all([
+      each(investors, investor => services.investor.create(investor)),         // Create in local database
+        // Call to eth contracts
+      each(investors, investor =>
+          each(whitelists, whitelist => ethereum.addInvestorsToWhitelist(
+            investor.ethAddresses.map(i => i.address), whitelist.address
+          ))
+        )
+    ])
   }
 }
 

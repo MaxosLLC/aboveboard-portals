@@ -1,6 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
+
+import { readFile } from 'lib/file'
+import { csvToJson, arrayToBuyer } from 'lib/csv'
+import './investors.css'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',
@@ -12,13 +16,63 @@ const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
 
 class InvestorsView extends Component {
+  constructor (props) {
+    super(props)
+    this.onSelectCSV = this.onSelectCSV.bind(this)
+    this.onChangeWhitelists = this.onChangeWhitelists.bind(this)
+
+    this.state = {
+      whitelists: []
+    }
+  }
+
   componentDidMount () {
     this.props.loadInvestors()
   }
 
-  render () {
-    const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search } = this.props
+  async onSelectCSV (e) {
+    const target = e.target
+    const str = await readFile(e.target.files[0])
+    const rows = await csvToJson(str)
+    const buyers = rows.map(row => {
+      return arrayToBuyer(row)
+    })
 
+    try {
+      await this.props.addInvestorsToWhitelists(buyers, this.state.whitelists)
+    } catch (e) {
+      console.error(e)
+      // TODO: render error message here
+    }
+
+    target.value = ''
+  }
+
+  onChangeWhitelists (e, data) {
+    const whitelists = []
+    data.value.map(value => {
+      let name = data.options.find(option => option.value === value).text
+      whitelists.push({
+        name: name,
+        address: value
+      })
+    })
+
+    console.info('Whitelist', whitelists)
+
+    this.setState({
+      whitelists
+    })
+  }
+
+  render () {
+    const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search, whitelists } = this.props
+    const whitelistOptions = whitelists.map(whitelist => {
+      return {
+        text: whitelist.name,
+        value: whitelist.address
+      }
+    })
     const investorsHeaders = [
       { name: '#', sortOption: '_id' },
       { name: 'First Name', sortOption: 'firstName' },
@@ -44,6 +98,32 @@ class InvestorsView extends Component {
           <Link to='/buyers/add' className='ui button right floated'>
             Add Buyer
           </Link>
+        </div>
+        <div className='csvUpload'>
+          <small>First choose whitelists and select the CSV file to upload.</small>
+
+          <Fragment>
+            <Grid.Column style={{ padding: '10px' }}>
+              <Dropdown
+                placeholder='Add Whitelist Address:'
+                selection
+                search
+                multiple
+                name='whitelists'
+                options={whitelistOptions}
+                onChange={this.onChangeWhitelists}
+              />
+            </Grid.Column>
+          </Fragment>
+
+          <div>
+            <Input
+              onChange={this.onSelectCSV}
+              type='file'
+              disabled={this.state.whitelists.length === 0}
+            />
+          </div>
+
         </div>
 
         { !loaded

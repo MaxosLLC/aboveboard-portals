@@ -1,5 +1,5 @@
 export default (state = {
-  transactions: {},
+  transactions: {}
 }, action) => {
   switch (action.type) {
     case 'SET_TOTAL_TRANSACTIONS':
