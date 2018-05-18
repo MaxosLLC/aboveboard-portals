@@ -9,18 +9,21 @@ class HeaderView extends Component {
   render () {
     const {currentUser, routeTo, logout} = this.props
     const menuTrigger = <Image src={profileSrc} className='profileImage' />
+
+    const DropdownItem = Dropdown.Item
+
     return currentUser.id || currentUser._id
       ? (
         <Menu className='headerComponent'>
           <Breadcrumbs />
           <Menu.Menu position='right'>
             <Menu.Item>{currentUser.walletAccountName}</Menu.Item>
-            <Dropdown pointing trigger={menuTrigger} icon={null}>
+            <Dropdown name='settings' pointing trigger={menuTrigger} icon={null}>
               <Dropdown.Menu className='headerDropdownMenu'>
-                <Dropdown.Item key='profile' onClick={() => routeTo('/profile')}>Profile</Dropdown.Item>
-                <Dropdown.Item key='settings' onClick={() => routeTo('/settings')}>Settings</Dropdown.Item>
+                <DropdownItem key='profile' onClick={() => routeTo('/profile')}>Profile</DropdownItem>
+                <DropdownItem key='settings' onClick={() => routeTo('/settings')}>Settings</DropdownItem>
                 <Divider />
-                <Dropdown.Item key='logout' onClick={logout}>Log Out</Dropdown.Item>
+                <DropdownItem key='logout' onClick={logout}>Log Out</DropdownItem>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Menu>
