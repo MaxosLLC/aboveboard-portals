@@ -34,9 +34,7 @@ class InvestorsView extends Component {
     const target = e.target
     const str = await readFile(e.target.files[0])
     const rows = await csvToJson(str)
-    const buyers = rows.map(row => {
-      return arrayToBuyer(row)
-    })
+    const buyers = rows.map(row => arrayToBuyer(row))
 
     try {
       await this.props.addInvestorsToWhitelists(buyers, this.state.whitelists)
