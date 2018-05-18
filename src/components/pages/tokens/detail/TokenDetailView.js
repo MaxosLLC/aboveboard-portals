@@ -131,12 +131,12 @@ class InvestorDetailView extends Component {
     if (type === 'shareholder') {
       this.props.loadAll('shareholder')
         .then(shareholders => {
-          const headers = 'ID, First Name, Last Name, Email, Phone, Address Line1, City, State, Country, Zip, Ethereum Addresses, Balance\n'
+          const headers = 'ID, First Name, Last Name, Email, Phone, Address, City, State, Country, Zip, Ethereum Addresses, Balance\n'
           const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, shareholder) => {
-            const { id, firstName, lastName, email, phone, addressLine1, city, state, country, zip, ethAddresses, balance } = shareholder
-            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1},${city},${state},${country},${zip},${ethAddresses},${balance}\n`
+            const { id, firstName, lastName, email, phone, addressLine1, addressLine2, city, state, country, zip, ethAddresses, balance } = shareholder
+            return `${result}${id},${firstName},${lastName},${email},${phone},${addressLine1}${addressLine2 ? ' ' + addressLine2 : '' },${city},${state},${country},${zip},${ethAddresses},${balance}\n`
           }, headers)
 
           return processDownload(type, `data:text/csv;charset=utf-8,${encodeURI(csv)}`)
@@ -186,6 +186,9 @@ class InvestorDetailView extends Component {
       { name: 'Date', sortOption: 'createdAt' }
     ]
 
+    const TableRow = Table.Row
+    const TableCell = Table.Cell
+
     const panes = [
       {
         menuItem: 'Shareholders',
@@ -193,7 +196,7 @@ class InvestorDetailView extends Component {
           ? <div className='tableContainer'>
             <Table className='abTable' unstackable>
               <Table.Header className='tableHeader'>
-                <Table.Row>
+                <TableRow>
                   <Table.HeaderCell
                     style={{
                       color: '#8f9bab'
@@ -211,32 +214,31 @@ class InvestorDetailView extends Component {
                     </Table.HeaderCell>
                   ) }
                   <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
-                </Table.Row>
+                </TableRow>
               </Table.Header>
               <Table.Body>
                 {this
                   .formatShareholderTableData(shareholdersWithData, transactions)
-                  .map((shareholder, i) => <Table.Row
+                  .map((shareholder, i) => <TableRow
+                    name='shareholders'
                     key={shareholder.id}
                     onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)}
-                    style={{
-                      cursor: 'pointer'
-                    }}>
-                    <Table.Cell>{i + 1}</Table.Cell>
-                    <Table.Cell>{shareholder.firstName} {shareholder.lastName}</Table.Cell>
-                    <Table.Cell>{shareholder.country}</Table.Cell>
-                    <Table.Cell>{shareholder.qualifications || 'N/A'}</Table.Cell>
-                    <Table.Cell>{shareholder.transactions.quantity}</Table.Cell>
-                    <Table.Cell>{shareholder.transactions.percent}%</Table.Cell>
-                    <Table.Cell>{shareholder.transactions.lastCreated
-                        ? moment(shareholder.transactions.lastCreated).format('LL')
-                        : 'N/A'}</Table.Cell>
-                    <Table.Cell />
-                  </Table.Row>)}
+                    style={{ cursor: 'pointer' }}>
+                    <TableCell>{i + 1}</TableCell>
+                    <TableCell>{shareholder.firstName} {shareholder.lastName}</TableCell>
+                    <TableCell>{shareholder.country}</TableCell>
+                    <TableCell>{shareholder.qualifications || 'N/A'}</TableCell>
+                    <TableCell>{shareholder.transactions.quantity}</TableCell>
+                    <TableCell>{shareholder.transactions.percent}%</TableCell>
+                    <TableCell>{shareholder.transactions.lastCreated
+                      ? moment(shareholder.transactions.lastCreated).format('LL')
+                      : 'N/A'}</TableCell>
+                    <TableCell />
+                  </TableRow>)}
               </Table.Body>
 
               { queryResult.shareholders.total > queryResult.shareholders.limit ? <Table.Footer>
-                <Table.Row>
+                <TableRow>
                   <Table.HeaderCell floated='right' colSpan='8'>
                     <Pagination
                       floated='right'
@@ -252,7 +254,7 @@ class InvestorDetailView extends Component {
                       onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1)}
                     />
                   </Table.HeaderCell>
-                </Table.Row>
+                </TableRow>
               </Table.Footer> : null }
             </Table>
           </div>
@@ -264,7 +266,7 @@ class InvestorDetailView extends Component {
             <div className='tableScrollContainer'>
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
-                  <Table.Row>
+                  <TableRow>
                     { transactionsHeaders.map((transactionsHeader, i) =>
                       <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}
                         <span className='sortButtons'>
@@ -278,13 +280,13 @@ class InvestorDetailView extends Component {
                       </Table.HeaderCell>
                     ) }
                     <Table.HeaderCell><a onClick={() => this.downloadCsvData('transaction')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
-                  </Table.Row>
+                  </TableRow>
                 </Table.Header>
 
                 <Table.Body>
                   {transactions
-                      .map(transaction => <Table.Row key={transaction.id}>
-                        <Table.Cell>
+                      .map(transaction => <TableRow key={transaction.id}>
+                        <TableCell>
                           <Link
                             to={`https://kovan.etherscan.io/tx/${transaction.transactionHash}`}
                             target='_blank'
@@ -295,8 +297,8 @@ class InvestorDetailView extends Component {
                               .transactionHash
                               .substr(transaction.transactionHash.length - 4, 4)}
                           </Link>
-                        </Table.Cell>
-                        <Table.Cell>
+                        </TableCell>
+                        <TableCell>
                           <Link
                             to={`https://kovan.etherscan.io/address/${transaction.fromEthAddress}`}
                             target='_blank'
@@ -307,13 +309,13 @@ class InvestorDetailView extends Component {
                               .fromEthAddress
                               .substr(transaction.fromEthAddress.length - 4, 4)}
                           </Link>
-                        </Table.Cell>
-                        <Table.Cell>
+                        </TableCell>
+                        <TableCell>
                           {this.getShareholderName(transaction.shareholderEthAddress, shareholders)
                             ? this.getShareholderName(transaction.shareholderEthAddress, shareholders)
                             : 'N/A'}
-                        </Table.Cell>
-                        <Table.Cell>
+                        </TableCell>
+                        <TableCell>
                           <Link
                             to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`}
                             target='_blank'
@@ -324,15 +326,15 @@ class InvestorDetailView extends Component {
                               .shareholderEthAddress
                               .substr(transaction.shareholderEthAddress.length - 4, 4)}
                           </Link>
-                        </Table.Cell>
-                        <Table.Cell>{transaction.tokens}</Table.Cell>
-                        <Table.Cell>{moment(transaction.createdAt).format('LL')}</Table.Cell>
-                        <Table.Cell />
-                      </Table.Row>)}
+                        </TableCell>
+                        <TableCell>{transaction.tokens}</TableCell>
+                        <TableCell>{moment(transaction.createdAt).format('LL')}</TableCell>
+                        <TableCell />
+                      </TableRow>)}
                 </Table.Body>
 
                 <Table.Footer>
-                  <Table.Row>
+                  <TableRow>
                     <Table.HeaderCell floated='right' colSpan='8'>
                       <Pagination
                         floated='right'
@@ -348,7 +350,7 @@ class InvestorDetailView extends Component {
                         onPageChange={(e, { activePage }) => setPage('transactions', activePage - 1)}
                       />
                     </Table.HeaderCell>
-                  </Table.Row>
+                  </TableRow>
                 </Table.Footer>
               </Table>
             </div>

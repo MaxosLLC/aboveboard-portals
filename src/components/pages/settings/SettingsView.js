@@ -83,7 +83,7 @@ class SettingsView extends Component {
       startWatchingToken,
       stopWatchingToken,
       setMessagingAddress,
-      error
+      error,
     } = this.props
     const account = document.getElementById('wallet-account-input')
     const password = document.getElementById('wallet-password-input')
