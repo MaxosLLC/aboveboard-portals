@@ -1,6 +1,7 @@
 import { all, put, takeLatest } from 'redux-saga/effects'
 import store from 'redux/store'
 import { push } from 'react-router-redux'
+import feathersCloudAuthentication from 'lib/feathers/cloud/feathersAuthentication'
 import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthentication'
 import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
@@ -9,8 +10,15 @@ import { appType } from 'lib/util'
 
 const removeJwtFromLocalStorage = () => {
   if (window.localStorage && window.localStorage.removeItem) {
-    window.localStorage.removeItem('feathers-jwt')
+    window.localStorage.removeItem('cloud-feathers-jwt')
+    window.localStorage.removeItem('local-feathers-jwt')
   }
+}
+
+const publicCloudAPIAuthData = {
+  strategy: 'local',
+  email: 'public@aboveboard.com',
+  password: 'Public12'
 }
 
 function * login (params) {
@@ -43,6 +51,8 @@ function * login (params) {
 }
 
 function * loginSuccess ({ user, accessToken }) {
+  yield store.dispatch(feathersCloudAuthentication.authenticate(publicCloudAPIAuthData))
+
   if (window.location.pathname === '/login') {
     yield put(push('/'))
   }
@@ -68,7 +78,7 @@ function logout () {
   removeJwtFromLocalStorage()
   put(feathersLocalAuthentication.logout())
 
-  window.location.replace('/')
+  window.location.replace('/login')
 }
 
 export default function * watchAuth () {
