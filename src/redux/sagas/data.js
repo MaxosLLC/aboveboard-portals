@@ -33,7 +33,7 @@ function * fetch ({ model }) {
 function * update () {
   try {
     // Request update
-    const res = yield request
+    yield request
       .post(`${window.location.hostname}:3001/update`)
       .send()
 
