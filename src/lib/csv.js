@@ -24,17 +24,10 @@ export const arrayToBuyer = (arr) => {
     }
   })
 
-  const aryEth = []
+
   // Extract eth address from arr: after `fields` there are eth 0, eth 1, ...
   // arr: 'firstName', 'lastName', ..., 'qualifications', 'eth0', 'eth1' ...
-  for (let index = fields.length; index < arr.length; index++) {
-    if (arr[index]) {
-      aryEth.push({
-        address: arr[index]
-      })
-    }
-  }
+  buyer['ethAddresses'] = arr.slice(fields.length).map(eth => { address: eth })
 
-  buyer['ethAddresses'] = aryEth
   return buyer
 }
