@@ -25,8 +25,8 @@ export const arrayToBuyer = (arr) => {
   })
 
   // Extract eth address from arr: after `fields` there are eth 0, eth 1, ...
-  // arr: 'firstName', 'lastName', ..., 'qualifications', 'eth0', 'eth1' ...
-  buyer['ethAddresses'] = arr.slice(fields.length).map(eth => { address: eth })
+  // arr 'firstName', 'lastName', ..., 'qualifications', 'eth0', 'eth1' ...
+  buyer['ethAddresses'] = arr.slice(fields.length).map(eth => ({ address: eth }))
 
   return buyer
 }
