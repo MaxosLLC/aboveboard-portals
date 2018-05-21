@@ -18,7 +18,7 @@ export const arrayToBuyer = (arr) => {
   const fields = ['firstName', 'lastName', 'email', 'phone', 'addressLine1', 'addressLine2', 'city', 'state', 'country', 'zip', 'qualifications']
   const buyer = {}
 
-  fields.map((field, index) => {
+  fields.forEach((field, index) => {
     if (arr[index] !== undefined) {
       buyer[field] = arr[index]
     }
