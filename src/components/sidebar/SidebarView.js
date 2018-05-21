@@ -14,10 +14,6 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
-  constructor (props) {
-    super(props)
-  }
-
   onClickUpdate () {
     this.props.update()
   }
