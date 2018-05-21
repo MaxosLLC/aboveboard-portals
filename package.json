@@ -13,7 +13,8 @@
     "init-test-db": "node ./test/scripts/init-db.js",
     "test": "NODE_ENV=test yarn run clean-test-db && NODE_ENV=test yarn run init-test-db && yarn run testcafe",
     "testcafe": "DISPLAY=:99 REACT_APP_NODE_ENV=test REACT_APP_WALLET_HOST=http://testrpc REACT_APP_WALLET_PORT=8547 xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' testcafe 'chromium:headless --no-sandbox' -s ./test/screenshots test/",
-    "lint": "standard --fix"
+    "lint-fix": "standard --fix",
+    "lint": "standard"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^1.0.2",
