@@ -30,4 +30,5 @@ jobs:
         
       # run tests!
       # Check lint only
+      # We will run unit tests in the future now only lint to review PRs
       - run: npm run lint
