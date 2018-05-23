@@ -1,28 +1,39 @@
-import feathersCloudAuthentication from 'lib/feathers/cloud/feathersAuthentication'
 import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthentication'
+import { push } from 'react-router-redux'
 
-const publicAuthData = {
-  strategy: 'local',
-  email: 'public@aboveboard.com',
-  password: 'Public12'
+const getParameterByName = (name, url) => {
+  if (!url) url = window.location.href
+  name = name.replace(/[[\]]/g, '\\$&')
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+  const results = regex.exec(url)
+  if (!results) return null
+  if (!results[2]) return ''
+  return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
-const localAuthData = {
-  strategy: 'local',
-  email: 'local@local.com',
-  password: 'local'
-}
+const queryStringAccessToken = getParameterByName('accessToken')
 
-const init = store =>
-  store.dispatch(feathersCloudAuthentication.authenticate(publicAuthData))
-    .then(() => store.dispatch(feathersLocalAuthentication.authenticate(localAuthData)))
-    .then(results => {
-      store.dispatch({
-        type: 'LOGIN_SUCCESS',
-        user: results.value.user,
-        accessToken: results.value.accessToken
+const accessToken = queryStringAccessToken || (window.localStorage && window.localStorage.getItem && window.localStorage.getItem('local-feathers-jwt'))
+
+const init = store => {
+  if (accessToken) {
+    const authenticationOptions = {
+      strategy: 'jwt',
+      accessToken
+    }
+
+    return store.dispatch(feathersLocalAuthentication.authenticate(authenticationOptions))
+      .then(results => {
+        store.dispatch({
+          type: 'LOGIN_SUCCESS',
+          user: results.value.user,
+          accessToken: results.value.accessToken
+        })
       })
-    })
-    .catch(e => console.error(`Login error: ${JSON.stringify(e, null, 2)}`))
+      .catch(() => store.dispatch(push('/login')))
+  } else {
+    return Promise.resolve()
+  }
+}
 
 export default init
