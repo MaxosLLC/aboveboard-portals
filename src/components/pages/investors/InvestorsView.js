@@ -47,16 +47,14 @@ class InvestorsView extends Component {
   }
 
   onChangeWhitelists (e, data) {
-    const whitelists = []
-    data.value.map(value => {
-      let name = data.options.find(option => option.value === value).text
-      whitelists.push({
-        name: name,
-        address: value
-      })
-    })
+    const whitelists = data.value.map(address => {
+      const name = data.options.find(option => option.value === address).text
 
-    console.info('Whitelist', whitelists)
+      return {
+        name,
+        address
+      }
+    })
 
     this.setState({
       whitelists

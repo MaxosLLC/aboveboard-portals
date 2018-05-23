@@ -3,6 +3,8 @@ import store from 'redux/store'
 import { Route, Switch } from 'react-router-dom'
 
 import Login from 'components/pages/login/Login'
+import ForgotPassword from 'components/pages/forgotPassword/ForgotPassword'
+import Signup from 'components/pages/signup/Signup'
 import Home from 'components/pages/home/Home'
 import Tokens from 'components/pages/tokens/Tokens'
 import TokenDetail from 'components/pages/tokens/detail/TokenDetail'
@@ -21,6 +23,8 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path='/login' component={Login} />
+        <Route exact path='/sign-up' component={Signup} />
+        <Route exact path='/forgot-password' component={ForgotPassword} />
         <EnsureLoggedIn>
           <Route exact path='/' component={Home} />
           <Route exact path='/settings' component={Settings} />
