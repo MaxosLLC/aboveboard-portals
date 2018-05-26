@@ -1,8 +1,5 @@
 import { all, takeLatest } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-
 import store from 'redux/store'
-import request from 'superagent'
 
 import localServices from 'lib/feathers/local/feathersServices'
 
@@ -28,35 +25,10 @@ function * fetch ({ model }) {
   }
 }
 
-// const delay = (ms) => new Promise(res => setTimeout(res, ms))
-
-function * update () {
-  try {
-    // Request update
-    yield request
-      .post(`${window.location.hostname}:3001/update`)
-      .send()
-
-    // Give 1 second timeout
-    yield delay(1000)
-
-    // reload page
-    window.location.reload()
-  } catch (e) {
-    console.error(e)
-    store.dispatch({
-      type: 'UPDATE_FAILED'
-    })
-
-    window.alert('Failed to update!')
-  }
-}
-
 export default function * watchAuth () {
   yield all([
     takeLatest('SET_PAGE', fetch),
     takeLatest('SET_SORT', fetch),
-    takeLatest('SET_SEARCH', fetch),
-    takeLatest('UPDATE', update)
+    takeLatest('SET_SEARCH', fetch)
   ])
 }

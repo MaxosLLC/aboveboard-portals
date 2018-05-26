@@ -1,11 +1,6 @@
 import reduxifyServices from 'feathers-redux'
 import feathersClient from './feathersClient'
-import { appType } from 'lib/util'
 
-const servicesByType = {
-  broker: [ 'user', 'localToken', 'investor' ],
-  direct: [ 'user', 'investor', 'localToken', 'shareholder', 'transaction' ],
-  issuer: [ 'user', 'localToken', 'shareholder', 'transaction' ]
-}
+const services = [ 'user', 'investor', 'localToken', 'shareholder', 'transaction' ]
 
-export default reduxifyServices(feathersClient, servicesByType[appType])
+export default reduxifyServices(feathersClient, services)

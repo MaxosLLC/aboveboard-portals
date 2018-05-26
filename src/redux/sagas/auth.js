@@ -6,7 +6,6 @@ import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthenticati
 import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
 import ethereum from 'lib/ethereum'
-import { appType } from 'lib/util'
 
 const removeJwtFromLocalStorage = () => {
   if (window.localStorage && window.localStorage.removeItem) {
@@ -64,12 +63,9 @@ function * loginSuccess ({ user, accessToken }) {
     password: user.walletPassword
   })
 
-  const [ethAddress] = yield ethereum.getAccounts()
-
-  yield store.dispatch(localServices.user.patch(null, { ethAddresses: [ { address: ethAddress } ] }, { query: { email: user.email } }))
   yield store.dispatch(cloudServices.token.find())
   yield store.dispatch(localServices.localToken.find())
-  if (appType === 'broker') {
+  if (user.role === 'broker') {
     yield store.dispatch(cloudServices.whitelist.find())
   }
 }

@@ -36,7 +36,7 @@ class SidebarView extends Component {
   }
 
   render () {
-    const { appType, connected, currentUser, routeTo, router } = this.props
+    const { connected, currentUser, routeTo, router } = this.props
 
     const MenuItem = Menu.Item
 
@@ -45,12 +45,12 @@ class SidebarView extends Component {
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
         </MenuItem>
-        { appType === 'broker' || appType === 'direct'
+        { currentUser.role === 'broker' || currentUser.role === 'direct'
           ? <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
         : null }
-        { appType === 'issuer' || appType === 'direct'
+        { currentUser.role === 'issuer' || currentUser.role === 'direct'
           ? <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Securities</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>

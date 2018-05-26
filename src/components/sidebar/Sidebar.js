@@ -6,8 +6,7 @@ const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
     connected: state.wallet.connected,
-    router: state.router,
-    appType: state.config.appType
+    router: state.router
   }
 }
 

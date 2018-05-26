@@ -16,7 +16,7 @@ import EnsureLoggedIn from 'components/auth/EnsureLoggedIn'
 
 class Routes extends Component {
   render () {
-    const { appType } = store.getState().config
+    const { role } = store.getState().currentUser
 
     return (
       <Switch>
@@ -24,13 +24,13 @@ class Routes extends Component {
         <EnsureLoggedIn>
           <Route exact path='/' component={Home} />
           <Route exact path='/settings' component={Settings} />
-          { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers' component={Investors} /> : '' }
-          { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
-          { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
-          { appType === 'broker' || appType === 'direct' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
-          { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
-          { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
-          { appType === 'issuer' || appType === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+          { role === 'broker' || role === 'direct' ? <Route exact path='/buyers' component={Investors} /> : '' }
+          { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
+          { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
+          { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
+          { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
+          { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
+          { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
         </EnsureLoggedIn>
       </Switch>
     )

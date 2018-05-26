@@ -29,6 +29,10 @@ const init = store => {
           user: results.value.user,
           accessToken: results.value.accessToken
         })
+
+        if (window.location.pathname === '/token-login') {
+          store.dispatch(push('/'))
+        }
       })
       .catch(() => store.dispatch(push('/login')))
   } else {
