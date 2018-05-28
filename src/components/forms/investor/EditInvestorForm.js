@@ -101,15 +101,12 @@ const renderwhitelistAddresses = ({
 }) => {
   const onChange = (e, data) => {
     fields.removeAll()
-    data.value.map(value => {
-      let name = data.options.find(option => option.value === value).text
-      fields.push({
-        name: name,
-        address: value
-      })
-      return null
+    data.value.forEach(address => {
+      const name = data.options.find(option => option.value === address).text
+      fields.push({ name, address })
     })
   }
+
   return (
     <Fragment>
       <Grid.Column style={{ padding: '10px' }}>
@@ -130,7 +127,7 @@ const renderwhitelistAddresses = ({
 }
 
 const renderEthAddresses = ({
-  initialWhitelists,
+  initialEthereumAddresses,
   whitelistOptions,
   fields,
   meta: { error, submitFailed }
@@ -151,7 +148,7 @@ const renderEthAddresses = ({
         columns={2}
       >
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{ padding: '10px' }}>ethAddress #{index + 1} </Label>
+          <Label style={{ padding: '10px' }}>ethAddress #{index + 1}</Label>
           <Icon
             name='trash outline'
             key={`ethAddressIcon${index}`}
@@ -165,7 +162,7 @@ const renderEthAddresses = ({
             key={`ethAddressFieldArray${index}`}
             name={`${ethAddress}.whitelists`}
             component={renderwhitelistAddresses}
-            props={{ initialWhitelists, whitelistOptions }}
+            props={{ initialWhitelists: (initialEthereumAddresses[index] && initialEthereumAddresses[index].whitelists ? initialEthereumAddresses[index].whitelists : []).map(({ address }) => address), whitelistOptions }}
           />
         </Grid.Column>
       </Grid>
@@ -178,7 +175,7 @@ let EditInvestorForm = props => {
     handleSubmit,
     errors,
     whitelists,
-    initialWhitelists,
+    initialEthereumAddresses,
     pristine,
     submitting
   } = props
@@ -258,7 +255,7 @@ let EditInvestorForm = props => {
               <FieldArray
                 name='ethAddresses'
                 component={renderEthAddresses}
-                props={{ initialWhitelists, whitelistOptions }}
+                props={{ initialEthereumAddresses, whitelistOptions }}
               />
             </Grid.Row>
             {errors ? (
@@ -297,16 +294,9 @@ EditInvestorForm = reduxForm({
 })(EditInvestorForm)
 
 const mapStateToProps = (state, ownProps) => {
-  const initialWhitelists = [];
-
-  (ownProps.investor.ethAddresses || []).map(ethAddress => {
-    return (ethAddress.whitelists || []).map(whitelist => {
-      return initialWhitelists.push(whitelist.address)
-    })
-  })
   return {
     initialValues: ownProps.investor,
-    initialWhitelists: initialWhitelists,
+    initialEthereumAddresses: ownProps.investor.ethAddresses,
     errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }
