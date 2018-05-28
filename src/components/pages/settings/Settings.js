@@ -3,10 +3,9 @@ import { each } from 'bluebird'
 import localServices from 'lib/feathers/local/feathersServices'
 import SettingsView from './SettingsView'
 import ethereum from 'lib/ethereum'
-import { appType } from 'lib/util'
 
 const mapStateToProps = state => ({
-  appType: state.config.appType,
+  role: state.currentUser.role,
   connected: state.wallet.connected,
   currentUser: state.currentUser,
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
@@ -28,10 +27,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
         .then(() => dispatch(localServices.localToken.find()))
     },
-    setMessagingAddress (messagingAddress, tokens) {
-      return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { email: 'local@local.com' } }))
+    setMessagingAddress (currentUser, messagingAddress, tokens) {
+      return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { email: { $in: currentUser.emails } } }))
         .then(() => {
-          if (appType === 'issuer') {
+          if (currentUser.role === 'issuer') {
             return each(tokens, token => ethereum.setMessagingAddress(messagingAddress, token.address))
           }
         })

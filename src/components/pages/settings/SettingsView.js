@@ -73,7 +73,7 @@ class SettingsView extends Component {
   }
   render () {
     const {
-      appType,
+      role,
       loaded,
       connected,
       connectWallet,
@@ -123,7 +123,7 @@ class SettingsView extends Component {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
 
-      setMessagingAddress(messagingAddress.value, watchingTokens)
+      setMessagingAddress(currentUser, messagingAddress.value, watchingTokens)
     }
 
     return (
@@ -230,7 +230,7 @@ class SettingsView extends Component {
           </div>
         </Segment>
 
-        { appType !== 'direct' ? <Segment>
+        { role !== 'direct' ? <Segment>
           <div
             className='inputContainer'
             style={{
