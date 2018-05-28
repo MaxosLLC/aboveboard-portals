@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { each } from 'bluebird'
-import { difference } from 'lodash'
+import { differenceBy } from 'lodash'
 import localServices from 'lib/feathers/local/feathersServices'
 import ethereum from 'lib/ethereum'
 
@@ -21,8 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       loadInvestor(newData.id)
         .then(({ value }) => {
           const [originalData] = value.data
-          const addedEthAddresses = difference(newData.ethAddresses || [], originalData.ethAddresses || [])
-          const removedEthAddresses = difference(originalData.ethAddresses || [], newData.ethAddresses || [])
+          const addedEthAddresses = differenceBy(newData.ethAddresses || [], originalData.ethAddresses || [], 'address')
+          const removedEthAddresses = differenceBy(originalData.ethAddresses || [], newData.ethAddresses || [], 'address')
 
           return each(addedEthAddresses, ethAddress => {
             if (Array.isArray(ethAddress.whitelists)) {
@@ -40,14 +40,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             })
             .then(() => {
               return each(newData.ethAddresses, ethAddress => {
-                const originalIssues = ethAddress.whitelists || []
-                const currentIssues = ethAddress.whitelists || []
+                const originalWhitelists = ethAddress.whitelists || []
 
-                const addedWhitelists = difference(originalIssues, currentIssues)
-                const removedWhitelists = difference(currentIssues, originalIssues)
+                return each(originalData.ethAddresses, originalEthAddress => {
+                  if (originalEthAddress === ethAddress) {
+                    const currentWhitelists = originalEthAddress.whitelists || []
 
-                return each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
-                  .then(() => each(removedWhitelists, whitelist => ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address)))
+                    const addedWhitelists = differenceBy(originalWhitelists, currentWhitelists, 'address')
+                    const removedWhitelists = differenceBy(currentWhitelists, originalWhitelists, 'address')
+
+                    return each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
+                      .then(() => each(removedWhitelists, whitelist => ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address)))
+                  }
+                })
               })
             })
         })
