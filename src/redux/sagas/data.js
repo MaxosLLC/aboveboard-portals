@@ -1,5 +1,6 @@
 import { all, takeLatest } from 'redux-saga/effects'
 import store from 'redux/store'
+
 import localServices from 'lib/feathers/local/feathersServices'
 
 function * fetch ({ model }) {

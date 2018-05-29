@@ -34,9 +34,7 @@ class InvestorsView extends Component {
     const target = e.target
     const str = await readFile(e.target.files[0])
     const rows = await csvToJson(str)
-    const buyers = rows.map(row => {
-      return arrayToBuyer(row)
-    })
+    const buyers = rows.map(arrayToBuyer)
 
     try {
       await this.props.addInvestorsToWhitelists(buyers, this.state.whitelists)
@@ -49,16 +47,14 @@ class InvestorsView extends Component {
   }
 
   onChangeWhitelists (e, data) {
-    const whitelists = []
-    data.value.map(value => {
-      let name = data.options.find(option => option.value === value).text
-      whitelists.push({
-        name: name,
-        address: value
-      })
-    })
+    const whitelists = data.value.map(address => {
+      const name = data.options.find(option => option.value === address).text
 
-    console.info('Whitelist', whitelists)
+      return {
+        name,
+        address
+      }
+    })
 
     this.setState({
       whitelists

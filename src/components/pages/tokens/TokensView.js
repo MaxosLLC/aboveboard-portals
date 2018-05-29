@@ -20,6 +20,8 @@ class TokensView extends Component {
       return watchingTokens.some(watchedToken => token.address === watchedToken.address)
     })
 
+    const TableRow = Table.Row
+
     return (
       <div className='tokensComponent'>
         {!loaded
@@ -29,14 +31,15 @@ class TokensView extends Component {
               <Button floated='right' color='teal' onClick={() => routeTo('/settings')}>Add Token</Button>
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
-                  <Table.Row >
+                  <TableRow >
                     <Table.HeaderCell>Token</Table.HeaderCell>
                     <Table.HeaderCell>Contract Address</Table.HeaderCell>
                     <Table.HeaderCell />
-                  </Table.Row>
+                  </TableRow>
                 </Table.Header>
                 <Table.Body>
-                  {sortBy('name', filteredWatchingTokens).map(token => <Table.Row
+                  {sortBy('name', filteredWatchingTokens).map(token => <TableRow
+                    name='tokens'
                     key={token.address}
                     onClick={() => handleRowClick(token.address)}
                     style={{
@@ -45,7 +48,7 @@ class TokensView extends Component {
                     <Table.Cell>{token.name}</Table.Cell>
                     <Table.Cell>{token.address}</Table.Cell>
                     <Table.Cell textAlign='right'><Icon name='angle right' size='large' color='teal' /></Table.Cell>
-                  </Table.Row>)}
+                  </TableRow>)}
                 </Table.Body>
               </Table>
             </div>
