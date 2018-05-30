@@ -21,12 +21,14 @@ class InvestorsView extends Component {
     this.onSelectCSV = this.onSelectCSV.bind(this)
     this.onChangeWhitelists = this.onChangeWhitelists.bind(this)
 
-    this.state = {
-      whitelists: []
-    }
+    this.state = { whitelists: [] }
   }
 
   componentDidMount () {
+    if (this.props.currentUser.role === 'buyer') {
+      return this.props.routeTo('/')
+    }
+
     this.props.loadInvestors()
   }
 
@@ -50,15 +52,10 @@ class InvestorsView extends Component {
     const whitelists = data.value.map(address => {
       const name = data.options.find(option => option.value === address).text
 
-      return {
-        name,
-        address
-      }
+      return { name, address }
     })
 
-    this.setState({
-      whitelists
-    })
+    this.setState({ whitelists })
   }
 
   render () {
@@ -116,7 +113,7 @@ class InvestorsView extends Component {
             <Input
               onChange={this.onSelectCSV}
               type='file'
-              disabled={this.state.whitelists.length === 0}
+              disabled={!this.state.whitelists.length}
             />
           </div>
 
@@ -156,8 +153,8 @@ class InvestorsView extends Component {
                       <Table.Cell>
                         {investor.addressLine1}
                         {investor.addressLine2
-                            ? ` ${investor.addressLine2},`
-                            : ','}{' '}
+                          ? ` ${investor.addressLine2},`
+                          : ','}{' '}
                         <br />
                         {investor.city},{' '}
                         {investor.state ? `${investor.state}, ` : ''}
