@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 
 class InvestorDetailView extends Component {
   componentDidMount () {
-    this.props.loadInvestor(this.props.match.params.id)
+    this.props.loadInvestor(this.props.currentUser)
   }
 
   render () {
-    const { loaded, investor, whitelists } = this.props
+    const { currentUser, loaded, investor, whitelists } = this.props
 
     const getWhitelistName = address => {
       const whitelist = whitelists.filter(
@@ -118,8 +118,11 @@ class InvestorDetailView extends Component {
 
             <Grid centered columns={1}>
               <Grid.Column width={4}>
-                <Link to='/buyers' className='ui button primary'>
+                { currentUser.role !== 'buyer' ? <Link to='/buyers' className='ui button primary'>
                   Back to Buyers
+                </Link> : null }
+                <Link to={`/buyers/${investor.id}/edit`} className='ui button primary'>
+                  Edit
                 </Link>
               </Grid.Column>
             </Grid>

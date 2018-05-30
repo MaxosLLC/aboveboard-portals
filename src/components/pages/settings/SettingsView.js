@@ -128,40 +128,42 @@ class SettingsView extends Component {
 
     return (
       <div className='settingsComponent'>
-        {this.noTokensMessage(watchingTokens)}
+        {role !== 'buyer' ? this.noTokensMessage(watchingTokens) : null}
         {this.walletErrorMessage(error)}
         {this.walletSuccessMessage(connected)}
-        <Segment>
-          <div
-            className='inputContainer'
-            style={{
-              justifyContent: 'space-between'
-            }}>
-            <Header
-              as='h4'
-              className='settingHeader'
+        { role !== 'buyer'
+          ? <Segment>
+            <div
+              className='inputContainer'
               style={{
-                marginBottom: 0
-              }}>Followed Tokens</Header>
-            { loaded ? <Dropdown
-              selection
-              search
-              multiple
-              name='watchingTokens'
-              defaultValue={watchingTokens.map(token => token.address)}
-              options={watchingTokenOptions}
-              onChange={(e, {value}) => {
-                this.watchingTokensValue = value.map(val => ({address: val}))
-                handleChangeWatchingTokens()
-              }}
-              icon='search'
-              className='settingInput'
-              style={{
-                width: '84%',
-                marginLeft: 0
-              }} /> : <span>Loading available tokens...<Icon name='spinner' loading /></span> }
-          </div>
-        </Segment>
+                justifyContent: 'space-between'
+              }}>
+              <Header
+                as='h4'
+                className='settingHeader'
+                style={{
+                  marginBottom: 0
+                }}>Followed Tokens</Header>
+              { loaded ? <Dropdown
+                selection
+                search
+                multiple
+                name='watchingTokens'
+                defaultValue={watchingTokens.map(token => token.address)}
+                options={watchingTokenOptions}
+                onChange={(e, { value }) => {
+                  this.watchingTokensValue = value.map(address => ({ address }))
+                  handleChangeWatchingTokens()
+                }}
+                icon='search'
+                className='settingInput'
+                style={{
+                  width: '84%',
+                  marginLeft: 0
+                }} /> : <span>Loading available tokens...<Icon name='spinner' loading /></span> }
+            </div>
+          </Segment>
+        : null }
 
         <Segment>
           <Header as='h4' className='settingHeader' style={{marginTop: '20px'}}>Wallet Connection Status
@@ -230,50 +232,52 @@ class SettingsView extends Component {
           </div>
         </Segment>
 
-        { role !== 'direct' ? <Segment>
-          <div
-            className='inputContainer'
-            style={{
-              justifyContent: 'space-between'
-            }}>
-            <Header
-              as='h4'
-              className='settingHeader'
+        { role === 'broker' || role === 'issuer'
+          ? <Segment>
+            <div
+              className='inputContainer'
               style={{
-                marginBottom: 0
-              }}>Messaging Account ID</Header>
-            <Input
-              id='messaging-account-input'
-              name='messaging-acount'
-              defaultValue={this.state.messagingId}
-              className='settingInput'
-              style={{
-                width: '79%',
-                marginLeft: 0
-              }}
-              disabled={!this.state.messagingIdEditMode}
-              onChange={(e) => this.setMessagingIdToTarget(e)} />
-          </div>
-          <div className='buttonContainer'>
-            <Button
-              style={{
-                background: 'none'
-              }}
-              className={this.state.messagingIdEditMode
-                ? ''
-                : 'hide'}
-              onClick={() => this.messgingAddressEdit(false)}>Cancel</Button>
-            {this.state.messagingIdEditMode
-                ? <Button
-                  color={!this.state.messagingId.length
-                        ? 'grey'
-                        : 'teal'}
-                  onClick={handleSetMessagingAccount}
-                  disabled={!this.state.messagingId.length}>Save</Button>
-                : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
-                }
-          </div>
-        </Segment> : null }
+                justifyContent: 'space-between'
+              }}>
+              <Header
+                as='h4'
+                className='settingHeader'
+                style={{
+                  marginBottom: 0
+                }}>Messaging Account ID</Header>
+              <Input
+                id='messaging-account-input'
+                name='messaging-acount'
+                defaultValue={this.state.messagingId}
+                className='settingInput'
+                style={{
+                  width: '79%',
+                  marginLeft: 0
+                }}
+                disabled={!this.state.messagingIdEditMode}
+                onChange={(e) => this.setMessagingIdToTarget(e)} />
+            </div>
+            <div className='buttonContainer'>
+              <Button
+                style={{
+                  background: 'none'
+                }}
+                className={this.state.messagingIdEditMode
+                  ? ''
+                  : 'hide'}
+                onClick={() => this.messgingAddressEdit(false)}>Cancel</Button>
+              {this.state.messagingIdEditMode
+                  ? <Button
+                    color={!this.state.messagingId.length
+                          ? 'grey'
+                          : 'teal'}
+                    onClick={handleSetMessagingAccount}
+                    disabled={!this.state.messagingId.length}>Save</Button>
+                  : <Button color='teal' onClick={() => this.messgingAddressEdit(true)}>Edit</Button>
+                  }
+            </div>
+          </Segment>
+        : null }
       </div>
     )
   }
