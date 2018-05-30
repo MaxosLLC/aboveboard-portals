@@ -16,7 +16,9 @@ const queryStringAccessToken = getParameterByName('accessToken')
 const accessToken = queryStringAccessToken || (window.localStorage && window.localStorage.getItem && window.localStorage.getItem('local-feathers-jwt'))
 
 const init = store => {
+  console.log('init auth')
   if (accessToken) {
+    console.log('access token ', accessToken)
     const authenticationOptions = {
       strategy: 'jwt',
       accessToken
@@ -24,6 +26,7 @@ const init = store => {
 
     return store.dispatch(feathersLocalAuthentication.authenticate(authenticationOptions))
       .then(results => {
+        console.log('login success ', results)
         store.dispatch({
           type: 'LOGIN_SUCCESS',
           user: results.value.user,
@@ -34,7 +37,12 @@ const init = store => {
           store.dispatch(push('/'))
         }
       })
-      .catch(() => store.dispatch(push('/login')))
+      .catch(e => {
+        console.log(`Token login error: ${e}`)
+        console.log(`Token login error message: ${e.message}`)
+        console.log(`Token login error JSON: ${JSON.stringify(e, null, 2)}`)
+        // store.dispatch(push('/login'))
+      })
   } else {
     return Promise.resolve()
   }
