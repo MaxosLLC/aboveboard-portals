@@ -2,26 +2,25 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise from 'bluebird'
+import Promise, { promisifyAll } from 'bluebird'
 
 import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
 import tokenContract from 'lib/contracts/RegulatedToken'
 import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
-
-const { promisifyAll } = Promise
+import settingsStorageContract from 'lib/contracts/SettingsStorage'
 
 let web3
 let currentAccount
 
 export default {
-  init ({
+  init: async ({
     walletHost = process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W',
     walletPort = process.env.REACT_APP_WALLET_PORT || '443',
     mnemonic,
     account,
     password
-  }) {
+  }) => {
     const providerEngine = new Web3ProviderEngine()
 
     if (window.web3 && window.web3.currentProvider) {
@@ -31,7 +30,7 @@ export default {
 
       const injectedWeb3Provider = {
         setEngine () {},
-        handleRequest (payload, next, end) {
+        handleRequest: async (payload, next, end) => {
           switch (payload.method) {
             case 'web3_clientVersion':
               return currentProvider.version.getNode(end)
@@ -40,19 +39,17 @@ export default {
               return currentProvider.eth.getAccounts(end)
 
             case 'eth_sendTransaction':
-              return Promise.try(() => {
+              return Promise.try(async () => {
                 const [txParams] = payload.params
 
-                return currentProvider.eth.sendTransactionAsync(txParams)
-                  .then(data => {
-                    store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
-                    end(null, data)
-                  })
+                const data = await currentProvider.eth.sendTransactionAsync(txParams)
+                store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
+                return end(null, data)
               })
-                .catch(error => {
-                  store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
-                  end(error)
-                })
+              .catch(error => {
+                store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
+                return end(error)
+              })
 
             case 'eth_sign':
               const [address, message] = payload.params
@@ -83,47 +80,43 @@ export default {
     promisifyAll(web3.eth)
     promisifyAll(web3.personal)
 
-    return web3.eth.getAccountsAsync()
-      .then(accounts => {
-        currentAccount = account || accounts[0]
-        if (account && password) {
-          return web3.personal.unlockAccountAsync(currentAccount, password)
-        }
-      })
-      .then(() => {
-        if (currentAccount) {
-          store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
-        }
-      })
-      .catch(error => {
-        console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
-        return store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
-      })
+    try {
+      const accounts = await web3.eth.getAccountsAsync()
+      currentAccount = account || accounts[0]
+  
+      if (account && password) {
+        await web3.personal.unlockAccountAsync(currentAccount, password)
+      }
+  
+      if (currentAccount) {
+        store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
+      }
+    } catch (error) {
+      console.error(`Error connecting to wallet on host ${walletHost}:${walletPort}, error: ${error}`)
+      store.dispatch({ type: 'WALLET_CONNECT_ERROR', error })
+    }
   },
 
-  getAccounts () {
-    return web3.eth.getAccountsAsync()
-  },
+  getAccounts: async () => web3.eth.getAccountsAsync(),
 
   setCurrentAccount (address) {
     currentAccount = address
     // TODO: implement handling password and connecting to different wallet
   },
 
-  addInvestorToWhitelist (investorAddress, contractAddress) {
+  addInvestorToWhitelist: async (investorAddress, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.add)
     return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
   },
 
-  addInvestorsToWhitelist (investorAddresses, contractAddress) {
+  addInvestorsToWhitelist: async (investorAddresses, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.addBuyers)
 
-    return contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount })
-      .then(gas => {
-        return contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount, gas })
-      })
+    const gas = await contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount })
+
+    return contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount, gas })
   },
 
   removeInvestorFromWhitelist (investorAddress, contractAddress) {
@@ -138,35 +131,37 @@ export default {
     return contract.setReleaseDate.sendTransactionAsync(investorAddress, releaseDate, { from: currentAccount })
   },
 
-  setMessagingAddress (messagingAddress, tokenAddress) {
+  setMessagingAddress: async (messagingAddress, tokenAddress) => {
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(deployedTokenContract._service)
 
-    return deployedTokenContract._service.callAsync()
-      .then(regulatorServiceAddress => {
-        const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-        promisifyAll(deployedRegulatorServiceContract.getMessagingAddress)
-        promisifyAll(deployedRegulatorServiceContract.setMessagingAddress)
+    const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+    const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
+    promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
-        return deployedRegulatorServiceContract.getMessagingAddress.callAsync()
-          .then(currentMessagingAddress => {
-            if (currentMessagingAddress !== messagingAddress) {
-              return deployedRegulatorServiceContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount })
-            }
-          })
-      })
+    const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+    const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
+    promisifyAll(deployedSettingsStorageContract.getMessagingAddress)
+    promisifyAll(deployedSettingsStorageContract.setMessagingAddress)
+
+    const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync()
+    if (currentMessagingAddress !== messagingAddress) {
+      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount })
+    }
   },
 
-  setTradingLock (tokenAddress, locked) {
+  setTradingLock: async (tokenAddress, locked) => {
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(deployedTokenContract._service)
 
-    return deployedTokenContract._service.callAsync()
-      .then(regulatorServiceAddress => {
-        const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-        promisifyAll(deployedRegulatorServiceContract.setLocked)
+    const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+    const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
+    promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
-        return deployedRegulatorServiceContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
-      })
+    const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+    const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
+    promisifyAll(deployedSettingsStorageContract.setLocked)
+
+    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
   }
 }

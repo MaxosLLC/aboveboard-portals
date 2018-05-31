@@ -370,16 +370,16 @@ class InvestorDetailView extends Component {
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>
-        <div className='tradingToggle'>
+        { loaded ? <div className='tradingToggle'>
           <span>
             <strong>Trading: </strong>
-            {localToken.trading || localToken.trading === undefined ? 'Active' : 'Paused'}
+            {localToken.trading ? 'Active' : 'Paused'}
           </span>
           <Checkbox
             toggle
             onChange={(e, { checked }) => setTokenTrading(token.address, checked)}
-            checked={localToken.trading || localToken.trading === undefined} />
-        </div>
+            checked={localToken.trading} />
+        </div> : null }
         <div>
           <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />
         </div>
