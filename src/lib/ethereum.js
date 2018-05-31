@@ -83,11 +83,11 @@ export default {
     try {
       const accounts = await web3.eth.getAccountsAsync()
       currentAccount = account || accounts[0]
-  
+
       if (account && password) {
         await web3.personal.unlockAccountAsync(currentAccount, password)
       }
-  
+
       if (currentAccount) {
         store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
       }
@@ -107,7 +107,7 @@ export default {
   addInvestorToWhitelist: async (investorAddress, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.add)
-    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
+    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 167501 })
   },
 
   addInvestorsToWhitelist: async (investorAddresses, contractAddress) => {
@@ -122,7 +122,7 @@ export default {
   removeInvestorFromWhitelist (investorAddress, contractAddress) {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.remove)
-    return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 67501 })
+    return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 87501 })
   },
 
   setRegDWhitelistReleaseDate (investorAddress, contractAddress, releaseDate) {
