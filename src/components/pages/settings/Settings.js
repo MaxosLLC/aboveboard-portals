@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(() => dispatch(localServices.localToken.find()))
     },
     setMessagingAddress (currentUser, messagingAddress, tokens) {
-      return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { email: { $in: currentUser.emails } } }))
+      return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { emails: { $in: currentUser.emails } } }))
         .then(() => {
           if (currentUser.role === 'issuer') {
             return each(tokens, token => ethereum.setMessagingAddress(messagingAddress, token.address))

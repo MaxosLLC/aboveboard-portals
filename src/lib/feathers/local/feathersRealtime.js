@@ -18,7 +18,7 @@ const getCurrentQueryParams = model => {
 export default {
   init () {
     // Watch user profile changes
-    client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user }))
+    client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user: user.data || user }))
 
     client.service('shareholder').on('created', data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {

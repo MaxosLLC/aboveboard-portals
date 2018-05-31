@@ -124,6 +124,8 @@ class SettingsView extends Component {
       }
 
       setMessagingAddress(currentUser, messagingAddress.value, watchingTokens)
+
+      this.setState({ messagingIdEditMode: false })
     }
 
     return (
