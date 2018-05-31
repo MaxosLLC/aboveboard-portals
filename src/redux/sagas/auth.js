@@ -49,10 +49,11 @@ function * login (params) {
   }
 }
 
+const loginPathRegexp = /\/(token-)?login/
 function * loginSuccess ({ user, accessToken }) {
   yield store.dispatch(feathersCloudAuthentication.authenticate(publicCloudAPIAuthData))
 
-  if (window.location.pathname === '/login') {
+  if (loginPathRegexp.test(window.location.pathname)) {
     yield put(push('/'))
   }
 
