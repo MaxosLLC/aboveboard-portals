@@ -29,10 +29,6 @@ const init = store => {
           user: results.value.user,
           accessToken: results.value.accessToken
         })
-
-        if (window.location.pathname === '/token-login') {
-          store.dispatch(push('/'))
-        }
       })
       .catch(e => {
         console.log(`Token login error: ${e.message}`)
