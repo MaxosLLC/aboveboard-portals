@@ -27,6 +27,7 @@ class Routes extends Component {
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers' component={Investors} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
+          { role === 'buyer' ? <Route exact path='/buyers/your-info' component={InvestorDetail} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/:id/edit' component={EditInvestor} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }

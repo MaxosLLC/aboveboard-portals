@@ -204,7 +204,7 @@ let EditInvestorForm = props => {
               </Grid.Column>
               <Grid.Column>
                 <Label>Email *</Label>
-                <Text name='email' />
+                <Text disabled name='email' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Phone</Label>
