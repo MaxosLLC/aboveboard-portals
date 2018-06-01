@@ -17,7 +17,7 @@ class SettingsView extends Component {
     })
   }
   noTokensMessage (tokens) {
-    if (tokens.length < 1) {
+    if (!tokens.length) {
       return (<Message
         warning
         header='You are not following any tokens'
@@ -130,11 +130,11 @@ class SettingsView extends Component {
 
     return (
       <div className='settingsComponent'>
-        {role !== 'buyer' ? this.noTokensMessage(watchingTokens) : null}
+        {role !== 'buyer' && this.noTokensMessage(watchingTokens)}
         {this.walletErrorMessage(error)}
         {this.walletSuccessMessage(connected)}
-        { role !== 'buyer'
-          ? <Segment>
+        { role !== 'buyer' &&
+          <Segment>
             <div
               className='inputContainer'
               style={{
@@ -165,7 +165,7 @@ class SettingsView extends Component {
                 }} /> : <span>Loading available tokens...<Icon name='spinner' loading /></span> }
             </div>
           </Segment>
-        : null }
+        }
 
         <Segment>
           <Header as='h4' className='settingHeader' style={{marginTop: '20px'}}>Wallet Connection Status
@@ -234,8 +234,8 @@ class SettingsView extends Component {
           </div>
         </Segment>
 
-        { role === 'broker' || role === 'issuer'
-          ? <Segment>
+        { /(issuer|broker)/.test(role) &&
+          <Segment>
             <div
               className='inputContainer'
               style={{
@@ -279,7 +279,7 @@ class SettingsView extends Component {
                   }
             </div>
           </Segment>
-        : null }
+        }
       </div>
     )
   }

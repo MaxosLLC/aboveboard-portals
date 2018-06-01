@@ -178,22 +178,24 @@ class InvestorsView extends Component {
                   )}
               </Table.Body>
 
-              { queryResult.total > queryResult.limit ? <Table.Footer>
-                <Table.Row>
-                  <Table.HeaderCell floated='right' colSpan='8'>
-                    <Pagination
-                      floated='right'
-                      activePage={page.investors + 1}
-                      totalPages={
-                        queryResult
-                          ? Math.floor(queryResult.total / queryResult.limit) + 1
-                          : 1
-                      }
-                      onPageChange={(e, { activePage }) => setPage(activePage - 1)}
-                    />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer> : null }
+              { queryResult.total > queryResult.limit &&
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell floated='right' colSpan='8'>
+                      <Pagination
+                        floated='right'
+                        activePage={page.investors + 1}
+                        totalPages={
+                          queryResult
+                            ? Math.floor(queryResult.total / queryResult.limit) + 1
+                            : 1
+                        }
+                        onPageChange={(e, { activePage }) => setPage(activePage - 1)}
+                      />
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
+              }
             </Table>
           </div>
           : <Segment>{ search.investors ? 'No buyers match your search criteria' : 'No buyer data available' }</Segment> }
