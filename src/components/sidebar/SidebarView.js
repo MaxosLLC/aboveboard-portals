@@ -23,21 +23,21 @@ class SidebarView extends Component {
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
         </MenuItem>
-        { currentUser.role === 'buyer'
-          ? <MenuItem name='buyers' onClick={() => routeTo(`/buyers/your-info`)} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+        { currentUser.role === 'buyer' &&
+          <MenuItem name='buyers' onClick={() => routeTo(`/buyers/your-info`)} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Your Info</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
-        : null }
-        { currentUser.role === 'broker' || currentUser.role === 'direct'
-          ? <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+        }
+        { /(broker|direct)/.test(currentUser.role) &&
+          <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
-        : null }
-        { currentUser.role === 'issuer' || currentUser.role === 'direct'
-          ? <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+        }
+        { /(issuer|direct)/.test(currentUser.role) &&
+          <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             <span><Image src={dollarSignSrc} className='menuIcon' />Securities</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
-        : null }
+        }
         <MenuItem active={tokenDetailRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
           <span><Image src={barsSrc} className='menuIcon' />Dashboard</span>
         </MenuItem>

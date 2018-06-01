@@ -236,25 +236,27 @@ class InvestorDetailView extends Component {
                   </TableRow>)}
               </Table.Body>
 
-              { queryResult.shareholders.total > queryResult.shareholders.limit ? <Table.Footer>
-                <TableRow>
-                  <Table.HeaderCell floated='right' colSpan='8'>
-                    <Pagination
-                      floated='right'
-                      activePage={page.shareholders + 1}
-                      totalPages={
-                        queryResult.shareholders
-                          ? Math.floor(
-                              queryResult.shareholders.total /
-                                queryResult.shareholders.limit
-                            ) + 1
-                          : 1
-                      }
-                      onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1)}
-                    />
-                  </Table.HeaderCell>
-                </TableRow>
-              </Table.Footer> : null }
+              { queryResult.shareholders.total > queryResult.shareholders.limit &&
+                <Table.Footer>
+                  <TableRow>
+                    <Table.HeaderCell floated='right' colSpan='8'>
+                      <Pagination
+                        floated='right'
+                        activePage={page.shareholders + 1}
+                        totalPages={
+                          queryResult.shareholders
+                            ? Math.floor(
+                                queryResult.shareholders.total /
+                                  queryResult.shareholders.limit
+                              ) + 1
+                            : 1
+                        }
+                        onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1)}
+                      />
+                    </Table.HeaderCell>
+                  </TableRow>
+                </Table.Footer>
+              }
             </Table>
           </div>
           : <Segment>{ search.shareholders ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
@@ -370,16 +372,18 @@ class InvestorDetailView extends Component {
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>
-        { loaded ? <div className='tradingToggle'>
-          <span>
-            <strong>Trading: </strong>
-            {localToken.trading ? 'Active' : 'Paused'}
-          </span>
-          <Checkbox
-            toggle
-            onChange={(e, { checked }) => setTokenTrading(token.address, checked)}
-            checked={localToken.trading} />
-        </div> : null }
+        { loaded &&
+          <div className='tradingToggle'>
+            <span>
+              <strong>Trading: </strong>
+              {localToken.trading ? 'Active' : 'Paused'}
+            </span>
+            <Checkbox
+              toggle
+              onChange={(e, { checked }) => setTokenTrading(token.address, checked)}
+              checked={localToken.trading} />
+          </div>
+        }
         <div>
           <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />
         </div>

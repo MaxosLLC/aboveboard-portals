@@ -118,9 +118,11 @@ class InvestorDetailView extends Component {
 
             <Grid centered columns={1}>
               <Grid.Column width={4}>
-                { currentUser.role !== 'buyer' ? <Link to='/buyers' className='ui button primary'>
-                  Back to Buyers
-                </Link> : null }
+                { currentUser.role !== 'buyer' &&
+                  <Link to='/buyers' className='ui button primary'>
+                    Back to Buyers
+                  </Link>
+                }
                 <Link to={`/buyers/${investor.id}/edit`} className='ui button primary'>
                   Edit
                 </Link>
