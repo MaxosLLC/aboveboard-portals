@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise, { promisifyAll } from 'bluebird'
+import Promise, { filter, promisifyAll } from 'bluebird'
 
 import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
@@ -253,6 +253,24 @@ export default {
     const balance = await contract.balanceOf.callAsync(investorAddress)
 
     return balance.toNumber()
+  },
+
+  getWhitelistsForBroker: async (user, tokens) => {
+    if (!tokens.length) { return [] }
+
+    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
+    promisifyAll(deployedSettingsStorageContract.getWhitelists)
+
+    const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
+
+    return filter(whitelistAddresses, async whitelistAddress => {
+      const deployedWhitelistContract = web3.eth.contract(whitelistContract.abi).at(whitelistAddress)
+      promisifyAll(deployedWhitelistContract.getQualifiers)
+
+      const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
+
+      return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
+    })
   },
 
   confirmTransaction: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {

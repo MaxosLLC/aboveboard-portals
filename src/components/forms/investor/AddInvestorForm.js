@@ -100,15 +100,12 @@ const renderwhitelistAddresses = ({
 }) => {
   const onChange = (e, data) => {
     fields.removeAll()
-    data.value.map(value => {
-      let name = data.options.find(option => option.value === value).text
-      fields.push({
-        name: name,
-        address: value
-      })
-      return null
+    data.value.forEach(address => {
+      const name = data.options.find(option => option.value === address).text
+      fields.push({ name, address })
     })
   }
+
   return (
     <Fragment>
       <Grid.Column style={{ padding: '10px' }}>
@@ -286,9 +283,7 @@ AddInvestorForm = reduxForm({
 const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: { ethAddresses: [{ address: '' }] },
-    whitelists: state.whitelist.queryResult
-      ? state.whitelist.queryResult.data
-      : [],
+    whitelists: state.whitelist.queryResult ? state.whitelist.queryResult.data : [],
     errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }

@@ -1,7 +1,10 @@
 import client from 'lib/feathers/local/feathersClient'
+import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
 import store from 'redux/store'
 import { throttle } from 'lodash'
+
+import ethereum from 'lib/ethereum'
 
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
@@ -92,6 +95,32 @@ export default {
 
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
+    })
+    client.service('localToken').on('created', async data => {
+      if (tokenDetailRegexp.test(window.location.pathname)) {
+        const address = window.location.pathname.split('/')[2]
+
+        store.dispatch(localServices.localToken.find({ query: { address } }))
+      }
+
+      const user = store.getState().currentUser
+      const localTokens = store.getState().localToken.queryResult.data
+      const whitelists = await ethereum.getWhitelistsForBroker(user, localTokens)
+
+      store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+    })
+    client.service('localToken').on('patched', async data => {
+      if (tokenDetailRegexp.test(window.location.pathname)) {
+        const address = window.location.pathname.split('/')[2]
+
+        store.dispatch(localServices.localToken.find({ query: { address } }))
+      }
+
+      const user = store.getState().currentUser
+      const localTokens = store.getState().localToken.queryResult.data
+      const whitelists = await ethereum.getWhitelistsForBroker(user, localTokens)
+
+      store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
     })
   }
 }
