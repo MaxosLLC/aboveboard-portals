@@ -174,7 +174,7 @@ console.log('set lock5')
     promisifyAll(deployedSettingsStorageContract.setLocked)
 console.log('set lock6')
     const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
-
+console.log('set lock7 ', gas)
     return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
   }
 }
