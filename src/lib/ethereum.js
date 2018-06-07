@@ -152,9 +152,9 @@ export default {
 
     const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync()
     if (currentMessagingAddress !== messagingAddress) {
-      const gas = await deployedSettingsStorageContract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
+      const gas = await deployedSettingsStorageContract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
 
-      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
+      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(tokenAddress, messagingAddress, { from: currentAccount, gas })
     }
   },
 
