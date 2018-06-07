@@ -164,7 +164,7 @@ export default {
     promisifyAll(deployedTokenContract._service)
 console.log('set lock2')
     const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-    console.log('set lock3')
+    console.log('set lock3 ', regulatorServiceAddress)
     const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
     console.log('set lock4')
     promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
