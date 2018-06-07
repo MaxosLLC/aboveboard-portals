@@ -150,7 +150,7 @@ export default {
     promisifyAll(deployedSettingsStorageContract.getMessagingAddress)
     promisifyAll(deployedSettingsStorageContract.setMessagingAddress)
 
-    const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync()
+    const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync(tokenAddress)
     if (currentMessagingAddress !== messagingAddress) {
       const gas = await deployedSettingsStorageContract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
 
