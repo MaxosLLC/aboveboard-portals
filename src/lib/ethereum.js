@@ -107,25 +107,31 @@ export default {
   addInvestorToWhitelist: async (investorAddress, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.add)
-    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 167501 })
+
+    const gas = await contract.add.estimateGasAsync(investorAddress, { from: currentAccount })
+
+    return contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas })
   },
 
   addInvestorsToWhitelist: async (investorAddresses, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.addBuyers)
 
-    const gas = await contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount })
+    const gas = await contract.addBuyers.estimateGasAsync(investorAddresses, { from: currentAccount })
 
     return contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount, gas })
   },
 
-  removeInvestorFromWhitelist (investorAddress, contractAddress) {
+  removeInvestorFromWhitelist: async (investorAddress, contractAddress) => {
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.remove)
-    return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 87501 })
+
+    const gas = await contract.remove.estimateGasAsync(investorAddress, { from: currentAccount })
+
+    return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas })
   },
 
-  setRegDWhitelistReleaseDate (investorAddress, contractAddress, releaseDate) {
+  setRegDWhitelistReleaseDate: async (investorAddress, contractAddress, releaseDate) => {
     const contract = web3.eth.contract(regDWhitelistContract.abi).at(contractAddress)
     promisifyAll(contract.setReleaseDate)
     return contract.setReleaseDate.sendTransactionAsync(investorAddress, releaseDate, { from: currentAccount })
@@ -146,7 +152,9 @@ export default {
 
     const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync()
     if (currentMessagingAddress !== messagingAddress) {
-      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount })
+      const gas = await deployedSettingsStorageContract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
+
+      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
     }
   },
 
@@ -162,6 +170,8 @@ export default {
     const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
     promisifyAll(deployedSettingsStorageContract.setLocked)
 
-    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
+    const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
+
+    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
   }
 }
