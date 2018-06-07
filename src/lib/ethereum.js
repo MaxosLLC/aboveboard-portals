@@ -173,8 +173,8 @@ console.log('set lock5')
     const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
     promisifyAll(deployedSettingsStorageContract.setLocked)
 console.log('set lock6')
-    // const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
-// console.log('set lock7 ', gas)
+    const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
+console.log('set lock7 ', gas)
     return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
   }
 }
