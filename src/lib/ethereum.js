@@ -159,23 +159,19 @@ export default {
   },
 
   setTradingLock: async (tokenAddress, locked) => {
-    console.log('set lock1 currentAccount', currentAccount)
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(deployedTokenContract._service)
-console.log('set lock2')
+
     const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-    console.log('set lock3 regulatorServiceAddress: ', regulatorServiceAddress)
     const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-    console.log('set lock4')
     promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
-console.log('set lock5')
+
     const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-    console.log('set lock 51 storageAddress ', storageAddress)
     const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
     promisifyAll(deployedSettingsStorageContract.setLocked)
-console.log('set lock6')
+
     const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
-console.log('set lock7 ', gas)
-    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount })
+
+    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
   }
 }
