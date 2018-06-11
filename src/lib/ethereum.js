@@ -13,6 +13,44 @@ import settingsStorageContract from 'lib/contracts/SettingsStorage'
 let web3
 let currentAccount
 
+const delay = time => new Promise(resolve => setTimeout(resolve, time))
+
+let attempts = 0
+const waitForWeb3 = async () => {
+  if (!web3) {
+    attempts++
+    await delay(500)
+
+    if (attempts === 10) {
+      console.log('Could not connect to wallet after 10 attempts')
+    }
+
+    return waitForWeb3()
+  }
+}
+
+const getStorageSettingsForToken = async tokenAddress => {
+  await waitForWeb3()
+
+  const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+  promisifyAll(deployedTokenContract._service)
+
+  const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+  const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
+  promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
+
+  const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+  const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
+  promisifyAll(deployedSettingsStorageContract.getMessagingAddress)
+  promisifyAll(deployedSettingsStorageContract.setMessagingAddress)
+  promisifyAll(deployedSettingsStorageContract.getInititalOfferEndDate)
+  promisifyAll(deployedSettingsStorageContract.setInititalOfferEndDate)
+  promisifyAll(deployedSettingsStorageContract.getLocked)
+  promisifyAll(deployedSettingsStorageContract.setLocked)
+
+  return deployedSettingsStorageContract
+}
+
 export default {
   init: async ({
     walletHost = process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W',
@@ -134,21 +172,12 @@ export default {
   setRegDWhitelistReleaseDate: async (investorAddress, contractAddress, releaseDate) => {
     const contract = web3.eth.contract(regDWhitelistContract.abi).at(contractAddress)
     promisifyAll(contract.setReleaseDate)
+
     return contract.setReleaseDate.sendTransactionAsync(investorAddress, releaseDate, { from: currentAccount })
   },
 
   setMessagingAddress: async (messagingAddress, tokenAddress) => {
-    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    promisifyAll(deployedTokenContract._service)
-
-    const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-    const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-    promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
-
-    const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-    const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
-    promisifyAll(deployedSettingsStorageContract.getMessagingAddress)
-    promisifyAll(deployedSettingsStorageContract.setMessagingAddress)
+    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
 
     const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync(tokenAddress)
     if (currentMessagingAddress !== messagingAddress) {
@@ -158,17 +187,14 @@ export default {
     }
   },
 
+  getTradingLock: async tokenAddress => {
+    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+
+    return deployedSettingsStorageContract.getLocked.callAsync(tokenAddress)
+  },
+
   setTradingLock: async (tokenAddress, locked) => {
-    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    promisifyAll(deployedTokenContract._service)
-
-    const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-    const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-    promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
-
-    const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-    const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
-    promisifyAll(deployedSettingsStorageContract.setLocked)
+    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
 
     const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
 
