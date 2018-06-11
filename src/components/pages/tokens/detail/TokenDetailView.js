@@ -54,7 +54,8 @@ class InvestorDetailView extends Component {
     this.state = {
       activeIndex: 0,
       totalShareholders: 0,
-      totalTransactions: 0
+      totalTransactions: 0,
+      locked: undefined
     }
   }
   componentDidMount () {
@@ -68,6 +69,10 @@ class InvestorDetailView extends Component {
     this
       .props
       .loadLocalToken()
+      .then(() => {
+        this.props.getTokenTrading(this.props.localToken.address)
+          .then(locked => this.setState({ locked }))
+      })
   }
   getShareholderName (address, shareholders) {
     const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
@@ -159,7 +164,7 @@ class InvestorDetailView extends Component {
   }
   render () {
     const { loaded, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
-    const { activeIndex, totalShareholders } = this.state
+    const { activeIndex, locked, totalShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
 
@@ -372,7 +377,7 @@ class InvestorDetailView extends Component {
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>
-        { loaded &&
+        { locked !== undefined &&
           <div className='tradingToggle'>
             <span>
               <strong>Trading: </strong>
