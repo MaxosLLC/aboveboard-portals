@@ -66,7 +66,7 @@ function * loginSuccess ({ user, accessToken }) {
 
   yield store.dispatch(cloudServices.token.find())
   yield store.dispatch(localServices.localToken.find())
-  if (user.role === 'broker') {
+  if (user.role === 'broker' || user.role === 'direct') {
     yield store.dispatch(cloudServices.whitelist.find())
   }
 }
