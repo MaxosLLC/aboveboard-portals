@@ -209,6 +209,8 @@ export default {
     const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(contract.balanceOf)
 
-    return contract.balanceOf.callAsync(tokenAddress)
+    const balance = await contract.balanceOf.callAsync(tokenAddress)
+
+    return balance.integerValue()
   }
 }
