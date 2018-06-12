@@ -216,7 +216,7 @@ export default {
     promisifyAll(contract.balanceOf)
 
     const balance = await contract.balanceOf.callAsync(investorAddress).valueOf()
-console.log('balance type ', typeof balance)
+console.log('balance ', balance)
 console.log('balance tonumber ', balance.toNumber())
 console.log('balance keysd', Object.keys(balance))
 console.log('balance striung  ', balance.toString())
