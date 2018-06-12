@@ -126,7 +126,7 @@ class InvestorDetailView extends Component {
 
     return shareholders.map(shareholder => {
       const shareholderTransctions = transactions
-        .filter(({ shareholderEthAddress }) => shareholderEthAddress === shareholder.ethAddresses[0].address)
+        .filter(({ shareholderEthAddress }) => shareholder.ethAddresses.some(({ address }) => shareholderEthAddress === address))
       const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
 
       const quantity = quantityByShareholderId[shareholder.id]
