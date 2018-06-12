@@ -4,9 +4,9 @@ import ShareholderDetailView from './ShareholderDetailView'
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser,
-  shareholder: state[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data[0] || {} : {},
+  shareholder: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data[0] || {} : {},
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
-  loaded: state.token.isFinished && state[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].isFinished
+  loaded: state.token.isFinished && state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].isFinished
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
