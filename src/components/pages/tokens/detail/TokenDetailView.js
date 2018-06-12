@@ -105,7 +105,6 @@ class InvestorDetailView extends Component {
     const quantityByShareholderId = {}
 
     const tokensTransferred = shareholders.reduce((result1, shareholder) => {
-      console.log('shareholder ', JSON.stringify(shareholder, null, 2))
       const quantity = shareholder.ethAddresses.reduce((result2, ethAddress) => {
         if (result2) { return result2 }
 
@@ -175,10 +174,8 @@ class InvestorDetailView extends Component {
   }
   render () {
     const { loaded, currentUser, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
-    console.log('shareholders inital', JSON.stringify(shareholders, null, 2))
     const { activeIndex, locked, totalShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
-    console.log('shareholdersWithData ', JSON.stringify(shareholdersWithData, null, 2))
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
