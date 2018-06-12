@@ -210,7 +210,10 @@ export default {
     promisifyAll(contract.balanceOf)
 
     const balance = await contract.balanceOf.callAsync(tokenAddress)
-
-    return balance.integerValue()
+console.log('balance type ', typeof balance)
+console.log('balance ', balance)
+console.log('balance keysd', Object.keys(balance))
+console.log('balance json ', JSON.stringify(balance.null, 2))
+    return balance
   }
 }
