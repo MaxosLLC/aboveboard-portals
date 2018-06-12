@@ -107,6 +107,8 @@ export default {
     // Use an RPC provider to route all other requests
     if (process.env.REACT_APP_NODE_ENV === 'local-dev') {
       providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(`${walletHost}:${walletPort}`)))
+    } else if (window.REACT_APP_APP_TYPE) {
+      providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider('https://mainnet.infura.io/O4y6ossOQVPXYvf8PDB4')))
     } else if (process.env.REACT_APP_NODE_ENV !== 'test') {
       providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider('https://kovan.infura.io/O4y6ossOQVPXYvf8PDB4'))) // TODO: implement redundantRPC
     }
