@@ -36,10 +36,12 @@ console.log('get storage settings for token ', tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+  console.log('reg servive address ', regulatorServiceAddress)
   const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+  console.log('storage address ', storageAddress)
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
   promisifyAll(contract.getMessagingAddress)
   promisifyAll(contract.setMessagingAddress)
