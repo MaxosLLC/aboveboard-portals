@@ -8,7 +8,7 @@ function * update () {
   try {
     // Request update
     yield request
-      .post(`${window.location.hostname}/update-api`)
+      .post(`/update-api/update`)
       .send()
 
     // Give 1 second timeout
