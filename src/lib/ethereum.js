@@ -215,7 +215,7 @@ export default {
     const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(contract.balanceOf)
 
-    const balance = await contract.balanceOf.callAsync(investorAddress)
+    const balance = await contract.balanceOf.call(investorAddress).valueOf()
 console.log('balance type ', typeof balance)
 console.log('balance tonumber ', balance.toNumber())
 console.log('balance keysd', Object.keys(balance))
