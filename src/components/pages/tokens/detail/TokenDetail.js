@@ -6,6 +6,7 @@ import localClient from 'lib/feathers/local/feathersClient'
 import TokenDetailView from './TokenDetailView'
 
 const mapStateToProps = (state, ownProps) => ({
+  currentUser: state.currentUser,
   token: state.token.queryResult && state.token.queryResult.data ? state.token.queryResult.data.filter(token => token.address === ownProps.match.params.address)[0] || {} : {},
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
   shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
@@ -23,10 +24,14 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     routeTo: path => dispatch(push(path)),
-    loadShareholders: () => {
+    loadShareholders: currentUser => {
       const query = { 'ethAddresses.issues.address': ownProps.match.params.address }
 
-      return dispatch(localServices.shareholder.find({ query })).then(({ value }) => value)
+      return dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
+        .then(({ value }) => {
+          console.log('value ', value)
+          value
+        })
     },
     loadTransactions: () => {
       const query = { contractAddress: ownProps.match.params.address }

@@ -60,7 +60,7 @@ class InvestorDetailView extends Component {
   }
   componentDidMount () {
     join(
-      this.props.loadShareholders(),
+      this.props.loadShareholders(this.props.currentUser),
       this.props.loadTransactions(),
       ({ total: totalShareholders }, { total: totalTransactions }) => {
         this.setState({ totalShareholders, totalTransactions })
