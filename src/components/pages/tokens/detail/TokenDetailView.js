@@ -105,6 +105,7 @@ class InvestorDetailView extends Component {
     const quantityByShareholderId = {}
 
     const tokensTransferred = shareholders.reduce((result1, shareholder) => {
+      console.log('shareholder ', JSON.stringify(shareholder, null, 2))
       const quantity = shareholder.ethAddresses.reduce((result2, ethAddress) => {
         if (result2) { return result2 }
 
