@@ -33,11 +33,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 console.log('lsh1 ')
       value.data = await map(value.data, async investor => {
         console.log('lsh2 ')
-        investor.ethAddresses = investor.ethAddresses.map(async ethAddress => {
+        investor.ethAddresses = await map(investor.ethAddresses, async ethAddress => {
           console.log('lsh3 ', ethAddress)
           if (Array.isArray(ethAddress.issues)) {
             console.log('lsh4 ', ethAddress.issues)
-            ethAddress.issues = ethAddress.issues.map(async issue => {
+            ethAddress.issues = await map(ethAddress.issues, async issue => {
               console.log('lsh5 ', issue)
               if (issue.address === tokenAddress) {
                 const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
