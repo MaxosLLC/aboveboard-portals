@@ -30,15 +30,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const query = { 'ethAddresses.issues.address': tokenAddress }
 
       const { value } = await dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
-
+console.log('lsh1 ')
       value.data = await map(value.data, async investor => {
+        console.log('lsh2 ')
         investor.ethAddresses = investor.ethAddresses.map(async ethAddress => {
+          console.log('lsh3 ', ethAddress)
           if (Array.isArray(ethAddress.issues)) {
+            console.log('lsh4 ', ethAddress.issues)
             ethAddress.issues = ethAddress.issues.map(async issue => {
+              console.log('lsh5 ', issue)
               if (issue.address === tokenAddress) {
                 const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
-
+console.log('lsh6 ', tokens)
                 issue.tokens = tokens
+                
               }
 
               return issue
