@@ -10,16 +10,16 @@ const mapStateToProps = (state, ownProps) => ({
   currentUser: state.currentUser,
   token: state.token.queryResult && state.token.queryResult.data ? state.token.queryResult.data.filter(token => token.address === ownProps.match.params.address)[0] || {} : {},
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
-  shareholders: state.shareholder.queryResult ? state.shareholder.queryResult.data : [],
+  shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
   totalTransactions: state.totals.transactions[ownProps.match.params.address] || 0,
   queryResult: {
-    shareholders: state.shareholder.queryResult || { total: 0, limit: 0 },
+    shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult || { total: 0, limit: 0 },
     transactions: state.transaction.queryResult || { total: 0, limit: 0 }
   },
   page: state.page,
   search: state.search,
-  loaded: state.shareholder.isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
+  loaded: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
