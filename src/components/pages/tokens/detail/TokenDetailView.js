@@ -185,7 +185,7 @@ class InvestorDetailView extends Component {
     const shareholderHeaders = [
       { name: 'Shareholder', sortOption: 'lastName' },
       { name: 'Address', sortOption: 'country' },
-      { name: 'Qualifier', sortOption: 'qualifier' },
+      { name: 'Qualifcations', sortOption: 'qualification' },
       { name: 'Quantity', sortOption: 'ethaddress.issues.tokens' },
       { name: '% of Total', sortOption: 'ethaddress.issues.tokens' },
       { name: 'Last Transaction', sortOption: 'updatedAt' }
