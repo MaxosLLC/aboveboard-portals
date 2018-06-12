@@ -204,6 +204,8 @@ export default {
   },
 
   getBalanceForAddress: async (tokenAddress, investorAddress) => {
+    await waitForWeb3()
+
     const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(contract.balanceOf)
 
