@@ -100,26 +100,36 @@ class InvestorDetailView extends Component {
     ]
   }
   formatShareholderTableData (shareholders, transactions) {
-    const { address, tokensTransferred } = this.props.localToken
+    const { address } = this.props.localToken
+
+    const quantityByShareholderId = {}
+
+    const tokensTransferred = shareholders.reduce((result1, shareholder) => {
+      const quantity = shareholder.ethAddresses.reduce((result2, ethAddress) => {
+        if (result2) { return result2 }
+
+        if (Array.isArray(ethAddress.issues)) {
+          const issues = ethAddress.issues.filter(issue => issue.address === address)
+
+          if (issues && issues.length) {
+            return result2 + (issues[0].tokens || 0)
+          }
+        }
+
+        return result2
+      }, 0)
+
+      quantityByShareholderId[shareholder.id] = quantity
+
+      return result1 + quantity
+    }, 0)
 
     return shareholders.map(shareholder => {
       const shareholderTransctions = transactions
         .filter(({ shareholderEthAddress }) => shareholderEthAddress === shareholder.ethAddresses[0].address)
       const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
 
-      const quantity = shareholder.ethAddresses.reduce((result, ethAddress) => {
-        if (result) { return result }
-
-        if (Array.isArray(ethAddress.issues)) {
-          const issues = ethAddress.issues.filter(issue => issue.address === address)
-
-          if (issues && issues.length) {
-            return result + (issues[0].tokens || 0)
-          }
-        }
-
-        return result
-      }, 0)
+      const quantity = quantityByShareholderId[shareholder.id]
       const percent = (quantity / tokensTransferred * 100).toFixed(1)
 
       return Object.assign({}, shareholder, {
