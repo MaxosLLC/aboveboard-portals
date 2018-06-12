@@ -81,8 +81,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setPage: (model, page) => dispatch({ type: 'SET_PAGE', model, page }),
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
     setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
-    getTokenTrading: () => Promise.resolve(),
-    // getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
+    getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
     setTokenTrading: (tokenAddress, trading) =>
       ethereum.setTradingLock(tokenAddress, !trading)
         .then(() => dispatch(localServices.localToken.patch(null, { trading }, { query: { address: tokenAddress } })))

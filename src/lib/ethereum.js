@@ -31,17 +31,15 @@ const waitForWeb3 = async () => {
 
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
-  console.log('get storage settings for token ', tokenAddress)
+
   const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-  console.log('reg servive address ', regulatorServiceAddress)
   const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-  console.log('storage address ', storageAddress)
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
   promisifyAll(contract.getMessagingAddress)
   promisifyAll(contract.setMessagingAddress)
@@ -55,7 +53,7 @@ const getStorageSettingsForToken = async tokenAddress => {
 
 export default {
   init: async ({
-    walletHost = process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W',
+    walletHost = window.REACT_APP_APP_TYPE ? 'https://mainnet.infura.io/O4y6ossOQVPXYvf8PDB4' : (process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W'),
     walletPort = process.env.REACT_APP_WALLET_PORT || '443',
     mnemonic,
     account,
