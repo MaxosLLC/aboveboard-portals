@@ -15785,8 +15785,390 @@
       "links": {},
       "address": "0x921d06f93325b4d76574d3b5abf21c2cf5191456",
       "transactionHash": "0xd428e61ad18c2f38d4872a949e646e4f4078403589a5422ed6f64acbfc0b80c7"
+    },
+    "1528816697901": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x0a12157eaf7bc78c797f32f0756efb6a90d605759d6e535a278033ec487d1766": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "locked",
+              "type": "bool"
+            }
+          ],
+          "name": "LogLockSet",
+          "type": "event"
+        },
+        "0x85d37ec694752aafe8ff3ea3fb045641ded9ae08224d069215d88722175a8db8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "enabled",
+              "type": "bool"
+            }
+          ],
+          "name": "LogPartialTransferSet",
+          "type": "event"
+        },
+        "0x941b1c185c5f48d6cb72b7ba0923a874a589b30b3ea1cd84172093b7f8a93f58": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_date",
+              "type": "uint256"
+            }
+          ],
+          "name": "InititalOfferEndDateSet",
+          "type": "event"
+        },
+        "0x4790a4adb426ca2345bb5108f6e454eae852a7bf687544cd66a7270dff3a41d6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "WhitelistAdded",
+          "type": "event"
+        },
+        "0xde8cf212af7ce38b2840785a2768d97ff2dbf3c21b516961cec0061e134c2a1e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "WhitelistRemoved",
+          "type": "event"
+        },
+        "0x535e6b36b73d0ed9b0f8015c59ee9f6ad4e9e9de61507eb99ac19aa44fd0c3d3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "RegulationDWhitelistSet",
+          "type": "event"
+        },
+        "0xf7189b85d7899f5a32d733e6584c4f1dcdff0274f09d969d186c1797673ede11": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_issuer",
+              "type": "address"
+            }
+          ],
+          "name": "IssuerSet",
+          "type": "event"
+        },
+        "0xaf66545c919a3be306ee446d8f42a9558b5b022620df880517bc9593ec0f2d52": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "IssuerRemoved",
+          "type": "event"
+        },
+        "0x827f513c0402b7e2c74297f5ab29c1608819df765bacf6bbe760706642f0bcf4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "string"
+            }
+          ],
+          "name": "MessagingAddressSet",
+          "type": "event"
+        },
+        "0x78dfab437fc4db9768fc9469396904c9bd0915a521230af325515b63879d5c05": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "address"
+            }
+          ],
+          "name": "CompanyAddressSet",
+          "type": "event"
+        },
+        "0xb0e29bf1b06b74b27a18060c7142d370fcc47ca6a829fbbe248269d66868805a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "allow",
+              "type": "bool"
+            }
+          ],
+          "name": "NewShareholdersAllowance",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x921d06f93325b4d76574d3b5abf21c2cf5191456",
+      "transactionHash": "0xd428e61ad18c2f38d4872a949e646e4f4078403589a5422ed6f64acbfc0b80c7"
+    },
+    "1528817933464": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x0a12157eaf7bc78c797f32f0756efb6a90d605759d6e535a278033ec487d1766": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "locked",
+              "type": "bool"
+            }
+          ],
+          "name": "LogLockSet",
+          "type": "event"
+        },
+        "0x85d37ec694752aafe8ff3ea3fb045641ded9ae08224d069215d88722175a8db8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "enabled",
+              "type": "bool"
+            }
+          ],
+          "name": "LogPartialTransferSet",
+          "type": "event"
+        },
+        "0x941b1c185c5f48d6cb72b7ba0923a874a589b30b3ea1cd84172093b7f8a93f58": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_date",
+              "type": "uint256"
+            }
+          ],
+          "name": "InititalOfferEndDateSet",
+          "type": "event"
+        },
+        "0x4790a4adb426ca2345bb5108f6e454eae852a7bf687544cd66a7270dff3a41d6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "WhitelistAdded",
+          "type": "event"
+        },
+        "0xde8cf212af7ce38b2840785a2768d97ff2dbf3c21b516961cec0061e134c2a1e": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "WhitelistRemoved",
+          "type": "event"
+        },
+        "0x535e6b36b73d0ed9b0f8015c59ee9f6ad4e9e9de61507eb99ac19aa44fd0c3d3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "whitelist",
+              "type": "address"
+            }
+          ],
+          "name": "RegulationDWhitelistSet",
+          "type": "event"
+        },
+        "0xf7189b85d7899f5a32d733e6584c4f1dcdff0274f09d969d186c1797673ede11": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_issuer",
+              "type": "address"
+            }
+          ],
+          "name": "IssuerSet",
+          "type": "event"
+        },
+        "0xaf66545c919a3be306ee446d8f42a9558b5b022620df880517bc9593ec0f2d52": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "IssuerRemoved",
+          "type": "event"
+        },
+        "0x827f513c0402b7e2c74297f5ab29c1608819df765bacf6bbe760706642f0bcf4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "string"
+            }
+          ],
+          "name": "MessagingAddressSet",
+          "type": "event"
+        },
+        "0x78dfab437fc4db9768fc9469396904c9bd0915a521230af325515b63879d5c05": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "address"
+            }
+          ],
+          "name": "CompanyAddressSet",
+          "type": "event"
+        },
+        "0xb0e29bf1b06b74b27a18060c7142d370fcc47ca6a829fbbe248269d66868805a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "allow",
+              "type": "bool"
+            }
+          ],
+          "name": "NewShareholdersAllowance",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x921d06f93325b4d76574d3b5abf21c2cf5191456",
+      "transactionHash": "0xd428e61ad18c2f38d4872a949e646e4f4078403589a5422ed6f64acbfc0b80c7"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-06-11T14:52:58.640Z"
+  "updatedAt": "2018-06-12T15:39:18.506Z"
 }

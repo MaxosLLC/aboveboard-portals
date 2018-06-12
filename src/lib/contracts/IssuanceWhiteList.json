@@ -10081,8 +10081,200 @@
       "links": {},
       "address": "0xad9a5bd57b143fcf170a84af550c2f2d8a0be51a",
       "transactionHash": "0xdd13eecd111e145f4ba6b754f9c0cce2fe4ee179ec97cf7f8efdead7d47366cd"
+    },
+    "1528816697901": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x61a3bd1558245678bc7f935690f02a8b81f0f13ac925fbb0282af1e45fd6470b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "newAgent",
+              "type": "address"
+            }
+          ],
+          "name": "NewAgentAssigned",
+          "type": "event"
+        },
+        "0x8b36f5f3daba47b07e1cd0f071e18ca9e5dbe4e2bfa609f037a5a603bde871f5": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "qualifier",
+              "type": "address"
+            }
+          ],
+          "name": "QualifierAdded",
+          "type": "event"
+        },
+        "0xd1740ddb28df431ba87af2f9209f73f5831e314c2eecc02a3af0d40f2631c6d7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "qualifier",
+              "type": "address"
+            }
+          ],
+          "name": "QualifierRemoved",
+          "type": "event"
+        },
+        "0x72535d8e317ac75a503334a037fffe100ce7af88d8b59bd07d7bb85353939dce": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_whitelistType",
+              "type": "string"
+            }
+          ],
+          "name": "WhitelistTypeSet",
+          "type": "event"
+        },
+        "0xb251eb052afc73ffd02ffe85ad79990a8b3fed60d76dbc2fa2fdd7123dffd914": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "member",
+              "type": "address"
+            }
+          ],
+          "name": "MemberAdded",
+          "type": "event"
+        },
+        "0x6e76fb4c77256006d9c38ec7d82b45a8c8f3c27b1d6766fffc42dfb8de684492": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "member",
+              "type": "address"
+            }
+          ],
+          "name": "MemberRemoved",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xad9a5bd57b143fcf170a84af550c2f2d8a0be51a",
+      "transactionHash": "0xdd13eecd111e145f4ba6b754f9c0cce2fe4ee179ec97cf7f8efdead7d47366cd"
+    },
+    "1528817933464": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x61a3bd1558245678bc7f935690f02a8b81f0f13ac925fbb0282af1e45fd6470b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "newAgent",
+              "type": "address"
+            }
+          ],
+          "name": "NewAgentAssigned",
+          "type": "event"
+        },
+        "0x8b36f5f3daba47b07e1cd0f071e18ca9e5dbe4e2bfa609f037a5a603bde871f5": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "qualifier",
+              "type": "address"
+            }
+          ],
+          "name": "QualifierAdded",
+          "type": "event"
+        },
+        "0xd1740ddb28df431ba87af2f9209f73f5831e314c2eecc02a3af0d40f2631c6d7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "qualifier",
+              "type": "address"
+            }
+          ],
+          "name": "QualifierRemoved",
+          "type": "event"
+        },
+        "0x72535d8e317ac75a503334a037fffe100ce7af88d8b59bd07d7bb85353939dce": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_whitelistType",
+              "type": "string"
+            }
+          ],
+          "name": "WhitelistTypeSet",
+          "type": "event"
+        },
+        "0xb251eb052afc73ffd02ffe85ad79990a8b3fed60d76dbc2fa2fdd7123dffd914": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "member",
+              "type": "address"
+            }
+          ],
+          "name": "MemberAdded",
+          "type": "event"
+        },
+        "0x6e76fb4c77256006d9c38ec7d82b45a8c8f3c27b1d6766fffc42dfb8de684492": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "member",
+              "type": "address"
+            }
+          ],
+          "name": "MemberRemoved",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xad9a5bd57b143fcf170a84af550c2f2d8a0be51a",
+      "transactionHash": "0xdd13eecd111e145f4ba6b754f9c0cce2fe4ee179ec97cf7f8efdead7d47366cd"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-06-11T14:52:58.629Z"
+  "updatedAt": "2018-06-12T15:39:18.488Z"
 }
