@@ -114,7 +114,7 @@ class InvestorDetailView extends Component {
           const issues = ethAddress.issues.filter(issue => issue.address === address)
 
           if (issues && issues.length) {
-            return issues[0].tokens || 0
+            return result + (issues[0].tokens || 0)
           }
         }
 

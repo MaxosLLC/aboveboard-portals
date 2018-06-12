@@ -7,7 +7,7 @@ class ShareholderDetailView extends Component {
   componentDidMount () {
     this
       .props
-      .loadShareholder()
+      .loadShareholder(this.props.currentUser)
   }
 
   render () {

@@ -1,4 +1,4 @@
-import Promise from 'bluebird'
+import Promise, { map } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ethereum from 'lib/ethereum'
@@ -25,14 +25,31 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     routeTo: path => dispatch(push(path)),
-    loadShareholders: currentUser => {
-      const query = { 'ethAddresses.issues.address': ownProps.match.params.address }
+    loadShareholders: async currentUser => {
+      const tokenAddress = ownProps.match.params.address
+      const query = { 'ethAddresses.issues.address': tokenAddress }
 
-      return dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
-        .then(({ value }) => {
-          console.log('value ', value)
-          return value
+      const { value } = await dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
+
+      value.data = await map(value.data, async investor => {
+        investor.ethAddresses = investor.ethAddresses.map(async ethAddress => {
+          if (Array.isArray(ethAddress.issues)) {
+            ethAddress.issues = ethAddress.issues.map(async issue => {
+              if (issue.address === tokenAddress) {
+                const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
+
+                issue.tokens = tokens
+              }
+
+              return issue
+            })
+          }
         })
+
+        return investor
+      })
+
+      return value
     },
     loadTransactions: () => {
       const query = { contractAddress: ownProps.match.params.address }

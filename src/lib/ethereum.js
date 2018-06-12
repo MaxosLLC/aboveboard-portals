@@ -31,7 +31,7 @@ const waitForWeb3 = async () => {
 
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
-console.log('get storage settings for token ', tokenAddress)
+  console.log('get storage settings for token ', tokenAddress)
   const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 

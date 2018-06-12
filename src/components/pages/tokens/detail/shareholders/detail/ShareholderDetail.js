@@ -3,6 +3,7 @@ import localServices from 'lib/feathers/local/feathersServices'
 import ShareholderDetailView from './ShareholderDetailView'
 
 const mapStateToProps = state => ({
+  currentUser: state.currentUser,
   shareholder: state.shareholder.queryResult ? state.shareholder.queryResult.data[0] || {} : {},
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
   loaded: state.token.isFinished && state.shareholder.isFinished
@@ -10,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadShareholder: () => dispatch(localServices.shareholder.find({ query: { id: ownProps.match.params.id, $limit: 1 } }))
+    loadShareholder: currentUser => dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query: { id: ownProps.match.params.id, $limit: 1 } }))
   }
 }
 
