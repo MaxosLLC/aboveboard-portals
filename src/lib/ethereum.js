@@ -31,7 +31,7 @@ const waitForWeb3 = async () => {
 
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
-
+console.log('get storage settings for token ', tokenAddress)
   const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
@@ -40,15 +40,15 @@ const getStorageSettingsForToken = async tokenAddress => {
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-  const deployedSettingsStorageContract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
-  promisifyAll(deployedSettingsStorageContract.getMessagingAddress)
-  promisifyAll(deployedSettingsStorageContract.setMessagingAddress)
-  promisifyAll(deployedSettingsStorageContract.getInititalOfferEndDate)
-  promisifyAll(deployedSettingsStorageContract.setInititalOfferEndDate)
-  promisifyAll(deployedSettingsStorageContract.getLocked)
-  promisifyAll(deployedSettingsStorageContract.setLocked)
+  const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
+  promisifyAll(contract.getMessagingAddress)
+  promisifyAll(contract.setMessagingAddress)
+  promisifyAll(contract.getInititalOfferEndDate)
+  promisifyAll(contract.setInititalOfferEndDate)
+  promisifyAll(contract.getLocked)
+  promisifyAll(contract.setLocked)
 
-  return deployedSettingsStorageContract
+  return contract
 }
 
 export default {
@@ -177,27 +177,34 @@ export default {
   },
 
   setMessagingAddress: async (messagingAddress, tokenAddress) => {
-    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+    const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const currentMessagingAddress = await deployedSettingsStorageContract.getMessagingAddress.callAsync(tokenAddress)
+    const currentMessagingAddress = await contract.getMessagingAddress.callAsync(tokenAddress)
     if (currentMessagingAddress !== messagingAddress) {
-      const gas = await deployedSettingsStorageContract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
+      const gas = await contract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
 
-      return deployedSettingsStorageContract.setMessagingAddress.sendTransactionAsync(tokenAddress, messagingAddress, { from: currentAccount, gas })
+      return contract.setMessagingAddress.sendTransactionAsync(tokenAddress, messagingAddress, { from: currentAccount, gas })
     }
   },
 
   getTradingLock: async tokenAddress => {
-    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+    const contract = await getStorageSettingsForToken(tokenAddress)
 
-    return deployedSettingsStorageContract.getLocked.callAsync(tokenAddress)
+    return contract.getLocked.callAsync(tokenAddress)
   },
 
   setTradingLock: async (tokenAddress, locked) => {
-    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+    const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const gas = await deployedSettingsStorageContract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
+    const gas = await contract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
 
-    return deployedSettingsStorageContract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
+    return contract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
+  },
+
+  getBalanceForAddress: async (tokenAddress, investorAddress) => {
+    const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+    promisifyAll(contract.balanceOf)
+
+    return contract.balanceOf.callAsync(tokenAddress)
   }
 }

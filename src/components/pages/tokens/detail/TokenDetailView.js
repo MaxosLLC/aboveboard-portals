@@ -163,7 +163,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
+    const { loaded, currentUser, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
     const { activeIndex, locked, totalShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
@@ -210,10 +210,10 @@ class InvestorDetailView extends Component {
                       <span className='sortButtons'>
                         <Image
                           src={sortUpSrc}
-                          onClick={() => { setSort('shareholders', { [shareholderHeader.sortOption]: 1 }) }} />
+                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: 1 }) }} />
                         <Image
                           src={sortDownSrc}
-                          onClick={() => { setSort('shareholders', { [shareholderHeader.sortOption]: -1 }) }} />
+                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: -1 }) }} />
                       </span>
                     </Table.HeaderCell>
                   ) }
@@ -256,7 +256,7 @@ class InvestorDetailView extends Component {
                               ) + 1
                             : 1
                         }
-                        onPageChange={(e, { activePage }) => setPage('shareholders', activePage - 1)}
+                        onPageChange={(e, { activePage }) => setPage(currentUser.role === 'issuer' ? 'shareholders' : 'investors', activePage - 1)}
                       />
                     </Table.HeaderCell>
                   </TableRow>

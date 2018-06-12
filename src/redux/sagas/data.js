@@ -11,7 +11,7 @@ function * fetch ({ model }) {
   const $sort = sort[model]
   const $skip = page[model] * 25
 
-  const query = model === 'shareholders'
+  const query = model === 'shareholders' || model === 'investors'
     ? { 'ethAddresses.issues.address': tokenAddress, $sort, $skip }
     : { contractAddress: tokenAddress, $sort, $skip }
 
