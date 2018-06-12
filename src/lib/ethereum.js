@@ -209,6 +209,8 @@ export default {
 
     const test = await web3.eth.getBalanceAsync(investorAddress)
     console.log('test balance ', test)
+    console.log('test balance number ', test.toNumber())
+    console.log('test balance string ', test.toString())
 
     const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(contract.balanceOf)
