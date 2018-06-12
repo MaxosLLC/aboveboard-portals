@@ -1,3 +1,4 @@
+import Promise, { map } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ethereum from 'lib/ethereum'
@@ -30,6 +31,26 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       const { value } = await dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
 
+      value.data = await map(value.data, async investor => {
+        investor.ethAddresses = await map(investor.ethAddresses, async ethAddress => {
+          if (Array.isArray(ethAddress.issues)) {
+            ethAddress.issues = await map(ethAddress.issues, async issue => {
+              if (issue.address === tokenAddress) {
+                const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
+
+                issue.tokens = tokens
+              }
+
+              return issue
+            })
+          }
+
+          return ethAddress
+        })
+
+        return investor
+      })
+
       return value
     },
     loadTransactions: () => {
@@ -61,7 +82,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
     setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
     getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
-    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading)
+    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading),
   }
 }
 
