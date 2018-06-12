@@ -14,7 +14,10 @@ function * fetch ({ model }) {
   const query = model === 'shareholders' || model === 'investors'
     ? { 'ethAddresses.issues.address': tokenAddress, $sort, $skip }
     : { contractAddress: tokenAddress, $sort, $skip }
-
+console.log('model ', model)
+console.log('$sort ', $sort)
+console.log('$skip ', $skip)
+console.log('query ', query)
   if (search[model]) { query.search = search[model] }
 
   const { value } = yield store.dispatch(localServices[model.replace(/s$/, '')].find({ query }))
