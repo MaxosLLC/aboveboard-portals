@@ -391,12 +391,12 @@ class InvestorDetailView extends Component {
           <div className='tradingToggle'>
             <span>
               <strong>Trading: </strong>
-              {locked ? 'Active' : 'Paused'}
+              {locked ? 'Paused' : 'Active'}
             </span>
             <Checkbox
               toggle
               onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked })) }
-              checked={locked} />
+              checked={!locked} />
           </div>
         }
         <div>
