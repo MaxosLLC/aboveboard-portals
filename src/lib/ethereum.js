@@ -214,7 +214,7 @@ export default {
 console.log('balance type ', typeof balance)
 console.log('balance ', balance)
 console.log('balance keysd', Object.keys(balance))
-console.log('balance json ', JSON.stringify(balance.null, 2))
-    return balance
+console.log('balance striung  ', balance.toString())
+    return balance.toString()
   }
 }
