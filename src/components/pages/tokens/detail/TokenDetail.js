@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
         .then(({ value }) => {
           console.log('value ', value)
-          value
+          return value
         })
     },
     loadTransactions: () => {
