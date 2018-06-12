@@ -49,6 +49,8 @@ console.log('lsh6 ', tokens)
               return issue
             })
           }
+
+          return ethAddress
         })
 
         return investor
