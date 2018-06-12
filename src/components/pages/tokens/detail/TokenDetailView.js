@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import { join } from 'bluebird'
+import { join, reduce } from 'bluebird'
 import moment from 'moment'
 import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
+import ethereum from 'lib/ethereum'
 import './TokenDetail.css'
 
 const iconsPath = '/images/icons'
@@ -48,6 +49,51 @@ const processDownload = (type, href) => {
   tempAnchor.remove()
 }
 
+const formatShareholderTableData = async (component, tokenAddress, shareholders, transactions) => {
+  const quantityByShareholderId = {}
+
+  const tokensTransferred = await reduce(shareholders, async (result1, shareholder) => {
+    const quantity = await reduce(shareholder.ethAddresses, async (result2, ethAddress) => {
+      if (result2) { return result2 }
+
+      if (Array.isArray(ethAddress.issues)) {
+        const issues = ethAddress.issues.filter(issue => issue.address === tokenAddress)
+
+        if (issues && issues.length) {
+          const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
+
+          return result2 + (tokens || 0)
+        }
+      }
+
+      return result2
+    }, 0)
+
+    quantityByShareholderId[shareholder.id] = quantity
+
+    return result1 + quantity
+  }, 0)
+
+  const formattedShareholders = shareholders.map(shareholder => {
+    const shareholderTransctions = transactions
+      .filter(({ shareholderEthAddress }) => shareholder.ethAddresses.some(({ address }) => shareholderEthAddress === address))
+    const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
+
+    const quantity = quantityByShareholderId[shareholder.id]
+    const percent = (quantity / tokensTransferred * 100).toFixed(1)
+
+    return Object.assign({}, shareholder, {
+      transactions: {
+        quantity,
+        percent,
+        lastCreated
+      }
+    })
+  })
+
+  component.setState({ formattedShareholders })
+}
+
 class InvestorDetailView extends Component {
   constructor () {
     super()
@@ -55,7 +101,8 @@ class InvestorDetailView extends Component {
       activeIndex: 0,
       totalShareholders: 0,
       totalTransactions: 0,
-      locked: undefined
+      locked: undefined,
+      formattedShareholders: []
     }
   }
   componentDidMount () {
@@ -99,48 +146,6 @@ class InvestorDetailView extends Component {
       }
     ]
   }
-  formatShareholderTableData (shareholders, transactions) {
-    const { address } = this.props.localToken
-
-    const quantityByShareholderId = {}
-
-    const tokensTransferred = shareholders.reduce((result1, shareholder) => {
-      const quantity = shareholder.ethAddresses.reduce((result2, ethAddress) => {
-        if (result2) { return result2 }
-
-        if (Array.isArray(ethAddress.issues)) {
-          const issues = ethAddress.issues.filter(issue => issue.address === address)
-
-          if (issues && issues.length) {
-            return result2 + (issues[0].tokens || 0)
-          }
-        }
-
-        return result2
-      }, 0)
-
-      quantityByShareholderId[shareholder.id] = quantity
-
-      return result1 + quantity
-    }, 0)
-
-    return shareholders.map(shareholder => {
-      const shareholderTransctions = transactions
-        .filter(({ shareholderEthAddress }) => shareholder.ethAddresses.some(({ address }) => shareholderEthAddress === address))
-      const lastCreated = (shareholderTransctions[0] || {}).createdAt || 0
-
-      const quantity = quantityByShareholderId[shareholder.id]
-      const percent = (quantity / tokensTransferred * 100).toFixed(1)
-
-      return Object.assign({}, shareholder, {
-        transactions: {
-          quantity,
-          percent,
-          lastCreated
-        }
-      })
-    })
-  }
   downloadCsvData (type) {
     if (type === 'shareholder') {
       this.props.loadAll('shareholder')
@@ -174,9 +179,11 @@ class InvestorDetailView extends Component {
   }
   render () {
     const { loaded, currentUser, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
-    const { activeIndex, locked, totalShareholders } = this.state
+    const { activeIndex, locked, totalShareholders, formattedShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
+
+    formatShareholderTableData(this, localToken.address, shareholdersWithData, transactions)
 
     const handleSearch = (e, { value }) => {
       setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', value)
@@ -231,8 +238,7 @@ class InvestorDetailView extends Component {
                 </TableRow>
               </Table.Header>
               <Table.Body>
-                {this
-                  .formatShareholderTableData(shareholdersWithData, transactions)
+                {formattedShareholders
                   .map((shareholder, i) => <TableRow
                     name='shareholders'
                     key={shareholder.id}
@@ -395,7 +401,7 @@ class InvestorDetailView extends Component {
             </span>
             <Checkbox
               toggle
-              onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked })) }
+              onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked }))}
               checked={!locked} />
           </div>
         }
