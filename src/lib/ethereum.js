@@ -204,22 +204,13 @@ export default {
   },
 
   getBalanceForAddress: async (tokenAddress, investorAddress) => {
-    console.log('getting balance from token ' + tokenAddress + ' for eth address ' + investorAddress)
     await waitForWeb3()
-
-    const test = await web3.eth.getBalanceAsync(investorAddress)
-    console.log('test balance ', test)
-    console.log('test balance number ', test.toNumber())
-    console.log('test balance string ', test.toString())
 
     const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     promisifyAll(contract.balanceOf)
 
-    const balance = await contract.balanceOf.callAsync(investorAddress).valueOf()
-console.log('balance ', balance)
-console.log('balance tonumber ', balance.toNumber())
-console.log('balance keysd', Object.keys(balance))
-console.log('balance striung  ', balance.toString())
-    return balance.toString()
+    const balance = await contract.balanceOf.callAsync(investorAddress)
+
+    return balance.toNumber()
   }
 }
