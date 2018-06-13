@@ -48,7 +48,7 @@ export default {
         const { $skip, $sort, search } = getCurrentQueryParams('transactions')
         const contractAddress = window.location.pathname.split('/')[2]
 
-        const result = await localServices.transaction.find({ query: { contractAddress, $limit: 0 }})
+        const result = await localServices.transaction.find({ query: { contractAddress, $limit: 0 } })
         const { total: tokens } = await result.payload.promise
         store.dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens })
         store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
