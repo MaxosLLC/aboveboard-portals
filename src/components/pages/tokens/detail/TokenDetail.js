@@ -1,4 +1,4 @@
-import Promise, { map } from 'bluebird'
+import { map } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ethereum from 'lib/ethereum'
