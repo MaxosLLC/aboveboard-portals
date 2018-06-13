@@ -175,7 +175,11 @@ class InvestorDetailView extends Component {
   render () {
     const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
     const { activeIndex, locked, totalShareholders } = this.state
-    const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
+    const shareholdersWithData = shareholders.map(shareholder => {
+      if (shareholder.firstName) { return shareholder }
+
+      return Object.assign({}, shareholder, { firstName: 'No', lastName: 'Data' })
+    })
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
@@ -304,7 +308,7 @@ class InvestorDetailView extends Component {
                       .map(transaction => <TableRow key={transaction.id}>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/tx/${transaction.transactionHash}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/tx/${transaction.transactionHash}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -316,7 +320,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/address/${transaction.fromEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${transaction.fromEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -333,7 +337,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${transaction.shareholderEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -378,7 +382,7 @@ class InvestorDetailView extends Component {
       <div className='investorsComponent'>
         <Header as='h2' className='tokenHeader'>
           <Link
-            to={`https://kovan.etherscan.io/address/${token.address}`}
+            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${token.address}`}
             target='_blank'
             rel='noopener noreferrer'>
             {token.name}
