@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 
 const appType = /issuer/.test(window.location.hostname) ? 'issuer' : /direct/.test(window.location.hostname) ? 'direct' : 'broker'
 
-export const url = window.REACT_APP_APP_TYPE ? `https://${window.location.hostname}/local-api/`
+export const url = window.REACT_APP_APP_TYPE ? `https://${window.location.host}/local-api/`
   : process.env.REACT_APP_NODE_ENV === 'test' ? process.env[`REACT_APP_${appType.toUpperCase()}_LOCAL_API_TEST_URL`]
   : appType === 'broker' ? process.env.REACT_APP_BROKER_LOCAL_API_URL || 'https://aboveboard-broker-api.herokuapp.com/'
   : appType === 'direct' ? process.env.REACT_APP_DIRECT_LOCAL_API_URL || 'https://aboveboard-direct-api.herokuapp.com/'
