@@ -17,47 +17,45 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const loadInvestor = id => dispatch(localServices.investor.find({ query: { id, $limit: 1 } }))
   return {
     loadInvestor,
-    editInvestor: newData =>
-      loadInvestor(newData.id)
-        .then(({ value }) => {
-          const [originalData] = value.data
-          const addedEthAddresses = differenceBy(newData.ethAddresses || [], originalData.ethAddresses || [], 'address')
-          const removedEthAddresses = differenceBy(originalData.ethAddresses || [], newData.ethAddresses || [], 'address')
+    editInvestor: async newData => {
+      const { value } = await loadInvestor(newData.id)
+      const [originalData] = value.data
+      const addedEthAddresses = differenceBy(newData.ethAddresses || [], originalData.ethAddresses || [], 'address')
+      const removedEthAddresses = differenceBy(originalData.ethAddresses || [], newData.ethAddresses || [], 'address')
 
-          return each(addedEthAddresses, ethAddress => {
-            if (Array.isArray(ethAddress.whitelists)) {
-              return each(ethAddress.whitelists, whitelist =>
-                ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
-            }
-          })
-            .then(() => {
-              return each(removedEthAddresses, ethAddress => {
-                if (Array.isArray(ethAddress.whitelists)) {
-                  return each(ethAddress.whitelists, whitelist =>
-                    ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address))
-                }
-              })
-            })
-            .then(() => {
-              return each(newData.ethAddresses, ethAddress => {
-                const originalWhitelists = ethAddress.whitelists || []
+      await each(addedEthAddresses, ethAddress => {
+        if (Array.isArray(ethAddress.whitelists)) {
+          return each(ethAddress.whitelists, whitelist =>
+            ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
+        }
+      })
 
-                return each(originalData.ethAddresses, originalEthAddress => {
-                  if (originalEthAddress === ethAddress) {
-                    const currentWhitelists = originalEthAddress.whitelists || []
+      await each(removedEthAddresses, ethAddress => {
+        if (Array.isArray(ethAddress.whitelists)) {
+          return each(ethAddress.whitelists, whitelist =>
+            ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address))
+        }
+      })
 
-                    const addedWhitelists = differenceBy(originalWhitelists, currentWhitelists, 'address')
-                    const removedWhitelists = differenceBy(currentWhitelists, originalWhitelists, 'address')
+      await each(newData.ethAddresses, ethAddress => {
+        const originalWhitelists = ethAddress.whitelists || []
 
-                    return each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
-                      .then(() => each(removedWhitelists, whitelist => ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address)))
-                  }
-                })
-              })
-            })
+        return each(originalData.ethAddresses, async originalEthAddress => {
+          if (originalEthAddress.address === ethAddress.address) {
+            const currentWhitelists = originalEthAddress.whitelists || []
+
+            const addedWhitelists = differenceBy(originalWhitelists, currentWhitelists, 'address')
+            const removedWhitelists = differenceBy(currentWhitelists, originalWhitelists, 'address')
+
+            await each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
+            await each(removedWhitelists, whitelist => ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address))
+          }
         })
-        .then(() => dispatch(localServices.investor.patch(null, newData, { query: { id: newData.id } })))
-        .then(() => dispatch(push('/buyers'))),
+      })
+
+      await dispatch(localServices.investor.patch(null, newData, { query: { id: newData.id } }))
+      await dispatch(push('/buyers'))
+    },
     routeTo: path => ownProps.history.push(path)
   }
 }
