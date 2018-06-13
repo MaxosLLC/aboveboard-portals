@@ -1,6 +1,7 @@
 import client from 'lib/feathers/local/feathersClient'
 import localServices from 'lib/feathers/local/feathersServices'
 import store from 'redux/store'
+import { throttle } from 'lodash'
 
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
@@ -42,15 +43,17 @@ export default {
         store.dispatch(localServices.shareholder.find({ query: { id, $limit: 1 } }))
       }
     })
-    client.service('transaction').on('created', data => {
+    client.service('transaction').on('created', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const { $skip, $sort, search } = getCurrentQueryParams('transactions')
         const contractAddress = window.location.pathname.split('/')[2]
 
-        store.dispatch({ type: 'INCREMENT_TOTAL_TRANSACTIONS', contractAddress })
+        const result = await localServices.transaction.find({ query: { contractAddress, $limit: 0 } })
+        const { total: tokens } = await result.payload.promise
+        store.dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens })
         store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
       }
-    })
+    }, 3000))
     client.service('localToken').on('patched', data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const address = window.location.pathname.split('/')[2]

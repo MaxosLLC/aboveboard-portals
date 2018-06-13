@@ -142,10 +142,10 @@ class InvestorDetailView extends Component {
     })
   }
   downloadCsvData (type) {
-    if (type === 'shareholder') {
-      this.props.loadAll('shareholder')
+    if (type === 'shareholder' || type === 'investor') {
+      this.props.loadAll(type)
         .then(shareholders => {
-          const headers = 'ID, First Name, Last Name, Email, Phone, Address, City, State, Country, Zip, Ethereum Addresses, Balance\n'
+          const headers = '"ID", "First Name", "Last Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Ethereum Addresses", "Balance"\n'
           const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, shareholder) => {
@@ -160,12 +160,12 @@ class InvestorDetailView extends Component {
     if (type === 'transaction') {
       this.props.loadAll('transaction')
         .then(transactions => {
-          const headers = 'ID, Transaction Hash, Contract Address, Shareholder Ethereum Address, From Ethereum Address, Tokens, Date, Timestamp\n'
+          const headers = '"ID", "Transaction Hash", "Contract Address", "Shareholder Ethereum Address", "From Ethereum Address", "Tokens", "Date"\n'
           const csvSafeData = transactions.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, transaction) => {
             const { id, transactionHash, contractAddress, shareholderEthAddress, fromEthAddress, tokens, createdAt } = transaction
-            return `${result}${id},${transactionHash},${contractAddress},${shareholderEthAddress},${fromEthAddress},${tokens},${moment(createdAt).format('MMMM Do YYYY - h:mm:ss a')},${(new Date(createdAt)).getTime()}\n`
+            return `${result}${id},${transactionHash},${contractAddress},${shareholderEthAddress},${fromEthAddress},${tokens},"${moment(createdAt).format('MMMM Do YYYY - h:mm:ss a')}"\n`
           }, headers)
 
           return processDownload(type, `data:text/csv;charset=utf-8,${encodeURI(csv)}`)
@@ -173,9 +173,13 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentUser, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
+    const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
     const { activeIndex, locked, totalShareholders } = this.state
-    const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
+    const shareholdersWithData = shareholders.map(shareholder => {
+      if (shareholder.firstName) { return shareholder }
+
+      return Object.assign({}, shareholder, { firstName: 'No', lastName: 'Data' })
+    })
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
@@ -227,7 +231,7 @@ class InvestorDetailView extends Component {
                       </span>
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                  <Table.HeaderCell><a onClick={() => this.downloadCsvData(currentUser.role === 'issuer' ? 'shareholder' : 'investor')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </TableRow>
               </Table.Header>
               <Table.Body>
@@ -304,7 +308,7 @@ class InvestorDetailView extends Component {
                       .map(transaction => <TableRow key={transaction.id}>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/tx/${transaction.transactionHash}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/tx/${transaction.transactionHash}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -316,7 +320,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/address/${transaction.fromEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${transaction.fromEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -333,7 +337,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://kovan.etherscan.io/address/${transaction.shareholderEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${transaction.shareholderEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -378,7 +382,7 @@ class InvestorDetailView extends Component {
       <div className='investorsComponent'>
         <Header as='h2' className='tokenHeader'>
           <Link
-            to={`https://kovan.etherscan.io/address/${token.address}`}
+            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${token.address}`}
             target='_blank'
             rel='noopener noreferrer'>
             {token.name}
@@ -395,7 +399,7 @@ class InvestorDetailView extends Component {
             </span>
             <Checkbox
               toggle
-              onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked })) }
+              onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked }))}
               checked={!locked} />
           </div>
         }

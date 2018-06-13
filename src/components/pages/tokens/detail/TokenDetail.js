@@ -1,4 +1,4 @@
-import Promise, { map } from 'bluebird'
+import { map } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ethereum from 'lib/ethereum'
@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const allData = []
 
       const fetchPage = (page = 0) =>
-        localClient.service(type).find({ query: { $skip: page * 25, [type === 'shareholder' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
+        localClient.service(type).find({ query: { $skip: page * 25, [type === 'shareholder' || type === 'investor' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
           .then(({ data }) => {
             data.forEach(item => { allData.push(item) })
 
@@ -82,7 +82,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
     setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
     getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
-    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading),
+    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading)
   }
 }
 

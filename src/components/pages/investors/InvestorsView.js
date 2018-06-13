@@ -150,17 +150,7 @@ class InvestorsView extends Component {
                       <Table.Cell>{investor.lastName}</Table.Cell>
                       <Table.Cell>{investor.email}</Table.Cell>
                       <Table.Cell>{investor.phone}</Table.Cell>
-                      <Table.Cell>
-                        {investor.addressLine1}
-                        {investor.addressLine2
-                          ? ` ${investor.addressLine2},`
-                          : ','}{' '}
-                        <br />
-                        {investor.city},{' '}
-                        {investor.state ? `${investor.state}, ` : ''}
-                        <br />
-                        {investor.country}, {investor.zip}
-                      </Table.Cell>
+                      <Table.Cell>{investor.country}</Table.Cell>
                       <Table.Cell>
                         {qualificationByCode[investor.qualifications] || ''}
                       </Table.Cell>
