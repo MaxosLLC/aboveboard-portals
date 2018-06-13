@@ -145,7 +145,7 @@ class InvestorDetailView extends Component {
     if (type === 'shareholder') {
       this.props.loadAll('shareholder')
         .then(shareholders => {
-          const headers = 'ID, First Name, Last Name, Email, Phone, Address, City, State, Country, Zip, Ethereum Addresses, Balance\n'
+          const headers = '"ID", "First Name", "Last Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Ethereum Addresses", "Balance"\n'
           const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, shareholder) => {
@@ -160,12 +160,12 @@ class InvestorDetailView extends Component {
     if (type === 'transaction') {
       this.props.loadAll('transaction')
         .then(transactions => {
-          const headers = 'ID, Transaction Hash, Contract Address, Shareholder Ethereum Address, From Ethereum Address, Tokens, Date, Timestamp\n'
+          const headers = '"ID", "Transaction Hash", "Contract Address", "Shareholder Ethereum Address", "From Ethereum Address", "Tokens", "Date"\n'
           const csvSafeData = transactions.map(convertToCSVSafeObject(this.props.token.address))
 
           const csv = csvSafeData.reduce((result, transaction) => {
             const { id, transactionHash, contractAddress, shareholderEthAddress, fromEthAddress, tokens, createdAt } = transaction
-            return `${result}${id},${transactionHash},${contractAddress},${shareholderEthAddress},${fromEthAddress},${tokens},${moment(createdAt).format('MMMM Do YYYY - h:mm:ss a')},${(new Date(createdAt)).getTime()}\n`
+            return `${result}${id},${transactionHash},${contractAddress},${shareholderEthAddress},${fromEthAddress},${tokens},"${moment(createdAt).format('MMMM Do YYYY - h:mm:ss a')}"\n`
           }, headers)
 
           return processDownload(type, `data:text/csv;charset=utf-8,${encodeURI(csv)}`)
