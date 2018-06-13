@@ -142,8 +142,8 @@ class InvestorDetailView extends Component {
     })
   }
   downloadCsvData (type) {
-    if (type === 'shareholder') {
-      this.props.loadAll('shareholder')
+    if (type === 'shareholder' || type === 'investor') {
+      this.props.loadAll(type)
         .then(shareholders => {
           const headers = '"ID", "First Name", "Last Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Ethereum Addresses", "Balance"\n'
           const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
