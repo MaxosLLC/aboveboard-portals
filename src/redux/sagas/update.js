@@ -1,20 +1,18 @@
-import { all, takeLatest } from 'redux-saga/effects'
+import { all, takeLatest, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
+import localServices from 'lib/feathers/local/feathersServices'
+
 import store from 'redux/store'
-import request from 'superagent'
 
 function * update () {
   try {
-    // Request update
-    yield request
-      .post(`${window.location.hostname}/update-api`)
-      .send()
-
-    // Give 1 second timeout
-    yield delay(1000)
-
-    // reload page
+    const currentUser = yield select(s => s.currentUser)
+    yield store.dispatch(localServices.user.patch(currentUser._id, {
+      updating: true
+    }))
+    // Wait for 10 seconds
+    yield delay(10000)
     window.location.reload()
   } catch (e) {
     console.error(e)

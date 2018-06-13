@@ -1,4 +1,4 @@
-import Promise, { map } from 'bluebird'
+import { map } from 'bluebird'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ethereum from 'lib/ethereum'
@@ -82,7 +82,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
     setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
     getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
-    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading),
+    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading)
   }
 }
 

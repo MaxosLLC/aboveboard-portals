@@ -242,6 +242,7 @@ let EditInvestorForm = props => {
               <Grid.Column>
                 <Label>Qualifications *</Label>
                 <Dropdown
+                  multiple
                   selection
                   search
                   name='qualifications'
