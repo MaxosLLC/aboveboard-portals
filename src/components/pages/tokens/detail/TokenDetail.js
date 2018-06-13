@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const allData = []
 
       const fetchPage = (page = 0) =>
-        localClient.service(type).find({ query: { $skip: page * 25, [type === 'shareholder' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
+        localClient.service(type).find({ query: { $skip: page * 25, [type === 'shareholder' || type === 'investor' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
           .then(({ data }) => {
             data.forEach(item => { allData.push(item) })
 

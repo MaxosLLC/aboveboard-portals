@@ -173,7 +173,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentUser, token, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
+    const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
     const { activeIndex, locked, totalShareholders } = this.state
     const shareholdersWithData = shareholders.filter(shareholder => shareholder.firstName)
     const stats = this.setStats(totalShareholders, totalTransactions)
@@ -227,7 +227,7 @@ class InvestorDetailView extends Component {
                       </span>
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('shareholder')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                  <Table.HeaderCell><a onClick={() => this.downloadCsvData(currentUser.role === 'issuer' ? 'shareholder' : 'investor')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </TableRow>
               </Table.Header>
               <Table.Body>
