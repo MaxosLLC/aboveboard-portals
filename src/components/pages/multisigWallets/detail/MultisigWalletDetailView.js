@@ -12,8 +12,7 @@ class MultisigWalletDetailView extends Component {
     // const { addresses } = this.state
 
     return (
-      <div className='multisigWalletDetailComponent'>
-      </div>
+      <div className='multisigWalletDetailComponent' />
     )
   }
 }
