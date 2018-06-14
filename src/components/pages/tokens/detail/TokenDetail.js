@@ -25,6 +25,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     routeTo: path => dispatch(push(path)),
+    setCurrentToken: tokenAddress => dispatch({ type: 'SET_CURRENT_TOKEN', tokenAddress }),
     loadShareholders: async currentUser => {
       const tokenAddress = ownProps.match.params.address
       const query = { 'ethAddresses.issues.address': tokenAddress }
