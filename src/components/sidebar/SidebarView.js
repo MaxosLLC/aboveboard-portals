@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Image } from 'semantic-ui-react'
 import './Sidebar.css'
 
+// const { REACT_APP_VERSION } = window
 const MenuItem = Menu.Item
 
 const walletSrc = '/images/icons/wallet.svg'
@@ -22,6 +23,7 @@ class SidebarView extends Component {
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
+          { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
         { currentUser.role === 'buyer' &&
           <MenuItem name='buyers' onClick={() => routeTo(`/buyers/your-info`)} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
