@@ -19,6 +19,8 @@ class SidebarView extends Component {
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 
+    const MenuItem = Menu.Item
+
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
@@ -43,7 +45,7 @@ class SidebarView extends Component {
         </MenuItem>
         { currentUser.role === 'issuer' || currentUser.role === 'direct' || currentUser.role === 'broker'
           ? <MenuItem name='multisigwallets' onClick={() => routeTo('/multi-signature-wallets')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            <span><Image src={dollarSignSrc} className='menuIcon' />Multisig Wallets</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
+            <span><Image src={dollarSignSrc} className='menuIcon' />Multi Signature Wallets</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
         : null }
         <MenuItem className='sidebarMenuItem'>
