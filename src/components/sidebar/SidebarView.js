@@ -23,7 +23,7 @@ class SidebarView extends Component {
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
-          <p className='version'>{ REACT_APP_VERSION ? REACT_APP_VERSION : '1.0.0' }</p>
+          <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p>
         </MenuItem>
         { currentUser.role === 'buyer' &&
           <MenuItem name='buyers' onClick={() => routeTo(`/buyers/your-info`)} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
