@@ -5,14 +5,12 @@ import request from 'superagent'
 import store from 'redux/store'
 
 function * update () {
-
-
   try {
     if (!window.localStorage || !window.localStorage.getItem) {
       throw new Error('No localStorage!')
     }
     const accessToken = window.localStorage.getItem('local-feathers-jwt')
-    await request
+    yield request
       .post('/update-api/update')
       .send()
       .set('Authorization', accessToken)
