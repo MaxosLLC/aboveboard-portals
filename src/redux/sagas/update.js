@@ -1,4 +1,4 @@
-import { all, takeLatest, select } from 'redux-saga/effects'
+import { all, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import request from 'superagent'
 
