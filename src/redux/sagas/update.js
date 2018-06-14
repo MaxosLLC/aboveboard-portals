@@ -1,18 +1,22 @@
-import { all, takeLatest, select } from 'redux-saga/effects'
+import { all, takeLatest } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-
-import localServices from 'lib/feathers/local/feathersServices'
+import request from 'superagent'
 
 import store from 'redux/store'
 
 function * update () {
   try {
-    const currentUser = yield select(s => s.currentUser)
-    yield store.dispatch(localServices.user.patch(currentUser._id, {
-      updating: true
-    }))
-    // Wait for 10 seconds
-    yield delay(10000)
+    if (!window.localStorage || !window.localStorage.getItem) {
+      throw new Error('No localStorage!')
+    }
+    const accessToken = window.localStorage.getItem('local-feathers-jwt')
+    yield request
+      .post('/update-api/update')
+      .send()
+      .set('Authorization', accessToken)
+
+    // Wait for 15 seconds
+    yield delay(20000)
     window.location.reload()
   } catch (e) {
     console.error(e)
