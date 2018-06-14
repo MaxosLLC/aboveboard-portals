@@ -15,8 +15,8 @@ function * update () {
       .send()
       .set('Authorization', accessToken)
 
-    // Wait for 10 seconds
-    yield delay(10000)
+    // Wait for 15 seconds
+    yield delay(20000)
     window.location.reload()
   } catch (e) {
     console.error(e)
