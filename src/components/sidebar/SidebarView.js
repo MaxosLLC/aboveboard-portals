@@ -41,7 +41,7 @@ class SidebarView extends Component {
         <MenuItem
           active={tokenDetailRegexp.test(router.location.pathname)}
           className='sidebarMenuItem'
-          onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null }>
+          onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
           <span><Image src={barsSrc} className='menuIcon' />Dashboard</span>
         </MenuItem>
         <MenuItem className='sidebarMenuItem'>
