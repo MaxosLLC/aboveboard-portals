@@ -16,7 +16,7 @@ const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 
 class SidebarView extends Component {
   render () {
-    const { connected, currentUser, routeTo, router } = this.props
+    const { connected, currentUser, currentToken, routeTo, router } = this.props
 
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
@@ -38,7 +38,10 @@ class SidebarView extends Component {
             <span><Image src={dollarSignSrc} className='menuIcon' />Securities</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
           </MenuItem>
         }
-        <MenuItem active={tokenDetailRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+        <MenuItem
+          active={tokenDetailRegexp.test(router.location.pathname)}
+          className='sidebarMenuItem'
+          onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
           <span><Image src={barsSrc} className='menuIcon' />Dashboard</span>
         </MenuItem>
         <MenuItem className='sidebarMenuItem'>

@@ -58,7 +58,7 @@ class InvestorDetailView extends Component {
       locked: undefined
     }
   }
-  componentDidMount () {
+  async componentDidMount () {
     join(
       this.props.loadShareholders(this.props.currentUser),
       this.props.loadTransactions(),
@@ -66,13 +66,10 @@ class InvestorDetailView extends Component {
         this.setState({ totalShareholders, totalTransactions })
       })
 
-    this
-      .props
-      .loadLocalToken()
-      .then(() => {
-        this.props.getTokenTrading(this.props.localToken.address)
-          .then(locked => this.setState({ locked }))
-      })
+    await this.props.loadLocalToken()
+    await this.props.setCurrentToken(this.props.localToken.address)
+    const locked = await this.props.getTokenTrading(this.props.localToken.address)
+    this.setState({ locked })
   }
   getShareholderName (address, shareholders) {
     const shareholder = shareholders.filter(shareholder => shareholder.ethAddresses.some(ethAddress => ethAddress.address === address))[0]
