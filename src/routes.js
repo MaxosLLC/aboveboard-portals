@@ -11,6 +11,7 @@ import InvestorDetail from 'components/pages/investors/detail/InvestorDetail'
 import ShareholderDetail from 'components/pages/tokens/detail/shareholders/detail/ShareholderDetail'
 import AddInvestor from 'components/pages/investors/add/AddInvestor'
 import EditInvestor from 'components/pages/investors/edit/EditInvestor'
+import PendingTransactions from 'components/pages/pendingTransactions/PendingTransactions'
 import MultisigWallets from 'components/pages/multisigWallets/MultisigWallets'
 import MultisigWalletDetail from 'components/pages/multisigWallets/detail/MultisigWalletDetail'
 import Settings from 'components/pages/settings/Settings'
@@ -26,6 +27,7 @@ class Routes extends Component {
         <EnsureLoggedIn>
           <Route exact path='/' component={Home} />
           <Route exact path='/settings' component={Settings} />
+          <Route exact path='/pending-transactions' component={PendingTransactions} />
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers' component={Investors} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/add' component={AddInvestor} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/buyers/:id/detail' component={InvestorDetail} /> : '' }
@@ -34,8 +36,8 @@ class Routes extends Component {
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
-          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/multi-signature-wallets' component={MultisigWallets} /> : '' }
-          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/multi-signature-wallets/:address/detail' component={MultisigWalletDetail} /> : '' }
+          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature' component={MultisigWallets} /> : '' }
+          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
         </EnsureLoggedIn>
       </Switch>
     )
