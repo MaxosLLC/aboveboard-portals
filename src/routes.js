@@ -11,6 +11,8 @@ import InvestorDetail from 'components/pages/investors/detail/InvestorDetail'
 import ShareholderDetail from 'components/pages/tokens/detail/shareholders/detail/ShareholderDetail'
 import AddInvestor from 'components/pages/investors/add/AddInvestor'
 import EditInvestor from 'components/pages/investors/edit/EditInvestor'
+import MultisigWallets from 'components/pages/multisigWallets/MultisigWallets'
+import MultisigWalletDetail from 'components/pages/multisigWallets/detail/MultisigWalletDetail'
 import Settings from 'components/pages/settings/Settings'
 import EnsureLoggedIn from 'components/auth/EnsureLoggedIn'
 
@@ -32,6 +34,8 @@ class Routes extends Component {
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
+          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/multi-signature-wallets' component={MultisigWallets} /> : '' }
+          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/multi-signature-wallets/:address/detail' component={MultisigWalletDetail} /> : '' }
         </EnsureLoggedIn>
       </Switch>
     )
