@@ -5,15 +5,12 @@ import './Sidebar.css'
 // const { REACT_APP_VERSION } = window
 const MenuItem = Menu.Item
 
-const walletSrc = '/images/icons/wallet.svg'
-const dollarSignSrc = '/images/icons/dollarSign.svg'
-const sortArrowsSrc = '/images/icons/sortArrows.svg'
-const barsSrc = '/images/icons/bars.svg'
 const logoSrc = '/images/logo.png'
 
 const buyersRegexp = /^\/buyer/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
+const pendingTransactionsRegexp = /^\/pending-transactions/
 
 class SidebarView extends Component {
   render () {
@@ -27,28 +24,31 @@ class SidebarView extends Component {
         </MenuItem>
         { currentUser.role === 'broker' || currentUser.role === 'direct'
           ? <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            <span><Image src={dollarSignSrc} className='menuIcon' />Buyers</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
+            Buyers
           </MenuItem>
         : null }
         { currentUser.role === 'issuer' || currentUser.role === 'direct'
           ? <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            <span><Image src={dollarSignSrc} className='menuIcon' />Securities</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
+            Securities
           </MenuItem>
         : null }
         <MenuItem
           active={tokenDetailRegexp.test(router.location.pathname)}
           className='sidebarMenuItem'
           onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
-          <span><Image src={barsSrc} className='menuIcon' />Dashboard</span>
+          Dashboard
         </MenuItem>
         { currentUser.role === 'issuer' || currentUser.role === 'direct' || currentUser.role === 'broker'
-          ? <MenuItem name='multisigwallets' onClick={() => routeTo('/multi-signature-wallets')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            <span><Image src={dollarSignSrc} className='menuIcon' />Multisig Wallets</span><Image src={sortArrowsSrc} className='menuIcon-sm' />
+          ? <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+            Company Multisig
           </MenuItem>
         : null }
+        <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem'
+          onClick={() => routeTo('/pending-transactions')}>
+          Transactions
+        </MenuItem>
         <MenuItem className='sidebarMenuItem'>
-          <span><Image src={walletSrc} className='menuIcon' />Wallet</span>
-          <span className={connected ? 'connected' : 'disconnected'} />
+          Wallet <span className={connected ? 'connected' : 'disconnected'} />
         </MenuItem>
       </Menu>
     ) : ''
