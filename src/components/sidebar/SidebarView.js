@@ -19,8 +19,6 @@ class SidebarView extends Component {
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 
-    const MenuItem = Menu.Item
-
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
