@@ -5,6 +5,7 @@ import SidebarView from './SidebarView'
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
+    currentToken: state.tokens.current,
     connected: state.wallet.connected,
     router: state.router
   }

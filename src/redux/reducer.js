@@ -9,6 +9,7 @@ import page from './reducers/page'
 import sort from './reducers/sort'
 import search from './reducers/search'
 import totals from './reducers/totals'
+import tokens from './reducers/tokens'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 
@@ -21,6 +22,7 @@ const reducers = {
   sort,
   search,
   totals,
+  tokens,
   form: formReducer,
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,

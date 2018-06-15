@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const path = require('path')
 const fs = require('fs')
+const packageJson = require('./package.json')
 
 const app = express()
 
@@ -19,7 +20,7 @@ if (process.env.REACT_APP_APP_TYPE) {
 
     // Inject REACT_APP_APP_TYPE
     const result = data.replace(/window\.REACT_APP_APP_TYPE=""/, `window.REACT_APP_APP_TYPE="${process.env.REACT_APP_APP_TYPE}"`)
-
+      .replace(/window\.REACT_APP_VERSION=""/, `window.REACT_APP_VERSION="${packageJson.version}"`)
     fs.writeFileSync('./build/index.html', result, 'utf8')
   } catch (err) {
     console.log(`Error setting REACT_APP_APP_TYPE, ${err}`)
