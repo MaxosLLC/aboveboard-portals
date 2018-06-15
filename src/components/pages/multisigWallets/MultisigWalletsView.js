@@ -1,39 +1,22 @@
 import React, { Component } from 'react'
-import { Button, Table } from 'semantic-ui-react'
+import { Button, Header, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
   render () {
-    const { some, pushMe, addresses } = this.props
-
-    const handleRowClick = () => {} // TODO: implement
-
     return (
       <div className='multisigWalletsComponent'>
-        <span>Initial State: {some}</span>
+        <Segment><Header as='h3'>Wallet Address 0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d</Header></Segment><br />
+        <Header as='h5'>Actions:</Header><br />
+        <Button primary>Change Wallet Address</Button><br /><br />
+        <Button primary>Security Replacement</Button><br /><br />
+        <Button primary>Issue New Securities</Button><br /><br />
+        <Button primary>Assign Issuer</Button><br /><br />
+        <Button primary>Add Multisig Signer</Button><br /><br />
+        <Button primary>Remove Multisig Signer</Button><br /><br />
         <br />
-        <Button onClick={pushMe}>Push Me</Button>
+        <Segment><Header as='h4'>You currently have 0 transactions awaiting confirmation</Header></Segment>
         <br />
-        <br />
-        <Table className='abTable' unstackable>
-          <Table.Header className='tableHeader'>
-            <Table.Row>
-              <Table.HeaderCell>Wallet Address</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            { addresses.map(address =>
-              <Table.Row
-                name='tokens'
-                key={address}
-                onClick={() => handleRowClick(address)}
-                style={{
-                  cursor: 'pointer'
-                }}>
-                <Table.Cell>{address}</Table.Cell>
-              </Table.Row>
-          )}
-          </Table.Body>
-        </Table>
+        <Button primary>View Pending Transactions</Button><br /><br />
       </div>
     )
   }

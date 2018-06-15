@@ -8,9 +8,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    pushMe () {
-      alert('hello Vojtech') // eslint-disable-line
-    }
   }
 }
 
