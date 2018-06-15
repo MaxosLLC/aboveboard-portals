@@ -10,6 +10,7 @@ const logoSrc = '/images/logo.png'
 const buyersRegexp = /^\/buyer/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
+const multisigWalletRegpex = /^\/company-multi-signature/
 const pendingTransactionsRegexp = /^\/pending-transactions/
 
 class SidebarView extends Component {
@@ -39,7 +40,7 @@ class SidebarView extends Component {
           Dashboard
         </MenuItem>
         { currentUser.role === 'issuer' || currentUser.role === 'direct' || currentUser.role === 'broker'
-          ? <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+          ? <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem'>
             Company Multisig
           </MenuItem>
         : null }
