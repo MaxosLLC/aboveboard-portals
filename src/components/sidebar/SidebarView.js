@@ -44,8 +44,7 @@ class SidebarView extends Component {
             Company Multisig
           </MenuItem>
         : null }
-        <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem'
-          onClick={() => routeTo('/pending-transactions')}>
+        <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/pending-transactions`)}>
           Transactions
         </MenuItem>
         <MenuItem className='sidebarMenuItem'>
