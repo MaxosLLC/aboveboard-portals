@@ -1,6 +1,7 @@
 export default (state = {
   investors: '',
   transactions: '',
+  pendingTransactions: '',
   shareholders: ''
 }, action) => {
   switch (action.type) {

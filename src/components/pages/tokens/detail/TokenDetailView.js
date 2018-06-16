@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { join } from 'bluebird'
 import moment from 'moment'
+import { join } from 'bluebird'
+import { Link } from 'react-router-dom'
 import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
@@ -186,7 +186,6 @@ class InvestorDetailView extends Component {
     const shareholderHeaders = [
       { name: 'Shareholder', sortOption: 'lastName' },
       { name: 'Address', sortOption: 'country' },
-      { name: 'Qualifcations', sortOption: 'qualification' },
       { name: 'Quantity', sortOption: 'ethaddress.issues.tokens' },
       { name: '% of Total', sortOption: 'ethaddress.issues.tokens' },
       { name: 'Last Transaction', sortOption: 'updatedAt' }
@@ -242,7 +241,6 @@ class InvestorDetailView extends Component {
                     <TableCell>{i + 1}</TableCell>
                     <TableCell>{shareholder.firstName} {shareholder.lastName}</TableCell>
                     <TableCell>{shareholder.country}</TableCell>
-                    <TableCell>{shareholder.qualifications || 'N/A'}</TableCell>
                     <TableCell>{shareholder.transactions.quantity}</TableCell>
                     <TableCell>{shareholder.transactions.percent}%</TableCell>
                     <TableCell>{shareholder.transactions.lastCreated

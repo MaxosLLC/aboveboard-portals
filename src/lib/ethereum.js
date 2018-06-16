@@ -79,10 +79,18 @@ export default {
             case 'eth_sendTransaction':
               return Promise.try(async () => {
                 const [txParams] = payload.params
+                const { to, from, data, gas } = txParams
+                const methodHex = data.substr(0, 10)
+                const method =
+                  methodHex === '0x0a3b0a4f' ? 'addToWhitelist'
+                  : methodHex === '0x29092d0e' ? 'removeFromWhitelist'
+                  : methodHex === '0x89ad0a34' ? 'setLocked'
+                  : methodHex === '0xa256b4d0' ? 'setMessagingAddress'
+                  : 'unknown'
 
-                const data = await currentProvider.eth.sendTransactionAsync(txParams)
-                store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
-                return end(null, data)
+                const transactionHash = await currentProvider.eth.sendTransactionAsync(txParams)
+                store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS', transactionHash, method, to, from, estimatedGasLimit: web3.toDecimal(gas) })
+                return end(null, transactionHash)
               })
               .catch(error => {
                 store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
