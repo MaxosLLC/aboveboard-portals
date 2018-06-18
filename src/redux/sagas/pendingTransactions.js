@@ -3,8 +3,8 @@ import store from 'redux/store'
 
 import localServices from 'lib/feathers/local/feathersServices'
 
-function * createPendingTransaction ({ transactionHash, method, from, to }) {
-  yield store.dispatch(localServices.pendingTransaction.create({ transactionHash, method, from, to }))
+function * createPendingTransaction ({ transactionHash, methodHex, from, to, estimatedGasLimit }) {
+  yield store.dispatch(localServices.pendingTransaction.create({ transactionHash, methodHex, from, to, estimatedGasLimit }))
 }
 
 export default function * watchAuth () {

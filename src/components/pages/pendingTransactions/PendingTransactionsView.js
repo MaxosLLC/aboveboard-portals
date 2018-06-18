@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import ethereum from 'lib/ethereum'
 import './PendingTransactions.css'
 
 const iconsPath = '/images/icons'
@@ -18,9 +19,10 @@ class PendingTransactionsView extends Component {
 
     const transactionsHeaders = [
       { name: 'Hash', sortOption: 'transactionHash' },
-      { name: 'Type', sortOption: 'method' },
+      { name: 'Type', sortOption: 'methodHex' },
       { name: 'From', sortOption: 'from' },
       { name: 'To', sortOption: 'to' },
+      { name: 'Estimated Gas', sortOption: 'estimatedGasLimit' },
       { name: 'Date', sortOption: 'createdAt' }
     ]
 
@@ -69,7 +71,7 @@ class PendingTransactionsView extends Component {
                               .substr(pendingTransaction.transactionHash.length - 4, 4)}
                           </Link>
                         </Table.Cell>
-                        <Table.Cell>{pendingTransaction.method}</Table.Cell>
+                        <Table.Cell>{ethereum.methodByHex[pendingTransaction.methodHex]}</Table.Cell>
                         <Table.Cell>
                           <Link
                             to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.from}`}
@@ -94,6 +96,7 @@ class PendingTransactionsView extends Component {
                               .substr(pendingTransaction.to.length - 4, 4)}
                           </Link>
                         </Table.Cell>
+                        <Table.Cell>{pendingTransaction.estimatedGasLimit}</Table.Cell>
                         <Table.Cell>{moment(pendingTransaction.createdAt).format('LL')}</Table.Cell>
                         <Table.Cell />
                       </Table.Row>)}
@@ -101,7 +104,7 @@ class PendingTransactionsView extends Component {
 
                 <Table.Footer>
                   <Table.Row>
-                    <Table.HeaderCell floated='right' colSpan='8'>
+                    <Table.HeaderCell floated='right' colSpan={transactionsHeaders.length}>
                       <Pagination
                         floated='right'
                         activePage={page + 1}
