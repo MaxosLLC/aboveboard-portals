@@ -52,6 +52,12 @@ const getStorageSettingsForToken = async tokenAddress => {
 }
 
 export default {
+  methodByHex: {
+    '0x0a3b0a4f': 'addToWhitelist',
+    '0x29092d0e': 'removeFromWhitelist',
+    '0x89ad0a34': 'setLocked',
+    '0xa256b4d0': 'setMessagingAddress'
+  },
   init: async ({
     walletHost = window.REACT_APP_APP_TYPE ? 'https://mainnet.infura.io/O4y6ossOQVPXYvf8PDB4' : (process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W'),
     walletPort = process.env.REACT_APP_WALLET_PORT || '443',
@@ -79,10 +85,12 @@ export default {
             case 'eth_sendTransaction':
               return Promise.try(async () => {
                 const [txParams] = payload.params
+                const { to, from, data, gas } = txParams
+                const methodHex = data.substr(0, 10)
 
-                const data = await currentProvider.eth.sendTransactionAsync(txParams)
-                store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS' })
-                return end(null, data)
+                const transactionHash = await currentProvider.eth.sendTransactionAsync(txParams)
+                store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS', transactionHash, methodHex, to, from, estimatedGasLimit: web3.toDecimal(gas) })
+                return end(null, transactionHash)
               })
               .catch(error => {
                 store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: error.message || error })
