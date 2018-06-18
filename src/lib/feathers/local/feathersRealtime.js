@@ -7,6 +7,8 @@ const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
 const pendingTransactionsRegexp = /^\/pending-transactions/
 
+const throttleThreshold = 5000 // 5 seconds
+
 const getCurrentQueryParams = model => {
   const { page, sort, search } = store.getState()
 
@@ -29,7 +31,7 @@ export default {
 
         store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
       }
-    }, 5000))
+    }, throttleThreshold))
 
     client.service('shareholder').on('patched', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
@@ -44,7 +46,7 @@ export default {
 
         store.dispatch(localServices.shareholder.find({ query: { id, $limit: 1 } }))
       }
-    }, 5000))
+    }, throttleThreshold))
 
     client.service('transaction').on('created', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
@@ -56,14 +58,14 @@ export default {
         store.dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens })
         store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
       }
-    }, 5000))
+    }, throttleThreshold))
 
     client.service('pendingTransaction').on('created', throttle(async data => {
       if (pendingTransactionsRegexp.test(window.location.pathname)) {
         const { $skip, $sort, search } = getCurrentQueryParams('pendingTransactions')
         store.dispatch(localServices.transaction.find({ query: { search, $skip, $sort } }))
       }
-    }, 5000))
+    }, throttleThreshold))
 
     client.service('localToken').on('patched', data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
