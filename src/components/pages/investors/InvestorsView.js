@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
 
 import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
@@ -60,6 +60,7 @@ class InvestorsView extends Component {
 
   render () {
     const { loaded, investors, routeTo, queryResult, setSort, setPage, setSearch, page, search, whitelists } = this.props
+    const { activeIndex } = this.state
     const whitelistOptions = whitelists.map(whitelist => {
       return {
         text: whitelist.name,
@@ -76,47 +77,60 @@ class InvestorsView extends Component {
       { name: 'Qualifications', sortOption: 'qualifications' }
     ]
 
+    const handleMultipleUploadClick = (e, { index }) => {
+      const newIndex = activeIndex === index ? -1 : index
+
+      this.setState({ activeIndex: newIndex })
+    }
+
     return (
       <div className='investorsComponent'>
         <Grid centered columns={1}>
           <Grid.Column width={4}>
             <Header as='h2' textAlign='center' style={{ marginBottom: '20px' }}>
-              Buyers
+              Whitelist Members
             </Header>
           </Grid.Column>
         </Grid>
 
         <div>
           <Input loading={!loaded} icon='user' placeholder='Search...' onChange={(e, { value }) => setSearch(value)} value={search.investors} />
-          <Link to='/buyers/add' className='ui button right floated'>
+          <Link to='/whitelisting/add' className='ui button right floated'>
             Add Buyer
           </Link>
         </div>
         <div className='csvUpload'>
-          <small>First choose whitelists and select the CSV file to upload.</small>
+          <Accordion>
+            <Accordion.Title active={activeIndex === 0} index={0} onClick={handleMultipleUploadClick}>
+              <Icon name='dropdown' />
+            Upload Multiple Members
+          </Accordion.Title>
+            <Accordion.Content active={activeIndex === 0}>
+              <small>First choose whitelists and select the CSV file to upload.</small>
 
-          <Fragment>
-            <Grid.Column style={{ padding: '10px' }}>
-              <Dropdown
-                placeholder='Add Whitelist Address:'
-                selection
-                search
-                multiple
-                name='whitelists'
-                options={whitelistOptions}
-                onChange={this.onChangeWhitelists}
+              <Fragment>
+                <Grid.Column style={{ padding: '10px' }}>
+                  <Dropdown
+                    placeholder='Add Whitelist Address:'
+                    selection
+                    search
+                    multiple
+                    name='whitelists'
+                    options={whitelistOptions}
+                    onChange={this.onChangeWhitelists}
+                />
+                </Grid.Column>
+              </Fragment>
+
+              <div>
+                <Input
+                  onChange={this.onSelectCSV}
+                  type='file'
+                  disabled={!this.state.whitelists.length}
               />
-            </Grid.Column>
-          </Fragment>
-
-          <div>
-            <Input
-              onChange={this.onSelectCSV}
-              type='file'
-              disabled={!this.state.whitelists.length}
-            />
-          </div>
-
+              </div>
+            </Accordion.Content>
+          </Accordion>
         </div>
 
         { !loaded
@@ -156,11 +170,11 @@ class InvestorsView extends Component {
                       </Table.Cell>
                       <Table.Cell style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button
-                          onClick={() => routeTo(`/buyers/${investor.id}/edit`)}>
+                          onClick={() => routeTo(`/whitelisting/${investor.id}/edit`)}>
                           Edit
                         </Button>
                         <Button
-                          onClick={() => routeTo(`/buyers/${investor.id}/detail`)}>
+                          onClick={() => routeTo(`/whitelisting/${investor.id}/detail`)}>
                           Details
                         </Button>
                       </Table.Cell>

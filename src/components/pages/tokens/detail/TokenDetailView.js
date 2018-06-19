@@ -180,7 +180,7 @@ class InvestorDetailView extends Component {
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
-      setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', value)
+      setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', value)
     }
 
     const shareholderHeaders = [
@@ -273,7 +273,7 @@ class InvestorDetailView extends Component {
               }
             </Table>
           </div>
-          : <Segment>{ search.shareholders ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
+          : <Segment>{ search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
       }, {
         menuItem: 'Transactions',
         render: () => transactions.length
@@ -399,7 +399,7 @@ class InvestorDetailView extends Component {
           </div>
         }
         <div>
-          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />
+          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] : search.transactions} />
         </div>
         <br />
         {!loaded
@@ -408,7 +408,7 @@ class InvestorDetailView extends Component {
             activeIndex={activeIndex}
             menu={{ secondary: true, pointing: true }}
             panes={panes}
-            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', ''); this.setState({ activeIndex }) }}
+            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', ''); this.setState({ activeIndex }) }}
             className='tableTabs' />}
       </div>
     )

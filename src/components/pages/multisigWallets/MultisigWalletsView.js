@@ -3,7 +3,7 @@ import { Button, Header, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
   render () {
-    const { some, setTokenApproval, approveTx, sendTokens, addSigner, removeSigner, changeRequirement, addresses } = this.props
+    const { setTokenApproval, approveTx, sendTokens, addSigner, removeSigner, changeRequirement } = this.props
     return (
       <div className='multisigWalletsComponent'>
         <Segment><Header as='h3'>You currently have 0 transactions awaiting confirmation</Header></Segment>

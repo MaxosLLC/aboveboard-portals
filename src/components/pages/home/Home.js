@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import { Segment } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import HomeView from './HomeView'
 
-class Home extends Component {
-  render () {
-    return (
-      <Segment>
-        <span>Main Dashboard</span><br /><br />
-      </Segment>
-    )
+const mapStateToProps = state => ({})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    routeTo: path => dispatch(push(path))
   }
 }
 
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(HomeView)

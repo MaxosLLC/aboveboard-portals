@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       })
 
       await dispatch(localServices.investor.patch(null, newData, { query: { id: newData.id } }))
-      await dispatch(push('/buyers'))
+      await dispatch(push('/whitelisting'))
     },
     routeTo: path => ownProps.history.push(path)
   }

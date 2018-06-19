@@ -7,7 +7,7 @@ const MenuItem = Menu.Item
 
 const logoSrc = '/images/logo.png'
 
-const buyersRegexp = /^\/buyer/
+const whitelistingRegexp = /^\/whitelisting/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 const multisigWalletRegpex = /^\/company-multi-signature/
@@ -24,8 +24,8 @@ class SidebarView extends Component {
           { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
         { currentUser.role === 'broker' || currentUser.role === 'direct'
-          ? <MenuItem name='buyers' onClick={() => routeTo('/buyers')} active={buyersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            Buyers
+          ? <MenuItem name='whitelisting' onClick={() => routeTo('/whitelisting')} active={whitelistingRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+            Whitelisting
           </MenuItem>
         : null }
         { currentUser.role === 'issuer' || currentUser.role === 'direct'
@@ -37,7 +37,7 @@ class SidebarView extends Component {
           active={tokenDetailRegexp.test(router.location.pathname)}
           className='sidebarMenuItem'
           onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
-          Dashboard
+          Registry
         </MenuItem>
         { currentUser.role === 'issuer' || currentUser.role === 'direct' || currentUser.role === 'broker'
           ? <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem'>

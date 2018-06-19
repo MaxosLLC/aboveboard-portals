@@ -224,7 +224,7 @@ export default {
   },
 
   approveTx: async (id) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
     promisifyAll(deployedWalletContract.confirmTransaction)
@@ -235,7 +235,7 @@ export default {
   },
 
   setTokenApproval: async (tokenAddress) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
@@ -249,7 +249,7 @@ export default {
   },
 
   sendTokens: async (tokenAddress) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
@@ -263,7 +263,7 @@ export default {
   },
 
   addSigner: async (signer) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
@@ -276,7 +276,7 @@ export default {
   },
 
   removeSigner: async (signer) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
@@ -289,7 +289,7 @@ export default {
   },
 
   changeRequirement: async (required) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9';
+    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
     const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
