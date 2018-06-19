@@ -35,9 +35,9 @@ class SidebarView extends Component {
         : null }
         { currentUser.role === 'issuer' || currentUser.role === 'direct'
           ? <MenuItem
-          active={tokenDetailRegexp.test(router.location.pathname)}
-          className='sidebarMenuItem'
-          onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
+            active={tokenDetailRegexp.test(router.location.pathname)}
+            className='sidebarMenuItem'
+            onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
           Registry
         </MenuItem>
         : null }
