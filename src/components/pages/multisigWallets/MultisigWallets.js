@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import MultisigWalletsView from './MultisigWalletsView'
+import ethereum from 'lib/ethereum'
 
 const mapStateToProps = state => ({
   some: 'initialState',
@@ -8,6 +9,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    setTokenApproval () {
+      ethereum.setTokenApproval('')
+    },
+    approveTx () {
+      ethereum.approveTx('')
+    },
+    sendTokens () {
+      ethereum.sendTokens('')
+    }
   }
 }
 
