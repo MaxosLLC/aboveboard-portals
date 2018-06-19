@@ -10,13 +10,22 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     setTokenApproval () {
-      ethereum.setTokenApproval('')
+      ethereum.setTokenApproval('0xCc6510781F707691A1DA7997D0DD35d8b68b78B6')
     },
     approveTx () {
-      ethereum.approveTx('')
+      ethereum.approveTx(6)
     },
     sendTokens () {
-      ethereum.sendTokens('')
+      ethereum.sendTokens('0xCc6510781F707691A1DA7997D0DD35d8b68b78B6')
+    },
+    addSigner () {
+      ethereum.addSigner('0x001a2Cc52383beBd5Eeadea47c6b8e3194C2851A')
+    },
+    removeSigner () {
+      ethereum.removeSigner('0x001a2Cc52383beBd5Eeadea47c6b8e3194C2851A')
+    },
+    changeRequirement () {
+      ethereum.changeRequirement(2)
     }
   }
 }

@@ -3,7 +3,7 @@ import { Button, Header, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
   render () {
-    const { some, setTokenApproval, approveTx, sendTokens, addresses } = this.props
+    const { some, setTokenApproval, approveTx, sendTokens, addSigner, removeSigner, changeRequirement, addresses } = this.props
     return (
       <div className='multisigWalletsComponent'>
         <Segment><Header as='h3'>You currently have 0 transactions awaiting confirmation</Header></Segment>
@@ -12,8 +12,10 @@ class MultisigWalletsView extends Component {
         <Button primary>Security Replacement</Button><br /><br />
         <Button primary>Issue New Securities</Button><br /><br />
         <Button primary>Assign Issuer</Button><br /><br />
-        <Button primary>Add Multisig Signer</Button><br /><br />
-        <Button primary>Remove Multisig Signer</Button><br /><br />
+        <br />
+        <Button onClick={addSigner} primary>Add Multisig Signer</Button><br /><br />
+        <Button onClick={removeSigner} primary>Remove Multisig Signer</Button><br /><br />
+        <Button onClick={changeRequirement} primary>Change Requirement</Button><br /><br />
         <br />
         <Button onClick={setTokenApproval} primary>Set Token Approval</Button><br /><br />
         <Button onClick={approveTx} primary>Approve tx</Button><br /><br />
