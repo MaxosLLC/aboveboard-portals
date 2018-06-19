@@ -5,12 +5,8 @@ import {Icon, Table, Button, Segment} from 'semantic-ui-react'
 import './Tokens.css'
 
 class TokensView extends Component {
-  async componentDidMount () {
-    const result = await this.props.loadLocalTokens()
-
-    if (result.value.total === 1) {
-      await this.props.routeTo(`/tokens/${result.value.data[0].address}/detail`)
-    }
+  componentDidMount () {
+    this.props.loadLocalTokens()
   }
 
   render () {

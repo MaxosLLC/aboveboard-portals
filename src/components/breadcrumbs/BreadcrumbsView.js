@@ -21,7 +21,7 @@ class BreadcrumbsView extends Component {
               <Link to={router.location.pathname}>Securities &nbsp;>&nbsp;</Link>  Tokens
               </div>
           )
-        case path === '/buyers':
+        case path === '/whitelisting':
           return (
             <div>
               <Link to={router.location.pathname}>Buyers &nbsp;>&nbsp;</Link>  Whitelist

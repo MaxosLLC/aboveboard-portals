@@ -275,7 +275,7 @@ let EditInvestorForm = props => {
                 <Button type='submit' disabled={pristine || submitting}>
                   Save
                 </Button>
-                <Link to='/buyers' className='ui button secondary'>
+                <Link to='/whitelisting' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>

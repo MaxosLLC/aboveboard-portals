@@ -65,7 +65,12 @@ function * loginSuccess ({ user, accessToken }) {
   })
 
   yield store.dispatch(cloudServices.token.find())
-  yield store.dispatch(localServices.localToken.find())
+  const result = yield store.dispatch(localServices.localToken.find())
+  if (result.value.total === 1) {
+    const tokenAddress = result.value.data[0].address
+    yield put({ type: 'SET_CURRENT_TOKEN', tokenAddress })
+  }
+
   if (user.role === 'broker' || user.role === 'direct') {
     yield store.dispatch(cloudServices.whitelist.find())
   }

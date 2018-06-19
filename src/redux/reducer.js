@@ -27,6 +27,7 @@ const reducers = {
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,
   localToken: localServices.localToken.reducer,
+  pendingTransaction: localServices.pendingTransaction.reducer,
   router: routerReducer
 }
 

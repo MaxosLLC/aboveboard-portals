@@ -1,0 +1,171 @@
+.pendingTransactionsComponent table.abTable {
+    border: 0;
+    background: none;
+    margin-top: 0;
+}
+
+.pendingTransactionsComponent table.abTable .tableHeader tr th {
+    background: #fff;
+    padding: 20px 2%;
+    font-family: 'ProximaNova-SM', sans-serif;
+    color: #094bb1;
+    font-size: 16px;
+    border-bottom: 3px solid #f8f9fb;
+}
+
+.pendingTransactionsComponent table.abTable .tableHeader tr th .download {
+    width: 50px;
+}
+
+.pendingTransactionsComponent table.abTable tr td {
+    background: #fff;
+    padding: 20px 2% !important;
+    font-family: 'ProximaNova-R', sans-serif;
+    color: #8f9bab;
+    font-size: 14px;
+    border-color: #f8f9fb;
+}
+
+.pendingTransactionsComponent table.abTable tbody tr:hover td {
+    background: #00cddb !important;
+    color: #fff !important;
+}
+
+.pendingTransactionsComponent .tableTabs .ui.secondary {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.pendingTransactionsComponent .tableTabs .ui.secondary a.item {
+    color: #094bb1;
+    min-width: 150px;
+    padding-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    font-family: 'ProximaNova-SM', sans-serif;
+    font-size: 18px;
+}
+
+.pendingTransactionsComponent .tableTabs .ui.secondary a.item:hover {
+    color: #094bb1;
+}
+
+.pendingTransactionsComponent .tableTabs .ui.secondary a.active.item {
+    color: #094bb1;
+    padding-bottom: 28px;
+    border-bottom: 4px solid #094bb1;
+}
+
+.pendingTransactionsComponent .tableTabs .ui.secondary a.active.item:hover {
+    color: #094bb1 !important;
+    border-bottom: 4px solid #094bb1;
+}
+
+.pendingTransactionsComponent .tableContainer {
+    background: #f8f9fb;
+    padding: 36px 13% 36px 15%;
+    width: 130%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.pendingTransactionsComponent .tableScrollContainer {
+    height: 450px;
+    max-height: 450px;
+    padding: 0 1% 0 0;
+    overflow-y: scroll;
+}
+
+.pendingTransactionsComponent .tableScrollContainer::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.pendingTransactionsComponent .tableScrollContainer::-webkit-scrollbar-thumb {
+    background: #4F6683;
+}
+
+.pendingTransactionsComponent h2.tokenHeader,
+.pendingTransactionsComponent h2.tokenHeader a {
+    font-family: 'Futura-M', sans-serif;
+    font-size: 32px;
+    color: #8F9BAB;
+    transition: all .3s ease;
+    font-weight: 400;
+}
+
+.pendingTransactionsComponent h2.tokenHeader a:hover {
+    color: #4f6683;
+}
+
+.pendingTransactionsComponent .stats {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.pendingTransactionsComponent .tradingToggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    bottom: -35px;
+}
+
+.pendingTransactionsComponent .tradingToggle .ui.checked.fitted.toggle.checkbox label:before {
+    background-color: #00FFC6 !important;
+}
+
+.pendingTransactionsComponent .tradingToggle .ui.fitted.toggle.checkbox label:after {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 2px;
+    margin-left: 3px;
+}
+
+.pendingTransactionsComponent .tradingToggle .ui.checked.fitted.toggle.checkbox label:after {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 2px;
+    margin-left: 0;
+}
+
+.pendingTransactionsComponent .tradingToggle span {
+    color: #4f6683;
+    font-size: 16px;
+    font-family: 'ProximaNove-R', sans-serif;
+    align-self: center;
+    margin-right: 30px;
+}
+
+.pendingTransactionsComponent .tradingToggle img {
+    width: 20px;
+    position: relative;
+}
+
+.pendingTransactionsComponent .tradingToggle .verticalSeparator {
+    width: 2px;
+    height: 20px;
+    background: #F1F4F8;
+    margin: 0 30px;
+}
+
+.pendingTransactionsComponent .sortButtons img {
+    width: 12px;
+    float: right;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.pendingTransactionsComponent .sortButtons {
+    width: 12px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.pendingTransactionsComponent .infoIcon {
+    width: 20px;
+    margin-left: 20px;
+}

@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { join } from 'bluebird'
 import moment from 'moment'
+import { join } from 'bluebird'
+import { Link } from 'react-router-dom'
 import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
@@ -180,13 +180,12 @@ class InvestorDetailView extends Component {
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
-      setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', value)
+      setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', value)
     }
 
     const shareholderHeaders = [
       { name: 'Shareholder', sortOption: 'lastName' },
       { name: 'Address', sortOption: 'country' },
-      { name: 'Qualifcations', sortOption: 'qualification' },
       { name: 'Quantity', sortOption: 'ethaddress.issues.tokens' },
       { name: '% of Total', sortOption: 'ethaddress.issues.tokens' },
       { name: 'Last Transaction', sortOption: 'updatedAt' }
@@ -242,7 +241,6 @@ class InvestorDetailView extends Component {
                     <TableCell>{i + 1}</TableCell>
                     <TableCell>{shareholder.firstName} {shareholder.lastName}</TableCell>
                     <TableCell>{shareholder.country}</TableCell>
-                    <TableCell>{shareholder.qualifications || 'N/A'}</TableCell>
                     <TableCell>{shareholder.transactions.quantity}</TableCell>
                     <TableCell>{shareholder.transactions.percent}%</TableCell>
                     <TableCell>{shareholder.transactions.lastCreated
@@ -275,7 +273,7 @@ class InvestorDetailView extends Component {
               }
             </Table>
           </div>
-          : <Segment>{ search.shareholders ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
+          : <Segment>{ search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
       }, {
         menuItem: 'Transactions',
         render: () => transactions.length
@@ -401,7 +399,7 @@ class InvestorDetailView extends Component {
           </div>
         }
         <div>
-          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search.shareholders : search.transactions} />
+          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] : search.transactions} />
         </div>
         <br />
         {!loaded
@@ -410,7 +408,7 @@ class InvestorDetailView extends Component {
             activeIndex={activeIndex}
             menu={{ secondary: true, pointing: true }}
             panes={panes}
-            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'shareholders' : 'transactions', ''); this.setState({ activeIndex }) }}
+            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', ''); this.setState({ activeIndex }) }}
             className='tableTabs' />}
       </div>
     )
