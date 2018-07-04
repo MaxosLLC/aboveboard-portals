@@ -9,7 +9,7 @@ import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
 import tokenContract from 'lib/contracts/RegulatedToken'
 import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
 import settingsStorageContract from 'lib/contracts/SettingsStorage'
-import walletContract from 'lib/contracts/MultiSigArbitration'
+import multiSigArbitrationContract from 'lib/contracts/MultiSigArbitration'
 
 let web3
 let currentAccount
@@ -53,11 +53,17 @@ const getStorageSettingsForToken = async tokenAddress => {
 }
 
 export default {
+  getCurrentAccount: () => currentAccount,
   methodByHex: {
     '0x0a3b0a4f': 'addToWhitelist',
     '0x29092d0e': 'removeFromWhitelist',
     '0x89ad0a34': 'setLocked',
-    '0xa256b4d0': 'setMessagingAddress'
+    '0xa256b4d0': 'setMessagingAddress',
+    '44095ea7b3': 'setTokenApproval',
+    '6423b872dd': 'sendTokens',
+    '247065cb48': 'addMultisigSigner',
+    '24173825d9': 'removeMultisigSigner',
+    '24ba51a6df': 'changeRequirement'
   },
   init: async ({
     walletHost = window.REACT_APP_APP_TYPE ? 'https://mainnet.infura.io/O4y6ossOQVPXYvf8PDB4' : (process.env.REACT_APP_WALLET_HOST || 'https://kovan.infura.io/V7nB2kBfEei6IhVFeI7W'),
@@ -87,8 +93,8 @@ export default {
               return Promise.try(async () => {
                 const [txParams] = payload.params
                 const { to, from, data, gas } = txParams
-                const methodHex = data.substr(0, 10)
-
+                const methodHex = data.substr(data.length > 273 ? 264 : 0, 10)
+                console.log('methodHex ', methodHex)
                 const transactionHash = await currentProvider.eth.sendTransactionAsync(txParams)
                 store.dispatch({ type: 'WALLET_TRANSACTION_SUCCESS', transactionHash, methodHex, to, from, estimatedGasLimit: web3.toDecimal(gas) })
                 return end(null, transactionHash)
@@ -154,6 +160,8 @@ export default {
   },
 
   addInvestorToWhitelist: async (investorAddress, contractAddress) => {
+    await waitForWeb3()
+
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.add)
 
@@ -163,6 +171,8 @@ export default {
   },
 
   addInvestorsToWhitelist: async (investorAddresses, contractAddress) => {
+    await waitForWeb3()
+
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.addBuyers)
 
@@ -172,6 +182,8 @@ export default {
   },
 
   removeInvestorFromWhitelist: async (investorAddress, contractAddress) => {
+    await waitForWeb3()
+
     const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
     promisifyAll(contract.remove)
 
@@ -181,6 +193,8 @@ export default {
   },
 
   setRegDWhitelistReleaseDate: async (investorAddress, contractAddress, releaseDate) => {
+    await waitForWeb3()
+
     const contract = web3.eth.contract(regDWhitelistContract.abi).at(contractAddress)
     promisifyAll(contract.setReleaseDate)
 
@@ -188,6 +202,8 @@ export default {
   },
 
   setMessagingAddress: async (messagingAddress, tokenAddress) => {
+    await waitForWeb3()
+
     const contract = await getStorageSettingsForToken(tokenAddress)
 
     const currentMessagingAddress = await contract.getMessagingAddress.callAsync(tokenAddress)
@@ -199,12 +215,16 @@ export default {
   },
 
   getTradingLock: async tokenAddress => {
+    await waitForWeb3()
+
     const contract = await getStorageSettingsForToken(tokenAddress)
 
     return contract.getLocked.callAsync(tokenAddress)
   },
 
   setTradingLock: async (tokenAddress, locked) => {
+    await waitForWeb3()
+
     const contract = await getStorageSettingsForToken(tokenAddress)
 
     const gas = await contract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
@@ -223,9 +243,10 @@ export default {
     return balance.toNumber()
   },
 
-  approveTx: async (id) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+  confirmTransaction: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.confirmTransaction)
 
@@ -234,70 +255,109 @@ export default {
     return deployedWalletContract.confirmTransaction.sendTransactionAsync(id, {from: currentAccount, gas})
   },
 
-  setTokenApproval: async (tokenAddress) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
+  revokeConfirmation: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+
+    promisifyAll(deployedWalletContract.revokeConfirmation)
+
+    const gas = await deployedWalletContract.revokeConfirmation.estimateGasAsync(id, {from: currentAccount})
+
+    return deployedWalletContract.revokeConfirmation.sendTransactionAsync(id, {from: currentAccount, gas})
+  },
+
+  setTokenApproval: async (tokenAddress, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
-    const approveEncoded = deployedTokenContract.approve.getData(walletAddress, 100, {from: walletAddress})
+    const approveEncoded = deployedTokenContract.approve.getData(multisigWalletAddress, 100, {from: multisigWalletAddress})
 
     const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, approveEncoded, {from: currentAccount})
 
     return deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, approveEncoded, {from: currentAccount, gas})
   },
 
-  sendTokens: async (tokenAddress) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
+  sendTokens: async (tokenAddress, toAddress, amount, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
     const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
-    const transferEncoded = deployedTokenContract.transferFrom.getData(walletAddress, currentAccount, 100, {from: walletAddress})
+    const transferEncoded = deployedTokenContract.transferFrom.getData(multisigWalletAddress, toAddress, amount, {from: multisigWalletAddress})
 
     const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, transferEncoded, {from: currentAccount})
 
     return deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, transferEncoded, {from: currentAccount, gas})
   },
 
-  addSigner: async (signer) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+  addSigner: async (signer, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
     const txEncoded = deployedWalletContract.addOwner.getData(signer, {from: currentAccount})
 
-    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(walletAddress, 0, txEncoded, {from: currentAccount})
+    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
 
-    return deployedWalletContract.submitTransaction.sendTransactionAsync(walletAddress, 0, txEncoded, {from: currentAccount, gas})
+    return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
   },
 
-  removeSigner: async (signer) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+  removeSigner: async (signer, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
     const txEncoded = deployedWalletContract.removeOwner.getData(signer, {from: currentAccount})
 
-    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(walletAddress, 0, txEncoded, {from: currentAccount})
+    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
 
-    return deployedWalletContract.submitTransaction.sendTransactionAsync(walletAddress, 0, txEncoded, {from: currentAccount, gas})
+    return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
   },
 
-  changeRequirement: async (required) => {
-    const walletAddress = '0x0A9f6Ae7DD5966aeFF70B0cb3231056AFF8AeDB9'
-    const deployedWalletContract = web3.eth.contract(walletContract.abi).at(walletAddress)
+  getCurrentRequirement: async (multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+
+    promisifyAll(deployedWalletContract.required)
+
+    const required = await deployedWalletContract.required.callAsync()
+
+    return required.toNumber()
+  },
+
+  getOwners: async (multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+
+    promisifyAll(deployedWalletContract.getOwners)
+
+    return deployedWalletContract.getOwners.callAsync()
+  },
+
+  changeRequirement: async (required, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+    await waitForWeb3()
+
+    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
     const txEncoded = deployedWalletContract.changeRequirement.getData(required, {from: currentAccount})
 
-    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(walletAddress, 0, txEncoded, {from: currentAccount})
+    const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
 
-    return deployedWalletContract.submitTransaction.sendTransactionAsync(walletAddress, 0, txEncoded, {from: currentAccount, gas})
+    return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
   }
 }
