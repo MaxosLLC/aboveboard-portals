@@ -67,6 +67,13 @@ export default {
       }
     }, throttleThreshold))
 
+    client.service('pendingTransaction').on('patched', throttle(async data => {
+      if (pendingTransactionsRegexp.test(window.location.pathname)) {
+        const { $skip, $sort, search } = getCurrentQueryParams('pendingTransactions')
+        store.dispatch(localServices.transaction.find({ query: { search, $skip, $sort } }))
+      }
+    }, throttleThreshold))
+
     client.service('localToken').on('patched', data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const address = window.location.pathname.split('/')[2]

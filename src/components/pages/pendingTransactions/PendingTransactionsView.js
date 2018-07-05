@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+
 import ethereum from 'lib/ethereum'
 import './PendingTransactions.css'
 
@@ -12,10 +13,13 @@ const sortDownSrc = `${iconsPath}/down.svg`
 class PendingTransactionsView extends Component {
   componentDidMount () {
     this.props.loadPendingTransactions()
+    this.props.loadMultisigWallet()
   }
 
   render () {
-    const { loaded, pendingTransactions, setPage, setSort, setSearch, page, search, queryResult } = this.props
+    const { loaded, pendingTransactions, multisigWallet, setPage, setSort, setSearch, page, search, queryResult } = this.props
+
+    const currentAccount = ethereum.getCurrentAccount()
 
     const transactionsHeaders = [
       { name: 'Hash', sortOption: 'transactionHash' },
@@ -23,7 +27,8 @@ class PendingTransactionsView extends Component {
       { name: 'From', sortOption: 'from' },
       { name: 'To', sortOption: 'to' },
       { name: 'Estimated Gas', sortOption: 'estimatedGasLimit' },
-      { name: 'Date', sortOption: 'createdAt' }
+      { name: 'Date', sortOption: 'createdAt' },
+      { name: 'Multisig' }
     ]
 
     return (
@@ -43,14 +48,14 @@ class PendingTransactionsView extends Component {
                   <Table.Row>
                     { transactionsHeaders.map((transactionsHeader, i) =>
                       <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}
-                        <span className='sortButtons'>
+                        { transactionsHeader.name !== 'Multisig' && <span className='sortButtons'>
                           <Image
                             src={sortUpSrc}
                             onClick={() => { setSort({ [transactionsHeader.sortOption]: 1 }) }} />
                           <Image
                             src={sortDownSrc}
                             onClick={() => { setSort({ [transactionsHeader.sortOption]: -1 }) }} />
-                        </span>
+                        </span> }
                       </Table.HeaderCell>
                     ) }
                   </Table.Row>
@@ -98,7 +103,14 @@ class PendingTransactionsView extends Component {
                         </Table.Cell>
                         <Table.Cell>{pendingTransaction.estimatedGasLimit}</Table.Cell>
                         <Table.Cell>{moment(pendingTransaction.createdAt).format('LL')}</Table.Cell>
-                        <Table.Cell />
+                        <Table.Cell>
+                          { pendingTransaction.submitted && !pendingTransaction.executed && !pendingTransaction.executionFailure && (pendingTransaction.confirmations || []).indexOf(currentAccount) === -1 &&
+                            <Button onClick={() => ethereum.confirmTransaction(pendingTransaction.transactionId, multisigWallet.address)}>Confirm</Button>
+                          }
+                          { pendingTransaction.submitted && !pendingTransaction.executed && !pendingTransaction.executionFailure && (pendingTransaction.confirmations || []).indexOf(currentAccount) !== -1 &&
+                            <Button onClick={() => ethereum.revokeConfirmation(pendingTransaction.transactionId, multisigWallet.address)}>Revoke</Button>
+                          }
+                        </Table.Cell>
                       </Table.Row>)}
                 </Table.Body>
 

@@ -26,25 +26,14 @@ const reducers = {
   form: formReducer,
   user: cloudServices.user.reducer,
   token: cloudServices.token.reducer,
+  whitelist: cloudServices.whitelist.reducer,
   localToken: localServices.localToken.reducer,
+  multisig: localServices.multisig.reducer,
+  investor: localServices.investor.reducer,
+  shareholder: localServices.shareholder.reducer,
+  transaction: localServices.transaction.reducer,
   pendingTransaction: localServices.pendingTransaction.reducer,
   router: routerReducer
-}
-
-if (cloudServices.whitelist) {
-  reducers.whitelist = cloudServices.whitelist.reducer
-}
-
-if (localServices.investor) {
-  reducers.investor = localServices.investor.reducer
-}
-
-if (localServices.shareholder) {
-  reducers.shareholder = localServices.shareholder.reducer
-}
-
-if (localServices.transaction) {
-  reducers.transaction = localServices.transaction.reducer
 }
 
 export default combineReducers(reducers)
