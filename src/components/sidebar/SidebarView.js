@@ -33,12 +33,14 @@ class SidebarView extends Component {
             Securities
           </MenuItem>
         : null }
-        <MenuItem
-          active={tokenDetailRegexp.test(router.location.pathname)}
-          className='sidebarMenuItem'
-          onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
+        { currentUser.role === 'issuer' || currentUser.role === 'direct'
+          ? <MenuItem
+            active={tokenDetailRegexp.test(router.location.pathname)}
+            className='sidebarMenuItem'
+            onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
           Registry
         </MenuItem>
+        : null }
         { currentUser.role === 'issuer' || currentUser.role === 'direct' || currentUser.role === 'broker'
           ? <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem'>
             Company Multisig
