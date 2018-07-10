@@ -4,8 +4,9 @@ export default (state = {}, action) => {
       return Object.assign({}, { isSaving: true })
 
     case 'LOGIN_SUCCESS':
+      return Object.assign({}, action.user, { accessToken: action.accessToken })
     case 'SET_CURRENT_USER':
-      return Object.assign({}, action.user)
+      return Object.assign({}, state, action.user)
 
     case 'SERVICES_USER_PATCH_FULFILLED':
       return Object.assign({}, state, action.payload)
