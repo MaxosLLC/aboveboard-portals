@@ -18,7 +18,7 @@ if (url.split(':')[2]) {
   web3Url = 'http:' + url.split(':')[1]
   web3Port = url.split(':')[2].replace(/\/$/, '') + '/web3'
 } else {
-  web3Url = url
+  web3Url = url.replace(/\/$/, '')
   web3Port = (/^https/.test(url) ? '443' : '80') + '/web3'
 }
 
