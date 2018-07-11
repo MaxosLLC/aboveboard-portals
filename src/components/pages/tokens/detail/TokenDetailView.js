@@ -183,6 +183,11 @@ class InvestorDetailView extends Component {
       setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', value)
     }
 
+    const handleSetTradingLock = async (e, { checked: active }) => {
+      await setTokenTrading(token.address, active)
+      this.setState({ locked: !active })
+    }
+
     const shareholderHeaders = [
       { name: 'Shareholder', sortOption: 'lastName' },
       { name: 'Address', sortOption: 'country' },
@@ -394,7 +399,7 @@ class InvestorDetailView extends Component {
             </span>
             <Checkbox
               toggle
-              onChange={(e, { locked }) => setTokenTrading(token.address, locked).then(() => this.setState({ locked }))}
+              onChange={handleSetTradingLock}
               checked={!locked} />
           </div>
         }
