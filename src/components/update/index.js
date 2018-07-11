@@ -34,7 +34,7 @@ class UpdateNotification extends Component {
   render () {
     // const { currentUser } = this.props
 
-    return (<div></div>)
+    return (<div />)
     // return (<div>
     //   { this.isUpdateAvailable() &&
     //     <Message
