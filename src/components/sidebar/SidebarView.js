@@ -20,7 +20,7 @@ class SidebarView extends Component {
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
-          <Image src={logoSrc} className='siteLogo' />
+          <Image src={logoSrc} className='siteLogo' size='small' />
           { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
         { (currentUser.role === 'broker' || currentUser.role === 'direct') &&
