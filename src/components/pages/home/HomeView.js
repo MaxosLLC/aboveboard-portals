@@ -3,7 +3,11 @@ import { Segment } from 'semantic-ui-react'
 
 class Home extends Component {
   componentDidMount () {
-    this.props.routeTo('/tokens') // TODO: remove once this page is implemented
+    if (this.props.currentUser.role === 'broker') {
+      this.props.routeTo('/whitelisting') // TODO: remove once this page is implemented
+    } else {
+      this.props.routeTo('/tokens') // TODO: remove once this page is implemented
+    }
   }
 
   render () {
