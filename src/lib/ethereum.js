@@ -69,8 +69,8 @@ const getStorageSettingsForToken = async tokenAddress => {
 const methodByHex = {
   '0x0a3b0a4f': 'addToWhitelist',
   '0x29092d0e': 'removeFromWhitelist',
-  '0x89ad0a34': 'setLocked',
-  '0xa256b4d0': 'setMessagingAddress',
+  '0x211e28b6': 'setLocked',
+  '0x0eed3f9f': 'setMessagingAddress',
   '44095ea7b3': 'setTokenApproval',
   '6423b872dd': 'sendTokens',
   '247065cb48': 'addMultisigSigner',
