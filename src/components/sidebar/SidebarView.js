@@ -17,25 +17,23 @@ class SidebarView extends Component {
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 
-    console.log('CurrentUser ', JSON.stringify(currentUser, null, 2))
-
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
           <Image src={logoSrc} className='siteLogo' />
           { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
-        { currentUser.role === 'broker' || currentUser.role === 'direct'
+        { (currentUser.role === 'broker' || currentUser.role === 'direct')
           && <MenuItem name='whitelisting' onClick={() => routeTo('/whitelisting')} active={whitelistingRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             Whitelisting
           </MenuItem>
         }
-        { currentUser.role === 'issuer' || currentUser.role === 'direct'
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct')
           && <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             Securities
           </MenuItem>
         }
-        { currentUser.role === 'issuer' || currentUser.role === 'direct'
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct')
           && <MenuItem
             active={tokenDetailRegexp.test(router.location.pathname)}
             className='sidebarMenuItem'
@@ -43,12 +41,12 @@ class SidebarView extends Component {
           Registry
         </MenuItem>
         }
-        { currentUser.role === 'issuer' || currentUser.role === 'direct'
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct')
           && <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem'>
             Company Multisig
           </MenuItem>
         }
-        { currentUser.role === 'issuer' || currentUser.role === 'direct'
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct')
           && <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/pending-transactions`)}>
             Transactions
           </MenuItem>
