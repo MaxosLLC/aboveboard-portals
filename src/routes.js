@@ -36,8 +36,8 @@ class Routes extends Component {
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens' component={Tokens} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/detail' component={TokenDetail} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
-          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature' component={MultisigWallets} /> : '' }
-          { role === 'broker' || role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
+          { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature' component={MultisigWallets} /> : '' }
+          { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
         </EnsureLoggedIn>
       </Switch>
     )
