@@ -19,7 +19,10 @@ if (url.split(':')[2]) {
   web3Port = url.split(':')[2].replace(/\/$/, '') + '/web3'
 } else {
   web3Url = url.replace(/\/$/, '')
-  web3Port = (/^https/.test(url) ? '443' : '80') + '/web3'
+  if (window.REACT_APP_APP_TYPE) {
+    web3Url = web3Url.replace(/\/local-api$/, '')
+  }
+  web3Port = (/^https/.test(url) ? '443' : '80') + (window.REACT_APP_APP_TYPE ? '/local-api' : '') + '/web3'
 }
 
 let web3
@@ -53,11 +56,11 @@ const getStorageSettingsForToken = async tokenAddress => {
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
-  promisifyAll(contract.getMessagingAddress)
+  promisifyAll(contract.messagingAddress)
   promisifyAll(contract.setMessagingAddress)
-  promisifyAll(contract.getInititalOfferEndDate)
+  promisifyAll(contract.initialOfferEndDate)
   promisifyAll(contract.setInititalOfferEndDate)
-  promisifyAll(contract.getLocked)
+  promisifyAll(contract.locked)
   promisifyAll(contract.setLocked)
 
   return contract
@@ -215,11 +218,11 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const currentMessagingAddress = await contract.getMessagingAddress.callAsync(tokenAddress)
+    const currentMessagingAddress = await contract.messagingAddress.callAsync()
     if (currentMessagingAddress !== messagingAddress) {
-      const gas = await contract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
+      const gas = await contract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
 
-      return contract.setMessagingAddress.sendTransactionAsync(tokenAddress, messagingAddress, { from: currentAccount, gas })
+      return contract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
     }
   },
 
@@ -228,7 +231,7 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    return contract.getLocked.callAsync(tokenAddress)
+    return contract.locked.callAsync()
   },
 
   setTradingLock: async (tokenAddress, locked) => {
@@ -236,9 +239,9 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const gas = await contract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
+    const gas = await contract.setLocked.estimateGasAsync(locked, { from: currentAccount })
 
-    return contract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
+    return contract.setLocked.sendTransactionAsync(locked, { from: currentAccount, gas })
   },
 
   getBalanceForAddress: async (tokenAddress, investorAddress) => {
