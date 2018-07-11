@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setSort: (model, sort) => dispatch({ type: 'SET_SORT', model, sort }),
     setSearch: (model, search) => dispatch({ type: 'SET_SEARCH', model, search }),
     getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
-    setTokenTrading: (tokenAddress, trading) => ethereum.setTradingLock(tokenAddress, !trading)
+    setTokenTrading: (tokenAddress, active) => ethereum.setTradingLock(tokenAddress, !active)
   }
 }
 
