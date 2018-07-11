@@ -160,8 +160,8 @@ class InvestorsView extends Component {
                   .map((investor, i) =>
                     <Table.Row key={investor.id + i}>
                       <Table.Cell>{i + 1}</Table.Cell>
-                      <Table.Cell>{investor.firstName}</Table.Cell>
-                      <Table.Cell>{investor.lastName}</Table.Cell>
+                      <Table.Cell>{investor.firstName || 'No'}</Table.Cell>
+                      <Table.Cell>{investor.lastName || 'Data'}</Table.Cell>
                       <Table.Cell>{investor.email}</Table.Cell>
                       <Table.Cell>{investor.phone}</Table.Cell>
                       <Table.Cell>{investor.country}</Table.Cell>
