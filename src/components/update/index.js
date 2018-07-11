@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Message } from 'semantic-ui-react'
+// import { Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import './update.css'
