@@ -53,11 +53,11 @@ const getStorageSettingsForToken = async tokenAddress => {
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
-  promisifyAll(contract.getMessagingAddress)
+  promisifyAll(contract.messagingAddress)
   promisifyAll(contract.setMessagingAddress)
-  promisifyAll(contract.getInititalOfferEndDate)
+  promisifyAll(contract.initialOfferEndDate)
   promisifyAll(contract.setInititalOfferEndDate)
-  promisifyAll(contract.getLocked)
+  promisifyAll(contract.locked)
   promisifyAll(contract.setLocked)
 
   return contract
@@ -215,11 +215,11 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const currentMessagingAddress = await contract.getMessagingAddress.callAsync(tokenAddress)
+    const currentMessagingAddress = await contract.messagingAddress.callAsync()
     if (currentMessagingAddress !== messagingAddress) {
-      const gas = await contract.setMessagingAddress.estimateGasAsync(tokenAddress, messagingAddress, { from: currentAccount })
+      const gas = await contract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
 
-      return contract.setMessagingAddress.sendTransactionAsync(tokenAddress, messagingAddress, { from: currentAccount, gas })
+      return contract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
     }
   },
 
@@ -228,7 +228,7 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    return contract.getLocked.callAsync(tokenAddress)
+    return contract.locked.callAsync()
   },
 
   setTradingLock: async (tokenAddress, locked) => {
@@ -236,9 +236,9 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    const gas = await contract.setLocked.estimateGasAsync(tokenAddress, locked, { from: currentAccount })
+    const gas = await contract.setLocked.estimateGasAsync(locked, { from: currentAccount })
 
-    return contract.setLocked.sendTransactionAsync(tokenAddress, locked, { from: currentAccount, gas })
+    return contract.setLocked.sendTransactionAsync(locked, { from: currentAccount, gas })
   },
 
   getBalanceForAddress: async (tokenAddress, investorAddress) => {
