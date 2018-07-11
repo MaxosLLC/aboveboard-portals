@@ -19,7 +19,10 @@ if (url.split(':')[2]) {
   web3Port = url.split(':')[2].replace(/\/$/, '') + '/web3'
 } else {
   web3Url = url.replace(/\/$/, '')
-  web3Port = (/^https/.test(url) ? '443' : '80') + '/web3'
+  if (window.REACT_APP_APP_TYPE) {
+    web3Url = web3Url.replace(/\/local-api$/, '')
+  }
+  web3Port = (/^https/.test(url) ? '443' : '80') + (window.REACT_APP_APP_TYPE ? '/local-api' : '') + '/web3'
 }
 
 let web3
