@@ -26,7 +26,7 @@ if (process.env.REACT_APP_APP_TYPE) {
 
     if (process.env.REACT_APP_BRANDING) {
       result = result.replace(/\/favicon.png/, `/favicon-${process.env.REACT_APP_BRANDING}.png`)
-                     .replace(/window\.REACT_APP_BRANDING=""/, `window.REACT_APP_VERSION="${process.env.REACT_APP_BRANDING || ''}"`)
+                     .replace(/window\.REACT_APP_BRANDING=""/, `window.REACT_APP_BRANDING="${process.env.REACT_APP_BRANDING || ''}"`)
     }
 
     fs.writeFileSync('./build/index.html', result, 'utf8')
