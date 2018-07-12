@@ -223,12 +223,12 @@ class InvestorDetailView extends Component {
                   { shareholderHeaders.map((shareholderHeader, i) =>
                     <Table.HeaderCell key={`${shareholderHeader.name}${i}`}>{shareholderHeader.name}
                       <span className='sortButtons'>
-                        <Image
+                        { shareholderHeader.name !== 'Quantity' && shareholderHeader.name !== '% of Total' && <Image
                           src={sortUpSrc}
-                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: 1 }) }} />
-                        <Image
+                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: 1 }) }} /> }
+                        { shareholderHeader.name !== 'Quantity' && shareholderHeader.name !== '% of Total' && <Image
                           src={sortDownSrc}
-                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: -1 }) }} />
+                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: -1 }) }} /> }
                       </span>
                     </Table.HeaderCell>
                   ) }
