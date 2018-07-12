@@ -13,6 +13,15 @@ import Update from 'components/update'
 
 import Routes from './routes'
 
+if (/herokuapp\.com/.test(window.location.hostname)) {
+  if (/broker/.test(window.location.hostname)) {
+    document.title = 'Aboveboard Broker Portal Demo'
+  }
+  if (/issuer/.test(window.location.hostname)) {
+    document.title = 'Aboveboard Issuer Registry Demo'
+  }
+}
+
 class App extends Component {
   render () {
     return (

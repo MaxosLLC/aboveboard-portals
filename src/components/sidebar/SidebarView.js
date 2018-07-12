@@ -3,9 +3,10 @@ import { Menu, Image } from 'semantic-ui-react'
 import './Sidebar.css'
 
 // const { REACT_APP_VERSION } = window
+const { REACT_APP_BRANDING } = window
 const MenuItem = Menu.Item
 
-const logoSrc = '/images/logo.png'
+const logoSrc = REACT_APP_BRANDING ? `/images/logo-${REACT_APP_BRANDING}.png` : '/images/logo.png'
 
 const whitelistingRegexp = /^\/whitelisting/
 const tokensRegexp = /^\/tokens$/
@@ -20,7 +21,7 @@ class SidebarView extends Component {
     return currentUser.id || currentUser._id ? (
       <Menu inverted vertical className='sidebarComponent'>
         <MenuItem onClick={() => routeTo('/')} className='logoContainer'>
-          <Image src={logoSrc} className='siteLogo' size='small' />
+          <Image src={logoSrc} className='siteLogo' />
           { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
         { (currentUser.role === 'broker' || currentUser.role === 'direct') &&
