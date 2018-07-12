@@ -57,6 +57,9 @@ export default {
         const { total: tokens } = await result.payload.promise
         store.dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens })
         store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
+
+        const { $skip: $skipInvestors, $sort: $sortInvestors, search: searchInvestors } = getCurrentQueryParams('investors')
+        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': contractAddress, search: searchInvestors, $skip: $skipInvestors, $sort: $sortInvestors } }))
       }
     }, throttleThreshold))
 
