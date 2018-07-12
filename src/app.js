@@ -13,6 +13,8 @@ import Update from 'components/update'
 
 import Routes from './routes'
 
+console.log('title ', window.REACT_APP_TITLE)
+
 class App extends Component {
   render () {
     return (
