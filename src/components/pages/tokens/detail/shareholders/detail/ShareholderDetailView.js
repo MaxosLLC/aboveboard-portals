@@ -71,7 +71,7 @@ class ShareholderDetailView extends Component {
                   return <Table.Row key={ethAddress.address}>
                     <Table.Cell>
                       <Link
-                        to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${ethAddress.address}`}
+                        to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${ethAddress.address}`}
                         target='_blank'
                         rel='noopener noreferrer'>{ethAddress.address}</Link>
                     </Table.Cell>
@@ -79,7 +79,7 @@ class ShareholderDetailView extends Component {
                       return <p key={issue.address}>
                         <Link to={`/tokens/${issue.address}/detail`}>{getTokenName(issue.address)}</Link>
                         <Link
-                          to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${issue.address}`}
+                          to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${issue.address}`}
                           target='_blank'
                           rel='noopener noreferrer'>(View on Etherscan)</Link>, Balance: {issue.tokens}
                       </p>
