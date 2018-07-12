@@ -78,6 +78,7 @@ class SettingsView extends Component {
       connected,
       connectWallet,
       currentUser,
+      currentToken,
       tokens,
       watchingTokens,
       startWatchingToken,
@@ -115,7 +116,7 @@ class SettingsView extends Component {
       const addedTokens = differenceBy(this.watchingTokensValue, watchingTokens, 'address')
       const removedTokens = differenceBy(watchingTokens, this.watchingTokensValue, 'address')
       addedTokens.forEach(startWatchingToken)
-      removedTokens.forEach(stopWatchingToken)
+      removedTokens.forEach(stopWatchingToken(currentToken))
     }
 
     const handleSetMessagingAccount = () => {

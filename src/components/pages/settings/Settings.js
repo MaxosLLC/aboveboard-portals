@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
   role: state.currentUser.role,
   connected: state.wallet.connected,
   currentUser: state.currentUser,
+  currentToken: state.tokens.current,
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
   watchingTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
   loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished,
@@ -23,9 +24,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(localServices.localToken.create(token))
         .then(() => dispatch(localServices.localToken.find()))
     },
-    stopWatchingToken (token) {
-      return dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
-        .then(() => dispatch(localServices.localToken.find()))
+    stopWatchingToken (currentToken) {
+      return async token => {
+        if (token.address === currentToken) {
+          dispatch({ type: 'SET_CURRENT_TOKEN', tokenAddress: '' })
+        }
+
+        await dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
+        return dispatch(localServices.localToken.find())
+      }
     },
     setMessagingAddress (currentUser, messagingAddress, tokens) {
       return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { emails: { $in: currentUser.emails } } }))
