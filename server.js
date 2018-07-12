@@ -19,8 +19,15 @@ if (process.env.REACT_APP_APP_TYPE) {
     const data = fs.readFileSync('./build/index.html', 'utf8')
 
     // Inject REACT_APP_APP_TYPE
-    const result = data.replace(/window\.REACT_APP_APP_TYPE=""/, `window.REACT_APP_APP_TYPE="${process.env.REACT_APP_APP_TYPE}"`)
-      .replace(/window\.REACT_APP_VERSION=""/, `window.REACT_APP_VERSION="${packageJson.version}"`)
+    let result = data.replace(/window\.REACT_APP_APP_TYPE=""/, `window.REACT_APP_APP_TYPE="${process.env.REACT_APP_APP_TYPE}"`)
+                     .replace(/window\.REACT_APP_VERSION=""/, `window.REACT_APP_VERSION="${packageJson.version}"`)
+                     .replace(/Aboveboard Development/, process.env.REACT_APP_TITLE || 'Aboveboard')
+
+    if (process.env.REACT_APP_BRANDING) {
+      result = result.replace(/\/favicon.png/, `/favicon-${process.env.REACT_APP_BRANDING}.png`)
+                     .replace(/window\.REACT_APP_BRANDING=""/, `window.REACT_APP_VERSION="${process.env.REACT_APP_BRANDING || ''}"`)
+    }
+
     fs.writeFileSync('./build/index.html', result, 'utf8')
   } catch (err) {
     console.log(`Error setting REACT_APP_APP_TYPE, ${err}`)
