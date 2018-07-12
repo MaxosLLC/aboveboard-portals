@@ -13,8 +13,14 @@ import Update from 'components/update'
 
 import Routes from './routes'
 
-console.log('title ', window.REACT_APP_APP_TITLE)
-console.log('app type ', window.REACT_APP_APP_TYPE)
+if (/herokuapp\.com/.test(window.location.hostname)) {
+  if (/broker/.test(window.location.hostname)) {
+    document.title = 'Aboveboard Broker Portal Demo'
+  }
+  if (/issuer/.test(window.location.hostname)) {
+    document.title = 'Aboveboard Issuer Registry Demo'
+  }
+}
 
 class App extends Component {
   render () {
