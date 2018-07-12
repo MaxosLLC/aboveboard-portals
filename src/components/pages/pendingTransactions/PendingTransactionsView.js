@@ -66,7 +66,7 @@ class PendingTransactionsView extends Component {
                       .map(pendingTransaction => <Table.Row key={pendingTransaction.id}>
                         <Table.Cell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/tx/${pendingTransaction.transactionHash}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/tx/${pendingTransaction.transactionHash}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {pendingTransaction
@@ -79,7 +79,7 @@ class PendingTransactionsView extends Component {
                         <Table.Cell>{ethereum.methodByHex[pendingTransaction.methodHex]}</Table.Cell>
                         <Table.Cell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.from}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.from}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {pendingTransaction
@@ -91,7 +91,7 @@ class PendingTransactionsView extends Component {
                         </Table.Cell>
                         <Table.Cell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.to}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.to}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {pendingTransaction
