@@ -24,27 +24,27 @@ export default {
     // Watch for user profile changes
     client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user: user.data || user }))
 
-    client.service('shareholder').on('created', throttle(async data => {
+    client.service('investor').on('created', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
-        const { $skip, $sort, search } = getCurrentQueryParams('shareholders')
+        const { $skip, $sort, search } = getCurrentQueryParams('investors')
         const address = window.location.pathname.split('/')[2]
 
-        store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
+        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
       }
     }, throttleThreshold))
 
-    client.service('shareholder').on('patched', throttle(async data => {
+    client.service('investor').on('patched', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
-        const { $skip, $sort, search } = getCurrentQueryParams('shareholders')
+        const { $skip, $sort, search } = getCurrentQueryParams('investors')
         const address = window.location.pathname.split('/')[2]
 
-        store.dispatch(localServices.shareholder.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
+        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
       }
 
       if (shareholderDetailRegexp.test(window.location.pathname)) {
         const id = window.location.pathname.split('/')[4]
 
-        store.dispatch(localServices.shareholder.find({ query: { id, $limit: 1 } }))
+        store.dispatch(localServices.investor.find({ query: { id, $limit: 1 } }))
       }
     }, throttleThreshold))
 
