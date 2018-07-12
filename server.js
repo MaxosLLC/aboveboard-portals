@@ -21,7 +21,7 @@ if (process.env.REACT_APP_APP_TYPE) {
     // Inject REACT_APP_APP_TYPE
     let result = data.replace(/window\.REACT_APP_APP_TYPE=""/, `window.REACT_APP_APP_TYPE="${process.env.REACT_APP_APP_TYPE}"`)
                      .replace(/window\.REACT_APP_VERSION=""/, `window.REACT_APP_VERSION="${packageJson.version}"`)
-                     .replace(/window\.REACT_APP_TITLE=""/, `window.REACT_APP_VERSION="${process.env.REACT_APP_TITLE}"`)
+                     .replace(/window\.REACT_APP_APP_TITLE=""/, `window.REACT_APP_VERSION="${process.env.REACT_APP_TITLE}"`)
                      .replace(/Aboveboard Development/, process.env.REACT_APP_TITLE || 'Aboveboard')
 
     if (process.env.REACT_APP_BRANDING) {
