@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-import { join } from 'bluebird'
+import { all } from 'bluebird'
 import { Link } from 'react-router-dom'
 import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import StatsCard from 'components/statsCard/StatsCard'
@@ -53,18 +53,14 @@ class InvestorDetailView extends Component {
     super()
     this.state = {
       activeIndex: 0,
-      totalShareholders: 0,
-      totalTransactions: 0,
       locked: undefined
     }
   }
   async componentDidMount () {
-    join(
+    await all([
       this.props.loadShareholders(this.props.currentUser),
-      this.props.loadTransactions(),
-      ({ total: totalShareholders }, { total: totalTransactions }) => {
-        this.setState({ totalShareholders, totalTransactions })
-      })
+      this.props.loadTransactions()
+    ])
 
     await this.props.loadLocalToken()
     await this.props.setCurrentToken(this.props.localToken.address)
@@ -170,8 +166,8 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions } = this.props
-    const { activeIndex, locked, totalShareholders } = this.state
+    const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
+    const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
 

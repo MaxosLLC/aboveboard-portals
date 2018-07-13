@@ -27,18 +27,26 @@ export default {
     client.service('investor').on('created', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const { $skip, $sort, search } = getCurrentQueryParams('investors')
-        const address = window.location.pathname.split('/')[2]
+        const contractAddress = window.location.pathname.split('/')[2]
 
-        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
+        const result = await localServices.investor.find({ query: { 'ethAddresses.issues.address': contractAddress, $limit: 0 } })
+        const { total: shareholders } = await result.payload.promise
+        store.dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders })
+
+        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': contractAddress, search, $skip, $sort } }))
       }
     }, throttleThreshold))
 
     client.service('investor').on('patched', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const { $skip, $sort, search } = getCurrentQueryParams('investors')
-        const address = window.location.pathname.split('/')[2]
+        const contractAddress = window.location.pathname.split('/')[2]
 
-        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': address, search, $skip, $sort } }))
+        const result = await localServices.investor.find({ query: { 'ethAddresses.issues.address': contractAddress, $limit: 0 } })
+        const { total: shareholders } = await result.payload.promise
+        store.dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders })
+
+        store.dispatch(localServices.investor.find({ query: { 'ethAddresses.issues.address': contractAddress, search, $skip, $sort } }))
       }
 
       if (shareholderDetailRegexp.test(window.location.pathname)) {
@@ -56,6 +64,7 @@ export default {
         const result = await localServices.transaction.find({ query: { contractAddress, $limit: 0 } })
         const { total: tokens } = await result.payload.promise
         store.dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens })
+
         store.dispatch(localServices.transaction.find({ query: { contractAddress, search, $skip, $sort } }))
 
         const { $skip: $skipInvestors, $sort: $sortInvestors, search: searchInvestors } = getCurrentQueryParams('investors')

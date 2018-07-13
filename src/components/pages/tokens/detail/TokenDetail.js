@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => ({
   shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
   totalTransactions: state.totals.transactions[ownProps.match.params.address] || 0,
+  totalShareholders: state.totals.shareholders[ownProps.match.params.address] || 0,
   queryResult: {
     shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult || { total: 0, limit: 0 },
     transactions: state.transaction.queryResult || { total: 0, limit: 0 }
@@ -27,17 +28,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     routeTo: path => dispatch(push(path)),
     setCurrentToken: tokenAddress => dispatch({ type: 'SET_CURRENT_TOKEN', tokenAddress }),
     loadShareholders: async currentUser => {
-      const tokenAddress = ownProps.match.params.address
-      const query = { 'ethAddresses.issues.address': tokenAddress }
+      const contractAddress = ownProps.match.params.address
+      const query = { 'ethAddresses.issues.address': contractAddress }
 
       const { value } = await dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
+
+      dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders: value.total })
 
       value.data = await map(value.data, async investor => {
         investor.ethAddresses = await map(investor.ethAddresses, async ethAddress => {
           if (Array.isArray(ethAddress.issues)) {
             ethAddress.issues = await map(ethAddress.issues, async issue => {
-              if (issue.address === tokenAddress) {
-                const tokens = await ethereum.getBalanceForAddress(tokenAddress, ethAddress.address)
+              if (issue.address === contractAddress) {
+                const tokens = await ethereum.getBalanceForAddress(contractAddress, ethAddress.address)
 
                 issue.tokens = tokens
               }
@@ -55,10 +58,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return value
     },
     loadTransactions: () => {
-      const query = { contractAddress: ownProps.match.params.address }
+      const contractAddress = ownProps.match.params.address
+      const query = { contractAddress }
 
       return dispatch(localServices.transaction.find({ query })).then(({ value }) => {
-        dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress: ownProps.match.params.address, tokens: value.total })
+        dispatch({ type: 'SET_TOTAL_TRANSACTIONS', contractAddress, tokens: value.total })
         return value
       })
     },
