@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import './update.css'
@@ -32,19 +32,19 @@ class UpdateNotification extends Component {
   }
 
   render () {
-    // const { currentUser } = this.props
+    const { currentUser } = this.props
 
-    return (<div />)
-    // return (<div>
-    //   { this.isUpdateAvailable() &&
-    //     <Message
-    //       negative
-    //       header={currentUser.updating ? 'Update is in progress' : 'An update is available'}
-    //       content={currentUser.updating ? 'After the successful update this page will be refreshed to load the new version.' : 'Please click here to update!'}
-    //       onClick={this.onClickUpdate}
-    //     />
-    //   }
-    // </div>)
+    return (<div>
+      { this.isUpdateAvailable() &&
+        <Message
+          negative
+          header={currentUser.updating ? 'Update is in progress' : 'An update is available'}
+          content={currentUser.updating ? 'After the successful update this page will be refreshed to load the new version.' : 'Please click here to update!'}
+          onClick={this.onClickUpdate}
+          style={{ cursor: 'pointer' }}
+        />
+      }
+    </div>)
   }
 }
 
