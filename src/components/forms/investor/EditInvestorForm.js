@@ -12,8 +12,8 @@ import {
   Segment,
   Icon
 } from 'semantic-ui-react'
-import { Dropdown, Label, Text } from 'components/inputs'
 
+import { Dropdown, Label, Text } from 'components/inputs'
 import countryOptions from 'data/dropDownCountryOptions'
 
 const qualificationsOptions = [
