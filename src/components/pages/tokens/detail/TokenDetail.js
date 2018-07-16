@@ -7,20 +7,19 @@ import localClient from 'lib/feathers/local/feathersClient'
 import TokenDetailView from './TokenDetailView'
 
 const mapStateToProps = (state, ownProps) => ({
-  currentUser: state.currentUser,
   token: state.token.queryResult && state.token.queryResult.data ? state.token.queryResult.data.filter(token => token.address === ownProps.match.params.address)[0] || {} : {},
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
-  shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data : [],
+  shareholders: state.investor.queryResult ? state.investor.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],
   totalTransactions: state.totals.transactions[ownProps.match.params.address] || 0,
   totalShareholders: state.totals.shareholders[ownProps.match.params.address] || 0,
   queryResult: {
-    shareholders: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult || { total: 0, limit: 0 },
+    shareholders: state.investor.queryResult || { total: 0, limit: 0 },
     transactions: state.transaction.queryResult || { total: 0, limit: 0 }
   },
   page: state.page,
   search: state.search,
-  loaded: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
+  loaded: state.investor.isFinished && state.transaction.isFinished && state.token.isFinished && state.localToken.isFinished
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -31,7 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const contractAddress = ownProps.match.params.address
       const query = { 'ethAddresses.issues.address': contractAddress }
 
-      const { value } = await dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query }))
+      const { value } = await dispatch(localServices.investor.find({ query }))
 
       dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders: value.total })
 
@@ -71,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const allData = []
 
       const fetchPage = (page = 0) =>
-        localClient.service(type).find({ query: { $skip: page * 25, [type === 'shareholder' || type === 'investor' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
+        localClient.service(type).find({ query: { $skip: page * 25, [type === 'investor' ? 'ethAddresses.issues.address' : 'contractAddress']: ownProps.match.params.address } })
           .then(({ data }) => {
             data.forEach(item => { allData.push(item) })
 

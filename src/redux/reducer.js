@@ -30,7 +30,6 @@ const reducers = {
   localToken: localServices.localToken.reducer,
   multisig: localServices.multisig.reducer,
   investor: localServices.investor.reducer,
-  shareholder: localServices.shareholder.reducer,
   transaction: localServices.transaction.reducer,
   pendingTransaction: localServices.pendingTransaction.reducer,
   router: routerReducer

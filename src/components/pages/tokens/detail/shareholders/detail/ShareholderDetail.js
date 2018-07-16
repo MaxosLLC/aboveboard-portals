@@ -4,14 +4,14 @@ import ShareholderDetailView from './ShareholderDetailView'
 
 const mapStateToProps = state => ({
   currentUser: state.currentUser,
-  shareholder: state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult ? state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].queryResult.data[0] || {} : {},
+  shareholder: state.investor.queryResult ? state.investor.queryResult.data[0] || {} : {},
   tokens: state.token.queryResult ? state.token.queryResult.data : [],
-  loaded: state.token.isFinished && state[state.currentUser.role === 'issuer' ? 'shareholder' : 'investor'].isFinished
+  loaded: state.token.isFinished && state.investor.isFinished
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadShareholder: currentUser => dispatch(localServices[currentUser.role === 'issuer' ? 'shareholder' : 'investor'].find({ query: { id: ownProps.match.params.id, $limit: 1 } }))
+    loadShareholder: currentUser => dispatch(localServices.investor.find({ query: { id: ownProps.match.params.id, $limit: 1 } }))
   }
 }
 
