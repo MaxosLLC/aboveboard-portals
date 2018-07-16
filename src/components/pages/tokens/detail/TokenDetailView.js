@@ -135,7 +135,7 @@ class InvestorDetailView extends Component {
     })
   }
   downloadCsvData (type) {
-    if (type === 'shareholder' || type === 'investor') {
+    if (type === 'investor') {
       this.props.loadAll(type)
         .then(shareholders => {
           const headers = '"ID", "First Name", "Last Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Ethereum Addresses", "Balance"\n'
@@ -166,7 +166,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentUser, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
+    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
     const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
@@ -176,7 +176,7 @@ class InvestorDetailView extends Component {
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
-      setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', value)
+      setSearch(activeIndex === 0 ? 'investors' : 'transactions', value)
     }
 
     const handleSetTradingLock = async (e, { checked: active }) => {
@@ -221,14 +221,14 @@ class InvestorDetailView extends Component {
                       <span className='sortButtons'>
                         { shareholderHeader.name !== 'Quantity' && shareholderHeader.name !== '% of Total' && <Image
                           src={sortUpSrc}
-                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: 1 }) }} /> }
+                          onClick={() => { setSort('investors', { [shareholderHeader.sortOption]: 1 }) }} /> }
                         { shareholderHeader.name !== 'Quantity' && shareholderHeader.name !== '% of Total' && <Image
                           src={sortDownSrc}
-                          onClick={() => { setSort(currentUser.role === 'issuer' ? 'shareholders' : 'investors', { [shareholderHeader.sortOption]: -1 }) }} /> }
+                          onClick={() => { setSort('investors', { [shareholderHeader.sortOption]: -1 }) }} /> }
                       </span>
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell><a onClick={() => this.downloadCsvData(currentUser.role === 'issuer' ? 'shareholder' : 'investor')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
+                  <Table.HeaderCell><a onClick={() => this.downloadCsvData('investor')} style={{ cursor: 'pointer' }}><Image src={downloadSrc} className='download' /></a></Table.HeaderCell>
                 </TableRow>
               </Table.Header>
               <Table.Body>
@@ -266,7 +266,7 @@ class InvestorDetailView extends Component {
                               ) + 1
                             : 1
                         }
-                        onPageChange={(e, { activePage }) => setPage(currentUser.role === 'issuer' ? 'shareholders' : 'investors', activePage - 1)}
+                        onPageChange={(e, { activePage }) => setPage('investors', activePage - 1)}
                       />
                     </Table.HeaderCell>
                   </TableRow>
@@ -274,7 +274,7 @@ class InvestorDetailView extends Component {
               }
             </Table>
           </div>
-          : <Segment>{ search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
+          : <Segment>{ search.investors ? 'No shareholders match your search criteria' : 'No shareholder data available' }</Segment>
       }, {
         menuItem: 'Transactions',
         render: () => transactions.length
@@ -400,7 +400,7 @@ class InvestorDetailView extends Component {
           </div>
         }
         <div>
-          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search[currentUser.role === 'issuer' ? 'shareholders' : 'investors'] : search.transactions} />
+          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search['investors'] : search.transactions} />
         </div>
         <br />
         {!loaded
@@ -409,7 +409,7 @@ class InvestorDetailView extends Component {
             activeIndex={activeIndex}
             menu={{ secondary: true, pointing: true }}
             panes={panes}
-            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? currentUser.role === 'issuer' ? 'shareholders' : 'investors' : 'transactions', ''); this.setState({ activeIndex }) }}
+            onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'investors' : 'transactions', ''); this.setState({ activeIndex }) }}
             className='tableTabs' />}
       </div>
     )
