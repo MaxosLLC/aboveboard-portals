@@ -47,14 +47,20 @@ const waitForWeb3 = async () => {
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
 
+  console.log('gsst 1 ', tokenAddress)
+
   const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
+console.log('gsst 2 ')
+
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+  console.log('gsst 3 ', regulatorServiceAddress)
   const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
   const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+  console.log('gsst 4 ', storageAddress)
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
   promisifyAll(contract.messagingAddress)
   promisifyAll(contract.setMessagingAddress)
