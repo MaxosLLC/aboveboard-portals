@@ -229,8 +229,6 @@ export default {
   getTradingLock: async tokenAddress => {
     await waitForWeb3()
 
-    console.log('getTradingLock for token ', tokenAddress)
-
     const contract = await getStorageSettingsForToken(tokenAddress)
 
     return contract.locked.callAsync()
@@ -257,19 +255,17 @@ export default {
     return balance.toNumber()
   },
 
-  getWhitelistsForBroker: async (user, tokens) => {
+  getWhitelistsForBroker: async (user, tokens) => { // TODO: reenable once getQualifiers is fixed
     if (!tokens.length) { return [] }
 
-    console.log('getwhitelistforbroker token address ', tokens[0].address)
+    // const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
+    // promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
-    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
-    promisifyAll(deployedSettingsStorageContract.getWhitelists)
+    // const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
 
-    const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
+    // return whitelistAddresses
 
-    return whitelistAddresses
-
-    // return filter(whitelistAddresses, async whitelistAddress => { TODO: reenable once getQualifiers is fixed
+    // return filter(whitelistAddresses, async whitelistAddress => {
     //   const deployedWhitelistContract = web3.eth.contract(whitelistContract.abi).at(whitelistAddress)
     //   promisifyAll(deployedWhitelistContract.getQualifiers)
 

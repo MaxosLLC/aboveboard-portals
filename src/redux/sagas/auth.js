@@ -78,9 +78,10 @@ function * loginSuccess ({ user, accessToken }) {
   }
 
   if (user.role === 'broker' || user.role === 'direct') {
-    const whitelists = yield ethereum.getWhitelistsForBroker(user, localTokens)
+    // const whitelists = yield ethereum.getWhitelistsForBroker(user, localTokens)
 
-    yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+    // yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+    yield store.dispatch(cloudServices.whitelist.find())
   }
 }
 
