@@ -61,9 +61,7 @@ const mapDispatchToProps = dispatch => {
     },
     getCurrentRequirement: ethereum.getCurrentRequirement,
     getOwners: ethereum.getOwners,
-    changeRequirement (newRequirement = 2, multisigWalletAddress) {
-      ethereum.changeRequirement(newRequirement, multisigWalletAddress)
-    }
+    changeRequirement: ethereum.changeRequirement
   }
 }
 

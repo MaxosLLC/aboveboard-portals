@@ -7,13 +7,13 @@ class MultisigWalletsView extends Component {
     this.state = { changeWallet: false }
   }
 
-  componentDidMount () {
-    this.props.loadMultisigWallet()
+  async componentDidMount () {
+    await this.props.loadMultisigWallet()
 
-    this.props.getCurrentRequirement()
+    this.props.getCurrentRequirement(this.props.multisigWallet.address)
       .then(currentRequirement => this.setState({ currentRequirement }))
 
-    this.props.getOwners()
+    this.props.getOwners(this.props.multisigWallet.address)
       .then(currentOwners => this.setState({ currentOwners }))
   }
 
@@ -35,7 +35,6 @@ class MultisigWalletsView extends Component {
       await addMultisigWallet(addWalletAddress)
 
       this.setState({ activeIndex: undefined })
-      document.getElementById('multisig-wallet-add-input').value = ''
     }
 
     const handleChangeWallet = async () => {
@@ -43,8 +42,8 @@ class MultisigWalletsView extends Component {
 
       await changeMultisigWallet(changeWalletAddress)
 
-      this.setState({ activeIndex: undefined })
       document.getElementById('multisig-wallet-change-input').value = ''
+      this.setState({ activeIndex: undefined, changeWallet: false })
     }
 
     const handleAddSigner = async () => {
@@ -52,8 +51,8 @@ class MultisigWalletsView extends Component {
 
       await addSigner(newSignerAddress, multisigWallet.address)
 
-      this.setState({ activeIndex: undefined })
       document.getElementById('add-signer-address-input').value = ''
+      this.setState({ activeIndex: undefined })
     }
 
     const handleRemoveSigner = async () => {
@@ -78,8 +77,8 @@ class MultisigWalletsView extends Component {
 
       await changeRequirement(newRequirement, multisigWallet.address)
 
-      this.setState({ activeIndex: undefined })
       document.getElementById('change-requirement-input').value = ''
+      this.setState({ activeIndex: undefined })
     }
 
     const handleSendTokens = () => {
