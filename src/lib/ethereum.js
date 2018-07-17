@@ -59,7 +59,7 @@ console.log('gsst 2 ')
   const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
 
-  const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
+  const storageAddress = tokenAddress === '0x9f81821Dd93aeB53A9439a61CBd58dA8928E14da' ? '0xd366bcda53f45b1e726966c2bb5c9ee7fb046608' : await deployedRegulatorServiceContract.getStorageAddress.callAsync()
   console.log('gsst 4 ', storageAddress)
   const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
   promisifyAll(contract.messagingAddress)
