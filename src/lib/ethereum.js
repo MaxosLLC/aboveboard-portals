@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise, { filter, promisifyAll } from 'bluebird'
+import Promise, { promisifyAll } from 'bluebird'
 
 import whitelistContract from 'lib/contracts/IssuanceWhiteList'
 import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
