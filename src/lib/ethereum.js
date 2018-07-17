@@ -234,7 +234,9 @@ export default {
 console.log('gtl1')
     const contract = await getStorageSettingsForToken(tokenAddress)
 console.log('gtl2')
-    return contract.locked.callAsync()
+    const locked = await contract.locked.callAsync()
+console.log('gtl3 ', locked)    
+    return locked
   },
 
   setTradingLock: async (tokenAddress, locked) => {
