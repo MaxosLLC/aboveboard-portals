@@ -1,8 +1,7 @@
 export default (state = {
   investors: '',
   transactions: '',
-  pendingTransactions: '',
-  shareholders: ''
+  pendingTransactions: ''
 }, action) => {
   switch (action.type) {
     case 'SET_SEARCH':
