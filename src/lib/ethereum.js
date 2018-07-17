@@ -54,7 +54,7 @@ const getStorageSettingsForToken = async tokenAddress => {
 
 console.log('gsst 2 ')
 
-  const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+  const regulatorServiceAddress = tokenAddress === '0x9f81821Dd93aeB53A9439a61CBd58dA8928E14da' ? '0x9aac1ae983265db52103c14cc06bec846f243372' : await deployedTokenContract._service.callAsync()
   console.log('gsst 3 ', regulatorServiceAddress)
   const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
   promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
