@@ -229,6 +229,8 @@ export default {
   getTradingLock: async tokenAddress => {
     await waitForWeb3()
 
+    console.log('getTradingLock for token ', tokenAddress)
+
     const contract = await getStorageSettingsForToken(tokenAddress)
 
     return contract.locked.callAsync()
