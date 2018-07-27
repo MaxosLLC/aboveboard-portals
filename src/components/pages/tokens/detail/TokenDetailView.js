@@ -304,7 +304,7 @@ class InvestorDetailView extends Component {
                       .map(transaction => <TableRow key={transaction.id}>
                         <TableCell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/tx/${transaction.transactionHash}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/tx/${transaction.transactionHash}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -316,7 +316,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${transaction.fromEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${transaction.fromEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -333,7 +333,7 @@ class InvestorDetailView extends Component {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${transaction.shareholderEthAddress}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${transaction.shareholderEthAddress}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {transaction
@@ -378,7 +378,7 @@ class InvestorDetailView extends Component {
       <div className='investorsComponent'>
         <Header as='h2' className='tokenHeader'>
           <Link
-            to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${token.address}`}
+            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${token.address}`}
             target='_blank'
             rel='noopener noreferrer'>
             {token.name}

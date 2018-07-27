@@ -2,15 +2,10 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise, { promisifyAll } from 'bluebird'
+import Promise, { filter, promisifyAll } from 'bluebird'
 
-import whitelistContract from 'lib/contracts/IssuanceWhiteList'
-import regDWhitelistContract from 'lib/contracts/RegulationDWhiteList'
-import tokenContract from 'lib/contracts/RegulatedToken'
-import regulatorServiceContract from 'lib/contracts/AboveboardRegDSWhitelistRegulatorService'
-import settingsStorageContract from 'lib/contracts/SettingsStorage'
-import multiSigArbitrationContract from 'lib/contracts/MultiSigArbitration'
 import { url } from 'lib/feathers/local/feathersClient'
+import { getAbi } from 'lib/abi'
 
 let web3Url
 let web3Port
@@ -44,18 +39,27 @@ const waitForWeb3 = async () => {
   }
 }
 
+const getTokenFromAddress = async tokenAddress =>
+  store.getState().token.queryResult.data.filter(({ address }) => tokenAddress === address)[0]
+
+const getWhitelistFromAddress = async contractAddress =>
+  store.getState().whitelist.queryResult.data.filter(({ address }) => contractAddress === address)[0]
+
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
 
-  const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+  const token = getTokenFromAddress(tokenAddress)
+
+  const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
-  const deployedRegulatorServiceContract = web3.eth.contract(regulatorServiceContract.abi).at(regulatorServiceAddress)
-  promisifyAll(deployedRegulatorServiceContract.getStorageAddress)
+  const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
+  const storageAddressMethod = (token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
+  promisifyAll(deployedRegulatorServiceContract[storageAddressMethod])
 
-  const storageAddress = await deployedRegulatorServiceContract.getStorageAddress.callAsync()
-  const contract = web3.eth.contract(settingsStorageContract.abi).at(storageAddress)
+  const storageAddress = await deployedRegulatorServiceContract[storageAddressMethod].callAsync()
+  const contract = web3.eth.contract(getAbi('settingsStorage', token.abiVersion)).at(storageAddress)
   promisifyAll(contract.messagingAddress)
   promisifyAll(contract.setMessagingAddress)
   promisifyAll(contract.initialOfferEndDate)
@@ -174,7 +178,9 @@ export default {
   addInvestorToWhitelist: async (investorAddress, contractAddress) => {
     await waitForWeb3()
 
-    const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
+    const whitelist = getWhitelistFromAddress(contractAddress)
+
+    const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
     promisifyAll(contract.add)
 
     const gas = await contract.add.estimateGasAsync(investorAddress, { from: currentAccount })
@@ -185,7 +191,9 @@ export default {
   addInvestorsToWhitelist: async (investorAddresses, contractAddress) => {
     await waitForWeb3()
 
-    const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
+    const whitelist = getWhitelistFromAddress(contractAddress)
+
+    const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
     promisifyAll(contract.addBuyers)
 
     const gas = await contract.addBuyers.estimateGasAsync(investorAddresses, { from: currentAccount })
@@ -196,21 +204,14 @@ export default {
   removeInvestorFromWhitelist: async (investorAddress, contractAddress) => {
     await waitForWeb3()
 
-    const contract = web3.eth.contract(whitelistContract.abi).at(contractAddress)
+    const whitelist = getWhitelistFromAddress(contractAddress)
+
+    const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
     promisifyAll(contract.remove)
 
     const gas = await contract.remove.estimateGasAsync(investorAddress, { from: currentAccount })
 
     return contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas })
-  },
-
-  setRegDWhitelistReleaseDate: async (investorAddress, contractAddress, releaseDate) => {
-    await waitForWeb3()
-
-    const contract = web3.eth.contract(regDWhitelistContract.abi).at(contractAddress)
-    promisifyAll(contract.setReleaseDate)
-
-    return contract.setReleaseDate.sendTransactionAsync(investorAddress, releaseDate, { from: currentAccount })
   },
 
   setMessagingAddress: async (messagingAddress, tokenAddress) => {
@@ -247,7 +248,9 @@ export default {
   getBalanceForAddress: async (tokenAddress, investorAddress) => {
     await waitForWeb3()
 
-    const contract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
+    const token = getTokenFromAddress(tokenAddress)
+
+    const contract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
     promisifyAll(contract.balanceOf)
 
     const balance = await contract.balanceOf.callAsync(investorAddress)
@@ -255,30 +258,33 @@ export default {
     return balance.toNumber()
   },
 
-  getWhitelistsForBroker: async (user, tokens) => { // TODO: reenable once getQualifiers is fixed
+  getWhitelistsForBroker: async (user, tokens) => {
     if (!tokens.length) { return [] }
 
-    // const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
-    // promisifyAll(deployedSettingsStorageContract.getWhitelists)
+    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
+    promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
-    // const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
+    const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
 
-    // return whitelistAddresses
+    return filter(whitelistAddresses, async whitelistAddress => {
+      const whitelist = getWhitelistFromAddress(whitelistAddress)
+      const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
+      promisifyAll(deployedWhitelistContract.getQualifiers)
 
-    // return filter(whitelistAddresses, async whitelistAddress => {
-    //   const deployedWhitelistContract = web3.eth.contract(whitelistContract.abi).at(whitelistAddress)
-    //   promisifyAll(deployedWhitelistContract.getQualifiers)
+      const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
 
-    //   const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
-
-    //   return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
-    // })
+      return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
+    })
+      .catch(e => {
+        console.log(`Error getting whitelists: ${e.message}`)
+        return whitelistAddresses
+      })
   },
 
   confirmTransaction: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.confirmTransaction)
 
@@ -290,7 +296,7 @@ export default {
   revokeConfirmation: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.revokeConfirmation)
 
@@ -302,8 +308,10 @@ export default {
   setTokenApproval: async (tokenAddress, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const token = getTokenFromAddress(tokenAddress)
+
+    const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
@@ -317,8 +325,10 @@ export default {
   sendTokens: async (tokenAddress, toAddress, amount, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedTokenContract = web3.eth.contract(tokenContract.abi).at(tokenAddress)
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const token = getTokenFromAddress(tokenAddress)
+
+    const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
@@ -332,7 +342,7 @@ export default {
   addSigner: async (signer, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
@@ -346,7 +356,7 @@ export default {
   removeSigner: async (signer, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 
@@ -360,7 +370,7 @@ export default {
   getCurrentRequirement: async (multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.required)
 
@@ -372,7 +382,7 @@ export default {
   getOwners: async (multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.getOwners)
 
@@ -382,7 +392,7 @@ export default {
   changeRequirement: async (required, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
     await waitForWeb3()
 
-    const deployedWalletContract = web3.eth.contract(multiSigArbitrationContract.abi).at(multisigWalletAddress)
+    const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
     promisifyAll(deployedWalletContract.submitTransaction)
 

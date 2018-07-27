@@ -84,7 +84,7 @@ class InvestorDetailView extends Component {
                     <Table.Row key={ethAddress.address}>
                       <Table.Cell>
                         <Link
-                          to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${
+                          to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${
                             ethAddress.address
                           }`}
                           target='_blank'
@@ -98,7 +98,7 @@ class InvestorDetailView extends Component {
                           return (
                             <p key={whitelist.address}>
                               <Link
-                                to={`https://${window.REACT_APP_APP_TYPE && !/enegra/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${
+                                to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${
                                   whitelist.address
                                 }`}
                                 target='_blank'
