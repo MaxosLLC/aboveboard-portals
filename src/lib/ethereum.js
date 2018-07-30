@@ -31,8 +31,8 @@ const waitForWeb3 = async () => {
     attempts++
     await delay(500)
 
-    if (attempts === 10) {
-      console.log('Could not connect to wallet after 10 attempts')
+    if (attempts === 50) {
+      console.log('Could not connect to wallet after 50 attempts')
     }
 
     return waitForWeb3()
@@ -92,7 +92,7 @@ export default {
     password
   }) => {
     const providerEngine = new Web3ProviderEngine()
-
+console.log('eth init 1')
     if (window.web3 && window.web3.currentProvider) {
       const currentProvider = new Web3(window.web3.currentProvider)
 
@@ -139,7 +139,7 @@ export default {
     } else if (account && password) {
       providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(`${walletHost}:${walletPort}`)))
     }
-
+console.log('eth init 2')
     // Use an RPC provider to route all other requests
     providerEngine.addProvider(new Web3Subprovider(new Web3.providers.HttpProvider(`${walletHost}:${walletPort}`, 0, 'n/a', store.getState().currentUser.accessToken)))  // TODO: implement redundantRPC
 
@@ -149,15 +149,16 @@ export default {
 
     promisifyAll(web3.eth)
     promisifyAll(web3.personal)
-
+console.log('eth init 3')
     try {
+      console.log('eth init 4')
       const accounts = await web3.eth.getAccountsAsync()
       currentAccount = account || accounts[0]
 
       if (account && password) {
         await web3.personal.unlockAccountAsync(currentAccount, password)
       }
-
+console.log('eth init 5')
       if (currentAccount) {
         store.dispatch({ type: 'WALLET_CONNECT_SUCCESS' })
       }

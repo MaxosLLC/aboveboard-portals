@@ -75,7 +75,7 @@ function * loginSuccess ({ user, accessToken }) {
     walletPort: user.walletPort,
     account: user.walletAccount,
     password: user.walletPassword
-  })
+  }).catch(e => console.log(`could not init ethereum, ${e.message}`))
 
   const accounts = yield ethereum.getAccounts()
   const ethAddresses = accounts.map(address => ({ address }))
