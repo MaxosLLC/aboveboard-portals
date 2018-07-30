@@ -52,18 +52,25 @@ const getStorageSettingsForToken = async tokenAddress => {
 
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
-
+console.log('gss 01')
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
   const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
+  console.log('token ', JSON.stringify(token, null, 2))
   const storageAddressMethod = (!token.abiVersion || token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
+  console.log('storage address method ', storageAddressMethod)
   promisifyAll(deployedRegulatorServiceContract[storageAddressMethod])
 
   const storageAddress = await deployedRegulatorServiceContract[storageAddressMethod].callAsync()
   const contract = web3.eth.contract(getAbi('settingsStorage', token.abiVersion)).at(storageAddress)
+  console.log('gsssft 2')
   promisifyAll(contract.initialOfferEndDate)
+  console.log('gsssft 3')
   promisifyAll(contract.setInititalOfferEndDate)
+  console.log('gsssft 4')
   promisifyAll(contract.locked)
+  console.log('gsssft 5')
   promisifyAll(contract.setLocked)
+  console.log('gsssft 6')
 
   return contract
 }
