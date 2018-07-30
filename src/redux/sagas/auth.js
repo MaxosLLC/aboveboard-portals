@@ -64,12 +64,6 @@ function * loginSuccess ({ user, accessToken }) {
     yield put({ type: 'SET_CURRENT_TOKEN', tokenAddress })
   }
 
-  if (user.role === 'broker' || user.role === 'direct') {
-    const whitelists = yield ethereum.getWhitelistsForBroker(user, localTokens)
-
-    yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
-  }
-
   yield ethereum.init({
     walletHost: user.walletHost,
     walletPort: user.walletPort,
@@ -81,6 +75,12 @@ function * loginSuccess ({ user, accessToken }) {
   const ethAddresses = accounts.map(address => ({ address }))
   if (user.role !== 'buyer') {
     yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
+  }
+
+  if (user.role === 'broker' || user.role === 'direct') {
+    const whitelists = yield ethereum.getWhitelistsForBroker(user, localTokens)
+
+    yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
   }
 }
 
