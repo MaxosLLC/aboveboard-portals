@@ -231,7 +231,8 @@ export default {
 
     const token = getTokenFromAddress(tokenAddress)
 
-    return contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked'].callAsync()
+    return contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked']
+      .callAsync(!token.abiVersion || token.abiVersion === '06-12-18' ? tokenAddress : undefined)
   },
 
   setTradingLock: async (tokenAddress, locked) => {
