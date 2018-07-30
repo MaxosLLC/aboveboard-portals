@@ -60,8 +60,8 @@ const getStorageSettingsForToken = async tokenAddress => {
 
   const storageAddress = await deployedRegulatorServiceContract[storageAddressMethod].callAsync()
   const contract = web3.eth.contract(getAbi('settingsStorage', token.abiVersion)).at(storageAddress)
+  promisifyAll(contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked'])
   promisifyAll(contract.setInititalOfferEndDate)
-  promisifyAll(contract.locked)
   promisifyAll(contract.setLocked)
 
   return contract
@@ -229,7 +229,9 @@ export default {
 
     const contract = await getStorageSettingsForToken(tokenAddress)
 
-    return contract.locked.callAsync()
+    const token = getTokenFromAddress(tokenAddress)
+
+    return contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked'].callAsync()
   },
 
   setTradingLock: async (tokenAddress, locked) => {
