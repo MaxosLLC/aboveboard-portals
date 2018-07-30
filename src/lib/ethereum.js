@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise, { filter, promisifyAll } from 'bluebird'
+import Promise, { filter, reduce, promisifyAll } from 'bluebird'
 
 import { url } from 'lib/feathers/local/feathersClient'
 import { getAbi } from 'lib/abi'
@@ -261,25 +261,28 @@ export default {
   getWhitelistsForBroker: async (user, tokens) => {
     if (!tokens.length) { return [] }
 
-    const deployedSettingsStorageContract = await getStorageSettingsForToken(tokens[0].address)
-    promisifyAll(deployedSettingsStorageContract.getWhitelists)
+    return reduce(tokens, async (result, token) => {
+      const deployedSettingsStorageContract = await getStorageSettingsForToken(token.address)
+      promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
-    const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
+      const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
 
-    return filter(whitelistAddresses, async whitelistAddress => {
-      const whitelist = getWhitelistFromAddress(whitelistAddress)
-      if (!whitelist) { return }
+      const filteredWhitelistAddresses = await filter(whitelistAddresses, async whitelistAddress => {
+        const whitelist = getWhitelistFromAddress(whitelistAddress)
+        if (!whitelist) { return }
 
-      const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
-      promisifyAll(deployedWhitelistContract.getQualifiers)
+        const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
+        promisifyAll(deployedWhitelistContract.getQualifiers)
 
-      const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
+        const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
 
-      return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
-    })
+        return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
+      })
+
+      return result.concat(filteredWhitelistAddresses)
+    }, [])
       .catch(e => {
         console.log(`Error getting whitelists: ${e.message}`)
-        return whitelistAddresses
       })
   },
 
