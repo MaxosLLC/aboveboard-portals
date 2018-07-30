@@ -39,10 +39,10 @@ const waitForWeb3 = async () => {
   }
 }
 
-const getTokenFromAddress = async tokenAddress =>
+const getTokenFromAddress = tokenAddress =>
   store.getState().token.queryResult.data.filter(({ address }) => tokenAddress === address)[0]
 
-const getWhitelistFromAddress = async contractAddress =>
+const getWhitelistFromAddress = contractAddress =>
   store.getState().whitelist.queryResult.data.filter(({ address }) => contractAddress === address)[0]
 
 const getStorageSettingsForToken = async tokenAddress => {
@@ -56,7 +56,7 @@ console.log('gss 01')
   const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
   const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
   console.log('token ', JSON.stringify(token, null, 2))
-  const storageAddressMethod = (token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
+  const storageAddressMethod = (!token.abiVersion || token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
   console.log('storage address method ', storageAddressMethod)
   promisifyAll(deployedRegulatorServiceContract[storageAddressMethod])
 
