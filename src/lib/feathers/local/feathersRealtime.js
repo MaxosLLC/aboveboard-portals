@@ -103,6 +103,8 @@ export default {
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
 
+      if (!store.getState().localToken.queryResult) { return }
+
       const user = store.getState().currentUser
       const localTokens = store.getState().localToken.queryResult.data
       const whitelists = await ethereum.getWhitelistsForBroker(user, localTokens)
@@ -115,6 +117,8 @@ export default {
 
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
+
+      if (!store.getState().localToken.queryResult) { return }
 
       const user = store.getState().currentUser
       const localTokens = store.getState().localToken.queryResult.data
