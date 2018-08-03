@@ -3,6 +3,7 @@ import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
 import Promise, { filter, reduce, promisifyAll } from 'bluebird'
+import { uniq } from 'lodash'
 
 import { url } from 'lib/feathers/local/feathersClient'
 import { getAbi } from 'lib/abi'
@@ -165,7 +166,7 @@ export default {
     }
   },
 
-  getAccounts: async () => web3.eth.getAccountsAsync(),
+  getAccounts: () => web3.eth.getAccountsAsync(),
 
   setCurrentAccount (address) {
     currentAccount = address
@@ -261,7 +262,7 @@ export default {
   getWhitelistsForBroker: async (user, tokens) => {
     if (!tokens.length) { return [] }
 
-    return reduce(tokens, async (result, token) => {
+    const whitelists = await reduce(tokens, async (result, token) => {
       const deployedSettingsStorageContract = await getStorageSettingsForToken(token.address)
       promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
@@ -272,18 +273,25 @@ export default {
         if (!whitelist) { return }
 
         const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
-        promisifyAll(deployedWhitelistContract.getQualifiers)
 
-        const qualifiers = await deployedWhitelistContract.getQualifiers.callAsync({ from: currentAccount })
+        try {
+          promisifyAll(deployedWhitelistContract.getAgentsOwnerAndQualifiers)
 
-        return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
+          const qualifiers = await deployedWhitelistContract.getAgentsOwnerAndQualifiers.callAsync({ from: currentAccount })
+
+          return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
+        } catch (e) {
+          console.log(`Error getting qualifiers ${e.message}`)
+          return whitelistAddresses
+        }
       })
-
       return result.concat(filteredWhitelistAddresses)
     }, [])
       .catch(e => {
         console.log(`Error getting whitelists: ${e.message}`)
       })
+
+    return uniq(whitelists)
   },
 
   confirmTransaction: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {

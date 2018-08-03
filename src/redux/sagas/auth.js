@@ -73,6 +73,7 @@ function * loginSuccess ({ user, accessToken }) {
     .catch(e => console.log(`could not init ethereum, ${e.message}`))
 
   const accounts = yield ethereum.getAccounts()
+
   const ethAddresses = accounts.map(address => ({ address }))
   if (user.role !== 'buyer') {
     yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
