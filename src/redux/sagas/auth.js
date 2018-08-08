@@ -75,9 +75,7 @@ function * loginSuccess ({ user, accessToken }) {
   const accounts = yield ethereum.getAccounts()
 
   const ethAddresses = accounts.map(address => ({ address }))
-  if (user.role !== 'buyer') {
-    yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
-  }
+  yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
 
   if (user.role === 'broker' || user.role === 'direct') {
     yield store.dispatch(cloudServices.whitelist.find())
