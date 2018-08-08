@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { each } from 'bluebird'
-import { differenceBy } from 'lodash'
+import { differenceBy, omit } from 'lodash'
 import localServices from 'lib/feathers/local/feathersServices'
 import ethereum from 'lib/ethereum'
 
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         })
       })
 
-      await dispatch(localServices.investor.patch(null, newData, { query: { id: newData.id } }))
+      await dispatch(localServices.investor.patch(null, omit(newData, 'email'), { query: { id: newData.id } }))
       await dispatch(push('/whitelisting'))
     },
     routeTo: path => ownProps.history.push(path)

@@ -27,7 +27,6 @@ const qualificationsOptions = [
   }
 ]
 
-const emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,16}$/i
 const phoneRegexp = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i; // eslint-disable-line
 const postalAndZipCodeRegexp = /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/i
 
@@ -44,14 +43,6 @@ const validate = values => {
     errors.lastName = 'Required'
   } else if (values.lastName.length > 60) {
     errors.lastName = 'Last name must be less than 60 characters'
-  }
-
-  if (!values.email) {
-    errors.email = 'Required'
-  } else if (!emailRegexp.test(values.email)) {
-    errors.email = 'Invalid email address'
-  } else if (values.email.length > 100) {
-    errors.email = 'Email must be less than 100 characters'
   }
 
   if (values.phone && !phoneRegexp.test(values.phone)) {

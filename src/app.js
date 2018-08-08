@@ -10,6 +10,7 @@ import history from 'redux/history'
 import Header from 'components/header/Header'
 import Sidebar from 'components/sidebar/Sidebar'
 import Update from 'components/update'
+import WalletBlocker from 'components/wallet/WalletBlocker'
 
 import Routes from './routes'
 
@@ -36,6 +37,7 @@ class App extends Component {
                 <Routes />
               </div>
             </div>
+            <WalletBlocker />
           </div>
         </ConnectedRouter>
       </Provider>
