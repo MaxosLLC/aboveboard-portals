@@ -330,6 +330,7 @@ export default {
 
       const filteredWhitelistAddresses = await filter(whitelistAddresses, async whitelistAddress => {
         const whitelist = getWhitelistFromAddress(whitelistAddress)
+        console.log('wl ', whitelist)
         if (!whitelist) { return }
 
         const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
