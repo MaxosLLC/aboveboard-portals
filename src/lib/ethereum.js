@@ -68,7 +68,7 @@ const getWhitelistFromAddress = contractAddress =>
 
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
-
+console.log('tokens ', store.getState().token.queryResult.data)
   const token = getTokenFromAddress(tokenAddress)
 console.log('token ', token)
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
