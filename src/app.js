@@ -14,7 +14,7 @@ import WalletBlocker from 'components/wallet/WalletBlocker'
 
 import Routes from './routes'
 
-console.log('test')
+console.log('test2')
 
 if (/herokuapp\.com/.test(window.location.hostname)) {
   if (/broker/.test(window.location.hostname)) {
