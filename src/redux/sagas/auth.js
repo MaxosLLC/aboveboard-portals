@@ -78,11 +78,14 @@ function * loginSuccess ({ user, accessToken }) {
   yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
 
   if (user.role === 'broker' || user.role === 'direct') {
-    yield store.dispatch(cloudServices.whitelist.find())
+    if (localTokens.length) {
+      const allWhitelists = yield cloudServices.whitelist.find()
+      const { data } = yield allWhitelists.payload.promise
 
-    const whitelists = yield ethereum.getWhitelistsForBroker(Object.assign({}, user, { ethAddresses }), localTokens)
+      const whitelists = yield ethereum.getWhitelistsForBroker(data, Object.assign({}, user, { ethAddresses }), localTokens)
 
-    yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+      yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+    }
   }
 }
 

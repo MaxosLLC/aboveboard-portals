@@ -68,9 +68,9 @@ const getWhitelistFromAddress = contractAddress =>
 
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
-console.log('tokens ', store.getState().token.queryResult.data)
+
   const token = getTokenFromAddress(tokenAddress)
-console.log('token ', token)
+
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
@@ -84,7 +84,7 @@ console.log('token ', token)
   promisifyAll(contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked'])
   promisifyAll(contract.setInititalOfferEndDate)
   promisifyAll(contract.setLocked)
-console.log('test 3')
+
   return contract
 }
 
@@ -319,7 +319,7 @@ export default {
     }
   },
 
-  getWhitelistsForBroker: async (user, tokens) => {
+  getWhitelistsForBroker: async (allWhitelists, user, tokens) => {
     if (!tokens.length || !user.ethAddresses) { return [] }
 
     const whitelists = await reduce(tokens, async (result, token) => {
@@ -329,8 +329,7 @@ export default {
       const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
 
       const filteredWhitelistAddresses = await filter(whitelistAddresses, async whitelistAddress => {
-        const whitelist = getWhitelistFromAddress(whitelistAddress)
-        console.log('wl ', whitelist)
+        const whitelist = allWhitelists.filter(({ address }) => address === whitelistAddress)[0]
         if (!whitelist) { return }
 
         const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)

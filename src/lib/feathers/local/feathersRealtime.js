@@ -22,6 +22,17 @@ const getCurrentQueryParams = model => {
   return params
 }
 
+const updateWhitelists = async () => {
+  const user = store.getState().currentUser
+  const allLocalTokens = await localServices.localToken.find()
+  const { data: allLocalTokensData } = await allLocalTokens.payload.promise
+  const allWhitelists = await cloudServices.whitelist.find()
+  const { data: allWhitelistsData } = await allWhitelists.payload.promise
+  const whitelists = await ethereum.getWhitelistsForBroker(allWhitelistsData, user, allLocalTokensData)
+
+  return store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+}
+
 export default {
   init () {
     // Watch for user profile changes
@@ -89,13 +100,6 @@ export default {
       }
     }, throttleThreshold))
 
-    client.service('localToken').on('patched', data => {
-      if (tokenDetailRegexp.test(window.location.pathname)) {
-        const address = window.location.pathname.split('/')[2]
-
-        store.dispatch(localServices.localToken.find({ query: { address } }))
-      }
-    })
     client.service('localToken').on('created', async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const address = window.location.pathname.split('/')[2]
@@ -103,13 +107,7 @@ export default {
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
 
-      if (!store.getState().localToken.queryResult) { return }
-
-      const user = store.getState().currentUser
-      const localTokens = store.getState().localToken.queryResult.data
-      const whitelists = await ethereum.getWhitelistsForBroker(user, localTokens)
-
-      store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+      return updateWhitelists()
     })
     client.service('localToken').on('patched', async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {
@@ -119,12 +117,7 @@ export default {
       }
 
       if (!store.getState().localToken.queryResult) { return }
-
-      const user = store.getState().currentUser
-      const localTokens = store.getState().localToken.queryResult.data
-      const whitelists = await ethereum.getWhitelistsForBroker(user, localTokens)
-
-      store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
     })
+    client.service('localToken').on('removed', async data => updateWhitelists())
   }
 }
