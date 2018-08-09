@@ -14,6 +14,8 @@ import WalletBlocker from 'components/wallet/WalletBlocker'
 
 import Routes from './routes'
 
+console.log('test')
+
 if (/herokuapp\.com/.test(window.location.hostname)) {
   if (/broker/.test(window.location.hostname)) {
     document.title = 'Aboveboard Broker Portal Demo'
