@@ -29,7 +29,7 @@ const updateWhitelists = async () => {
   const allWhitelists = await cloudServices.whitelist.find()
   const { data: allWhitelistsData } = await allWhitelists.payload.promise
   const whitelists = await ethereum.getWhitelistsForBroker(allWhitelistsData, user, allLocalTokensData)
-console.log('updating whitelists ', whitelists)
+
   return store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
 }
 
@@ -101,7 +101,6 @@ export default {
     }, throttleThreshold))
 
     client.service('localToken').on('created', async data => {
-      console.log('created')
       if (tokenDetailRegexp.test(window.location.pathname)) {
         const address = window.location.pathname.split('/')[2]
 
@@ -117,6 +116,6 @@ export default {
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
     })
-    client.service('localToken').on('removed', async data => console.log('remove') || updateWhitelists())
+    client.service('localToken').on('removed', async data => updateWhitelists())
   }
 }
