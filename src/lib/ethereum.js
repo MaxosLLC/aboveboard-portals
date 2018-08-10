@@ -70,7 +70,7 @@ const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
 
   const token = getTokenFromAddress(tokenAddress)
-
+console.log('topke ', token, tokenAddress)
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
 
