@@ -320,6 +320,8 @@ export default {
   },
 
   getWhitelistsForBroker: async (allWhitelists, user, tokens) => {
+    console.log('all whitelists ', allWhitelists)
+    console.log('tokens ', tokens)
     if (!tokens.length || !user.ethAddresses) { return [] }
 
     const whitelists = await reduce(tokens, async (result, token) => {
@@ -327,9 +329,10 @@ export default {
       promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
       const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
-
+console.log('whla ', whitelistAddresses)
       const filteredWhitelistAddresses = await filter(whitelistAddresses, async whitelistAddress => {
         const whitelist = allWhitelists.filter(({ address }) => address === whitelistAddress)[0]
+        console.log('wl ', whitelist)
         if (!whitelist) { return }
 
         const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelistAddress)
