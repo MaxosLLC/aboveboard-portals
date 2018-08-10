@@ -29,7 +29,7 @@ const updateWhitelists = async () => {
   const allWhitelists = await cloudServices.whitelist.find()
   const { data: allWhitelistsData } = await allWhitelists.payload.promise
   const whitelists = await ethereum.getWhitelistsForBroker(allWhitelistsData, user, allLocalTokensData)
-
+console.log('updating whitelists ', whitelists)
   return store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
 }
 
