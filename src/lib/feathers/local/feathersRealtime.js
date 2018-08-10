@@ -115,8 +115,6 @@ export default {
 
         store.dispatch(localServices.localToken.find({ query: { address } }))
       }
-
-      if (!store.getState().localToken.queryResult) { return }
     })
     client.service('localToken').on('removed', async data => updateWhitelists())
   }

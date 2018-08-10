@@ -413,24 +413,81 @@ export default {
     }
   },
 
-  sendTokens: async (tokenAddress, toAddress, amount, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {
+  mint: async (tokenAddress, amount, multisigWalletAddress) => {
     try {
       await waitForWeb3()
 
-      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'sendTokens' })
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'mint' })
 
       const token = getTokenFromAddress(tokenAddress)
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
-      const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
-      promisifyAll(deployedWalletContract.submitTransaction)
+      const tokenOwner = await deployedTokenContract.owner.callAsync()
 
-      const transferEncoded = deployedTokenContract.transferFrom.getData(multisigWalletAddress, toAddress, amount, {from: multisigWalletAddress})
+      if (multisigWalletAddress) {
+        const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
-      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, transferEncoded, {from: currentAccount})
+        promisifyAll(deployedWalletContract.submitTransaction)
 
-      return deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, transferEncoded, {from: currentAccount, gas})
+        const txEncoded = deployedWalletContract.mint.getData(tokenOwner, amount, 0, {from: currentAccount})
+
+        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+      }
+
+      const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, 0, {from: currentAccount})
+
+      return deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, 0, {from: currentAccount, gas})
+    } catch (e) {
+      store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+    }
+  },
+
+  transfer: async (tokenAddress, toAddress, amount) => {
+    try {
+      await waitForWeb3()
+
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'transfer' })
+
+      const token = getTokenFromAddress(tokenAddress)
+
+      const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+
+      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, 0, {from: currentAccount})
+
+      return deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, 0, {from: currentAccount, gas})
+    } catch (e) {
+      store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+    }
+  },
+
+  arbitrate: async (tokenAddress, fromAddress, toAddress, amount, multisigWalletAddress) => {
+    try {
+      await waitForWeb3()
+
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'arbitrate' })
+
+      const token = getTokenFromAddress(tokenAddress)
+
+      const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+
+      if (multisigWalletAddress) {
+        const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
+
+        promisifyAll(deployedWalletContract.submitTransaction)
+
+        const txEncoded = deployedWalletContract.arbitrage.getData(fromAddress, toAddress, amount, 0, {from: currentAccount})
+
+        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+      }
+
+      const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, 0, {from: currentAccount})
+
+      return deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, 0, {from: currentAccount, gas})
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
     }
