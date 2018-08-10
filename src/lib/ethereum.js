@@ -351,7 +351,6 @@ console.log('whla ', whitelistAddresses)
           return qualifiers.some(qualifier => user.ethAddresses.some(({ address }) => address === qualifier))
         } catch (e) {
           console.log(`Error getting qualifiers ${e.message}`)
-          return whitelistAddresses
         }
       })
       return result.concat(filteredWhitelistAddresses)
