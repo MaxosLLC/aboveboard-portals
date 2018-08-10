@@ -325,8 +325,14 @@ export default {
     if (!tokens.length || !user.ethAddresses) { return [] }
 
     const whitelists = await reduce(tokens, async (result, token) => {
-      const deployedSettingsStorageContract = await getStorageSettingsForToken(token.address)
-      promisifyAll(deployedSettingsStorageContract.getWhitelists)
+      let deployedSettingsStorageContract
+      try {
+        deployedSettingsStorageContract = await getStorageSettingsForToken(token.address)
+        promisifyAll(deployedSettingsStorageContract.getWhitelists)
+      } catch (e) {
+        console.log(`Error getting token ${token.address} ${e.message}`)
+        return result
+      }
 
       const whitelistAddresses = await deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
 console.log('whla ', whitelistAddresses)
