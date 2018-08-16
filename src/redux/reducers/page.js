@@ -1,7 +1,8 @@
 export default (state = {
   investors: 0,
   transactions: 0,
-  pendingTransactions: 0
+  pendingTransactions: 0,
+  whitelists: 0
 }, action) => {
   switch (action.type) {
     case 'SET_PAGE':

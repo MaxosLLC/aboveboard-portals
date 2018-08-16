@@ -319,7 +319,23 @@ export default {
     }
   },
 
+  getWhitelistsForToken: async (tokenAddress) => {
+    await waitForWeb3()
+
+    try {
+      const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+      promisifyAll(deployedSettingsStorageContract.getWhitelists)
+
+      return deployedSettingsStorageContract.getWhitelists.callAsync({ from: currentAccount })
+    } catch (e) {
+      console.log(`Error getting whitelists for token ${tokenAddress} ${e.message}`)
+      return []
+    }
+  },
+
   getWhitelistsForBroker: async (allWhitelists, user, tokens) => {
+    await waitForWeb3()
+
     if (!tokens.length || !user.ethAddresses) { return [] }
 
     const whitelists = await reduce(tokens, async (result, token) => {
@@ -357,6 +373,30 @@ export default {
     })
 
     return uniq(whitelists)
+  },
+
+  getRoleForWhitelist: async (user, whitelist) => {
+    await waitForWeb3()
+
+    const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelist.address)
+
+    try {
+      promisifyAll(deployedWhitelistContract.getAgentsOwnerAndQualifiers)
+
+      const qualifiers = await deployedWhitelistContract.getAgentsOwnerAndQualifiers.callAsync({ from: currentAccount })
+
+      if (user.ethAddresses.some(({ address }) => address === qualifiers[0])) {
+        return 'owner'
+      } else if (user.ethAddresses.some(({ address }) => address === qualifiers[1])) {
+        return 'agent'
+      } else if (user.ethAddresses.some(({ address }) => qualifiers.some(qualifer => qualifer === address))) {
+        return 'qualifer'
+      } else {
+        return 'none'
+      }
+    } catch (e) {
+      console.log(`Error getting role for whitelist ${whitelist.address}: ${e.message}`)
+    }
   },
 
   confirmTransaction: async (id, multisigWalletAddress = '0xf6b4dc1a198b15bd09c5b48ac269a50889cfb51d') => {

@@ -39,7 +39,7 @@ class PendingTransactionsView extends Component {
         </div>
         <br />
         {!loaded
-          ? <span>Loading tokens...<Icon name='spinner' loading /></span>
+          ? <span>Loading pending transactions...<Icon name='spinner' loading /></span>
           : pendingTransactions.length
           ? <div className='tableContainer'>
             <div className='tableScrollContainer'>
@@ -136,7 +136,7 @@ class PendingTransactionsView extends Component {
               </Table>
             </div>
           </div>
-          : <Segment>{ search.transactions ? 'No transactions match your search criteria' : 'No transactions have been made yet' }</Segment>
+          : <Segment>{ search ? 'No transactions match your search criteria' : 'No transactions have been made yet' }</Segment>
         }
       </div>
     )

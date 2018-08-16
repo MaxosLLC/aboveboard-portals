@@ -167,7 +167,7 @@ const renderEthAddresses = ({
   </Fragment>
 )
 
-let AddInvestorForm = props => {
+const AddInvestorForm = props => {
   const { handleSubmit, errors, whitelists, pristine, submitting } = props
 
   const whitelistOptions = whitelists.map(whitelist => {
@@ -274,7 +274,7 @@ let AddInvestorForm = props => {
   )
 }
 
-AddInvestorForm = reduxForm({
+const Form = reduxForm({
   form: 'AddInvestor',
   validate,
   enableReinitialize: true
@@ -287,5 +287,5 @@ const mapStateToProps = (state, ownProps) => {
     errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }
-AddInvestorForm = connect(mapStateToProps)(AddInvestorForm)
-export default AddInvestorForm
+
+export default connect(mapStateToProps)(Form)

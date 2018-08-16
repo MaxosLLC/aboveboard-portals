@@ -161,7 +161,7 @@ const renderEthAddresses = ({
   </Fragment>
 )
 
-let EditInvestorForm = props => {
+const EditInvestorForm = props => {
   const {
     handleSubmit,
     errors,
@@ -278,8 +278,7 @@ let EditInvestorForm = props => {
   )
 }
 
-// Decorate with reduxForm(). It will read the initialValues prop provided by connect()
-EditInvestorForm = reduxForm({
+const Form = reduxForm({
   form: 'EditInvestor',
   validate,
   enableReinitialize: true
@@ -292,5 +291,5 @@ const mapStateToProps = (state, ownProps) => {
     errors: state.wallet.error || (state.investor.isError || {}).message
   }
 }
-EditInvestorForm = connect(mapStateToProps)(EditInvestorForm)
-export default EditInvestorForm
+
+export default connect(mapStateToProps)(Form)
