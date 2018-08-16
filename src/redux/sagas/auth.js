@@ -51,7 +51,12 @@ function * login (params) {
 
 const loginPathRegexp = /\/(token-)?login/
 function * loginSuccess ({ user, accessToken }) {
-  yield store.dispatch(feathersCloudAuthentication.authenticate(publicCloudAPIAuthData))
+  try {
+    yield store.dispatch(feathersCloudAuthentication.authenticate(publicCloudAPIAuthData))
+    store.dispatch({ type: 'CLOUD_API_CONNECTED' })
+  } catch (e) {
+    console.error(`Could not connect to Cloud API: ${e.message}`)
+  }
 
   if (loginPathRegexp.test(window.location.pathname)) {
     yield put(push('/'))

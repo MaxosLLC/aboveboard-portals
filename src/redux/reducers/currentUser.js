@@ -8,6 +8,9 @@ export default (state = {}, action) => {
     case 'SET_CURRENT_USER':
       return Object.assign({}, state, action.user)
 
+    case 'CLOUD_API_CONNECTED':
+      return Object.assign({}, state, { cloudAPIConnected: true })
+
     case 'SERVICES_USER_PATCH_FULFILLED':
       return Object.assign({}, state, action.payload)
 

@@ -12,7 +12,7 @@ class EnsureLoggedIn extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.currentUser._id
+    isLoggedIn: state.currentUser._id && state.currentUser.cloudAPIConnected
   }
 }
 
