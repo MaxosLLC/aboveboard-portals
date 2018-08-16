@@ -9,6 +9,7 @@ const MenuItem = Menu.Item
 const logoSrc = REACT_APP_BRANDING ? `/images/logo-${REACT_APP_BRANDING}.png` : '/images/logo.png'
 
 const whitelistingRegexp = /^\/whitelisting/
+const whitelistsRegexp = /^\/whitelists/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 const multisigWalletRegpex = /^\/company-multi-signature/
@@ -52,6 +53,9 @@ class SidebarView extends Component {
             Transactions
           </MenuItem>
         }
+        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
+          Whitelists
+        </MenuItem>
         <MenuItem className='sidebarMenuItem'>
           Wallet <span className={connected ? 'connected' : 'disconnected'} />
         </MenuItem>
