@@ -77,13 +77,13 @@ class PendingTransactionsView extends Component {
 
                 <Table.Body>
                   <Table.Row>
-                    <Table.Cell>Company Direct Sales Portal</Table.Cell>
+                    <Table.Cell>Company Affiliates</Table.Cell>
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Affiliate</Table.Cell>
                     <Table.Cell></Table.Cell>
                   </Table.Row>
                   <Table.Row>
-                    <Table.Cell>Company Affiliates</Table.Cell>
+                    <Table.Cell>Company Direct Sales Portal</Table.Cell>
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Accredited</Table.Cell>
                     <Table.Cell><Button>Request Your Portal</Button></Table.Cell>
