@@ -8,7 +8,7 @@
     background: #fff;
     padding: 20px 2%;
     font-family: 'ProximaNova-SM', sans-serif;
-    color: #094bb1;
+    color: black;
     font-size: 16px;
     border-bottom: 3px solid #f8f9fb;
 }
@@ -19,9 +19,9 @@
 
 .whitelistsComponent table.abTable tr td {
     background: #fff;
-    padding: 20px 2% !important;
+    padding: 10px 2% !important;
     font-family: 'ProximaNova-R', sans-serif;
-    color: #8f9bab;
+    color: black;
     font-size: 14px;
     border-color: #f8f9fb;
 }
@@ -37,7 +37,7 @@
 }
 
 .whitelistsComponent .tableTabs .ui.secondary a.item {
-    color: #094bb1;
+    color: black;
     min-width: 150px;
     padding-bottom: 30px;
     justify-content: center;
@@ -48,18 +48,18 @@
 }
 
 .whitelistsComponent .tableTabs .ui.secondary a.item:hover {
-    color: #094bb1;
+    color: black;
 }
 
 .whitelistsComponent .tableTabs .ui.secondary a.active.item {
-    color: #094bb1;
+    color: black;
     padding-bottom: 28px;
-    border-bottom: 4px solid #094bb1;
+    border-bottom: 4px solid black;
 }
 
 .whitelistsComponent .tableTabs .ui.secondary a.active.item:hover {
-    color: #094bb1 !important;
-    border-bottom: 4px solid #094bb1;
+    color: black !important;
+    border-bottom: 4px solid black;
 }
 
 .whitelistsComponent .tableContainer {
@@ -168,4 +168,8 @@
 .whitelistsComponent .infoIcon {
     width: 20px;
     margin-left: 20px;
+}
+
+.whitelistsComponent ::placeholder {
+    color: black !important;
 }
