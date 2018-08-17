@@ -14,7 +14,7 @@ import EditInvestor from 'components/pages/investors/edit/EditInvestor'
 import PendingTransactions from 'components/pages/pendingTransactions/PendingTransactions'
 import MultisigWallets from 'components/pages/multisigWallets/MultisigWallets'
 import MultisigWalletDetail from 'components/pages/multisigWallets/detail/MultisigWalletDetail'
-import Whitelists from 'components/pages/whitelists/Whitelists'
+import WhitelistsAvailable from 'components/pages/whitelists/WhitelistsAvailable/WhitelistsAvailable'
 import Settings from 'components/pages/settings/Settings'
 import EnsureLoggedIn from 'components/auth/EnsureLoggedIn'
 
@@ -29,7 +29,7 @@ class Routes extends Component {
           <Route exact path='/' component={Home} />
           <Route exact path='/settings' component={Settings} />
           <Route exact path='/pending-transactions' component={PendingTransactions} />
-          <Route exact path='/whitelists' component={Whitelists} />
+          <Route exact path='/available-whitelists' component={WhitelistsAvailable} />
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting' component={Investors} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting/add' component={AddInvestor} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting/:id/detail' component={InvestorDetail} /> : '' }

@@ -53,7 +53,7 @@ class SidebarView extends Component {
             Transactions
           </MenuItem>
         }
-        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
+        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/available-whitelists`)}>
           Whitelists
         </MenuItem>
         <MenuItem className='sidebarMenuItem'>
