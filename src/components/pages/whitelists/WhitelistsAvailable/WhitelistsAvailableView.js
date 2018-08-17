@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { each } from 'bluebird'
-import { Link } from 'react-router-dom'
-import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Header, Icon, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 import './WhitelistsAvailable.css'
@@ -41,7 +40,7 @@ class PendingTransactionsView extends Component {
   }
 
   render () {
-    const { loaded, whitelists, setPage, setSort, setSearch, page, search, queryResult } = this.props
+    const { loaded, whitelists, setPage, setSearch, page, search, queryResult } = this.props
 
     const whitelistHeaders = [
       { name: 'Name', sortOption: 'name' },
@@ -68,10 +67,10 @@ class PendingTransactionsView extends Component {
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
                   <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Qualifier</Table.HeaderCell>
-                      <Table.HeaderCell>Type</Table.HeaderCell>
-                      <Table.HeaderCell>Actions</Table.HeaderCell>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Qualifier</Table.HeaderCell>
+                    <Table.HeaderCell>Type</Table.HeaderCell>
+                    <Table.HeaderCell>Actions</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -80,7 +79,7 @@ class PendingTransactionsView extends Component {
                     <Table.Cell>Company Affiliates</Table.Cell>
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Affiliate</Table.Cell>
-                    <Table.Cell></Table.Cell>
+                    <Table.Cell />
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Company Direct Sales Portal</Table.Cell>
