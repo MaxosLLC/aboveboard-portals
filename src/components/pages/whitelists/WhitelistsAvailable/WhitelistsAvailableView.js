@@ -55,7 +55,7 @@ class PendingTransactionsView extends Component {
       <div className='whitelistsComponent'>
         <Header as='h2'>Token: Aboveboard Demo Token</Header>
         <br />
-        <Header as='h2'>Avaiable Whitelists</Header>
+        <Header as='h2'>Available Whitelists</Header>
         <div>
           <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} />
         </div>
@@ -71,7 +71,6 @@ class PendingTransactionsView extends Component {
                       <Table.HeaderCell>Name</Table.HeaderCell>
                       <Table.HeaderCell>Qualifier</Table.HeaderCell>
                       <Table.HeaderCell>Type</Table.HeaderCell>
-                      <Table.HeaderCell>Address</Table.HeaderCell>
                       <Table.HeaderCell>Actions</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -81,49 +80,42 @@ class PendingTransactionsView extends Component {
                     <Table.Cell>Company Direct Sales Portal</Table.Cell>
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Affiliate</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Company Affiliates</Table.Cell>
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Accredited</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Your Portal</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Aboveboard US QIB</Table.Cell>
                     <Table.Cell>Aboveboard</Table.Cell>
                     <Table.Cell>QIB</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>US Broker-Dealer</Table.Cell>
                     <Table.Cell>A Broker</Table.Cell>
                     <Table.Cell>US Accredited</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Japan Broker</Table.Cell>
                     <Table.Cell>Japan Broker</Table.Cell>
                     <Table.Cell>Sophisticated</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Exchange 1</Table.Cell>
                     <Table.Cell>Exchange 1</Table.Cell>
                     <Table.Cell>Reg S</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Exchange 2</Table.Cell>
                     <Table.Cell>Exchange 2</Table.Cell>
                     <Table.Cell>Sophisticated</Table.Cell>
-                    <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
                     <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                 </Table.Body>
