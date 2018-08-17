@@ -54,9 +54,6 @@ class PendingTransactionsView extends Component {
     return (
       <div className='whitelistsComponent'>
         <Header as='h2'>Token: Aboveboard Demo Token</Header>
-        <Header as='h3'>Type:</Header>
-        <Header as='h3'>Issue Compliance:</Header>
-        <Header as='h3'>Disclosure Policy:</Header>
         <br />
         <Header as='h2'>Avaiable Whitelists</Header>
         <div>
@@ -92,42 +89,42 @@ class PendingTransactionsView extends Component {
                     <Table.Cell>Company</Table.Cell>
                     <Table.Cell>Accredited</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Your Portal</Button></Table.Cell>
+                    <Table.Cell><Button>Request Your Portal</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Aboveboard US QIB</Table.Cell>
                     <Table.Cell>Aboveboard</Table.Cell>
                     <Table.Cell>QIB</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Distribution</Button></Table.Cell>
+                    <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>US Broker-Dealer</Table.Cell>
                     <Table.Cell>A Broker</Table.Cell>
                     <Table.Cell>US Accredited</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Distribution</Button></Table.Cell>
+                    <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Japan Broker</Table.Cell>
                     <Table.Cell>Japan Broker</Table.Cell>
                     <Table.Cell>Sophisticated</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Distribution</Button></Table.Cell>
+                    <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Exchange 1</Table.Cell>
                     <Table.Cell>Exchange 1</Table.Cell>
                     <Table.Cell>Reg S</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Distribution</Button></Table.Cell>
+                    <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Exchange 2</Table.Cell>
                     <Table.Cell>Exchange 2</Table.Cell>
                     <Table.Cell>Sophisticated</Table.Cell>
                     <Table.Cell>0xa17e0034227d67a022ec031fc88dc04f31f61e84</Table.Cell>
-                    <Table.Cell><Button>Apply For Distribution</Button></Table.Cell>
+                    <Table.Cell><Button>Request Distribution</Button></Table.Cell>
                   </Table.Row>
                 </Table.Body>
 
