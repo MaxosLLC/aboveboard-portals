@@ -48,7 +48,7 @@ class WhitelistsAvailableView extends Component {
 
     return (
       <div className='whitelistsComponent'>
-        <Header as='h2'>Token: Aboveboard Demo Token</Header>
+        <Header as='h2'>Token: Company Common Shares</Header>
         <Header as='h3'>More information about this project <Button style={{ marginLeft: '10px' }}>Add A Link</Button></Header>
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
