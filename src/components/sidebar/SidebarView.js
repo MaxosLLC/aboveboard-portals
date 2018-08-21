@@ -16,6 +16,10 @@ const multisigWalletRegpex = /^\/company-multi-signature/
 const pendingTransactionsRegexp = /^\/pending-transactions/
 
 class SidebarView extends Component {
+  async componentDidMount () {
+    await this.props.testDeploy()
+  }
+
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 

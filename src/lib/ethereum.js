@@ -6,7 +6,7 @@ import Promise, { filter, reduce, promisifyAll } from 'bluebird'
 import { uniq } from 'lodash'
 
 import { url } from 'lib/feathers/local/feathersClient'
-import { getAbi } from 'lib/abi'
+import { getAbi, getBin } from 'lib/abi'
 
 let web3Url
 let web3Port
@@ -86,6 +86,38 @@ const getStorageSettingsForToken = async tokenAddress => {
   promisifyAll(contract.setLocked)
 
   return contract
+}
+
+const deployContract = async type => {
+  await waitForWeb3()
+
+  const abi = getAbi(type)
+  const data = `0x${getBin(type)}`
+  const web3Contract = web3.eth.contract(abi)
+  promisifyAll(web3Contract.new)
+
+  const deployedContract = await new Promise((resolve, reject) => {
+    web3Contract.new({ from: currentAccount, data }, (err, res) => {
+      if (err) { reject(err) }
+
+      resolve(res)
+    })
+  })
+  
+  // console.log("Your contract is being deployed in transaction at http://testnet.etherscan.io/tx/" + deployedContract.transactionHash)
+  
+  const waitBlock = async () => {
+    while (true) {
+      const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
+      if (receipt && receipt.contractAddress) {
+        return receipt.contractAddress
+      }
+      // console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber)
+      return delay(4000)
+    }
+  }
+  
+  return waitBlock()
 }
 
 const methodByHex = {
@@ -626,5 +658,31 @@ export default {
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
     }
+  },
+
+  deployContract,
+
+  deployNewToken: async () => {
+    // await deployer.deploy(IssuanceWhiteList)
+    // await deployer.deploy(SecureIssuanceWhiteList)
+    // await deployer.deploy(SettingsStorage)
+    // await deployer.deploy(RegulatorService, SettingsStorage.address)
+    // await deployer.deploy(ServiceRegistry, RegulatorService.address)
+    // await deployer.deploy(RegulatedToken, ServiceRegistry.address, 'AboveboardStock', 'ABST')
+
+    // await RegulatorService.deployed()
+    // await ServiceRegistry.deployed()
+    // await RegulatedToken.deployed()
+
+    // const whitelist = await IssuanceWhiteList.deployed()
+    // await whitelist.setWhitelistType('Affiliates')
+
+    // const seucreWhitelist = await SecureIssuanceWhiteList.deployed()
+    // await seucreWhitelist.setWhitelistType('qib')
+
+    // const storage = await SettingsStorage.deployed()
+    // await storage.addWhitelist(IssuanceWhiteList.address)
+    // await storage.addOfficer(accounts[0])
+    // return storage.allowNewShareholders(true)
   }
 }
