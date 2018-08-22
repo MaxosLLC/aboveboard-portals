@@ -18,6 +18,9 @@ import WhitelistsAvailable from 'components/pages/whitelists/WhitelistsAvailable
 import Settings from 'components/pages/settings/Settings'
 import EnsureLoggedIn from 'components/auth/EnsureLoggedIn'
 
+import CreateToken from 'components/pages/tokens/create/CreateToken'
+import CreateWhitelist from 'components/pages/whitelists/create/CreateWhitelist'
+
 class Routes extends Component {
   render () {
     const { role } = store.getState().currentUser
@@ -40,6 +43,9 @@ class Routes extends Component {
           { role === 'issuer' || role === 'direct' ? <Route exact path='/tokens/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
           { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature' component={MultisigWallets} /> : '' }
           { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
+
+          <Route exact path='/tokens/create' component={CreateToken} />
+          <Route exact path='/whitelisting/create' component={CreateWhitelist} />
         </EnsureLoggedIn>
       </Switch>
     )

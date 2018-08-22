@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
@@ -20,6 +21,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    routeTo (path) { dispatch(push(path)) },
     loadLocalTokens: () => dispatch(localServices.localToken.find()),
     loadWhitelists: () => dispatch(cloudServices.whitelist.find()),
     getWhitelistsForBroker: async () => {

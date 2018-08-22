@@ -103,9 +103,9 @@ const deployContract = async type => {
       resolve(res)
     })
   })
-  
+
   // console.log("Your contract is being deployed in transaction at http://testnet.etherscan.io/tx/" + deployedContract.transactionHash)
-  
+
   const waitBlock = async () => {
     while (true) {
       const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
@@ -116,7 +116,7 @@ const deployContract = async type => {
       return delay(4000)
     }
   }
-  
+
   return waitBlock()
 }
 

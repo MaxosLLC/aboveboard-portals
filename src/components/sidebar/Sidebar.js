@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import SidebarView from './SidebarView'
 
-import ethereum from 'lib/ethereum'
+// import ethereum from 'lib/ethereum'
 
 const mapStateToProps = state => {
   return {
@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     routeTo (path) { dispatch(push(path)) },
     async testDeploy () {
-      console.log('test start')
-      const contractAddress = await ethereum.deployContract('settingsStorage')
-      console.log('test doine ', contractAddress)
+      // console.log('test start')
+      // const contractAddress = await ethereum.deployContract('settingsStorage')
+      // console.log('test doine ', contractAddress)
     }
   }
 }
