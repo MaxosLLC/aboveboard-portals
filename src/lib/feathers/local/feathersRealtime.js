@@ -9,6 +9,7 @@ import ethereum from 'lib/ethereum'
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
 const pendingTransactionsRegexp = /^\/pending-transactions/
+const usersRegexp = /^\/users/
 
 const throttleThreshold = 5000 // 5 seconds
 
@@ -37,6 +38,13 @@ export default {
   init () {
     // Watch for user profile changes
     client.service('user').on('patched', user => store.dispatch({ type: 'SET_CURRENT_USER', user: user.data || user }))
+    client.service('user').on('removed', throttle(() => {
+      if (usersRegexp.test(window.location.pathname)) {
+        const { $skip, $sort, search } = getCurrentQueryParams('users')
+
+        store.dispatch(localServices.user.find({ query: { search, $skip, $sort } }))
+      }
+    }, throttleThreshold))
 
     client.service('investor').on('created', throttle(async data => {
       if (tokenDetailRegexp.test(window.location.pathname)) {

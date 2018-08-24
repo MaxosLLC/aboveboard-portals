@@ -52,6 +52,7 @@ function * login (params) {
 const loginPathRegexp = /\/(token-)?login/
 function * loginSuccess ({ user, accessToken }) {
   try {
+    store.dispatch({ type: 'CLOUD_API_CONNECTING' })
     yield store.dispatch(feathersCloudAuthentication.authenticate(publicCloudAPIAuthData))
     store.dispatch({ type: 'CLOUD_API_CONNECTED' })
   } catch (e) {

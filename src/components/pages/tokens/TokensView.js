@@ -28,6 +28,7 @@ class TokensView extends Component {
           ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : filteredWatchingTokens.length
             ? <div className='tokensComponent'>
+              <Button floated='left' color='teal' onClick={() => routeTo('/tokens/create')}>Launch Token</Button>
               <Button floated='right' color='teal' onClick={() => routeTo('/settings')}>Add Token</Button>
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
@@ -52,7 +53,7 @@ class TokensView extends Component {
                 </Table.Body>
               </Table>
             </div>
-            : <Segment>You are currently not watching any tokens. Please visit your <Link to='/settings'>settings</Link> to start watching tokens.</Segment>
+            : <Segment>You are currently not watching any tokens. Please visit your <Link to='/settings'>settings</Link> to start watching tokens or <Button color='teal' onClick={() => routeTo('/tokens/create')}>Launch A New Token</Button></Segment>
 }
       </div>
     )

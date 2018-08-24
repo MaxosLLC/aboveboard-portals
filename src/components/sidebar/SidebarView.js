@@ -14,8 +14,13 @@ const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 const multisigWalletRegpex = /^\/company-multi-signature/
 const pendingTransactionsRegexp = /^\/pending-transactions/
+const usersRegexp = /^\/users/
 
 class SidebarView extends Component {
+  async componentDidMount () {
+    await this.props.testDeploy()
+  }
+
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 
@@ -56,6 +61,11 @@ class SidebarView extends Component {
         <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/available-whitelists`)}>
           Whitelists
         </MenuItem>
+        { currentUser.admin &&
+          <MenuItem active={usersRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/users`)}>
+            Users
+          </MenuItem>
+        }
         <MenuItem className='sidebarMenuItem'>
           Wallet <span className={connected ? 'connected' : 'disconnected'} />
         </MenuItem>

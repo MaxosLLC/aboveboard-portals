@@ -44,12 +44,19 @@ class WhitelistsAvailableView extends Component {
   }
 
   render () {
-    const { loaded, whitelists, setSearch, search } = this.props
+    const { loaded, routeTo, whitelists, setSearch, search } = this.props
 
     return (
       <div className='whitelistsComponent'>
-        <Header as='h2'>Token: Company Common Shares</Header>
-        <Header as='h3'>More information about this project <Button style={{ marginLeft: '10px' }}>Add A Link</Button></Header>
+        <Grid style={{ marginTop: '10px' }}>
+          <Grid.Column floated='left' width={5}>
+            <Header as='h2'>Token: Company Common Shares</Header>
+            <Header as='h3'>More information about this project <Button style={{ marginLeft: '10px' }}>Add A Link</Button></Header>
+          </Grid.Column>
+          <Grid.Column floated='right' width={5}>
+            <Button onClick={() => routeTo('/whitelisting/create')}>Create Whitelist</Button>
+          </Grid.Column>
+        </Grid>
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
             <Header as='h2'>Available Whitelists</Header>

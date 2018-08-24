@@ -13,6 +13,7 @@ import whitelist from 'lib/contracts/07-11-18/IssuanceWhiteList'
 import token072618 from 'lib/contracts/07-26-18/RegulatedToken'
 import regulatorService072618 from 'lib/contracts/07-26-18/AboveboardRegDSWhitelistRegulatorService'
 import settingsStorage072618 from 'lib/contracts/07-26-18/SettingsStorage'
+import serviceRegistry072618 from 'lib/contracts/07-26-18/ServiceRegistry'
 import multisig072618 from 'lib/contracts/07-26-18/MultiSigArbitration'
 import whitelist072618 from 'lib/contracts/07-26-18/IssuanceWhiteList'
 
@@ -40,6 +41,21 @@ const abis = {
   }
 }
 
-export const getAbi = (contractType, version = '06-12-18') => {
+const bins = {
+  '07-26-18': {
+    token: token072618.bin,
+    regulatorService: regulatorService072618.bin,
+    settingsStorage: settingsStorage072618.bin,
+    serviceRegistry: serviceRegistry072618.bin,
+    multisig: multisig072618.bin,
+    whitelist: whitelist072618.bin
+  }
+}
+
+export const getAbi = (contractType, version = '07-26-18') => {
   return abis[version][contractType]
+}
+
+export const getBin = (contractType, version = '07-26-18') => {
+  return bins[version][contractType]
 }
