@@ -4,6 +4,8 @@ import { Route, Switch } from 'react-router-dom'
 
 import Login from 'components/pages/login/Login'
 import Home from 'components/pages/home/Home'
+import Users from 'components/pages/users/Users'
+import CreateUser from 'components/pages/users/create/CreateUser'
 import Tokens from 'components/pages/tokens/Tokens'
 import TokenDetail from 'components/pages/tokens/detail/TokenDetail'
 import Investors from 'components/pages/investors/Investors'
@@ -23,7 +25,7 @@ import CreateWhitelist from 'components/pages/whitelists/create/CreateWhitelist'
 
 class Routes extends Component {
   render () {
-    const { role } = store.getState().currentUser
+    const { admin, role } = store.getState().currentUser
 
     return (
       <Switch>
@@ -46,6 +48,9 @@ class Routes extends Component {
 
           <Route exact path='/tokens/create' component={CreateToken} />
           <Route exact path='/whitelisting/create' component={CreateWhitelist} />
+
+          { admin && <Route exact path='/users' component={Users} /> }
+          { admin && <Route exact path='/users/create' component={CreateUser} /> }
         </EnsureLoggedIn>
       </Switch>
     )

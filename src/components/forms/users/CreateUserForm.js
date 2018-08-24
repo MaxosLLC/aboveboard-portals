@@ -19,7 +19,7 @@ const validate = values => {
   return errors
 }
 
-const CreateTokenForm = props => {
+const CreateUserForm = props => {
   const { handleSubmit, errors, pristine, submitting } = props
 
   return (
@@ -27,36 +27,19 @@ const CreateTokenForm = props => {
       <Container text>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
-            Launch New Token
+            Create User
           </Header>
-          <br />
           <Grid stackable divided='vertically' columns={1}>
             <Grid.Row>
-              <Grid.Column width={12}>
-                <Label>Token Name *</Label>
-                <Text name='name' />
+              <Grid.Column>
+                <Label>Google Account E-mail Address *</Label>
+                <Text name='email' />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column width={4}>
-                <Label>Token Symbol *</Label>
-                <Text name='symbol' />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width={5}>
-                <Label style={{ marginRight: '10px' }}>Divisible</Label>
-                <Checkbox name='divisble' />
-                <br />
-                <br />
-                <Label>Decimal Precision *</Label>
-                <Text name='precision' />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width={5}>
-                <Label style={{ marginRight: '10px' }}>Launch Affiliate's Whitelist</Label>
-                <Checkbox name='affiliates' />
+              <Grid.Column>
+                <Label style={{ marginRight: '10px' }}>Admin</Label>
+                <Checkbox name='admin' />
               </Grid.Column>
             </Grid.Row>
             {errors ? (
@@ -75,8 +58,7 @@ const CreateTokenForm = props => {
                 <Button type='submit' disabled={pristine || submitting}>
                   Save
                 </Button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <Link to='/tokens' className='ui button secondary'>
+                <Link to='/users' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>
@@ -89,14 +71,14 @@ const CreateTokenForm = props => {
 }
 
 const Form = reduxForm({
-  form: 'CreateToken',
+  form: 'CreateUser',
   validate,
   enableReinitialize: true
-})(CreateTokenForm)
+})(CreateUserForm)
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    errors: state.wallet.error || (state.token.isError || {}).message
+    errors: state.wallet.error || (state.user.isError || {}).message
   }
 }
 
