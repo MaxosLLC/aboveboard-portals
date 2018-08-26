@@ -88,20 +88,20 @@ const getStorageSettingsForToken = async tokenAddress => {
   return contract
 }
 
-const deployContract = async type => {
+const deployContract = async function (type) {
   await waitForWeb3()
 
+  const contractParams = Array.prototype.slice.call(arguments, 1)
   const abi = getAbi(type)
-  const data = `0x${getBin(type)}`
+  const data = getBin(type)
   const web3Contract = web3.eth.contract(abi)
-  promisifyAll(web3Contract.new)
 
   const deployedContract = await new Promise((resolve, reject) => {
-    web3Contract.new({ from: currentAccount, data }, (err, res) => {
+    web3Contract.new.apply(web3Contract, contractParams.concat([{ from: currentAccount, data }, (err, res) => {
       if (err) { reject(err) }
 
       resolve(res)
-    })
+    }]))
   })
 
   // console.log("Your contract is being deployed in transaction at http://testnet.etherscan.io/tx/" + deployedContract.transactionHash)
