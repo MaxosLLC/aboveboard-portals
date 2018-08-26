@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom'
 import {
   Button,
   Container,
-  Dropdown,
   Grid,
   Header,
   Label as OriginalLabel,
   Segment
 } from 'semantic-ui-react'
 
-import { Label, Text } from 'components/inputs'
+import { Dropdown, Label, Text } from 'components/inputs'
 
 const whitelistTypeOptions = [
   { value: 'RegD', text: 'RegD' },
@@ -20,7 +19,8 @@ const whitelistTypeOptions = [
   { value: 'QIB', text: 'QIB' },
   { value: 'Accredited', text: 'Accredited' },
   { value: 'Sophisticated', text: 'Sophisticated' },
-  { value: 'Unsophisticated', text: 'Unsophisticated' }
+  { value: 'Unsophisticated', text: 'Unsophisticated' },
+  { value: 'Other', text: 'Other' }
 ]
 
 const validate = values => {
@@ -52,7 +52,7 @@ const CreateWhitelistForm = props => {
             <Grid.Row>
               <Grid.Column>
                 <Label>Whitelist Name *</Label>
-                <Text name='firstName' />
+                <Text name='name' />
               </Grid.Column>
               <Grid.Column>
                 <Label>Type *</Label>
@@ -69,13 +69,14 @@ const CreateWhitelistForm = props => {
                 <Label>Apply to Tokens *</Label>
                 <Dropdown
                   selection
+                  multiple
                   search
                   name='tokens'
                   options={localTokenOptions}
                 />
               </Grid.Column>
             </Grid.Row>
-            {errors ? (
+            { errors &&
               <Grid.Row>
                 <Grid.Column width={16} textAlign='center'>
                   <Segment>
@@ -83,9 +84,7 @@ const CreateWhitelistForm = props => {
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-            ) : (
-              ''
-            )}
+            }
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>

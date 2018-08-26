@@ -42,7 +42,7 @@ const CreateUserForm = props => {
                 <Checkbox name='admin' />
               </Grid.Column>
             </Grid.Row>
-            {errors ? (
+            { errors &&
               <Grid.Row>
                 <Grid.Column width={16} textAlign='center'>
                   <Segment>
@@ -50,9 +50,7 @@ const CreateUserForm = props => {
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-            ) : (
-              ''
-            )}
+            }
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>

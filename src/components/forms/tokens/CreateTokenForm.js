@@ -59,7 +59,7 @@ const CreateTokenForm = props => {
                 <Checkbox name='affiliates' />
               </Grid.Column>
             </Grid.Row>
-            {errors ? (
+            { errors &&
               <Grid.Row>
                 <Grid.Column width={16} textAlign='center'>
                   <Segment>
@@ -67,9 +67,7 @@ const CreateTokenForm = props => {
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-            ) : (
-              ''
-            )}
+            }
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>

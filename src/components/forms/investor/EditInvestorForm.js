@@ -250,7 +250,7 @@ const EditInvestorForm = props => {
                 props={{ initialEthereumAddresses, whitelistOptions }}
               />
             </Grid.Row>
-            {errors ? (
+            { errors &&
               <Grid.Row>
                 <Grid.Column width={16} textAlign='center'>
                   <Segment>
@@ -258,9 +258,7 @@ const EditInvestorForm = props => {
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
-            ) : (
-              ''
-            )}
+            }
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>

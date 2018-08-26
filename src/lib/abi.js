@@ -43,12 +43,12 @@ const abis = {
 
 const bins = {
   '07-26-18': {
-    token: token072618.bin,
-    regulatorService: regulatorService072618.bin,
-    settingsStorage: settingsStorage072618.bin,
-    serviceRegistry: serviceRegistry072618.bin,
-    multisig: multisig072618.bin,
-    whitelist: whitelist072618.bin
+    token: token072618.bytecode,
+    regulatorService: regulatorService072618.bytecode,
+    settingsStorage: settingsStorage072618.bytecode,
+    serviceRegistry: serviceRegistry072618.bytecode,
+    multisig: multisig072618.bytecode,
+    whitelist: whitelist072618.bytecode
   }
 }
 
