@@ -88,6 +88,18 @@ const getStorageSettingsForToken = async tokenAddress => {
   return contract
 }
 
+const waitBlock = async (deployedContract) => {
+  while (true) {
+    const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
+    if (receipt && receipt.contractAddress) {
+      console.log(receipt.contractAddress)
+      return receipt.contractAddress
+    }
+    // console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber)
+    return delay(4000)
+  }
+}
+
 const deployContract = async function (type) {
   await waitForWeb3()
 
@@ -106,18 +118,7 @@ const deployContract = async function (type) {
 
   // console.log("Your contract is being deployed in transaction at http://testnet.etherscan.io/tx/" + deployedContract.transactionHash)
 
-  const waitBlock = async () => {
-    while (true) {
-      const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
-      if (receipt && receipt.contractAddress) {
-        return receipt.contractAddress
-      }
-      // console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber)
-      return delay(4000)
-    }
-  }
-
-  return waitBlock()
+  return waitBlock(deployedContract)
 }
 
 const methodByHex = {
