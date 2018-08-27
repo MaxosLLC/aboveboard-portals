@@ -664,26 +664,14 @@ export default {
   deployContract,
 
   deployNewToken: async () => {
-    // await deployer.deploy(IssuanceWhiteList)
-    // await deployer.deploy(SecureIssuanceWhiteList)
-    // await deployer.deploy(SettingsStorage)
-    // await deployer.deploy(RegulatorService, SettingsStorage.address)
-    // await deployer.deploy(ServiceRegistry, RegulatorService.address)
-    // await deployer.deploy(RegulatedToken, ServiceRegistry.address, 'AboveboardStock', 'ABST')
+    await waitForWeb3()
 
-    // await RegulatorService.deployed()
-    // await ServiceRegistry.deployed()
-    // await RegulatedToken.deployed()
+    const storage = await deployContract('settingsStorage');
 
-    // const whitelist = await IssuanceWhiteList.deployed()
-    // await whitelist.setWhitelistType('Affiliates')
+    const service = await deployContract('regulatorService', storage);
 
-    // const seucreWhitelist = await SecureIssuanceWhiteList.deployed()
-    // await seucreWhitelist.setWhitelistType('qib')
+    const registry = await deployContract('serviceRegistry', service);
 
-    // const storage = await SettingsStorage.deployed()
-    // await storage.addWhitelist(IssuanceWhiteList.address)
-    // await storage.addOfficer(accounts[0])
-    // return storage.allowNewShareholders(true)
+    const token = await deployContract('token', registry, 'AboveboardStock', 'ABST');
   }
 }
