@@ -16,6 +16,7 @@ import settingsStorage072618 from 'lib/contracts/07-26-18/SettingsStorage'
 import serviceRegistry072618 from 'lib/contracts/07-26-18/ServiceRegistry'
 import multisig072618 from 'lib/contracts/07-26-18/MultiSigArbitration'
 import whitelist072618 from 'lib/contracts/07-26-18/IssuanceWhiteList'
+import secureWhitelist072618 from 'lib/contracts/07-26-18/SecureIssuanceWhiteList'
 
 const abis = {
   '06-12-18': {
@@ -38,7 +39,8 @@ const abis = {
     settingsStorage: settingsStorage072618.abi,
     serviceRegistry: serviceRegistry072618.abi,
     multisig: multisig072618.abi,
-    whitelist: whitelist072618.abi
+    whitelist: whitelist072618.abi,
+    secureWhitelist: secureWhitelist072618.abi
   }
 }
 
@@ -49,7 +51,8 @@ const bins = {
     settingsStorage: settingsStorage072618.bytecode,
     serviceRegistry: serviceRegistry072618.bytecode,
     multisig: multisig072618.bytecode,
-    whitelist: whitelist072618.bytecode
+    whitelist: whitelist072618.bytecode,
+    secureWhitelist: secureWhitelist072618.bytecode
   }
 }
 
