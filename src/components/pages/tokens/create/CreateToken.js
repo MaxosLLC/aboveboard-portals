@@ -10,16 +10,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    createToken: async ({ name, type, affiliates }) => {
-      const address = await ethereum.deployNewToken()
+    createToken: async ({ name, symbol, affiliates }) => {
+      const address = await ethereum.deployNewToken(name, symbol)
 
       if (affiliates) {
         const whitelistAddress = await ethereum.deployContract('whitelist', 'affiliates')
         await ethereum.addWhitelistToToken(whitelistAddress, address)
-        await cloudServices.whitelist.create({ name: `${name} Affiliates`, type, address: whitelistAddress, tokens: [{ address }] })
+        await cloudServices.whitelist.create({ name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens: [{ address }] })
       }
 
-      return cloudServices.token.create({ name, type, address })
+      return cloudServices.token.create({ name, symbol, address })
     },
     routeTo: path => ownProps.history.push(path)
   }

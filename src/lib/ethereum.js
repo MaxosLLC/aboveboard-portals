@@ -680,12 +680,12 @@ export default {
 
   deployContract,
 
-  deployNewToken: async () => {
+  deployNewToken: async (name, symbol) => {
     await waitForWeb3()
 
     const storage = await deployContract('settingsStorage')
     const service = await deployContract('regulatorService', storage)
     const registry = await deployContract('serviceRegistry', service)
-    return deployContract('token', registry, 'AboveboardStock', 'ABST')
+    return deployContract('token', registry, name, symbol)
   }
 }
