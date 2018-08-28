@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, formValueSelector } from 'redux-form'
 import { Link } from 'react-router-dom'
 import {
   Button,
@@ -20,7 +20,7 @@ const validate = values => {
 }
 
 const CreateTokenForm = props => {
-  const { handleSubmit, errors, pristine, submitting } = props
+  const { handleSubmit, errors, pristine, submitting, divisble } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -47,10 +47,10 @@ const CreateTokenForm = props => {
               <Grid.Column width={5}>
                 <Label style={{ marginRight: '10px' }}>Divisible</Label>
                 <Checkbox name='divisble' />
-                <br />
-                <br />
-                <Label>Decimal Precision *</Label>
-                <Text name='precision' />
+                { divisble && <br /> }
+                { divisble && <br /> }
+                { divisble && <Label>Decimal Precision *</Label> }
+                { divisble && <Text name='precision' /> }
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -92,9 +92,11 @@ const Form = reduxForm({
   enableReinitialize: true
 })(CreateTokenForm)
 
+const selector = formValueSelector('CreateToken')
 const mapStateToProps = (state, ownProps) => {
   return {
-    errors: state.wallet.error || (state.token.isError || {}).message
+    errors: state.wallet.error || (state.token.isError || {}).message,
+    divisble: selector(state, 'divisble'),
   }
 }
 

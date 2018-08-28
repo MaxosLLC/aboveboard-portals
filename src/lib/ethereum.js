@@ -69,7 +69,7 @@ const getWhitelistFromAddress = contractAddress =>
 const getStorageSettingsForToken = async tokenAddress => {
   await waitForWeb3()
 
-  const token = getTokenFromAddress(tokenAddress)
+  const token = getTokenFromAddress(tokenAddress) || { abiVersion: '07-26-18' } // TODO: find a permanent solution for this
 
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
   promisifyAll(deployedTokenContract._service)
@@ -92,7 +92,6 @@ const waitBlock = async (deployedContract) => {
   while (true) {
     const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
     if (receipt && receipt.contractAddress) {
-      console.log(receipt.contractAddress)
       return receipt.contractAddress
     }
     // console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber)
@@ -100,10 +99,11 @@ const waitBlock = async (deployedContract) => {
   }
 }
 
-const deployContract = async function (type) {
+const deployContract = async (type, ...contractParams) => {
   await waitForWeb3()
 
-  const contractParams = Array.prototype.slice.call(arguments, 1)
+  store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployContract' })
+
   const abi = getAbi(type)
   const data = getBin(type)
   const web3Contract = web3.eth.contract(abi)
@@ -226,6 +226,23 @@ export default {
   setCurrentAccount (address) {
     currentAccount = address
     // TODO: implement handling password and connecting to different wallet
+  },
+
+  addWhitelistToToken: async (whitelistAddress, tokenAddress) => {
+    await waitForWeb3()
+
+    store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'addWhitelistToToken' })
+
+    try {
+      const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
+      promisifyAll(deployedSettingsStorageContract.addWhitelist)
+
+      const gas = await deployedSettingsStorageContract.addWhitelist.estimateGasAsync(whitelistAddress, { from: currentAccount })
+
+      return deployedSettingsStorageContract.addWhitelist.sendTransactionAsync(whitelistAddress, { from: currentAccount, gas })
+    } catch (e) {
+      console.log(`Error adding whitelist ${whitelistAddress} to token ${tokenAddress} ${e.message}`)
+    }
   },
 
   addInvestorToWhitelist: async (investorAddress, contractAddress) => {
@@ -352,7 +369,7 @@ export default {
     }
   },
 
-  getWhitelistsForToken: async (tokenAddress) => {
+  getWhitelistsForToken: async tokenAddress => {
     await waitForWeb3()
 
     try {
@@ -666,12 +683,9 @@ export default {
   deployNewToken: async () => {
     await waitForWeb3()
 
-    const storage = await deployContract('settingsStorage');
-
-    const service = await deployContract('regulatorService', storage);
-
-    const registry = await deployContract('serviceRegistry', service);
-
-    const token = await deployContract('token', registry, 'AboveboardStock', 'ABST');
+    const storage = await deployContract('settingsStorage')
+    const service = await deployContract('regulatorService', storage)
+    const registry = await deployContract('serviceRegistry', service)
+    return deployContract('token', registry, 'AboveboardStock', 'ABST')
   }
 }

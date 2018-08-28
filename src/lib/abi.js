@@ -36,6 +36,7 @@ const abis = {
     token: token072618.abi,
     regulatorService: regulatorService072618.abi,
     settingsStorage: settingsStorage072618.abi,
+    serviceRegistry: serviceRegistry072618.abi,
     multisig: multisig072618.abi,
     whitelist: whitelist072618.abi
   }

@@ -1,4 +1,6 @@
 import { connect } from 'react-redux'
+
+import cloudServices from 'lib/feathers/cloud/feathersServices'
 import CreateTokenView from './CreateTokenView'
 import ethereum from 'lib/ethereum'
 
@@ -8,10 +10,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    createToken: async ({ name, type, tokens }) => {
+    createToken: async ({ name, type, affiliates }) => {
       const address = await ethereum.deployNewToken()
 
-      console.log('address ', address)
+      if (affiliates) {
+        const whitelistAddress = await ethereum.deployContract('whitelist', 'affiliates')
+        await ethereum.addWhitelistToToken(whitelistAddress, address)
+        await cloudServices.whitelist.create({ name: `${name} Affiliates`, type, address: whitelistAddress, tokens: [{ address }] })
+      }
+
+      return cloudServices.token.create({ name, type, address })
     },
     routeTo: path => ownProps.history.push(path)
   }
