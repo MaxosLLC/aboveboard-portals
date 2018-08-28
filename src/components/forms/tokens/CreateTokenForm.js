@@ -96,7 +96,7 @@ const selector = formValueSelector('CreateToken')
 const mapStateToProps = (state, ownProps) => {
   return {
     errors: state.wallet.error || (state.token.isError || {}).message,
-    divisble: selector(state, 'divisble'),
+    divisble: selector(state, 'divisble')
   }
 }
 
