@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {Header, Icon, Table} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import '../../../Tokens.css'
 
 class ShareholderDetailView extends Component {
   componentDidMount () {

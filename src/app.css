@@ -100,3 +100,179 @@ body {
 .appComponent .hide {
     display: none;
 }
+
+table.abTable {
+    border: 0;
+    background: none;
+    margin-top: 0;
+}
+
+table.abTable .tableHeader tr th {
+    background: #fff;
+    padding: 20px 2%;
+    font-family: 'ProximaNova-SM', sans-serif;
+    color: black;
+    font-size: 16px;
+    border-bottom: 3px solid #f8f9fb;
+}
+
+table.abTable .tableHeader tr th .download {
+    width: 50px;
+}
+
+table.abTable tr td {
+    background: #fff;
+    padding: 10px 2% !important;
+    font-family: 'ProximaNova-R', sans-serif;
+    color: black;
+    font-size: 14px;
+    border-color: #f8f9fb;
+}
+
+table.abTable tbody tr:hover td {
+    background: #00cddb !important;
+    color: #fff !important;
+}
+
+.tableTabs .ui.secondary {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.tableTabs .ui.secondary a.item {
+    color: black;
+    min-width: 150px;
+    padding-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    font-family: 'ProximaNova-SM', sans-serif;
+    font-size: 18px;
+}
+
+.tableTabs .ui.secondary a.item:hover {
+    color: black;
+}
+
+.tableTabs .ui.secondary a.active.item {
+    color: black;
+    padding-bottom: 28px;
+    border-bottom: 4px solid black;
+}
+
+.tableTabs .ui.secondary a.active.item:hover {
+    color: black !important;
+    border-bottom: 4px solid black;
+}
+
+.tableContainer {
+    background: #f8f9fb;
+    padding: 36px 13% 36px 15%;
+    width: 130%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.tableScrollContainer {
+    height: 450px;
+    max-height: 450px;
+    padding: 0 1% 0 0;
+    overflow-y: scroll;
+}
+
+.tableScrollContainer::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.tableScrollContainer::-webkit-scrollbar-thumb {
+    background: #4F6683;
+}
+
+h2.tokenHeader,
+h2.tokenHeader a {
+    font-family: 'Futura-M', sans-serif;
+    font-size: 32px;
+    color: #8F9BAB;
+    transition: all .3s ease;
+    font-weight: 400;
+}
+
+h2.tokenHeader a:hover {
+    color: #4f6683;
+}
+
+.stats {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.tradingToggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    bottom: -35px;
+}
+
+.tradingToggle .ui.checked.fitted.toggle.checkbox label:before {
+    background-color: #00FFC6 !important;
+}
+
+.tradingToggle .ui.fitted.toggle.checkbox label:after {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 2px;
+    margin-left: 3px;
+}
+
+.tradingToggle .ui.checked.fitted.toggle.checkbox label:after {
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 2px;
+    margin-left: 0;
+}
+
+.tradingToggle span {
+    color: #4f6683;
+    font-size: 16px;
+    font-family: 'ProximaNove-R', sans-serif;
+    align-self: center;
+    margin-right: 30px;
+}
+
+.tradingToggle img {
+    width: 20px;
+    position: relative;
+}
+
+.tradingToggle .verticalSeparator {
+    width: 2px;
+    height: 20px;
+    background: #F1F4F8;
+    margin: 0 30px;
+}
+
+.sortButtons img {
+    width: 12px;
+    float: right;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.sortButtons {
+    width: 12px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoIcon {
+    width: 20px;
+    margin-left: 20px;
+}
+
+::placeholder {
+    color: black !important;
+}

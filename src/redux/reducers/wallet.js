@@ -6,7 +6,7 @@ export default (state = {}, action) => {
       return Object.assign({}, state, { connected: false, error: action.error })
     case 'WALLET_TRANSACTION_START':
       return Object.assign({}, state, { method: action.method, processing: true })
-    case 'WALLET_TRANSACTION_SUCCESS':
+    case 'WALLET_TRANSACTION_FINISHED':
       return Object.assign({}, state, { error: null, processing: false })
     case 'WALLET_TRANSACTION_ERROR':
       return Object.assign({}, state, { error: action.error, processing: false })

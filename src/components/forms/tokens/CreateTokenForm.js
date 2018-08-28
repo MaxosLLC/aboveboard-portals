@@ -13,8 +13,24 @@ import {
 
 import { Checkbox, Label, Text } from 'components/inputs'
 
+const numberRegExp = /\d{1,3}/
+
 const validate = values => {
   const errors = {}
+
+  if (!values.name) {
+    errors.name = 'Token name is required'
+  } else if (values.name.length > 255) {
+    errors.name = 'Token name must be less than 256 characters'
+  }
+
+  if (values.symbol && values.symbol.length > 4) {
+    errors.symbol = 'Symbol must be a maximum of 4 characters'
+  }
+
+  if (values.decimals && !numberRegExp.test(values.decimals)) {
+    errors.decimals = 'Decimals must be between 1 and 999'
+  }
 
   return errors
 }
@@ -50,7 +66,7 @@ const CreateTokenForm = props => {
                 { divisble && <br /> }
                 { divisble && <br /> }
                 { divisble && <Label>Decimal Precision *</Label> }
-                { divisble && <Text name='precision' /> }
+                { divisble && <Text name='decimals' /> }
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>

@@ -4,7 +4,6 @@ import { Accordion, Button, Grid, Header, Icon, Input, Image, Pagination, Segmen
 
 import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
-import './investors.css'
 
 const qualificationByCode = {
   'us-accredited': 'US Accredited',

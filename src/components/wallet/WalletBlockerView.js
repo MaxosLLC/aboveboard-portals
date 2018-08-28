@@ -9,17 +9,26 @@ class WalletBlockerView extends Component {
       processing
         ? <div style={{ position: 'absolute', height: '100%', width: '100%', zIndex: '1000000', top: '0', left: '0', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <Grid textAlign='center' style={{ position: 'relative', top: '4em' }}>
-            <Grid.Column style={{ maxWidth: 360 }}>
-              { method === 'deployContract'
+            <Grid.Column style={{ maxWidth: 600 }}>
+              { method === 'deployNewToken'
                 ? <Segment size='large' textAlign='center'>
-                  <Header>Your wallet is now loading your new contract deployment request...</Header>
-                  <Header>Please complete any outstanding transactions.</Header>
-                  <Header>If your wallet does not load, please refresh the page.</Header>
+                  <Header>Your new Token contract is now deploying...</Header>
+                  <Header>There will be a number of transactions following that must be completed.</Header>
+                  <Header>Please complete all transactions with your wallet.</Header>
+                  <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
+                  <Header>Once your token is deployed it will need to be approved by Aboveboard before it shows up.</Header>
+                </Segment>
+              : method === 'deployNewWhitelist'
+                ? <Segment size='large' textAlign='center'>
+                  <Header>Your new Whitelist is now being deployed...</Header>
+                  <Header>Please complete the transaction with your wallet.</Header>
+                  <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
+                  <Header>Once your whitelist is deployed it will need to be approved by Aboveboard before it shows up.</Header>
                 </Segment>
               : <Segment size='large' textAlign='center'>
                 <Header>Your wallet is now loading...</Header>
                 <Header>Please complete any outstanding transactions.</Header>
-                <Header>If your wallet does not load, please refresh the page.</Header>
+                <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
               </Segment>
               }
             </Grid.Column>

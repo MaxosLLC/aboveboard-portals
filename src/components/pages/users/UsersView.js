@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
-import './Users.css'
-
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`

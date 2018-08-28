@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
-import './Whitelists.css'
 
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`

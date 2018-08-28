@@ -17,10 +17,6 @@ const pendingTransactionsRegexp = /^\/pending-transactions/
 const usersRegexp = /^\/users/
 
 class SidebarView extends Component {
-  async componentDidMount () {
-    await this.props.testDeploy()
-  }
-
   render () {
     const { connected, currentUser, currentToken, routeTo, router } = this.props
 

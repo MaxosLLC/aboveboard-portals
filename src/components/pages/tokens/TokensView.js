@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {sortBy} from 'lodash/fp'
 import {Link} from 'react-router-dom'
 import {Icon, Table, Button, Segment} from 'semantic-ui-react'
-import './Tokens.css'
 
 class TokensView extends Component {
   componentDidMount () {

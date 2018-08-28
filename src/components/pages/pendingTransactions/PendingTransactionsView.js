@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
-import './PendingTransactions.css'
 
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
@@ -90,16 +89,18 @@ class PendingTransactionsView extends Component {
                           </Link>
                         </Table.Cell>
                         <Table.Cell>
-                          <Link
-                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.to}`}
-                            target='_blank'
-                            rel='noopener noreferrer'>
-                            {pendingTransaction
-                              .to
-                              .substr(0, 4)}...{pendingTransaction
-                              .to
-                              .substr(pendingTransaction.to.length - 4, 4)}
-                          </Link>
+                          { pendingTransaction.to &&
+                            <Link
+                              to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${pendingTransaction.to}`}
+                              target='_blank'
+                              rel='noopener noreferrer'>
+                              {pendingTransaction
+                                .to
+                                .substr(0, 4)}...{pendingTransaction
+                                .to
+                                .substr(pendingTransaction.to.length - 4, 4)}
+                            </Link>
+                          }
                         </Table.Cell>
                         <Table.Cell>{pendingTransaction.estimatedGasLimit}</Table.Cell>
                         <Table.Cell>{moment(pendingTransaction.createdAt).format('LL')}</Table.Cell>

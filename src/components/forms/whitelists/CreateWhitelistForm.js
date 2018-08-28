@@ -26,6 +26,16 @@ const whitelistTypeOptions = [
 const validate = values => {
   const errors = {}
 
+  if (!values.name) {
+    errors.name = 'Whitelist name is required'
+  } else if (values.name.length > 255) {
+    errors.name = 'Whitelist name must be less than 256 characters'
+  }
+
+  if (!values.type) {
+    errors.type = 'Please select a whitelist type'
+  }
+
   return errors
 }
 
@@ -103,7 +113,7 @@ const CreateWhitelistForm = props => {
 }
 
 const Form = reduxForm({
-  form: 'CreateToken',
+  form: 'CreateWhitelist',
   validate,
   enableReinitialize: true
 })(CreateWhitelistForm)
