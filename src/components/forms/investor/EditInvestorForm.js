@@ -231,6 +231,22 @@ const EditInvestorForm = props => {
                 <Text name='zip' />
               </Grid.Column>
               <Grid.Column>
+                <Label>KYC Status</Label>
+                <Text name='kycStatus' />
+              </Grid.Column>
+              <Grid.Column>
+                <Label>KYC Expiration Date</Label>
+                <Text name='kycExpDate' />
+              </Grid.Column>
+              <Grid.Column>
+                <Label>Accreditation Status</Label>
+                <Text name='accredStatus' />
+              </Grid.Column>
+              <Grid.Column>
+                <Label>Jurisdiction</Label>
+                <Text name='jurisdiction' />
+              </Grid.Column>
+              <Grid.Column>
                 <Label>Qualifications *</Label>
                 <Dropdown
                   multiple
