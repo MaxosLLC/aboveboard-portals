@@ -56,10 +56,10 @@ const bins = {
   }
 }
 
-export const getAbi = (contractType, version = '08-29-18') => {
+export const getAbi = (contractType, version = '07-26-18') => {
   return abis[version][contractType]
 }
 
-export const getBin = (contractType, version = '08-29-18') => {
+export const getBin = (contractType, version = '07-26-18') => {
   return bins[version][contractType]
 }
