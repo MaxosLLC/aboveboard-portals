@@ -73,7 +73,11 @@ class InvestorsView extends Component {
       { name: 'Email', sortOption: 'email' },
       { name: 'Phone', sortOption: 'phone' },
       { name: 'Address', sortOption: 'country' },
-      { name: 'Qualifications', sortOption: 'qualifications' }
+      { name: 'Qualifications', sortOption: 'qualifications' },
+      { name: 'KYC Status', sortOption: 'kycStatus' },
+      { name: 'KYC Expiration Date', sortOption: 'kycExpDate' },
+      { name: 'Accreditation Status', sortOption: 'accredStatus' },
+      { name: 'Jurisdiction', sortOption: 'jurisdiction' }
     ]
 
     const handleMultipleUploadClick = (e, { index }) => {
@@ -167,6 +171,10 @@ class InvestorsView extends Component {
                       <Table.Cell>
                         {qualificationByCode[investor.qualifications] || ''}
                       </Table.Cell>
+                      <Table.Cell>{investor.kycStatus}</Table.Cell>
+                      <Table.Cell>{investor.kycExpDate}</Table.Cell>
+                      <Table.Cell>{investor.accredStatus}</Table.Cell>
+                      <Table.Cell>{investor.jurisdiction}</Table.Cell>
                       <Table.Cell style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button
                           onClick={() => routeTo(`/whitelisting/${investor.id}/edit`)}>

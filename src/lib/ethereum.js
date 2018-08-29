@@ -245,7 +245,7 @@ export default {
     }
   },
 
-  addInvestorToWhitelist: async (investorAddress, contractAddress) => {
+  addInvestorToWhitelist: async (investorAddress, contractAddress, kycStatus, kycExpDate, accredStatus, jurisdiction) => {
     try {
       await waitForWeb3()
 
@@ -258,7 +258,7 @@ export default {
 
       const gas = await contract.add.estimateGasAsync(investorAddress, { from: currentAccount })
 
-      await contract.add.sendTransactionAsync(investorAddress, { from: currentAccount, gas })
+      await contract.add.sendTransactionAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addInvestorToWhitelist' })
     } catch (e) {

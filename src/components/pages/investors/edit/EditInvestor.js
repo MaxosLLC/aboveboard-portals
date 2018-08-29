@@ -47,7 +47,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             const addedWhitelists = differenceBy(originalWhitelists, currentWhitelists, 'address')
             const removedWhitelists = differenceBy(currentWhitelists, originalWhitelists, 'address')
 
-            await each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address))
+            await each(addedWhitelists, whitelist => ethereum.addInvestorToWhitelist(ethAddress.address, whitelist.address,
+              value.kycStatus, value.kycExpDate, value.accredStatus, value.jurisdiction))
             await each(removedWhitelists, whitelist => ethereum.removeInvestorFromWhitelist(ethAddress.address, whitelist.address))
           }
         })

@@ -10,7 +10,8 @@ const addInvestorToWhitelists = investor =>
     return each(ethAddress.whitelists || [], whitelist => {
       return ethereum.addInvestorToWhitelist(
         ethAddress.address,
-        whitelist.address
+        whitelist.address,
+        investor.kycStatus, investor.kycExpDate, investor.accredStatus, investor.jurisdiction
       )
     })
   })
