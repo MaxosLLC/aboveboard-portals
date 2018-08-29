@@ -72,9 +72,9 @@ const getStorageSettingsForToken = async tokenAddress => {
   const token = getTokenFromAddress(tokenAddress) || { abiVersion: '07-26-18' } // TODO: find a permanent solution for this
 
   const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
-  promisifyAll(deployedTokenContract._service)
+  promisifyAll(deployedTokenContract.service)
 
-  const regulatorServiceAddress = await deployedTokenContract._service.callAsync()
+  const regulatorServiceAddress = await deployedTokenContract.service.callAsync()
   const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
   const storageAddressMethod = (!token.abiVersion || token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
   promisifyAll(deployedRegulatorServiceContract[storageAddressMethod])
@@ -740,8 +740,7 @@ export default {
 
     const storage = await deployContract('settingsStorage')
     const service = await deployContract('regulatorService', storage)
-    const registry = await deployContract('serviceRegistry', service)
-    const address = await deployContract('token', registry, name, symbol, decimals)
+    const address = await deployContract('token', service, name, symbol, decimals)
 
     store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewToken' })
 
