@@ -402,7 +402,7 @@
         "id": 280,
         "nodeType": "ImportDirective",
         "scope": 762,
-        "sourceUnit": 2955,
+        "sourceUnit": 2983,
         "src": "26:45:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -413,7 +413,7 @@
         "id": 281,
         "nodeType": "ImportDirective",
         "scope": 762,
-        "sourceUnit": 8412,
+        "sourceUnit": 8458,
         "src": "72:61:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -427,10 +427,10 @@
               "id": 282,
               "name": "IIssuanceWhiteList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2954,
+              "referencedDeclaration": 2982,
               "src": "272:18:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IIssuanceWhiteList_$2954",
+                "typeIdentifier": "t_contract$_IIssuanceWhiteList_$2982",
                 "typeString": "contract IIssuanceWhiteList"
               }
             },
@@ -445,10 +445,10 @@
               "id": 284,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 8411,
+              "referencedDeclaration": 8457,
               "src": "292:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$8411",
+                "typeIdentifier": "t_contract$_Ownable_$8457",
                 "typeString": "contract Ownable"
               }
             },
@@ -458,9 +458,9 @@
           }
         ],
         "contractDependencies": [
-          2954,
-          3140,
-          8411
+          2982,
+          3168,
+          8457
         ],
         "contractKind": "contract",
         "documentation": "@title IssuanceWhiteList\n@dev WhiteList for an AboveBoard issued token. Owner is the issuer.",
@@ -468,9 +468,9 @@
         "id": 761,
         "linearizedBaseContracts": [
           761,
-          8411,
-          2954,
-          3140
+          8457,
+          2982,
+          3168
         ],
         "name": "IssuanceWhiteList",
         "nodeType": "ContractDefinition",
@@ -511,7 +511,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
               "typeString": "mapping(address => struct WhiteList.kyc)"
             },
             "typeName": {
@@ -529,7 +529,7 @@
               "nodeType": "Mapping",
               "src": "323:23:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                 "typeString": "mapping(address => struct WhiteList.kyc)"
               },
               "valueType": {
@@ -537,10 +537,10 @@
                 "id": 289,
                 "name": "kyc",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 3073,
+                "referencedDeclaration": 3101,
                 "src": "342:3:1",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_kyc_$3073_storage_ptr",
+                  "typeIdentifier": "t_struct$_kyc_$3101_storage_ptr",
                   "typeString": "struct WhiteList.kyc"
                 }
               }
@@ -821,7 +821,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "623:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -850,7 +850,7 @@
                             "name": "owner",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 8359,
+                            "referencedDeclaration": 8405,
                             "src": "637:5:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -884,7 +884,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "646:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -944,10 +944,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "615:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1043,7 +1043,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 11663,
+                                "referencedDeclaration": 11709,
                                 "src": "735:3:1",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -1072,7 +1072,7 @@
                               "name": "owner",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 8359,
+                              "referencedDeclaration": 8405,
                               "src": "749:5:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -1106,7 +1106,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 11663,
+                                "referencedDeclaration": 11709,
                                 "src": "758:3:1",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -1180,7 +1180,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "792:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1230,10 +1230,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "727:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1467,7 +1467,7 @@
                       "name": "NewAgentAssigned",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2914,
+                      "referencedDeclaration": 2942,
                       "src": "1081:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -1509,7 +1509,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1038:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1565,7 +1565,7 @@
             "scope": 761,
             "src": "1004:106:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2931,
+            "superFunction": 2959,
             "visibility": "public"
           },
           {
@@ -1649,7 +1649,7 @@
                       "name": "WhitelistTypeSet",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2926,
+                      "referencedDeclaration": 2954,
                       "src": "1222:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -1691,7 +1691,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1163:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -2071,7 +2071,7 @@
                       "name": "QualifierAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2918,
+                      "referencedDeclaration": 2946,
                       "src": "1491:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -2169,7 +2169,7 @@
             "scope": 761,
             "src": "1263:259:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2936,
+            "superFunction": 2964,
             "visibility": "public"
           },
           {
@@ -2422,7 +2422,7 @@
                       "name": "QualifierRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2922,
+                      "referencedDeclaration": 2950,
                       "src": "1717:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -2520,7 +2520,7 @@
             "scope": 761,
             "src": "1526:224:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2941,
+            "superFunction": 2969,
             "visibility": "public"
           },
           {
@@ -2554,7 +2554,7 @@
                           "referencedDeclaration": 291,
                           "src": "1935:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -2579,7 +2579,7 @@
                         "nodeType": "IndexAccess",
                         "src": "1935:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -2590,7 +2590,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "1935:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -2841,7 +2841,7 @@
                         "referencedDeclaration": 291,
                         "src": "2084:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                           "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                         }
                       },
@@ -2866,7 +2866,7 @@
                       "nodeType": "IndexAccess",
                       "src": "2084:15:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                        "typeIdentifier": "t_struct$_kyc_$3101_storage",
                         "typeString": "struct WhiteList.kyc storage ref"
                       }
                     },
@@ -2952,10 +2952,10 @@
                         "name": "kyc",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3073,
+                        "referencedDeclaration": 3101,
                         "src": "2102:3:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_kyc_$3073_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_kyc_$3101_storage_ptr_$",
                           "typeString": "type(struct WhiteList.kyc storage pointer)"
                         }
                       },
@@ -2975,13 +2975,13 @@
                       "nodeType": "FunctionCall",
                       "src": "2102:136:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_memory",
+                        "typeIdentifier": "t_struct$_kyc_$3101_memory",
                         "typeString": "struct WhiteList.kyc memory"
                       }
                     },
                     "src": "2084:154:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                      "typeIdentifier": "t_struct$_kyc_$3101_storage",
                       "typeString": "struct WhiteList.kyc storage ref"
                     }
                   },
@@ -3018,7 +3018,7 @@
                       "name": "MemberAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3077,
+                      "referencedDeclaration": 3105,
                       "src": "2245:11:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -3247,7 +3247,7 @@
             "scope": 761,
             "src": "1754:515:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3103,
+            "superFunction": 3131,
             "visibility": "public"
           },
           {
@@ -3287,7 +3287,7 @@
                                 "referencedDeclaration": 291,
                                 "src": "2426:7:1",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                                   "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                                 }
                               },
@@ -3339,7 +3339,7 @@
                               "nodeType": "IndexAccess",
                               "src": "2426:19:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                                "typeIdentifier": "t_struct$_kyc_$3101_storage",
                                 "typeString": "struct WhiteList.kyc storage ref"
                               }
                             },
@@ -3350,7 +3350,7 @@
                             "lValueRequested": false,
                             "memberName": "approved",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3064,
+                            "referencedDeclaration": 3092,
                             "src": "2426:28:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
@@ -3655,7 +3655,7 @@
                               "referencedDeclaration": 291,
                               "src": "2597:7:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                                 "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                               }
                             },
@@ -3707,7 +3707,7 @@
                             "nodeType": "IndexAccess",
                             "src": "2597:19:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                              "typeIdentifier": "t_struct$_kyc_$3101_storage",
                               "typeString": "struct WhiteList.kyc storage ref"
                             }
                           },
@@ -3813,10 +3813,10 @@
                               "name": "kyc",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3073,
+                              "referencedDeclaration": 3101,
                               "src": "2619:3:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_struct$_kyc_$3073_storage_ptr_$",
+                                "typeIdentifier": "t_type$_t_struct$_kyc_$3101_storage_ptr_$",
                                 "typeString": "type(struct WhiteList.kyc storage pointer)"
                               }
                             },
@@ -3836,13 +3836,13 @@
                             "nodeType": "FunctionCall",
                             "src": "2619:89:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_kyc_$3073_memory",
+                              "typeIdentifier": "t_struct$_kyc_$3101_memory",
                               "typeString": "struct WhiteList.kyc memory"
                             }
                           },
                           "src": "2597:111:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -3906,7 +3906,7 @@
                             "name": "MemberAdded",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3077,
+                            "referencedDeclaration": 3105,
                             "src": "2717:11:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -4196,7 +4196,7 @@
             "scope": 761,
             "src": "2273:478:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3111,
+            "superFunction": 3139,
             "visibility": "public"
           },
           {
@@ -4219,7 +4219,7 @@
                         "referencedDeclaration": 291,
                         "src": "2847:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                           "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                         }
                       },
@@ -4244,7 +4244,7 @@
                       "nodeType": "IndexAccess",
                       "src": "2847:15:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                        "typeIdentifier": "t_struct$_kyc_$3101_storage",
                         "typeString": "struct WhiteList.kyc storage ref"
                       }
                     },
@@ -4255,7 +4255,7 @@
                     "lValueRequested": false,
                     "memberName": "approved",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 3064,
+                    "referencedDeclaration": 3092,
                     "src": "2847:24:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
@@ -4432,7 +4432,7 @@
                           "referencedDeclaration": 291,
                           "src": "2960:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -4457,7 +4457,7 @@
                         "nodeType": "IndexAccess",
                         "src": "2960:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -4468,7 +4468,7 @@
                       "lValueRequested": true,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "2960:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -4534,7 +4534,7 @@
                       "name": "MemberRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3081,
+                      "referencedDeclaration": 3109,
                       "src": "2999:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -4659,7 +4659,7 @@
             "scope": 761,
             "src": "2755:270:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3118,
+            "superFunction": 3146,
             "visibility": "public"
           },
           {
@@ -4693,7 +4693,7 @@
                           "referencedDeclaration": 291,
                           "src": "3101:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -4718,7 +4718,7 @@
                         "nodeType": "IndexAccess",
                         "src": "3101:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -4729,7 +4729,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "3101:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -4847,7 +4847,7 @@
             "scope": 761,
             "src": "3029:109:1",
             "stateMutability": "view",
-            "superFunction": 3088,
+            "superFunction": 3116,
             "visibility": "public"
           },
           {
@@ -4958,7 +4958,7 @@
             "scope": 761,
             "src": "3142:113:1",
             "stateMutability": "view",
-            "superFunction": 3124,
+            "superFunction": 3152,
             "visibility": "public"
           },
           {
@@ -4984,7 +4984,7 @@
                             "referencedDeclaration": 291,
                             "src": "3398:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -5009,7 +5009,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3398:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -5020,7 +5020,7 @@
                         "lValueRequested": false,
                         "memberName": "approved",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3064,
+                        "referencedDeclaration": 3092,
                         "src": "3398:24:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -5040,7 +5040,7 @@
                             "referencedDeclaration": 291,
                             "src": "3424:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -5065,7 +5065,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3424:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -5076,7 +5076,7 @@
                         "lValueRequested": false,
                         "memberName": "kycStatus",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3066,
+                        "referencedDeclaration": 3094,
                         "src": "3424:25:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -5096,7 +5096,7 @@
                             "referencedDeclaration": 291,
                             "src": "3451:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -5121,7 +5121,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3451:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -5132,7 +5132,7 @@
                         "lValueRequested": false,
                         "memberName": "kycExpDate",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3068,
+                        "referencedDeclaration": 3096,
                         "src": "3451:26:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -5152,7 +5152,7 @@
                             "referencedDeclaration": 291,
                             "src": "3479:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -5177,7 +5177,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3479:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -5188,7 +5188,7 @@
                         "lValueRequested": false,
                         "memberName": "accreditationStatus",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3070,
+                        "referencedDeclaration": 3098,
                         "src": "3479:35:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -5208,7 +5208,7 @@
                             "referencedDeclaration": 291,
                             "src": "3516:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -5233,7 +5233,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3516:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -5244,7 +5244,7 @@
                         "lValueRequested": false,
                         "memberName": "jurisdiction",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3072,
+                        "referencedDeclaration": 3100,
                         "src": "3516:28:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -5474,7 +5474,7 @@
             "scope": 761,
             "src": "3259:291:1",
             "stateMutability": "view",
-            "superFunction": 3139,
+            "superFunction": 3167,
             "visibility": "public"
           },
           {
@@ -5585,7 +5585,7 @@
             "scope": 761,
             "src": "3554:120:1",
             "stateMutability": "view",
-            "superFunction": 2947,
+            "superFunction": 2975,
             "visibility": "public"
           },
           {
@@ -5824,7 +5824,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 8359,
+                      "referencedDeclaration": 8405,
                       "src": "3905:5:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -6319,7 +6319,7 @@
             "scope": 761,
             "src": "3678:440:1",
             "stateMutability": "view",
-            "superFunction": 2953,
+            "superFunction": 2981,
             "visibility": "public"
           }
         ],
@@ -6356,7 +6356,7 @@
         "id": 280,
         "nodeType": "ImportDirective",
         "scope": 762,
-        "sourceUnit": 2955,
+        "sourceUnit": 2983,
         "src": "26:45:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -6367,7 +6367,7 @@
         "id": 281,
         "nodeType": "ImportDirective",
         "scope": 762,
-        "sourceUnit": 8412,
+        "sourceUnit": 8458,
         "src": "72:61:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -6381,10 +6381,10 @@
               "id": 282,
               "name": "IIssuanceWhiteList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2954,
+              "referencedDeclaration": 2982,
               "src": "272:18:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IIssuanceWhiteList_$2954",
+                "typeIdentifier": "t_contract$_IIssuanceWhiteList_$2982",
                 "typeString": "contract IIssuanceWhiteList"
               }
             },
@@ -6399,10 +6399,10 @@
               "id": 284,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 8411,
+              "referencedDeclaration": 8457,
               "src": "292:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$8411",
+                "typeIdentifier": "t_contract$_Ownable_$8457",
                 "typeString": "contract Ownable"
               }
             },
@@ -6412,9 +6412,9 @@
           }
         ],
         "contractDependencies": [
-          2954,
-          3140,
-          8411
+          2982,
+          3168,
+          8457
         ],
         "contractKind": "contract",
         "documentation": "@title IssuanceWhiteList\n@dev WhiteList for an AboveBoard issued token. Owner is the issuer.",
@@ -6422,9 +6422,9 @@
         "id": 761,
         "linearizedBaseContracts": [
           761,
-          8411,
-          2954,
-          3140
+          8457,
+          2982,
+          3168
         ],
         "name": "IssuanceWhiteList",
         "nodeType": "ContractDefinition",
@@ -6465,7 +6465,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
               "typeString": "mapping(address => struct WhiteList.kyc)"
             },
             "typeName": {
@@ -6483,7 +6483,7 @@
               "nodeType": "Mapping",
               "src": "323:23:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                 "typeString": "mapping(address => struct WhiteList.kyc)"
               },
               "valueType": {
@@ -6491,10 +6491,10 @@
                 "id": 289,
                 "name": "kyc",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 3073,
+                "referencedDeclaration": 3101,
                 "src": "342:3:1",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_kyc_$3073_storage_ptr",
+                  "typeIdentifier": "t_struct$_kyc_$3101_storage_ptr",
                   "typeString": "struct WhiteList.kyc"
                 }
               }
@@ -6775,7 +6775,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "623:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -6804,7 +6804,7 @@
                             "name": "owner",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 8359,
+                            "referencedDeclaration": 8405,
                             "src": "637:5:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -6838,7 +6838,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "646:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -6898,10 +6898,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "615:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -6997,7 +6997,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 11663,
+                                "referencedDeclaration": 11709,
                                 "src": "735:3:1",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -7026,7 +7026,7 @@
                               "name": "owner",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 8359,
+                              "referencedDeclaration": 8405,
                               "src": "749:5:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -7060,7 +7060,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 11663,
+                                "referencedDeclaration": 11709,
                                 "src": "758:3:1",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -7134,7 +7134,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "792:3:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -7184,10 +7184,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "727:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -7421,7 +7421,7 @@
                       "name": "NewAgentAssigned",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2914,
+                      "referencedDeclaration": 2942,
                       "src": "1081:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -7463,7 +7463,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1038:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -7519,7 +7519,7 @@
             "scope": 761,
             "src": "1004:106:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2931,
+            "superFunction": 2959,
             "visibility": "public"
           },
           {
@@ -7603,7 +7603,7 @@
                       "name": "WhitelistTypeSet",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2926,
+                      "referencedDeclaration": 2954,
                       "src": "1222:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -7645,7 +7645,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1163:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -8025,7 +8025,7 @@
                       "name": "QualifierAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2918,
+                      "referencedDeclaration": 2946,
                       "src": "1491:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -8123,7 +8123,7 @@
             "scope": 761,
             "src": "1263:259:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2936,
+            "superFunction": 2964,
             "visibility": "public"
           },
           {
@@ -8376,7 +8376,7 @@
                       "name": "QualifierRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2922,
+                      "referencedDeclaration": 2950,
                       "src": "1717:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -8474,7 +8474,7 @@
             "scope": 761,
             "src": "1526:224:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2941,
+            "superFunction": 2969,
             "visibility": "public"
           },
           {
@@ -8508,7 +8508,7 @@
                           "referencedDeclaration": 291,
                           "src": "1935:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -8533,7 +8533,7 @@
                         "nodeType": "IndexAccess",
                         "src": "1935:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -8544,7 +8544,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "1935:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -8795,7 +8795,7 @@
                         "referencedDeclaration": 291,
                         "src": "2084:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                           "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                         }
                       },
@@ -8820,7 +8820,7 @@
                       "nodeType": "IndexAccess",
                       "src": "2084:15:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                        "typeIdentifier": "t_struct$_kyc_$3101_storage",
                         "typeString": "struct WhiteList.kyc storage ref"
                       }
                     },
@@ -8906,10 +8906,10 @@
                         "name": "kyc",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3073,
+                        "referencedDeclaration": 3101,
                         "src": "2102:3:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_kyc_$3073_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_kyc_$3101_storage_ptr_$",
                           "typeString": "type(struct WhiteList.kyc storage pointer)"
                         }
                       },
@@ -8929,13 +8929,13 @@
                       "nodeType": "FunctionCall",
                       "src": "2102:136:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_memory",
+                        "typeIdentifier": "t_struct$_kyc_$3101_memory",
                         "typeString": "struct WhiteList.kyc memory"
                       }
                     },
                     "src": "2084:154:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                      "typeIdentifier": "t_struct$_kyc_$3101_storage",
                       "typeString": "struct WhiteList.kyc storage ref"
                     }
                   },
@@ -8972,7 +8972,7 @@
                       "name": "MemberAdded",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3077,
+                      "referencedDeclaration": 3105,
                       "src": "2245:11:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -9201,7 +9201,7 @@
             "scope": 761,
             "src": "1754:515:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3103,
+            "superFunction": 3131,
             "visibility": "public"
           },
           {
@@ -9241,7 +9241,7 @@
                                 "referencedDeclaration": 291,
                                 "src": "2426:7:1",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                                   "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                                 }
                               },
@@ -9293,7 +9293,7 @@
                               "nodeType": "IndexAccess",
                               "src": "2426:19:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                                "typeIdentifier": "t_struct$_kyc_$3101_storage",
                                 "typeString": "struct WhiteList.kyc storage ref"
                               }
                             },
@@ -9304,7 +9304,7 @@
                             "lValueRequested": false,
                             "memberName": "approved",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3064,
+                            "referencedDeclaration": 3092,
                             "src": "2426:28:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
@@ -9609,7 +9609,7 @@
                               "referencedDeclaration": 291,
                               "src": "2597:7:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                                 "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                               }
                             },
@@ -9661,7 +9661,7 @@
                             "nodeType": "IndexAccess",
                             "src": "2597:19:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                              "typeIdentifier": "t_struct$_kyc_$3101_storage",
                               "typeString": "struct WhiteList.kyc storage ref"
                             }
                           },
@@ -9767,10 +9767,10 @@
                               "name": "kyc",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3073,
+                              "referencedDeclaration": 3101,
                               "src": "2619:3:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_struct$_kyc_$3073_storage_ptr_$",
+                                "typeIdentifier": "t_type$_t_struct$_kyc_$3101_storage_ptr_$",
                                 "typeString": "type(struct WhiteList.kyc storage pointer)"
                               }
                             },
@@ -9790,13 +9790,13 @@
                             "nodeType": "FunctionCall",
                             "src": "2619:89:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_kyc_$3073_memory",
+                              "typeIdentifier": "t_struct$_kyc_$3101_memory",
                               "typeString": "struct WhiteList.kyc memory"
                             }
                           },
                           "src": "2597:111:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -9860,7 +9860,7 @@
                             "name": "MemberAdded",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3077,
+                            "referencedDeclaration": 3105,
                             "src": "2717:11:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -10150,7 +10150,7 @@
             "scope": 761,
             "src": "2273:478:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3111,
+            "superFunction": 3139,
             "visibility": "public"
           },
           {
@@ -10173,7 +10173,7 @@
                         "referencedDeclaration": 291,
                         "src": "2847:7:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                           "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                         }
                       },
@@ -10198,7 +10198,7 @@
                       "nodeType": "IndexAccess",
                       "src": "2847:15:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                        "typeIdentifier": "t_struct$_kyc_$3101_storage",
                         "typeString": "struct WhiteList.kyc storage ref"
                       }
                     },
@@ -10209,7 +10209,7 @@
                     "lValueRequested": false,
                     "memberName": "approved",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 3064,
+                    "referencedDeclaration": 3092,
                     "src": "2847:24:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
@@ -10386,7 +10386,7 @@
                           "referencedDeclaration": 291,
                           "src": "2960:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -10411,7 +10411,7 @@
                         "nodeType": "IndexAccess",
                         "src": "2960:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -10422,7 +10422,7 @@
                       "lValueRequested": true,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "2960:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -10488,7 +10488,7 @@
                       "name": "MemberRemoved",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3081,
+                      "referencedDeclaration": 3109,
                       "src": "2999:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_address_$returns$__$",
@@ -10613,7 +10613,7 @@
             "scope": 761,
             "src": "2755:270:1",
             "stateMutability": "nonpayable",
-            "superFunction": 3118,
+            "superFunction": 3146,
             "visibility": "public"
           },
           {
@@ -10647,7 +10647,7 @@
                           "referencedDeclaration": 291,
                           "src": "3101:7:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -10672,7 +10672,7 @@
                         "nodeType": "IndexAccess",
                         "src": "3101:15:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -10683,7 +10683,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "3101:24:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -10801,7 +10801,7 @@
             "scope": 761,
             "src": "3029:109:1",
             "stateMutability": "view",
-            "superFunction": 3088,
+            "superFunction": 3116,
             "visibility": "public"
           },
           {
@@ -10912,7 +10912,7 @@
             "scope": 761,
             "src": "3142:113:1",
             "stateMutability": "view",
-            "superFunction": 3124,
+            "superFunction": 3152,
             "visibility": "public"
           },
           {
@@ -10938,7 +10938,7 @@
                             "referencedDeclaration": 291,
                             "src": "3398:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -10963,7 +10963,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3398:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -10974,7 +10974,7 @@
                         "lValueRequested": false,
                         "memberName": "approved",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3064,
+                        "referencedDeclaration": 3092,
                         "src": "3398:24:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -10994,7 +10994,7 @@
                             "referencedDeclaration": 291,
                             "src": "3424:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -11019,7 +11019,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3424:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -11030,7 +11030,7 @@
                         "lValueRequested": false,
                         "memberName": "kycStatus",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3066,
+                        "referencedDeclaration": 3094,
                         "src": "3424:25:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -11050,7 +11050,7 @@
                             "referencedDeclaration": 291,
                             "src": "3451:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -11075,7 +11075,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3451:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -11086,7 +11086,7 @@
                         "lValueRequested": false,
                         "memberName": "kycExpDate",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3068,
+                        "referencedDeclaration": 3096,
                         "src": "3451:26:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -11106,7 +11106,7 @@
                             "referencedDeclaration": 291,
                             "src": "3479:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -11131,7 +11131,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3479:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -11142,7 +11142,7 @@
                         "lValueRequested": false,
                         "memberName": "accreditationStatus",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3070,
+                        "referencedDeclaration": 3098,
                         "src": "3479:35:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -11162,7 +11162,7 @@
                             "referencedDeclaration": 291,
                             "src": "3516:7:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                               "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                             }
                           },
@@ -11187,7 +11187,7 @@
                           "nodeType": "IndexAccess",
                           "src": "3516:15:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                            "typeIdentifier": "t_struct$_kyc_$3101_storage",
                             "typeString": "struct WhiteList.kyc storage ref"
                           }
                         },
@@ -11198,7 +11198,7 @@
                         "lValueRequested": false,
                         "memberName": "jurisdiction",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 3072,
+                        "referencedDeclaration": 3100,
                         "src": "3516:28:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage",
@@ -11428,7 +11428,7 @@
             "scope": 761,
             "src": "3259:291:1",
             "stateMutability": "view",
-            "superFunction": 3139,
+            "superFunction": 3167,
             "visibility": "public"
           },
           {
@@ -11539,7 +11539,7 @@
             "scope": 761,
             "src": "3554:120:1",
             "stateMutability": "view",
-            "superFunction": 2947,
+            "superFunction": 2975,
             "visibility": "public"
           },
           {
@@ -11778,7 +11778,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 8359,
+                      "referencedDeclaration": 8405,
                       "src": "3905:5:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -12273,7 +12273,7 @@
             "scope": 761,
             "src": "3678:440:1",
             "stateMutability": "view",
-            "superFunction": 2953,
+            "superFunction": 2981,
             "visibility": "public"
           }
         ],
@@ -12288,7 +12288,7 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {
-    "1535151554374": {
+    "1535559872487": {
       "events": {},
       "links": {},
       "address": "0x4ba14cb5bd032a8252fd97eaf5e7a47c82450538",
@@ -12296,5 +12296,5 @@
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-24T22:59:51.704Z"
+  "updatedAt": "2018-08-29T16:25:23.412Z"
 }

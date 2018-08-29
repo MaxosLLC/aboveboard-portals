@@ -496,9 +496,9 @@
         ],
         "contractDependencies": [
           761,
-          2954,
-          3140,
-          8411
+          2982,
+          3168,
+          8457
         ],
         "contractKind": "contract",
         "documentation": "@title SecureIssuanceWhiteList\n@dev WhiteList for an AboveBoard issued token. Owner is Aboveboard.",
@@ -507,9 +507,9 @@
         "linearizedBaseContracts": [
           2366,
           761,
-          8411,
-          2954,
-          3140
+          8457,
+          2982,
+          3168
         ],
         "name": "SecureIssuanceWhiteList",
         "nodeType": "ContractDefinition",
@@ -864,7 +864,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "724:3:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -934,10 +934,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "701:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -987,7 +987,7 @@
                           "referencedDeclaration": 291,
                           "src": "758:7:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -1012,7 +1012,7 @@
                         "nodeType": "IndexAccess",
                         "src": "758:15:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -1023,7 +1023,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "758:24:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -1186,7 +1186,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "828:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1618,7 +1618,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "950:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1969,7 +1969,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1209:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -2090,9 +2090,9 @@
         ],
         "contractDependencies": [
           761,
-          2954,
-          3140,
-          8411
+          2982,
+          3168,
+          8457
         ],
         "contractKind": "contract",
         "documentation": "@title SecureIssuanceWhiteList\n@dev WhiteList for an AboveBoard issued token. Owner is Aboveboard.",
@@ -2101,9 +2101,9 @@
         "linearizedBaseContracts": [
           2366,
           761,
-          8411,
-          2954,
-          3140
+          8457,
+          2982,
+          3168
         ],
         "name": "SecureIssuanceWhiteList",
         "nodeType": "ContractDefinition",
@@ -2458,7 +2458,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 11663,
+                              "referencedDeclaration": 11709,
                               "src": "724:3:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -2528,10 +2528,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        11666,
-                        11667
+                        11712,
+                        11713
                       ],
-                      "referencedDeclaration": 11666,
+                      "referencedDeclaration": 11712,
                       "src": "701:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2581,7 +2581,7 @@
                           "referencedDeclaration": 291,
                           "src": "758:7:7",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3073_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_kyc_$3101_storage_$",
                             "typeString": "mapping(address => struct WhiteList.kyc storage ref)"
                           }
                         },
@@ -2606,7 +2606,7 @@
                         "nodeType": "IndexAccess",
                         "src": "758:15:7",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_kyc_$3073_storage",
+                          "typeIdentifier": "t_struct$_kyc_$3101_storage",
                           "typeString": "struct WhiteList.kyc storage ref"
                         }
                       },
@@ -2617,7 +2617,7 @@
                       "lValueRequested": false,
                       "memberName": "approved",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3064,
+                      "referencedDeclaration": 3092,
                       "src": "758:24:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -2780,7 +2780,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "828:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -3212,7 +3212,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "950:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -3563,7 +3563,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 8385,
+                  "referencedDeclaration": 8431,
                   "src": "1209:9:7",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -3634,7 +3634,7 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {
-    "1535383094634": {
+    "1535559872487": {
       "events": {},
       "links": {},
       "address": "0xad5e8301d7d23834c79e650449754bbc3816660f",
@@ -3642,5 +3642,5 @@
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-27T16:57:20.686Z"
+  "updatedAt": "2018-08-29T16:25:22.161Z"
 }

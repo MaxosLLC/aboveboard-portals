@@ -41,15 +41,6 @@ const abis = {
     multisig: multisig072618.abi,
     whitelist: whitelist072618.abi,
     secureWhitelist: secureWhitelist072618.abi
-  },
-  '08-29-18': {
-    token: token082918.abi,
-    regulatorService: regulatorService082918.abi,
-    settingsStorage: settingsStorage082918.abi,
-    serviceRegistry: serviceRegistry082918.abi,
-    multisig: multisig082918.abi,
-    whitelist: whitelist082918.abi,
-    secureWhitelist: secureWhitelist082918.abi
   }
 }
 
@@ -62,15 +53,6 @@ const bins = {
     multisig: multisig072618.bytecode,
     whitelist: whitelist072618.bytecode,
     secureWhitelist: secureWhitelist072618.bytecode
-  },
-  '08-29-18': {
-    token: token082918.bytecode,
-    regulatorService: regulatorService082918.bytecode,
-    settingsStorage: settingsStorage082918.bytecode,
-    serviceRegistry: serviceRegistry082918.bytecode,
-    multisig: multisig082918.bytecode,
-    whitelist: whitelist082918.bytecode,
-    secureWhitelist: secureWhitelist082918.bytecode
   }
 }
 
