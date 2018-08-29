@@ -379,6 +379,21 @@ export default {
     }
   },
 
+  getBuyerKyc: async (investorAddress, whitelistAddress) => {
+    try {
+      await waitForWeb3()
+
+      const contract = web3.eth.contract(getAbi('whitelist')).at(whitelistAddress)
+      promisifyAll(contract.getBuyerKyc)
+
+      const kyc = await contract.getBuyerKyc.callAsync(investorAddress)
+
+      return kyc
+    } catch (e) {
+      console.log(`getBuyerKyc error ${e.message || e}`)
+    }
+  },
+
   getWhitelistsForToken: async tokenAddress => {
     await waitForWeb3()
 
