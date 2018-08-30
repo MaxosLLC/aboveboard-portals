@@ -777,7 +777,9 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
 
       const storage = await deployContract('settingsStorage')
+      console.log('new token storage ', storage)
       const service = await deployContract('regulatorService', storage)
+      console.log('new token service ', service)
       const address = await deployContract('token', service, name, symbol, decimals)
 
       store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewToken' })
