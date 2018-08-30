@@ -13,7 +13,6 @@ import whitelist from 'lib/contracts/07-11-18/IssuanceWhiteList'
 import token072618 from 'lib/contracts/07-26-18/RegulatedToken'
 import regulatorService072618 from 'lib/contracts/07-26-18/AboveboardRegDSWhitelistRegulatorService'
 import settingsStorage072618 from 'lib/contracts/07-26-18/SettingsStorage'
-import serviceRegistry072618 from 'lib/contracts/07-26-18/ServiceRegistry'
 import multisig072618 from 'lib/contracts/07-26-18/MultiSigArbitration'
 import whitelist072618 from 'lib/contracts/07-26-18/IssuanceWhiteList'
 import secureWhitelist072618 from 'lib/contracts/07-26-18/SecureIssuanceWhiteList'
@@ -37,7 +36,6 @@ const abis = {
     token: token072618.abi,
     regulatorService: regulatorService072618.abi,
     settingsStorage: settingsStorage072618.abi,
-    serviceRegistry: serviceRegistry072618.abi,
     multisig: multisig072618.abi,
     whitelist: whitelist072618.abi,
     secureWhitelist: secureWhitelist072618.abi
@@ -49,7 +47,6 @@ const bins = {
     token: token072618.bytecode,
     regulatorService: regulatorService072618.bytecode,
     settingsStorage: settingsStorage072618.bytecode,
-    serviceRegistry: serviceRegistry072618.bytecode,
     multisig: multisig072618.bytecode,
     whitelist: whitelist072618.bytecode,
     secureWhitelist: secureWhitelist072618.bytecode
