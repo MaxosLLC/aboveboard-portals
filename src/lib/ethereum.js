@@ -770,16 +770,14 @@ export default {
     }
   },
 
-  deployNewToken: async (name, symbol, decimals = 0) => {
+  deployNewToken: async (name, symbol, decimals = 0, initialOfferEndDate = 1, messagingAddress = 'messagingAddress') => {
     try {
       await waitForWeb3()
 
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
 
-      const storage = await deployContract('settingsStorage')
-      console.log('new token storage ', storage)
+      const storage = await deployContract('settingsStorage', false, true, initialOfferEndDate, messagingAddress)
       const service = await deployContract('regulatorService', storage)
-      console.log('new token service ', service)
       const address = await deployContract('token', service, name, symbol, decimals)
 
       store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewToken' })
