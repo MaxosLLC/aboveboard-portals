@@ -96,7 +96,9 @@ const waitBlock = async deployedContract => {
       return receipt.contractAddress
     }
 
-    return delay(3000)
+    await delay(3000)
+
+    return waitBlock(deployedContract)
   }
 }
 
