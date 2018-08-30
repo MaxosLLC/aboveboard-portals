@@ -92,6 +92,7 @@ const waitBlock = async deployedContract => {
   while (true) {
     const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
     if (receipt && receipt.contractAddress) {
+      console.log('receipt ', receipt)
       return receipt.contractAddress
     }
 
