@@ -14,14 +14,18 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     createWhitelist: async ({ name, type, tokens = [] }) => {
-      const address = await ethereum.deployNewWhitelist(type)
+      try {
+        const address = await ethereum.deployNewWhitelist(type)
 
-      await each(tokens, token => ethereum.addWhitelistToToken(address, token))
+        await each(tokens, token => ethereum.addWhitelistToToken(address, token))
 
-      const user = store.getState().currentUser
-      await cloudServices.whitelist.create({ user, name, type, tokens: tokens.map(address => ({ address })), address })
+        const user = store.getState().currentUser
+        await cloudServices.whitelist.create({ user, name, type, tokens: tokens.map(address => ({ address })), address })
 
-      return dispatch(push('/available-whitelists'))
+        return dispatch(push('/available-whitelists'))
+      } catch (e) {
+        console.error(`Error creating whitelist ${e.message || e}`)
+      }
     },
     routeTo: path => ownProps.history.push(path)
   }

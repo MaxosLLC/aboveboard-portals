@@ -13,18 +13,23 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     createToken: async ({ name, symbol, decimals, affiliates }) => {
-      const address = await ethereum.deployNewToken(name, symbol, decimals)
+      try {
+        const address = await ethereum.deployNewToken(name, symbol, decimals)
+        const user = store.getState().currentUser
 
-      if (affiliates) {
-        const whitelistAddress = await ethereum.deployNewWhitelist('affiliates')
-        await ethereum.addWhitelistToToken(whitelistAddress, address)
-        await cloudServices.whitelist.create({ name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens: [{ address }] })
+        if (affiliates) {
+          const tokens = [{ address }]
+          const whitelistAddress = await ethereum.deployNewWhitelist('affiliates', tokens)
+          await ethereum.addWhitelistToToken(whitelistAddress, address)
+          await cloudServices.whitelist.create({ user, name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens })
+        }
+
+        await cloudServices.token.create({ user, name, symbol, address, decimals })
+
+        return dispatch(push('/tokens'))
+      } catch (e) {
+        console.error(`Error creating token ${e.message || e}`)
       }
-
-      const user = store.getState().currentUser
-      await cloudServices.token.create({ user, name, symbol, address, decimals })
-
-      return dispatch(push('/tokens'))
     },
     routeTo: path => ownProps.history.push(path)
   }

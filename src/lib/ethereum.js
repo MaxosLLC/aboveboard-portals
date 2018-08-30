@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import Web3ProviderEngine from 'web3-provider-engine'
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3'
 import store from 'redux/store'
-import Promise, { filter, reduce, promisifyAll } from 'bluebird'
+import Promise, { each, filter, reduce, promisifyAll } from 'bluebird'
 import { uniq } from 'lodash'
 
 import { url } from 'lib/feathers/local/feathersClient'
@@ -94,8 +94,8 @@ const waitBlock = async deployedContract => {
     if (receipt && receipt.contractAddress) {
       return receipt.contractAddress
     }
-    // console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber)
-    return delay(4000)
+
+    return delay(3000)
   }
 }
 
@@ -241,7 +241,9 @@ export default {
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addWhitelistToToken' })
     } catch (e) {
-      console.log(`Error adding whitelist ${whitelistAddress} to token ${tokenAddress} ${e.message}`)
+      console.error(`Error adding whitelist ${whitelistAddress} to token ${tokenAddress} ${e.message}`)
+      store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -263,6 +265,7 @@ export default {
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addInvestorToWhitelist' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -284,6 +287,7 @@ export default {
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addInvestorsToWhitelist' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -305,6 +309,7 @@ export default {
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'removeInvestorFromWhitelist' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -326,6 +331,7 @@ export default {
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setMessagingAddress' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -341,6 +347,7 @@ export default {
       .callAsync(!token.abiVersion || token.abiVersion === '06-12-18' ? tokenAddress : undefined)
     } catch (e) {
       console.log(`getTradingLock error ${e.message || e}`)
+      throw e
     }
   },
 
@@ -359,6 +366,7 @@ export default {
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setTradingLock' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -376,6 +384,7 @@ export default {
       return balance.toNumber()
     } catch (e) {
       console.log(`getBalanceForAddress error ${e.message || e}`)
+      throw e
     }
   },
 
@@ -391,6 +400,7 @@ export default {
       return kyc
     } catch (e) {
       console.log(`getBuyerKyc error ${e.message || e}`)
+      throw e
     }
   },
 
@@ -445,6 +455,7 @@ export default {
     }, [])
     .catch(e => {
       console.log(`Error getting whitelists: ${e.message}`)
+      return []
     })
 
     return uniq(whitelists)
@@ -471,6 +482,7 @@ export default {
       }
     } catch (e) {
       console.log(`Error getting role for whitelist ${whitelist.address}: ${e.message}`)
+      throw e
     }
   },
 
@@ -484,13 +496,14 @@ export default {
 
       promisifyAll(deployedWalletContract.confirmTransaction)
 
-      const gas = await deployedWalletContract.confirmTransaction.estimateGasAsync(id, {from: currentAccount})
+      const gas = await deployedWalletContract.confirmTransaction.estimateGasAsync(id, { from: currentAccount })
 
-      await deployedWalletContract.confirmTransaction.sendTransactionAsync(id, {from: currentAccount, gas})
+      await deployedWalletContract.confirmTransaction.sendTransactionAsync(id, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'confirmTransaction' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -504,13 +517,14 @@ export default {
 
       promisifyAll(deployedWalletContract.revokeConfirmation)
 
-      const gas = await deployedWalletContract.revokeConfirmation.estimateGasAsync(id, {from: currentAccount})
+      const gas = await deployedWalletContract.revokeConfirmation.estimateGasAsync(id, { from: currentAccount })
 
-      await deployedWalletContract.revokeConfirmation.sendTransactionAsync(id, {from: currentAccount, gas})
+      await deployedWalletContract.revokeConfirmation.sendTransactionAsync(id, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'revokeConfirmation' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -529,13 +543,14 @@ export default {
 
       const approveEncoded = deployedTokenContract.approve.getData(multisigWalletAddress, 100, {from: multisigWalletAddress})
 
-      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, approveEncoded, {from: currentAccount})
+      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, approveEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, approveEncoded, {from: currentAccount, gas})
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, approveEncoded, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setTokenApproval' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -556,20 +571,21 @@ export default {
 
         promisifyAll(deployedWalletContract.submitTransaction)
 
-        const txEncoded = deployedWalletContract.mint.getData(tokenOwner, amount, 0, {from: currentAccount})
+        const txEncoded = deployedWalletContract.mint.getData(tokenOwner, amount, 0, { from: currentAccount })
 
-        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
       }
 
-      const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, 0, {from: currentAccount})
+      const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, 0, { from: currentAccount })
 
-      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, 0, {from: currentAccount, gas})
+      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, 0, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'mint' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -583,13 +599,14 @@ export default {
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
 
-      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, 0, {from: currentAccount})
+      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, 0, { from: currentAccount })
 
-      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, 0, {from: currentAccount, gas})
+      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, 0, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -608,20 +625,21 @@ export default {
 
         promisifyAll(deployedWalletContract.submitTransaction)
 
-        const txEncoded = deployedWalletContract.arbitrage.getData(fromAddress, toAddress, amount, 0, {from: currentAccount})
+        const txEncoded = deployedWalletContract.arbitrage.getData(fromAddress, toAddress, amount, 0, { from: currentAccount })
 
-        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
       }
 
-      const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, 0, {from: currentAccount})
+      const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, 0, { from: currentAccount })
 
-      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, 0, {from: currentAccount, gas})
+      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, 0, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -635,15 +653,16 @@ export default {
 
       promisifyAll(deployedWalletContract.submitTransaction)
 
-      const txEncoded = deployedWalletContract.addOwner.getData(signer, {from: currentAccount})
+      const txEncoded = deployedWalletContract.addOwner.getData(signer, { from: currentAccount })
 
-      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addSigner' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -657,15 +676,16 @@ export default {
 
       promisifyAll(deployedWalletContract.submitTransaction)
 
-      const txEncoded = deployedWalletContract.removeOwner.getData(signer, {from: currentAccount})
+      const txEncoded = deployedWalletContract.removeOwner.getData(signer, { from: currentAccount })
 
-      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'removeSigner' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
@@ -682,6 +702,7 @@ export default {
       return required.toNumber()
     } catch (e) {
       console.log(`getCurrentRequirement error ${e.message || e}`)
+      throw e
     }
   },
 
@@ -696,6 +717,7 @@ export default {
       return deployedWalletContract.getOwners.callAsync()
     } catch (e) {
       console.log(`getOwners error ${e.message || e}`)
+      throw e
     }
   },
 
@@ -709,41 +731,61 @@ export default {
 
       promisifyAll(deployedWalletContract.submitTransaction)
 
-      const txEncoded = deployedWalletContract.changeRequirement.getData(required, {from: currentAccount})
+      const txEncoded = deployedWalletContract.changeRequirement.getData(required, { from: currentAccount })
 
-      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount})
+      const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, {from: currentAccount, gas})
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'changeRequirement' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
     }
   },
 
-  deployNewWhitelist: async type => {
-    await waitForWeb3()
+  deployNewWhitelist: async (type, tokens = []) => {
+    try {
+      await waitForWeb3()
 
-    store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewWhitelist' })
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewWhitelist' })
 
-    const address = await deployContract('whitelist')
+      const address = await deployContract('whitelist')
 
-    store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewWhitelist' })
+      const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist')).at(address)
+      promisifyAll(deployedWhitelistContract.addToken)
 
-    return address
+      each(tokens, async token => {
+        const gas = await deployedWhitelistContract.addToken.estimateGasAsync(token.address, { from: currentAccount })
+
+        deployedWhitelistContract.addToken.sendTransactionAsync(token.address, { from: currentAccount, gas })
+      })
+
+      store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewWhitelist' })
+
+      return address
+    } catch (e) {
+      store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
+    }
   },
 
-  deployNewToken: async (name, symbol, decimals) => {
-    await waitForWeb3()
+  deployNewToken: async (name, symbol, decimals = 0) => {
+    try {
+      await waitForWeb3()
 
-    store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
 
-    const storage = await deployContract('settingsStorage')
-    const service = await deployContract('regulatorService', storage)
-    const address = await deployContract('token', service, name, symbol, decimals)
+      const storage = await deployContract('settingsStorage')
+      const service = await deployContract('regulatorService', storage)
+      const address = await deployContract('token', service, name, symbol, decimals)
 
-    store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewToken' })
+      store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewToken' })
 
-    return address
+      return address
+    } catch (e) {
+      store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
+      throw e
+    }
   }
 }

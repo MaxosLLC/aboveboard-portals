@@ -24,7 +24,9 @@ const validate = values => {
     errors.name = 'Token name must be less than 256 characters'
   }
 
-  if (values.symbol && values.symbol.length > 4) {
+  if (!values.symbol) {
+    errors.symbol = 'Symbol is required'
+  } else if (values.symbol && values.symbol.length > 4) {
     errors.symbol = 'Symbol must be a maximum of 4 characters'
   }
 
