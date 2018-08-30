@@ -11,7 +11,7 @@ import multisig from 'lib/contracts/07-11-18/MultiSigArbitration'
 import whitelist from 'lib/contracts/07-11-18/IssuanceWhiteList'
 
 import token072618 from 'lib/contracts/07-26-18/RegulatedToken'
-import regulatorService072618 from 'lib/contracts/07-26-18/AboveboardRegDSWhitelistRegulatorService'
+import regulatorService072618 from 'lib/contracts/07-26-18/RegulatorService'
 import settingsStorage072618 from 'lib/contracts/07-26-18/SettingsStorage'
 import multisig072618 from 'lib/contracts/07-26-18/MultiSigArbitration'
 import whitelist072618 from 'lib/contracts/07-26-18/IssuanceWhiteList'
