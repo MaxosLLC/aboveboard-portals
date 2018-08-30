@@ -108,8 +108,10 @@ const deployContract = async (type, ...contractParams) => {
 
   const deployedContract = await new Promise((resolve, reject) => {
     web3Contract.new.apply(web3Contract, contractParams.concat([{ from: currentAccount, data }, (err, res) => {
+      console.log('err ', err)
       if (err) { reject(err) }
 
+      console.log('res')
       resolve(res)
     }]))
   })
