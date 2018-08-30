@@ -92,7 +92,6 @@ const waitBlock = async deployedContract => {
   while (true) {
     const receipt = await web3.eth.getTransactionReceiptAsync(deployedContract.transactionHash)
     if (receipt && receipt.contractAddress) {
-      console.log('receipt ', receipt)
       return receipt.contractAddress
     }
 
@@ -111,15 +110,11 @@ const deployContract = async (type, ...contractParams) => {
 
   const deployedContract = await new Promise((resolve, reject) => {
     web3Contract.new.apply(web3Contract, contractParams.concat([{ from: currentAccount, data }, (err, res) => {
-      console.log('err ', err)
       if (err) { reject(err) }
 
-      console.log('res')
       resolve(res)
     }]))
   })
-
-  // console.log("Your contract is being deployed in transaction at http://testnet.etherscan.io/tx/" + deployedContract.transactionHash)
 
   return waitBlock(deployedContract)
 }
@@ -782,7 +777,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
 
       const storage = await deployContract('settingsStorage', false, true, initialOfferEndDate, messagingAddress)
-      console.log('storage ', storage)
       const service = await deployContract('regulatorService', storage)
       const address = await deployContract('token', service, name, symbol, decimals)
 
