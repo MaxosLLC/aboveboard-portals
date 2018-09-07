@@ -134,7 +134,8 @@ class SettingsView extends Component {
         {role !== 'buyer' && this.noTokensMessage(watchingTokens)}
         {this.walletErrorMessage(error)}
         {this.walletSuccessMessage(connected)}
-        { role !== 'buyer' &&
+        { /*
+          role !== 'buyer' &&
           <Segment>
             <div
               className='inputContainer'
@@ -166,6 +167,7 @@ class SettingsView extends Component {
                 }} /> : <span>Loading available tokens...<Icon name='spinner' loading /></span> }
             </div>
           </Segment>
+          */
         }
 
         <Segment>
