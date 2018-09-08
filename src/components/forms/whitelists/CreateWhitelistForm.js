@@ -40,14 +40,12 @@ const validate = values => {
 }
 
 const CreateWhitelistForm = props => {
-  const { handleSubmit, errors, pristine, submitting, tokens, localTokens } = props
+  const { handleSubmit, errors, pristine, submitting, localTokens } = props
 
   const localTokenOptions = localTokens.map(localToken => {
-    const { address, name } = tokens.filter(({ address }) => address === localToken.address)[0]
-
     return {
-      value: address,
-      text: name
+      value: localToken.address,
+      text: localToken.name
     }
   })
 
@@ -121,7 +119,6 @@ const Form = reduxForm({
 const mapStateToProps = (state, ownProps) => {
   return {
     localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-    tokens: state.token.queryResult ? state.token.queryResult.data : [],
     errors: state.wallet.error || (state.token.isError || {}).message
   }
 }

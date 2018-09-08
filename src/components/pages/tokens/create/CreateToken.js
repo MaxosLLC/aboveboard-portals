@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import store from 'redux/store'
 
-import cloudServices from 'lib/feathers/cloud/feathersServices'
+import localServices from 'lib/feathers/local/feathersServices'
 import CreateTokenView from './CreateTokenView'
 import ethereum from 'lib/ethereum'
 
@@ -15,16 +14,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createToken: async ({ name, symbol, decimals, affiliates }) => {
       try {
         const address = await ethereum.deployNewToken(name, symbol, decimals)
-        const user = store.getState().currentUser
 
         if (affiliates) {
           const tokens = [{ address }]
           const whitelistAddress = await ethereum.deployNewWhitelist('affiliates', tokens)
           await ethereum.addWhitelistToToken(whitelistAddress, address)
-          await cloudServices.whitelist.create({ user, name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens })
+          await localServices.whitelist.create({ name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens })
         }
 
-        await cloudServices.token.create({ user, name, symbol, address, decimals })
+        await localServices.localToken.create({ name, symbol, address, decimals })
 
         return dispatch(push('/tokens'))
       } catch (e) {

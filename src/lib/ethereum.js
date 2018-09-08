@@ -61,7 +61,7 @@ const pollForCurrentAccountUpdates = async () => {
 }
 
 const getTokenFromAddress = tokenAddress =>
-  store.getState().token.queryResult.data.filter(({ address }) => tokenAddress === address)[0]
+  store.getState().localToken.queryResult.data.filter(({ address }) => tokenAddress === address)[0]
 
 const getWhitelistFromAddress = contractAddress =>
   store.getState().whitelist.queryResult.data.filter(({ address }) => contractAddress === address)[0]
@@ -76,12 +76,11 @@ const getStorageSettingsForToken = async tokenAddress => {
 
   const regulatorServiceAddress = await deployedTokenContract.service.callAsync()
   const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
-  const storageAddressMethod = (!token.abiVersion || token.abiVersion === '06-12-18' || token.abiVersion === '07-11-18') ? 'getStorageAddress' : 'settingsStorage'
-  promisifyAll(deployedRegulatorServiceContract[storageAddressMethod])
+  promisifyAll(deployedRegulatorServiceContract.settingsStorage)
 
-  const storageAddress = await deployedRegulatorServiceContract[storageAddressMethod].callAsync()
+  const storageAddress = await deployedRegulatorServiceContract.settingsStorage.callAsync()
   const contract = web3.eth.contract(getAbi('settingsStorage', token.abiVersion)).at(storageAddress)
-  promisifyAll(contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked'])
+  promisifyAll(contract.locked)
   promisifyAll(contract.setInititalOfferEndDate)
   promisifyAll(contract.setLocked)
 
@@ -227,11 +226,10 @@ export default {
   },
 
   addWhitelistToToken: async (whitelistAddress, tokenAddress) => {
-    await waitForWeb3()
-
-    store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'addWhitelistToToken' })
-
     try {
+      await waitForWeb3()
+
+      store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'addWhitelistToToken' })
       const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
       promisifyAll(deployedSettingsStorageContract.addWhitelist)
 
@@ -341,10 +339,7 @@ export default {
 
       const contract = await getStorageSettingsForToken(tokenAddress)
 
-      const token = getTokenFromAddress(tokenAddress)
-
-      return contract[!token.abiVersion || token.abiVersion === '06-12-18' ? 'getLocked' : 'locked']
-      .callAsync(!token.abiVersion || token.abiVersion === '06-12-18' ? tokenAddress : undefined)
+      return contract.locked.callAsync()
     } catch (e) {
       console.log(`getTradingLock error ${e.message || e}`)
       throw e
@@ -405,9 +400,9 @@ export default {
   },
 
   getWhitelistsForToken: async tokenAddress => {
-    await waitForWeb3()
-
     try {
+      await waitForWeb3()
+
       const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
       promisifyAll(deployedSettingsStorageContract.getWhitelists)
 
@@ -462,11 +457,11 @@ export default {
   },
 
   getRoleForWhitelist: async (user, whitelist) => {
-    await waitForWeb3()
-
-    const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelist.address)
-
     try {
+      await waitForWeb3()
+
+      const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelist.address)
+
       promisifyAll(deployedWhitelistContract.getAgentsOwnerAndQualifiers)
 
       const qualifiers = await deployedWhitelistContract.getAgentsOwnerAndQualifiers.callAsync({ from: currentAccount })

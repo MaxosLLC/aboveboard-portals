@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {sortBy} from 'lodash/fp'
-import {Link} from 'react-router-dom'
-import {Icon, Table, Button, Segment} from 'semantic-ui-react'
+import React, { Component } from 'react'
+import { sortBy } from 'lodash/fp'
+import { Link } from 'react-router-dom'
+import { Icon, Table, Button, Segment } from 'semantic-ui-react'
 
 class TokensView extends Component {
   componentDidMount () {
@@ -9,15 +9,11 @@ class TokensView extends Component {
   }
 
   render () {
-    const { loaded, tokens, watchingTokens, routeTo } = this.props
+    const { loaded, localTokens, routeTo } = this.props
 
     const handleRowClick = tokenAddress => {
       routeTo(`/tokens/${tokenAddress}/detail`)
     }
-
-    const filteredWatchingTokens = tokens.filter(token => {
-      return watchingTokens.some(watchedToken => token.address === watchedToken.address)
-    })
 
     const TableRow = Table.Row
 
@@ -25,7 +21,7 @@ class TokensView extends Component {
       <div className='tokensComponent'>
         {!loaded
           ? <span>Loading tokens...<Icon name='spinner' loading /></span>
-          : filteredWatchingTokens.length
+          : localTokens.length
             ? <div className='tokensComponent'>
               <Button floated='left' color='teal' onClick={() => routeTo('/tokens/create')}>Launch Token</Button>
               <Button floated='right' color='teal' onClick={() => routeTo('/settings')}>Add Token</Button>
@@ -38,7 +34,7 @@ class TokensView extends Component {
                   </TableRow>
                 </Table.Header>
                 <Table.Body>
-                  {sortBy('name', filteredWatchingTokens).map(token => <TableRow
+                  {sortBy('name', localTokens).map(token => <TableRow
                     name='tokens'
                     key={token.address}
                     onClick={() => handleRowClick(token.address)}

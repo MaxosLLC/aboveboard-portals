@@ -16,14 +16,12 @@ class WalletBlockerView extends Component {
                   <Header>There will be a number of transactions following that must be completed.</Header>
                   <Header>Please complete all transactions with your wallet.</Header>
                   <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
-                  <Header>Once your token is deployed it will need to be approved by Aboveboard before it shows up.</Header>
                 </Segment>
               : method === 'deployNewWhitelist'
                 ? <Segment size='large' textAlign='center'>
                   <Header>Your new Whitelist is now being deployed...</Header>
                   <Header>Please complete the transaction with your wallet.</Header>
                   <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
-                  <Header>Once your whitelist is deployed it will need to be approved by Aboveboard before it shows up.</Header>
                 </Segment>
               : <Segment size='large' textAlign='center'>
                 <Header>Your wallet is now loading...</Header>

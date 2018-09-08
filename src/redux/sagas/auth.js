@@ -1,6 +1,7 @@
 import { all, put, takeLatest } from 'redux-saga/effects'
 import store from 'redux/store'
 import { push } from 'react-router-redux'
+
 import feathersCloudAuthentication from 'lib/feathers/cloud/feathersAuthentication'
 import feathersLocalAuthentication from 'lib/feathers/local/feathersAuthentication'
 import cloudServices from 'lib/feathers/cloud/feathersServices'
@@ -85,12 +86,12 @@ function * loginSuccess ({ user, accessToken }) {
 
   if (user.role === 'broker' || user.role === 'direct') {
     if (localTokens.length) {
-      const allWhitelists = yield cloudServices.whitelist.find()
+      const allWhitelists = yield localServices.whitelist.find()
       const { data } = yield allWhitelists.payload.promise
 
       const whitelists = yield ethereum.getWhitelistsForBroker(data, Object.assign({}, user, { ethAddresses }), localTokens)
 
-      yield store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+      yield store.dispatch(localServices.whitelist.find({ query: { address: { $in: whitelists } } }))
     }
   }
 }

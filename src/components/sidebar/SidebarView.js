@@ -12,7 +12,7 @@ const whitelistingRegexp = /^\/whitelisting/
 const whitelistsRegexp = /^\/whitelists/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
-const multisigWalletRegpex = /^\/company-multi-signature/
+// const multisigWalletRegpex = /^\/company-multi-signature/
 const pendingTransactionsRegexp = /^\/pending-transactions/
 const usersRegexp = /^\/users/
 

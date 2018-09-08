@@ -17,12 +17,12 @@ const updateWhitelists = async () => {
 
 export default {
   init () {
-    client.service('token').on('created', data => {
-      store.dispatch(cloudServices.token.find())
-    })
-    client.service('token').on('patched', data => {
-      store.dispatch(cloudServices.token.find())
-    })
+    // client.service('token').on('created', data => {
+    //   store.dispatch(cloudServices.token.find())
+    // })
+    // client.service('token').on('patched', data => {
+    //   store.dispatch(cloudServices.token.find())
+    // })
 
     client.service('whitelist').on('created', updateWhitelists)
     client.service('whitelist').on('patched', updateWhitelists)

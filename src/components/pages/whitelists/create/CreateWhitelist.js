@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
 import { each } from 'bluebird'
 import { push } from 'react-router-redux'
-import store from 'redux/store'
 
-import cloudServices from 'lib/feathers/cloud/feathersServices'
+import localServices from 'lib/feathers/cloud/feathersServices'
 import CreateWhitelistView from './CreateWhitelistView'
 import ethereum from 'lib/ethereum'
 
@@ -19,8 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         await each(tokens, token => ethereum.addWhitelistToToken(address, token))
 
-        const user = store.getState().currentUser
-        await cloudServices.whitelist.create({ user, name, type, tokens: tokens.map(address => ({ address })), address })
+        await localServices.whitelist.create({ name, type, tokens: tokens.map(address => ({ address })), address })
 
         return dispatch(push('/available-whitelists'))
       } catch (e) {

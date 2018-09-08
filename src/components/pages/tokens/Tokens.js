@@ -4,9 +4,8 @@ import { push } from 'react-router-redux'
 import TokensView from './TokensView'
 
 const mapStateToProps = state => ({
-  tokens: state.token.queryResult ? state.token.queryResult.data : [],
-  watchingTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.token.isFinished && state.localToken.isFinished
+  localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
+  loaded: state.localToken.isFinished
 })
 
 const mapDispatchToProps = dispatch => {

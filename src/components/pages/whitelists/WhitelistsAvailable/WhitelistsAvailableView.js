@@ -37,8 +37,12 @@ class WhitelistsAvailableView extends Component {
       const roleByWhitelist = {}
 
       await each(this.props.whitelists, async whitelist => {
-        const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist)
-        roleByWhitelist[whitelist.address] = role
+        try {
+          const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist)
+          roleByWhitelist[whitelist.address] = role
+        } catch (e) {
+          console.log(`Could not get role for whitelist ${whitelist}`)
+        }
       })
     }
   }
