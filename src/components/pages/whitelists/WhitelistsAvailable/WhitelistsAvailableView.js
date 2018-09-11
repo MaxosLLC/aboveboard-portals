@@ -52,6 +52,7 @@ class WhitelistsAvailableView extends Component {
 
     return (
       <div className='whitelistsComponent'>
+        <div><h1 style='text-align:center;'>Mockup</h1></div>
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
             <Header as='h2'>Token: Company Common Shares</Header>

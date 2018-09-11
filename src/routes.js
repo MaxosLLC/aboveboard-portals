@@ -34,7 +34,7 @@ class Routes extends Component {
           <Route exact path='/' component={Home} />
           <Route exact path='/settings' component={Settings} />
           <Route exact path='/pending-transactions' component={PendingTransactions} />
-          <Route exact path='/available-whitelists' component={WhitelistsAvailable} />
+          <Route exact path='/distribution' component={WhitelistsAvailable} />
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting' component={Investors} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting/add' component={AddInvestor} /> : '' }
           { role === 'broker' || role === 'direct' ? <Route exact path='/whitelisting/:id/detail' component={InvestorDetail} /> : '' }
