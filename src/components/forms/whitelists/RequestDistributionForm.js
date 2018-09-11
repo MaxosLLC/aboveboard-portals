@@ -29,6 +29,7 @@ const RequestDistributionForm = props => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div><h1 style='text-align:center;'>Mockup</h1></div>
       <Container text>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
