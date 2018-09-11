@@ -9,9 +9,8 @@ const mapStateToProps = state => ({
   connected: state.wallet.connected,
   currentUser: state.currentUser,
   currentToken: state.tokens.current,
-  tokens: state.token.queryResult ? state.token.queryResult.data : [],
-  watchingTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.currentUser.id && state.localToken.isFinished && state.token.isFinished,
+  tokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
+  loaded: state.currentUser.id && state.localToken.isFinished,
   error: state.wallet.error
 })
 
