@@ -245,7 +245,7 @@ export default {
     }
   },
 
-  addInvestorToWhitelist: async (investorAddress, contractAddress, kycStatus, kycExpDate, accredStatus, jurisdiction) => {
+  addInvestorToWhitelist: async (investorAddress, contractAddress, kycStatus = '', kycExpDate = 0, accredStatus = '', jurisdiction = '') => {
     try {
       await waitForWeb3()
 
