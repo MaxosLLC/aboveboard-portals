@@ -8,8 +8,9 @@ const MenuItem = Menu.Item
 
 const logoSrc = REACT_APP_BRANDING ? `/images/logo-${REACT_APP_BRANDING}.png` : '/images/logo.png'
 
+const distributionRegexp = /^\/distribution$/
 const whitelistingRegexp = /^\/whitelisting/
-const whitelistsRegexp = /^\/whitelists/
+const whitelistsRegexp = /^\/whitelists$/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 // const multisigWalletRegpex = /^\/company-multi-signature/
@@ -41,16 +42,19 @@ class SidebarView extends Component {
             active={tokenDetailRegexp.test(router.location.pathname)}
             className='sidebarMenuItem'
             onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
-          Registry
-        </MenuItem>
+            Registry
+          </MenuItem>
         }
         { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
           <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/pending-transactions`)}>
             Transactions
           </MenuItem>
         }
-        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/distribution`)}>
+        <MenuItem active={distributionRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/distribution`)}>
           Distribution
+        </MenuItem>
+        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
+          Whitelists
         </MenuItem>
         { currentUser.admin &&
           <MenuItem active={usersRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/users`)}>

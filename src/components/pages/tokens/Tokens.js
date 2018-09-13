@@ -4,13 +4,14 @@ import { push } from 'react-router-redux'
 import TokensView from './TokensView'
 
 const mapStateToProps = state => ({
-  localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.localToken.isFinished
+  whitelists: state.whitelist.queryResult ? state.whitelist.queryResult.data : [],
+  localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : []
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     routeTo: path => dispatch(push(path)),
+    loadWhitelists: () => dispatch(localServices.whitelist.find()),
     loadLocalTokens: () => dispatch(localServices.localToken.find())
   }
 }

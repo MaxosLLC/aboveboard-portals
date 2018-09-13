@@ -413,7 +413,7 @@ export default {
     }
   },
 
-  getWhitelistsForBroker: async (allWhitelists, user, tokens) => {
+  getWhitelistsForUser: async (allWhitelists, user, tokens) => {
     await waitForWeb3()
 
     if (!tokens.length || !user.ethAddresses) { return [] }

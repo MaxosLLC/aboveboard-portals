@@ -119,7 +119,7 @@ const Form = reduxForm({
 const mapStateToProps = (state, ownProps) => {
   return {
     localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-    errors: state.wallet.error || (state.token.isError || {}).message
+    errors: state.wallet.error || (state.whitelist.isError || {}).message
   }
 }
 

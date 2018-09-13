@@ -1,10 +1,7 @@
 import client from 'lib/feathers/local/feathersClient'
-import cloudServices from 'lib/feathers/cloud/feathersServices'
 import localServices from 'lib/feathers/local/feathersServices'
 import store from 'redux/store'
 import { throttle } from 'lodash'
-
-import ethereum from 'lib/ethereum'
 
 const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
 const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
@@ -24,14 +21,15 @@ const getCurrentQueryParams = model => {
 }
 
 const updateWhitelists = async () => {
-  const user = store.getState().currentUser
-  const allLocalTokens = await localServices.localToken.find()
-  const { data: allLocalTokensData } = await allLocalTokens.payload.promise
-  const allWhitelists = await cloudServices.whitelist.find()
-  const { data: allWhitelistsData } = await allWhitelists.payload.promise
-  const whitelists = await ethereum.getWhitelistsForBroker(allWhitelistsData, user, allLocalTokensData)
+  // const user = store.getState().currentUser
+  // const allLocalTokens = await localServices.localToken.find()
+  // const { data: allLocalTokensData } = await allLocalTokens.payload.promise
+  // const allWhitelists = await localServices.whitelist.find()
+  // const { data: allWhitelistsData } = await allWhitelists.payload.promise
+  // const whitelists = await ethereum.getWhitelistsForUser(allWhitelistsData, user, allLocalTokensData)
 
-  return store.dispatch(cloudServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+  // return store.dispatch(localServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+  return store.dispatch(localServices.whitelist.find())
 }
 
 export default {
@@ -125,5 +123,9 @@ export default {
       }
     })
     client.service('localToken').on('removed', updateWhitelists)
+
+    client.service('whitelist').on('created', updateWhitelists)
+    client.service('whitelist').on('patched', updateWhitelists)
+    client.service('whitelist').on('removed', updateWhitelists)
   }
 }

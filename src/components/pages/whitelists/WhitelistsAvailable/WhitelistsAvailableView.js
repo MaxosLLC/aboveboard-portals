@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { each } from 'bluebird'
 import { Button, Grid, Header, Icon, Image, Input, Segment, Table } from 'semantic-ui-react'
 
-import ethereum from 'lib/ethereum'
 import './WhitelistsAvailable.css'
 
 const iconsPath = '/images/icons'
@@ -19,32 +17,32 @@ class WhitelistsAvailableView extends Component {
   }
 
   async componentDidMount () {
-    await this.props.loadWhitelists()
-    await this.props.loadLocalTokens()
+    // await this.props.loadWhitelists()
+    // await this.props.loadLocalTokens()
 
-    if (this.props.currentUser.role === 'issuer' || this.props.currentUser.role === 'direct') {
-      const whitelistsByToken = {}
+    // if (this.props.currentUser.role === 'issuer' || this.props.currentUser.role === 'direct') {
+    //   const whitelistsByToken = {}
 
-      await each(this.props.localTokens, async localToken => {
-        const whitelists = await ethereum.getWhitelistsForToken(localToken.address)
-        whitelistsByToken[localToken.address] = whitelists
-      })
+    //   await each(this.props.localTokens, async localToken => {
+    //     const whitelists = await ethereum.getWhitelistsForToken(localToken.address)
+    //     whitelistsByToken[localToken.address] = whitelists
+    //   })
 
-      this.setState({ whitelistsByToken })
-    }
+    //   this.setState({ whitelistsByToken })
+    // }
 
-    if (this.props.currentUser.role === 'broker' || this.props.currentUser.role === 'direct') {
-      const roleByWhitelist = {}
+    // if (this.props.currentUser.role === 'broker' || this.props.currentUser.role === 'direct') {
+    //   const roleByWhitelist = {}
 
-      await each(this.props.whitelists, async whitelist => {
-        try {
-          const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist)
-          roleByWhitelist[whitelist.address] = role
-        } catch (e) {
-          console.log(`Could not get role for whitelist ${whitelist}`)
-        }
-      })
-    }
+    //   await each(this.props.whitelists, async whitelist => {
+    //     try {
+    //       const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist)
+    //       roleByWhitelist[whitelist.address] = role
+    //     } catch (e) {
+    //       console.log(`Could not get role for whitelist ${whitelist}`)
+    //     }
+    //   })
+    // }
   }
 
   render () {
@@ -52,10 +50,10 @@ class WhitelistsAvailableView extends Component {
 
     return (
       <div className='whitelistsComponent'>
-        <div className='ui segment'>
-          <h1>Mockup</h1>
+        <Segment>
+          <Header as='h1'>Mockup</Header>
           <div>Please contact us at <a href='mailto:contact@aboveboard.ai'>contact@aboveboard.ai</a></div>
-        </div>
+        </Segment>
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
             <Header as='h2'>Token: Company Common Shares</Header>

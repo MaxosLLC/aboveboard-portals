@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { each } from 'bluebird'
 import { Link } from 'react-router-dom'
-import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Grid, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 
@@ -9,12 +9,14 @@ const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
 const sortDownSrc = `${iconsPath}/down.svg`
 
-class PendingTransactionsView extends Component {
+class WhitelistsView extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      loaded: false,
       roleByWhitelist: {},
-      whitelistsByToken: {}
+      whitelistsByToken: {},
+      tokensByWhitelist: {}
     }
   }
 
@@ -24,43 +26,63 @@ class PendingTransactionsView extends Component {
 
     if (this.props.currentUser.role === 'issuer' || this.props.currentUser.role === 'direct') {
       const whitelistsByToken = {}
+      const tokensByWhitelist = {}
 
       await each(this.props.localTokens, async localToken => {
-        const whitelists = await ethereum.getWhitelistsForToken(localToken.address)
-        whitelistsByToken[localToken.address] = whitelists
+        const whitelistAddresses = await ethereum.getWhitelistsForToken(localToken.address).catch(e => console.log(`Could not get whitelists for token ${localToken.address}`))
+        whitelistsByToken[localToken.address] = whitelistAddresses
+        whitelistAddresses.forEach(whitelistAddresses => {
+          if (tokensByWhitelist[whitelistAddresses]) {
+            if (tokensByWhitelist[whitelistAddresses].indexOf(localToken.address) === -1) {
+              tokensByWhitelist[whitelistAddresses].push(localToken.address)
+            }
+          } else {
+            tokensByWhitelist[whitelistAddresses] = [localToken.address]
+          }
+        })
       })
 
-      this.setState({ whitelistsByToken })
+      this.setState({ whitelistsByToken, tokensByWhitelist })
     }
 
     if (this.props.currentUser.role === 'broker' || this.props.currentUser.role === 'direct') {
       const roleByWhitelist = {}
 
       await each(this.props.whitelists, async whitelist => {
-        const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist)
+        const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist).catch(e => console.log(`Could not get role for whitelist ${whitelist.address}`))
         roleByWhitelist[whitelist.address] = role
       })
+
+      this.setState({ roleByWhitelist })
     }
+
+    this.setState({ loaded: true })
   }
 
   render () {
-    const { loaded, whitelists, setPage, setSort, setSearch, page, search, queryResult } = this.props
+    const { routeTo, whitelists, localTokens, setPage, setSort, setSearch, page, search, queryResult } = this.props
+    const { tokensByWhitelist, roleByWhitelist, loaded } = this.state
 
     const whitelistHeaders = [
       { name: 'Name', sortOption: 'name' },
       { name: 'Qualifier', sortOption: 'qualifier' },
       { name: 'Type', sortOption: 'type' },
       { name: 'Address', sortOption: 'address' },
-      { name: 'Actions' }
+      { name: 'Role' },
+      { name: 'Tokens' }
     ]
 
     return (
       <div className='whitelistsComponent'>
-        <Header as='h2'>Whitelists</Header>
-        <div>
-          <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} />
-        </div>
-        <br />
+        <Grid style={{ marginTop: '10px' }}>
+          <Grid.Column floated='left' width={5}>
+            <Header as='h2'>Whitelists</Header>
+            { loaded && <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} /> }
+          </Grid.Column>
+          <Grid.Column floated='right' width={5}>
+            <Button onClick={() => routeTo('/whitelisting/create')}>Create Whitelist</Button>
+          </Grid.Column>
+        </Grid>
         {!loaded
           ? <span>Loading whitelists...<Icon name='spinner' loading /></span>
           : whitelists.length
@@ -73,14 +95,14 @@ class PendingTransactionsView extends Component {
                       transactionsHeader.name === 'action'
                       ? <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}</Table.HeaderCell>
                       : <Table.HeaderCell key={`${transactionsHeader.name}${i}`}>{transactionsHeader.name}
-                        <span className='sortButtons'>
+                        { transactionsHeader.name !== 'Role' && transactionsHeader.name !== 'Tokens' && <span className='sortButtons'>
                           <Image
                             src={sortUpSrc}
                             onClick={() => { setSort({ [transactionsHeader.sortOption]: 1 }) }} />
                           <Image
                             src={sortDownSrc}
                             onClick={() => { setSort({ [transactionsHeader.sortOption]: -1 }) }} />
-                        </span>
+                        </span> }
                       </Table.HeaderCell>
                     ) }
                   </Table.Row>
@@ -104,11 +126,12 @@ class PendingTransactionsView extends Component {
                               .substr(whitelist.address.length - 4, 4)}
                           </Link>
                         </Table.Cell>
-                        <Table.Cell>{ whitelist.type !== 'affiliate' && <Button>Request Distribution</Button> }</Table.Cell>
+                        <Table.Cell>{ roleByWhitelist[whitelist.address] }</Table.Cell>
+                        <Table.Cell>{ tokensByWhitelist[whitelist.address] && tokensByWhitelist[whitelist.address].map(localTokenAddress => localTokens.filter(({ address }) => address === localTokenAddress)[0].name).join(', ') }</Table.Cell>
                       </Table.Row>)}
                 </Table.Body>
 
-                <Table.Footer>
+                { queryResult.whitelists.total > queryResult.whitelists.limit && <Table.Footer>
                   <Table.Row>
                     <Table.HeaderCell floated='right' colSpan={whitelistHeaders.length}>
                       <Pagination
@@ -126,7 +149,7 @@ class PendingTransactionsView extends Component {
                       />
                     </Table.HeaderCell>
                   </Table.Row>
-                </Table.Footer>
+                </Table.Footer> }
               </Table>
             </div>
           </div>
@@ -137,4 +160,4 @@ class PendingTransactionsView extends Component {
   }
 }
 
-export default PendingTransactionsView
+export default WhitelistsView

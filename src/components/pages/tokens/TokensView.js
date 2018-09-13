@@ -1,15 +1,35 @@
 import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
-import { Link } from 'react-router-dom'
+import { map } from 'bluebird'
 import { Icon, Table, Button, Segment } from 'semantic-ui-react'
 
+import ethereum from 'lib/ethereum'
+
 class TokensView extends Component {
-  componentDidMount () {
-    this.props.loadLocalTokens()
+  constructor (props) {
+    super(props)
+    this.state = { loaded: false }
+  }
+
+  async componentDidMount () {
+    await this.props.loadWhitelists()
+    await this.props.loadLocalTokens()
+
+    const localTokens = await map(this.props.localTokens, async localToken => {
+      const whitelistAddresses = await ethereum.getWhitelistsForToken(localToken.address).catch(e => console.log(`Could not get whitelists for token ${localToken.address}`))
+      const whitelists = whitelistAddresses.map(whitelistAddress => {
+        return this.props.whitelists.filter(whitelist => whitelist.address === whitelistAddress)[0].name
+      })
+
+      return Object.assign({}, localToken, { whitelists })
+    })
+
+    this.setState({ localTokens, loaded: true })
   }
 
   render () {
-    const { loaded, localTokens, routeTo } = this.props
+    const { routeTo } = this.props
+    const { loaded, localTokens } = this.state
 
     const handleRowClick = tokenAddress => {
       routeTo(`/tokens/${tokenAddress}/detail`)
@@ -30,7 +50,7 @@ class TokensView extends Component {
                   <TableRow >
                     <Table.HeaderCell>Token</Table.HeaderCell>
                     <Table.HeaderCell>Contract Address</Table.HeaderCell>
-                    <Table.HeaderCell />
+                    <Table.HeaderCell>Whitelists</Table.HeaderCell>
                   </TableRow>
                 </Table.Header>
                 <Table.Body>
@@ -43,13 +63,13 @@ class TokensView extends Component {
                     }}>
                     <Table.Cell>{token.name}</Table.Cell>
                     <Table.Cell>{token.address}</Table.Cell>
-                    <Table.Cell textAlign='right'><Icon name='angle right' size='large' color='teal' /></Table.Cell>
+                    <Table.Cell textAlign='right'>{ token.whitelists && token.whitelists.join(', ') }</Table.Cell>
                   </TableRow>)}
                 </Table.Body>
               </Table>
             </div>
-            : <Segment>You are currently not watching any tokens. Please visit your <Link to='/settings'>settings</Link> to start watching tokens or <Button color='teal' onClick={() => routeTo('/tokens/create')}>Launch A New Token</Button></Segment>
-}
+            : <Segment>You have not launched any tokens. Please <Button color='teal' onClick={() => routeTo('/tokens/create')}>Launch A New Token</Button></Segment>
+        }
       </div>
     )
   }

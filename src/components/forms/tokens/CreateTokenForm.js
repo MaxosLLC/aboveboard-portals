@@ -113,7 +113,7 @@ const Form = reduxForm({
 const selector = formValueSelector('CreateToken')
 const mapStateToProps = (state, ownProps) => {
   return {
-    errors: state.wallet.error || (state.token.isError || {}).message,
+    errors: state.wallet.error || (state.localToken.isError || {}).message,
     divisble: selector(state, 'divisble')
   }
 }

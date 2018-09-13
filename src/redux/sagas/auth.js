@@ -83,17 +83,18 @@ function * loginSuccess ({ user, accessToken }) {
 
   const ethAddresses = accounts.map(address => ({ address }))
   yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
+  yield store.dispatch(localServices.whitelist.find())
 
-  if (user.role === 'broker' || user.role === 'direct') {
-    if (localTokens.length) {
-      const allWhitelists = yield localServices.whitelist.find()
-      const { data } = yield allWhitelists.payload.promise
+  // if (user.role === 'broker' || user.role === 'direct') {
+  //   if (localTokens.length) {
+  //     const allWhitelists = yield localServices.whitelist.find()
+  //     const { data } = yield allWhitelists.payload.promise
 
-      const whitelists = yield ethereum.getWhitelistsForBroker(data, Object.assign({}, user, { ethAddresses }), localTokens)
+  //     const whitelists = yield ethereum.getWhitelistsForUser(data, Object.assign({}, user, { ethAddresses }), localTokens)
 
-      yield store.dispatch(localServices.whitelist.find({ query: { address: { $in: whitelists } } }))
-    }
-  }
+  //     yield store.dispatch(localServices.whitelist.find({ query: { address: { $in: whitelists } } }))
+  //   }
+  // }
 }
 
 function logout () {
