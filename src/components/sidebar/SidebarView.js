@@ -44,20 +44,13 @@ class SidebarView extends Component {
           Registry
         </MenuItem>
         }
-        { /*
-          (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
-          <MenuItem name='multisigwallets' onClick={() => routeTo('/company-multi-signature')} active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem'>
-            Company Multisig
-          </MenuItem>
-          */
-        }
         { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
           <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/pending-transactions`)}>
             Transactions
           </MenuItem>
         }
-        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/available-whitelists`)}>
-          Whitelists
+        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/distribution`)}>
+          Distribution
         </MenuItem>
         { currentUser.admin &&
           <MenuItem active={usersRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/users`)}>
