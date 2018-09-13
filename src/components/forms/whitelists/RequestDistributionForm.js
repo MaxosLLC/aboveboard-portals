@@ -29,7 +29,10 @@ const RequestDistributionForm = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div><h1 style='text-align:center;'>Mockup</h1></div>
+      <div class='ui segment' style='text-align:center;'>
+        <h1>Mockup</h1>
+        <div>Please contact us at <a href='mailto:contact@aboveboard.ai'>contact@aboveboard.ai</a></div>
+      </div>
       <Container text>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
