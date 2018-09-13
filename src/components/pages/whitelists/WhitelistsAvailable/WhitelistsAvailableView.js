@@ -52,6 +52,10 @@ class WhitelistsAvailableView extends Component {
 
     return (
       <div className='whitelistsComponent'>
+        <div className='ui segment'>
+          <h1>Mockup</h1>
+          <div>Please contact us at <a href='mailto:contact@aboveboard.ai'>contact@aboveboard.ai</a></div>
+        </div>
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
             <Header as='h2'>Token: Company Common Shares</Header>
