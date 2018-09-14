@@ -256,7 +256,7 @@ export default {
       const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
       promisifyAll(contract.add)
 
-      const gas = await contract.add.estimateGasAsync(investorAddress, { from: currentAccount })
+      const gas = await contract.add.estimateGasAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount })
 
       await contract.add.sendTransactionAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas })
 
