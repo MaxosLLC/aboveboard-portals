@@ -69,7 +69,7 @@ class SettingsView extends Component {
   }
 
   render () {
-    const { connected, connectWallet, currentUser, setMessagingAddress, tokens } = this.props
+    const { connected, connectWallet, currentUser, setMessagingAddress, tokens, whitelists } = this.props
     const account = document.getElementById('wallet-account-input')
     const password = document.getElementById('wallet-password-input')
     const messagingAddress = document.getElementById('messaging-account-input')
@@ -98,7 +98,7 @@ class SettingsView extends Component {
         return alert('Please enter a messaging address') // eslint-disable-line
       }
 
-      setMessagingAddress(currentUser, messagingAddress.value, tokens)
+      setMessagingAddress(currentUser, messagingAddress.value, tokens, whitelists)
 
       this.setState({ messagingIdEditMode: false })
     }
@@ -169,7 +169,7 @@ class SettingsView extends Component {
               as='h4'
               className='settingHeader'
               style={{ marginBottom: 0 }}>Messaging Account ID</Header>
-            <div>Note: Changing the messaging address will generate {tokens.length === 1 ? 'an' : tokens.length} ethereum transaction{tokens.length > 2 ? 's' : ''}.</div>
+            <div>Note: Changing the messaging address will generate {(tokens.length + whitelists.length) === 1 ? 'an' : (tokens.length + whitelists.length)} ethereum transaction{(tokens.length + whitelists.length) > 2 ? 's' : ''}.</div>
             <Input
               id='messaging-account-input'
               name='messaging-acount'

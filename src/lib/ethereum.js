@@ -230,6 +230,7 @@ export default {
       await waitForWeb3()
 
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'addWhitelistToToken' })
+
       const deployedSettingsStorageContract = await getStorageSettingsForToken(tokenAddress)
       promisifyAll(deployedSettingsStorageContract.addWhitelist)
 
@@ -300,9 +301,7 @@ export default {
       const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
       promisifyAll(contract.remove)
 
-      const gas = await contract.remove.estimateGasAsync(investorAddress, { from: currentAccount })
-
-      await contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas })
+      await contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 150000 })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'removeInvestorFromWhitelist' })
     } catch (e) {
@@ -311,19 +310,29 @@ export default {
     }
   },
 
-  setMessagingAddress: async (messagingAddress, tokenAddress) => {
+  setMessagingAddress: async (type, messagingAddress, contractAddress) => {
     try {
       await waitForWeb3()
 
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'setMessagingAddress' })
 
-      const contract = await getStorageSettingsForToken(tokenAddress)
+      let deployedContract
+      if (type === 'token') {
+        const token = getTokenFromAddress(contractAddress)
+        deployedContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(contractAddress)
+      }
+      if (type === 'whitelist') {
+        const whitelist = getWhitelistFromAddress(contractAddress)
+        deployedContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
+      }
+      promisifyAll(deployedContract.messagingAddress)
+      promisifyAll(deployedContract.setMessagingAddress)
 
-      const currentMessagingAddress = await contract.messagingAddress.callAsync()
+      const currentMessagingAddress = await deployedContract.messagingAddress.callAsync()
       if (currentMessagingAddress !== messagingAddress) {
-        const gas = await contract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
+        const gas = await deployedContract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
 
-        await contract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
+        await deployedContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas })
       }
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setMessagingAddress' })
@@ -750,10 +759,10 @@ export default {
       const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist')).at(address)
       promisifyAll(deployedWhitelistContract.addToken)
 
-      each(tokens, async token => {
+      await each(tokens, async token => {
         const gas = await deployedWhitelistContract.addToken.estimateGasAsync(token.address, { from: currentAccount })
 
-        deployedWhitelistContract.addToken.sendTransactionAsync(token.address, { from: currentAccount, gas })
+        return deployedWhitelistContract.addToken.sendTransactionAsync(token.address, { from: currentAccount, gas })
       })
 
       store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewWhitelist' })
@@ -765,13 +774,13 @@ export default {
     }
   },
 
-  deployNewToken: async (name, symbol, decimals = 0, initialOfferEndDate = 1, messagingAddress = 'messagingAddress') => {
+  deployNewToken: async (name, symbol, decimals = 0, initialOfferEndDate = 1) => {
     try {
       await waitForWeb3()
 
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'deployNewToken' })
 
-      const storage = await deployContract('settingsStorage', false, true, initialOfferEndDate, messagingAddress)
+      const storage = await deployContract('settingsStorage', false, true, initialOfferEndDate)
       const service = await deployContract('regulatorService', storage)
       const address = await deployContract('token', service, name, symbol, decimals)
 

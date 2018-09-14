@@ -80,7 +80,7 @@ class WhitelistsView extends Component {
             { loaded && <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} /> }
           </Grid.Column>
           <Grid.Column floated='right' width={5}>
-            <Button onClick={() => routeTo('/whitelisting/create')}>Create Whitelist</Button>
+            <Button onClick={() => routeTo('/whitelists/create')}>Create Whitelist</Button>
           </Grid.Column>
         </Grid>
         {!loaded

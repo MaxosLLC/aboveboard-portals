@@ -60,7 +60,7 @@ class WhitelistsAvailableView extends Component {
             <Header as='h3'>More information about this project <Button style={{ marginLeft: '10px' }}>Add A Link</Button></Header>
           </Grid.Column>
           <Grid.Column floated='right' width={5}>
-            <Button onClick={() => routeTo('/whitelisting/create')}>Create Whitelist</Button>
+            <Button onClick={() => routeTo('/whitelists/create')}>Create Whitelist</Button>
           </Grid.Column>
         </Grid>
         <Grid style={{ marginTop: '10px' }}>

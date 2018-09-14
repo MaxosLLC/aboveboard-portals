@@ -10,7 +10,7 @@ const logoSrc = REACT_APP_BRANDING ? `/images/logo-${REACT_APP_BRANDING}.png` : 
 
 const distributionRegexp = /^\/distribution$/
 const whitelistingRegexp = /^\/whitelisting/
-const whitelistsRegexp = /^\/whitelists$/
+const whitelistsRegexp = /^\/whitelists(\/create)?$/
 const tokensRegexp = /^\/tokens$/
 const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
 // const multisigWalletRegpex = /^\/company-multi-signature/

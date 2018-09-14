@@ -18,7 +18,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         if (affiliates) {
           const tokens = [{ address }]
           const whitelistAddress = await ethereum.deployNewWhitelist('affiliates', tokens)
+
           await ethereum.addWhitelistToToken(whitelistAddress, address)
+
           await localServices.whitelist.create({ name: `${name} Affiliates`, type: 'affiliates', address: whitelistAddress, tokens })
         }
 

@@ -49,7 +49,7 @@ class Routes extends Component {
           { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
 
           <Route exact path='/tokens/create' component={CreateToken} />
-          <Route exact path='/whitelisting/create' component={CreateWhitelist} />
+          <Route exact path='/whitelists/create' component={CreateWhitelist} />
 
           { admin && <Route exact path='/users' component={Users} /> }
           { admin && <Route exact path='/users/create' component={CreateUser} /> }

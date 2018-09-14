@@ -10,7 +10,8 @@ const mapStateToProps = state => ({
   currentUser: state.currentUser,
   currentToken: state.tokens.current,
   tokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
-  loaded: state.currentUser.id && state.localToken.isFinished,
+  whitelists: state.whitelist.queryResult ? state.whitelist.queryResult.data : [],
+  loaded: state.currentUser.id && state.localToken.isFinished && state.whitelist.isFinished,
   error: state.wallet.error
 })
 
@@ -19,27 +20,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     connectWallet (account, password) {
       return ethereum.init({ account, password })
     },
-    startWatchingToken (token) {
-      return dispatch(localServices.localToken.create(token))
-        .then(() => dispatch(localServices.localToken.find()))
-    },
-    stopWatchingToken (currentToken) {
-      return async token => {
-        if (token.address === currentToken) {
-          dispatch({ type: 'SET_CURRENT_TOKEN', tokenAddress: '' })
-        }
-
-        await dispatch(localServices.localToken.remove(null, { query: { address: token.address } }))
-        return dispatch(localServices.localToken.find())
+    async setMessagingAddress (currentUser, messagingAddress, tokens, whitelists) {
+      await dispatch(localServices.user.patch(null, { messagingAddress }, { query: { emails: { $in: currentUser.emails } } }))
+      if (currentUser.role === 'issuer' || currentUser.role === 'direct') {
+        await each(tokens, token => ethereum.setMessagingAddress('token', messagingAddress, token.address))
+        return each(whitelists, whitelist => ethereum.setMessagingAddress('whitelist', messagingAddress, whitelist.address))
       }
-    },
-    setMessagingAddress (currentUser, messagingAddress, tokens) {
-      return dispatch(localServices.user.patch(null, { messagingAddress }, { query: { emails: { $in: currentUser.emails } } }))
-        .then(() => {
-          if (currentUser.role === 'issuer' || currentUser.role === 'direct') {
-            return each(tokens, token => ethereum.setMessagingAddress(messagingAddress, token.address))
-          }
-        })
     }
   }
 }
