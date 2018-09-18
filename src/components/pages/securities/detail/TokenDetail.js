@@ -7,7 +7,7 @@ import localClient from 'lib/feathers/local/feathersClient'
 import TokenDetailView from './TokenDetailView'
 
 const mapStateToProps = (state, ownProps) => ({
-  token: state.token.queryResult && state.token.queryResult.data ? state.token.queryResult.data.filter(token => token.address === ownProps.match.params.address)[0] || {} : {},
+  currentToken: ownProps.match.params.address,
   localToken: state.localToken.queryResult && state.localToken.queryResult.data ? state.localToken.queryResult.data[0] : {},
   shareholders: state.investor.queryResult ? state.investor.queryResult.data : [],
   transactions: state.transaction.queryResult ? state.transaction.queryResult.data : [],

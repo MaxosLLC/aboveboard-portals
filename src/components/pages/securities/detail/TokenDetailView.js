@@ -57,6 +57,8 @@ class InvestorDetailView extends Component {
     }
   }
   async componentDidMount () {
+    if (this.props.currentToken === 'none') { return }
+
     await all([
       this.props.loadShareholders(this.props.currentUser),
       this.props.loadTransactions()
@@ -166,7 +168,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
+    const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
     const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
@@ -375,7 +377,9 @@ class InvestorDetailView extends Component {
       }
     ]
     return (
-      <div className='investorsComponent'>
+      currentToken === 'none'
+      ? <Segment>Create a security token to use the registry</Segment>
+      : <div className='investorsComponent'>
         <Header as='h2' className='tokenHeader'>
           <a
             href={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${localToken.address}`}

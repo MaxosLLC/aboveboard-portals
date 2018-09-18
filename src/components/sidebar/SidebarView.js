@@ -45,7 +45,7 @@ class SidebarView extends Component {
           <MenuItem
             active={tokenDetailRegexp.test(router.location.pathname)}
             className='sidebarMenuItem'
-            onClick={currentToken ? () => routeTo(`/securities/${currentToken}/detail`) : null}>
+            onClick={() => routeTo(`/securities/${currentToken || 'none'}/detail`)}>
             Registry
           </MenuItem>
         }

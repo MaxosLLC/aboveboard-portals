@@ -13,6 +13,7 @@ const securitiesRegexp = /^\/securities$/
 const tokenDetailRegexp = /^\/securities\/[a-zA-Z0-9]+\/detail$/
 const txStatusRegexp = /^\/tx-status/
 const usersRegexp = /^\/users/
+const walletRegexp = /^\/wallet/
 
 const getPageDescription = path => {
   if (securitiesRegexp.test(path)) return 'Create and manage security tokens'
@@ -22,6 +23,7 @@ const getPageDescription = path => {
   if (txStatusRegexp.test(path)) return 'See the actions that are submitted to the Ethereum chain from this registry'
   if (distributionRegexp.test(path)) return 'Request distribution for your securities'
   if (tokenDetailRegexp.test(path)) return 'View your security owners and transactions, comply with corporate registry rules, and provide services'
+  if (walletRegexp.test(path)) return 'Log in with your MetaMask wallet'
 
   return ''
 }
