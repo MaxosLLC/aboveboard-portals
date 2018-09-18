@@ -50,8 +50,6 @@ class WhitelistsAvailableView extends Component {
 
     return (
       <div className='whitelistsComponent'>
-        <Header as='h2' textAlign='center'>Distribution</Header>
-        <Segment className='descriptionPageHeader'>Request distribution for your securities</Segment>
         <Segment>
           <Header as='h1'>Mockup</Header>
           <div>Please contact us at <a href='mailto:contact@aboveboard.ai'>contact@aboveboard.ai</a></div>

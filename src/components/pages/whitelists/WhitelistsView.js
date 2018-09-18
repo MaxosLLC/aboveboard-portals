@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { each } from 'bluebird'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Grid, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 
@@ -74,10 +74,6 @@ class WhitelistsView extends Component {
 
     return (
       <div className='whitelistsComponent'>
-        <Header as='h2' textAlign='center'>Whitelists</Header>
-
-        <Segment className='descriptionPageHeader'>Create and use private whitelists of security owners</Segment>
-
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={5}>
             { loaded && <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} /> }

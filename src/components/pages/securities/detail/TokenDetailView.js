@@ -376,7 +376,7 @@ class InvestorDetailView extends Component {
     ]
     return (
       <div className='investorsComponent'>
-        <Header as='h2' textAlign='center' className='tokenHeader'>
+        <Header as='h2' className='tokenHeader'>
           <a
             href={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${localToken.address}`}
             target='_blank'
@@ -384,7 +384,6 @@ class InvestorDetailView extends Component {
             {localToken.name}
           </a>
         </Header>
-        <Segment className='descriptionPageHeader'>View your security owners and transactions, comply with corporate registry rules, and provide services</Segment>
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>

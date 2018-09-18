@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Accordion, Button, Grid, Header, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Grid, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
 
 import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
@@ -88,12 +88,6 @@ class InvestorsView extends Component {
 
     return (
       <div className='investorsComponent'>
-        <Header as='h2' textAlign='center'>Owners</Header>
-
-        <Segment className='descriptionPageHeader'>Enter private information about owners. Enter ethereum addresses to share on specific whitelists</Segment>
-
-        <br />
-
         <div>
           <Input loading={!loaded} icon='user' placeholder='Search...' onChange={(e, { value }) => setSearch(value)} value={search.investors} />
           <Link to='/owners/add' className='ui button right floated'>

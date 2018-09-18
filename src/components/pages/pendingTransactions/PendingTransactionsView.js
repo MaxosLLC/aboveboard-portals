@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 
@@ -29,8 +29,6 @@ class PendingTransactionsView extends Component {
 
     return (
       <div className='pendingTransactionsComponent'>
-        <Header as='h2' textAlign='center'>Transaction Status</Header>
-        <Segment className='descriptionPageHeader'>See the actions that are submitted to the Ethereum chain from this registry</Segment>
         <div>
           <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} />
         </div>

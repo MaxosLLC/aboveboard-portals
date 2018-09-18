@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Header, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
+import { Button, Icon, Image, Input, Pagination, Segment, Table } from 'semantic-ui-react'
 
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
@@ -21,8 +21,6 @@ class PendingTransactionsView extends Component {
 
     return (
       <div className='usersComponent'>
-        <Header as='h2' textAlign='center'>Users</Header>
-        <Segment className='descriptionPageHeader'>Add users that can login to this registry by their Google account e-mail address</Segment>
         <div>
           <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} />
           <Button floated='right' color='teal' onClick={() => routeTo('/users/create')}>Add User</Button>

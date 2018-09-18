@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
 import { map } from 'bluebird'
-import { Header, Icon, Table, Button, Segment } from 'semantic-ui-react'
+import { Icon, Table, Button, Segment } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 
@@ -39,10 +39,6 @@ class TokensView extends Component {
 
     return (
       <div className='tokensComponent'>
-        <Header as='h2' textAlign='center'>Securities</Header>
-
-        <Segment className='descriptionPageHeader'>Create and manage security tokens</Segment>
-
         {!loaded
           ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : localTokens.length
