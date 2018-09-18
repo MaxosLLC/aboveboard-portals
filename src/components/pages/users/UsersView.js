@@ -21,10 +21,11 @@ class PendingTransactionsView extends Component {
 
     return (
       <div className='usersComponent'>
-        <Header as='h2'>Users</Header>
+        <Header as='h2' textAlign='center'>Users</Header>
+        <Segment className='descriptionPageHeader'>Add users that can login to this registry by their Google account e-mail address</Segment>
         <div>
           <Input loading={!loaded} icon='dollar' placeholder='Search...' onChange={(e, { value }) => { setSearch(value) }} value={search} />
-          <Button floated='right' color='teal' onClick={() => routeTo('/users/create')}>Create User</Button>
+          <Button floated='right' color='teal' onClick={() => routeTo('/users/create')}>Add User</Button>
         </div>
         <br />
         {!loaded

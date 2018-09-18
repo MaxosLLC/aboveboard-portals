@@ -88,17 +88,15 @@ class InvestorsView extends Component {
 
     return (
       <div className='investorsComponent'>
-        <Grid centered columns={1}>
-          <Grid.Column width={4}>
-            <Header as='h2' textAlign='center' style={{ marginBottom: '20px' }}>
-              Whitelist Members
-            </Header>
-          </Grid.Column>
-        </Grid>
+        <Header as='h2' textAlign='center'>Owners</Header>
+
+        <Segment className='descriptionPageHeader'>Enter private information about owners. Enter ethereum addresses to share on specific whitelists</Segment>
+
+        <br />
 
         <div>
           <Input loading={!loaded} icon='user' placeholder='Search...' onChange={(e, { value }) => setSearch(value)} value={search.investors} />
-          <Link to='/whitelisting/add' className='ui button right floated'>
+          <Link to='/owners/add' className='ui button right floated'>
             Add Buyer
           </Link>
         </div>
@@ -177,11 +175,11 @@ class InvestorsView extends Component {
                       <Table.Cell>{investor.jurisdiction}</Table.Cell>
                       <Table.Cell style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button
-                          onClick={() => routeTo(`/whitelisting/${investor.id}/edit`)}>
+                          onClick={() => routeTo(`/owners/${investor.id}/edit`)}>
                           Edit
                         </Button>
                         <Button
-                          onClick={() => routeTo(`/whitelisting/${investor.id}/detail`)}>
+                          onClick={() => routeTo(`/owners/${investor.id}/detail`)}>
                           Details
                         </Button>
                       </Table.Cell>

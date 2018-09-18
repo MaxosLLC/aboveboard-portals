@@ -55,7 +55,7 @@ const RequestDistributionForm = props => {
                 <Button type='submit' disabled={pristine || submitting}>
                   Save
                 </Button>
-                <Link to='/whitelisting' className='ui button secondary'>
+                <Link to='/owners' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>

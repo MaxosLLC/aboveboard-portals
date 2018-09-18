@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import { Dropdown, Divider, Image, Menu } from 'semantic-ui-react'
-import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import './Header.css'
 
 const profileSrc = '/images/icons/defaultProfile.svg'
@@ -15,7 +14,6 @@ class HeaderView extends Component {
     return currentUser.id || currentUser._id
       ? (
         <Menu className='headerComponent'>
-          <Breadcrumbs />
           <Menu.Menu position='right'>
             <Menu.Item>{currentUser.walletAccountName}</Menu.Item>
             <Dropdown name='settings' pointing trigger={menuTrigger} icon={null}>

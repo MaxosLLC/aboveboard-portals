@@ -119,11 +119,11 @@ class InvestorDetailView extends Component {
             <Grid centered columns={1}>
               <Grid.Column width={4}>
                 { currentUser.role !== 'buyer' &&
-                  <Link to='/whitelisting' className='ui button primary'>
+                  <Link to='/owners' className='ui button primary'>
                     Back to Buyers
                   </Link>
                 }
-                <Link to={`/whitelisting/${investor.id}/edit`} className='ui button primary'>
+                <Link to={`/owners/${investor.id}/edit`} className='ui button primary'>
                   Edit
                 </Link>
               </Grid.Column>

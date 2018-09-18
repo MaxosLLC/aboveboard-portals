@@ -76,7 +76,7 @@ class ShareholderDetailView extends Component {
                     </Table.Cell>
                     <Table.Cell>{(ethAddress.issues || []).map(issue => {
                       return <p key={issue.address}>
-                        <Link to={`/tokens/${issue.address}/detail`}>{getTokenName(issue.address)}</Link>
+                        <Link to={`/securities/${issue.address}/detail`}>{getTokenName(issue.address)}</Link>
                         <Link
                           to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${issue.address}`}
                           target='_blank'
@@ -87,7 +87,7 @@ class ShareholderDetailView extends Component {
                 })}
               </Table.Body>
             </Table>
-            <Link to='/tokens' className='ui right floated button teal'>Back to Tokens</Link>
+            <Link to='/securities' className='ui right floated button teal'>Back to Tokens</Link>
           </div>
 }
       </div>

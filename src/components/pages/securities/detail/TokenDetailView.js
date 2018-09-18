@@ -166,7 +166,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, token, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
+    const { loaded, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
     const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
@@ -180,7 +180,7 @@ class InvestorDetailView extends Component {
     }
 
     const handleSetTradingLock = async (e, { checked: active }) => {
-      await setTokenTrading(token.address, active)
+      await setTokenTrading(localToken.address, active)
       this.setState({ locked: !active })
     }
 
@@ -237,7 +237,7 @@ class InvestorDetailView extends Component {
                   .map((shareholder, i) => <TableRow
                     name='shareholders'
                     key={shareholder.id}
-                    onClick={() => routeTo(`/tokens/${token.address}/shareholders/${shareholder.id}/detail`)}
+                    onClick={() => routeTo(`/securities/${localToken.address}/shareholders/${shareholder.id}/detail`)}
                     style={{ cursor: 'pointer' }}>
                     <TableCell>{i + 1}</TableCell>
                     <TableCell>{shareholder.firstName} {shareholder.lastName}</TableCell>
@@ -376,14 +376,15 @@ class InvestorDetailView extends Component {
     ]
     return (
       <div className='investorsComponent'>
-        <Header as='h2' className='tokenHeader'>
-          <Link
-            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${token.address}`}
+        <Header as='h2' textAlign='center' className='tokenHeader'>
+          <a
+            href={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${localToken.address}`}
             target='_blank'
             rel='noopener noreferrer'>
-            {token.name}
-          </Link>
+            {localToken.name}
+          </a>
         </Header>
+        <Segment className='descriptionPageHeader'>View your security owners and transactions, comply with corporate registry rules, and provide services</Segment>
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>

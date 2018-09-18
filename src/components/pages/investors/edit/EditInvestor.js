@@ -68,7 +68,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         })
 
         await dispatch(localServices.investor.patch(null, omit(newData, 'email'), { query: { id: newData.id } }))
-        await dispatch(push('/whitelisting'))
+        await dispatch(push('/owners'))
       } catch (e) {
         console.log(`Could not edit buyer ${e.message || e}`)
       }

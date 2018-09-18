@@ -6,7 +6,7 @@ class CreateWhitelistView extends Component {
     const { createWhitelist, connected } = this.props
 
     return (
-      <div className='createWhitelistsComponent'>
+      <div className='createWhitelistsComponent' style={{ width: '400px', margin: '0 auto' }}>
         { !connected ? 'Please connect your wallet.' : <CreateWhitelistForm onSubmit={createWhitelist} /> }
       </div>
     )

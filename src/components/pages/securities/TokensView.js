@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { sortBy } from 'lodash/fp'
 import { map } from 'bluebird'
-import { Icon, Table, Button, Segment } from 'semantic-ui-react'
+import { Header, Icon, Table, Button, Segment } from 'semantic-ui-react'
 
 import ethereum from 'lib/ethereum'
 
@@ -32,19 +32,22 @@ class TokensView extends Component {
     const { loaded, localTokens } = this.state
 
     const handleRowClick = tokenAddress => {
-      routeTo(`/tokens/${tokenAddress}/detail`)
+      routeTo(`/securities/${tokenAddress}/detail`)
     }
 
     const TableRow = Table.Row
 
     return (
       <div className='tokensComponent'>
+        <Header as='h2' textAlign='center'>Securities</Header>
+
+        <Segment className='descriptionPageHeader'>Create and manage security tokens</Segment>
+
         {!loaded
           ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : localTokens.length
             ? <div className='tokensComponent'>
-              <Button floated='left' color='teal' onClick={() => routeTo('/tokens/create')}>Launch Token</Button>
-              <Button floated='right' color='teal' onClick={() => routeTo('/settings')}>Add Token</Button>
+              <Button floated='left' color='teal' onClick={() => routeTo('/securities/create')}>Launch Token</Button>
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
                   <TableRow >
@@ -68,7 +71,7 @@ class TokensView extends Component {
                 </Table.Body>
               </Table>
             </div>
-            : <Segment>You have not launched any tokens. Please <Button color='teal' onClick={() => routeTo('/tokens/create')}>Launch A New Token</Button></Segment>
+            : <Segment>You have not launched any tokens. Please <Button color='teal' onClick={() => routeTo('/securities/create')}>Launch A New Token</Button></Segment>
         }
       </div>
     )

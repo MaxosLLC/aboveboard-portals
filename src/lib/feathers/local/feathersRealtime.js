@@ -3,9 +3,9 @@ import localServices from 'lib/feathers/local/feathersServices'
 import store from 'redux/store'
 import { throttle } from 'lodash'
 
-const tokenDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/detail$/
-const shareholderDetailRegexp = /^\/tokens\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
-const pendingTransactionsRegexp = /^\/pending-transactions/
+const tokenDetailRegexp = /^\/securities\/[a-zA-Z0-9]+\/detail$/
+const shareholderDetailRegexp = /^\/securities\/[a-zA-Z0-9]+\/shareholders\/[a-zA-Z0-9-]+\/detail$/
+const pendingTransactionsRegexp = /^\/tx-status/
 const usersRegexp = /^\/users/
 
 const throttleThreshold = 5000 // 5 seconds

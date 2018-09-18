@@ -51,7 +51,7 @@ const CreateWhitelistForm = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Container text>
+      <Container>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
             Create Whitelist
@@ -98,7 +98,7 @@ const CreateWhitelistForm = props => {
                 <Button type='submit' disabled={pristine || submitting}>
                   Save
                 </Button>
-                <Link to='/whitelisting' className='ui button secondary'>
+                <Link to='/owners' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>

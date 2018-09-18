@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       return addInvestorToWhitelists(dataWithAddresses)
         .then(() => dispatch(services.investor.create(dataWithAddresses)))
-        .then(() => dispatch(push('/whitelisting')))
+        .then(() => dispatch(push('/owners')))
         .catch(e => console.error(`Unable to create buyer, error ${e}`))
     },
     routeTo: path => ownProps.history.push(path)

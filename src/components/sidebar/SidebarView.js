@@ -9,13 +9,14 @@ const MenuItem = Menu.Item
 const logoSrc = REACT_APP_BRANDING ? `/images/logo-${REACT_APP_BRANDING}.png` : '/images/logo.png'
 
 const distributionRegexp = /^\/distribution$/
-const whitelistingRegexp = /^\/whitelisting/
+const ownersRegexp = /^\/owners/
 const whitelistsRegexp = /^\/whitelists(\/create)?$/
-const tokensRegexp = /^\/tokens$/
-const tokenDetailRegexp = /^\/tokens\/[\d||\w]+\/detail$/
+const tokensRegexp = /^\/securities$/
+const tokenDetailRegexp = /^\/securities\/[\d||\w]+\/detail$/
 // const multisigWalletRegpex = /^\/company-multi-signature/
-const pendingTransactionsRegexp = /^\/pending-transactions/
+const txStatusRegexp = /^\/tx-status/
 const usersRegexp = /^\/users/
+const walletRegexp = /^\/wallet/
 
 class SidebarView extends Component {
   render () {
@@ -27,43 +28,43 @@ class SidebarView extends Component {
           <Image src={logoSrc} className='siteLogo' />
           { /* <p className='version'>{ REACT_APP_VERSION || '1.0.0' }</p> */ }
         </MenuItem>
-        { (currentUser.role === 'broker' || currentUser.role === 'direct') &&
-          <MenuItem name='whitelisting' onClick={() => routeTo('/whitelisting')} active={whitelistingRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            Whitelisting
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
+          <MenuItem name='tokens' onClick={() => routeTo('/securities')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+            Securities
           </MenuItem>
         }
-        { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
-          <MenuItem name='tokens' onClick={() => routeTo('/tokens')} active={tokensRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
-            Securities
+        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
+          Whitelists
+        </MenuItem>
+        { (currentUser.role === 'broker' || currentUser.role === 'direct') &&
+          <MenuItem name='owners' onClick={() => routeTo('/owners')} active={ownersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
+            Owners
           </MenuItem>
         }
         { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
           <MenuItem
             active={tokenDetailRegexp.test(router.location.pathname)}
             className='sidebarMenuItem'
-            onClick={currentToken ? () => routeTo(`/tokens/${currentToken}/detail`) : null}>
+            onClick={currentToken ? () => routeTo(`/securities/${currentToken}/detail`) : null}>
             Registry
-          </MenuItem>
-        }
-        { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
-          <MenuItem active={pendingTransactionsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/pending-transactions`)}>
-            Transactions
           </MenuItem>
         }
         <MenuItem active={distributionRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/distribution`)}>
           Distribution
-        </MenuItem>
-        <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
-          Whitelists
         </MenuItem>
         { currentUser.admin &&
           <MenuItem active={usersRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/users`)}>
             Users
           </MenuItem>
         }
-        <MenuItem className='sidebarMenuItem'>
+        <MenuItem active={walletRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/wallet`)}>
           Wallet <span className={connected ? 'connected' : 'disconnected'} />
         </MenuItem>
+        { (currentUser.role === 'issuer' || currentUser.role === 'direct') &&
+          <MenuItem active={txStatusRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/tx-status`)}>
+            Tx Status
+          </MenuItem>
+        }
       </Menu>
     ) : ''
   }

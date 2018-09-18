@@ -42,20 +42,18 @@ const CreateTokenForm = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Container text>
+      <Container>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
             Launch New Token
           </Header>
           <br />
-          <Grid stackable divided='vertically' columns={1}>
+          <Grid textAlign='center' stackable divided='vertically' columns={1}>
             <Grid.Row>
-              <Grid.Column width={12}>
+              <Grid.Column width={16}>
                 <Label>Token Name *</Label>
                 <Text name='name' />
               </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
               <Grid.Column width={4}>
                 <Label>Token Symbol *</Label>
                 <Text name='symbol' />
@@ -89,10 +87,10 @@ const CreateTokenForm = props => {
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>
-                  Save
+                  Launch
                 </Button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <Link to='/tokens' className='ui button secondary'>
+                <Link to='/securities' className='ui button secondary'>
                   Cancel
                 </Link>
               </Grid.Column>

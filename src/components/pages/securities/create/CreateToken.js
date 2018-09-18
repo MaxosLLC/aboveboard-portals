@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
         await localServices.localToken.create({ name, symbol, address, decimals })
 
-        return dispatch(push('/tokens'))
+        return dispatch(push('/securities'))
       } catch (e) {
         console.error(`Error creating token ${e.message || e}`)
       }

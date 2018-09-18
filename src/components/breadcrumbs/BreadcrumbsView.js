@@ -5,8 +5,8 @@ import './Breadcrumbs.css'
 class BreadcrumbsView extends Component {
   render () {
     const { loaded, router, tokens } = this.props
-    const tokenDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/detail$/
-    const shareholderDetailRegexp = /^\/tokens\/[0-9a-zA-Z\s-]+\/shareholders\/[0-9a-zA-Z\s-]+\/detail$/
+    const tokenDetailRegexp = /^\/securities\/[0-9a-zA-Z\s-]+\/detail$/
+    const shareholderDetailRegexp = /^\/securities\/[0-9a-zA-Z\s-]+\/shareholders\/[0-9a-zA-Z\s-]+\/detail$/
     const renderCrumbs = (path, tokens) => {
       switch (true) {
         case path === '/':
@@ -15,13 +15,13 @@ class BreadcrumbsView extends Component {
               <Link to={router.location.pathname}>Dashboard &nbsp;>&nbsp;</Link> Overview
               </div>
           )
-        case path === '/tokens':
+        case path === '/securities':
           return (
             <div>
               <Link to={router.location.pathname}>Securities &nbsp;>&nbsp;</Link>  Tokens
               </div>
           )
-        case path === '/whitelisting':
+        case path === '/owners':
           return (
             <div>
               <Link to={router.location.pathname}>Buyers &nbsp;>&nbsp;</Link>  Whitelist
@@ -44,7 +44,7 @@ class BreadcrumbsView extends Component {
           const currentToken = tokens.filter(token => token.address === tokenAddress)[0]
           return (
             <div>
-              <Link to='/tokens'>Securities &nbsp;>&nbsp;</Link> {currentToken.name}
+              <Link to='/securities'>Securities &nbsp;>&nbsp;</Link> {currentToken.name}
             </div>
           )
         case shareholderDetailRegexp.test(path):
@@ -52,8 +52,8 @@ class BreadcrumbsView extends Component {
           const tokensAddress = path.split('/')[path.split('/').length - 4]
           return (
             <div>
-              <Link to='/tokens'>Securities &nbsp;>&nbsp;</Link>
-              <Link to={`/tokens/${tokensAddress}/detail`}>Token &nbsp;>&nbsp;</Link>{shareholderAddress}
+              <Link to='/securities'>Securities &nbsp;>&nbsp;</Link>
+              <Link to={`/securities/${tokensAddress}/detail`}>Token &nbsp;>&nbsp;</Link>{shareholderAddress}
             </div>
           )
         default:
