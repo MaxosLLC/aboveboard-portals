@@ -51,11 +51,11 @@ class WhitelistsAvailableView extends Component {
     return (
       <div className='whitelistsComponent'>
         <Grid style={{ marginTop: '10px' }}>
-          <Grid.Column floated='left' width={5}>
+          <Grid.Column floated='left' width={11}>
             <Header as='h2'>Token: Company Common Shares</Header>
             <Header as='h3'>More information about this project <Button style={{ marginLeft: '10px' }}>Add A Link</Button></Header>
           </Grid.Column>
-          <Grid.Column floated='right' width={5}>
+          <Grid.Column floated='right' width={3}>
             <Button onClick={() => routeTo('/whitelists/create')}>Create Whitelist</Button>
           </Grid.Column>
         </Grid>
