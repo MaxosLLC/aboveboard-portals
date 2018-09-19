@@ -68,7 +68,7 @@ const CreateTokenForm = props => {
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={16}>
-                <Label>Token Type *</Label>
+                <Label>Token Format *</Label>
                 <Dropdown name='type' options={tokenTypeOptions} />
               </Grid.Column>
             </Grid.Row>
