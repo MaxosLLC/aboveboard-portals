@@ -67,7 +67,7 @@ class TokensView extends Component {
                 </Table.Body>
               </Table>
             </div>
-            : <Segment>You have not launched any tokens. Please <Button color='teal' onClick={() => routeTo('/securities/create')}>Launch A New Token</Button></Segment>
+            : <Segment>You do not have any security tokens. <Button color='teal' onClick={() => routeTo('/securities/create')}>Create A Security Token</Button></Segment>
         }
       </div>
     )

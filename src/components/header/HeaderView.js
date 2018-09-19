@@ -21,7 +21,7 @@ const getPageDescription = path => {
   if (ownersRegexp.test(path)) return 'Enter private information about owners. Enter ethereum addresses to share on specific whitelists'
   if (usersRegexp.test(path)) return 'Add users that can login to this registry by their Google account e-mail address'
   if (txStatusRegexp.test(path)) return 'See the actions that are submitted to the Ethereum chain from this registry'
-  if (distributionRegexp.test(path)) return 'Request distribution for your securities'
+  if (distributionRegexp.test(path)) return (<span> To request distribution, please contact us at <a href="mailto:contact@aboveboard.ai">contact@aboveboard.ai</a></span>)
   if (tokenDetailRegexp.test(path)) return 'View your security owners and transactions, comply with corporate registry rules, and provide services'
   if (walletRegexp.test(path)) return 'Log in with your MetaMask wallet'
 

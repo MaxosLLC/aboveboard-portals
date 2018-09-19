@@ -152,7 +152,7 @@ class WhitelistsView extends Component {
               </Table>
             </div>
           </div>
-          : <Segment>{ search ? 'No whitelists match your search criteria' : 'No whitelists have been made yet' }</Segment>
+          : <Segment>{ search ? 'No whitelists match your search criteria' : 'You do not own any whitelists' }</Segment>
         }
       </div>
     )

@@ -377,17 +377,15 @@ class InvestorDetailView extends Component {
       }
     ]
     return (
-      currentToken === 'none'
-      ? <Segment>Create a security token to use the registry</Segment>
-      : <div className='investorsComponent'>
-        <Header as='h2' className='tokenHeader'>
+      <div className='investorsComponent'>
+        { currentToken !== 'none' && <Header as='h2' className='tokenHeader'>
           <a
             href={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${localToken.address}`}
             target='_blank'
             rel='noopener noreferrer'>
             {localToken.name}
           </a>
-        </Header>
+        </Header> }
         <div className='stats'>
           <StatsCard stats={stats} />
         </div>
@@ -404,17 +402,18 @@ class InvestorDetailView extends Component {
           </div>
         }
         <div>
-          <Input loading={!loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search['investors'] : search.transactions} />
+          <Input loading={ currentToken !== 'none' && !loaded } icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search['investors'] : search.transactions} />
         </div>
         <br />
-        {!loaded
+        { currentToken === 'none' ? <Segment>You must select or create a security token to use the registry of security owners</Segment>
+          : !loaded
           ? <span>Loading token details...<Icon name='spinner' loading /></span>
           : <Tab
             activeIndex={activeIndex}
             menu={{ secondary: true, pointing: true }}
             panes={panes}
             onTabChange={(e, { activeIndex }) => { setSearch(activeIndex === 0 ? 'investors' : 'transactions', ''); this.setState({ activeIndex }) }}
-            className='tableTabs' />}
+            className='tableTabs' /> }
       </div>
     )
   }

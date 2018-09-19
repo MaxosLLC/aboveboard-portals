@@ -16,9 +16,7 @@ const addInvestorToWhitelists = investor =>
     })
   })
 
-const mapStateToProps = state => ({
-  connected: state.wallet.connected
-})
+const mapStateToProps = state => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

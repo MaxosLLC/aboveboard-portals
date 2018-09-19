@@ -15,7 +15,7 @@ class PendingTransactionsView extends Component {
 
     const userHeaders = [
       { name: 'Email Addresses', sortOption: 'emails' },
-      { name: 'Admin', sortOption: 'Admin' },
+      { name: 'Role', sortOption: 'admin' },
       { name: 'Actions' }
     ]
 
@@ -55,7 +55,7 @@ class PendingTransactionsView extends Component {
                   {users
                       .map(user => <Table.Row key={user.id}>
                         <Table.Cell>{user.emails}</Table.Cell>
-                        <Table.Cell>{user.admin ? 'Yes' : 'No'}</Table.Cell>
+                        <Table.Cell>{user.admin ? 'Admin' : ''}</Table.Cell>
                         <Table.Cell>{users.length > 1 && <Button onClick={() => removeUser(user.id)}>Remove</Button>}</Table.Cell>
                       </Table.Row>)}
                 </Table.Body>

@@ -6,17 +6,9 @@ class WalletView extends Component {
     const { connected } = this.props
 
     return (
-      connected
-        ? <div className='walletComponent'>
-          <Segment className='descriptionPageHeader'>
-            This will allow you to put information on the Ethereum chain, such as securities, whitelists, and the ethereum addresses for whitelisted owners
-          </Segment>
-        </div>
-        : <div className='walletComponent'>
-          <Segment className='descriptionPageHeader'>
-            This will allow you to put information on the Ethereum chain, such as securities, whitelists, and the ethereum addresses for whitelisted owners
-          </Segment>
-        </div>
+      <Segment className='descriptionPageHeader'>
+        Your local Ethereum wallet will allow you to put information on the chain, such as securities, whiteslists, and the Ethereum addresses for whitelisted owners.
+      </Segment>
     )
   }
 }

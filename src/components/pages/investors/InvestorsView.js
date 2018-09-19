@@ -91,14 +91,14 @@ class InvestorsView extends Component {
         <div>
           <Input loading={!loaded} icon='user' placeholder='Search...' onChange={(e, { value }) => setSearch(value)} value={search.investors} />
           <Link to='/owners/add' className='ui button right floated'>
-            Add Buyer
+            Add Owner
           </Link>
         </div>
         <div className='csvUpload'>
           <Accordion>
             <Accordion.Title active={activeIndex === 0} index={0} onClick={handleMultipleUploadClick}>
               <Icon name='dropdown' />
-            Upload Multiple Members
+            Upload Multiple Owners
           </Accordion.Title>
             <Accordion.Content active={activeIndex === 0}>
               <small>First choose whitelists and select the CSV file to upload.</small>
@@ -129,7 +129,7 @@ class InvestorsView extends Component {
         </div>
 
         { !loaded
-          ? <span>Loading buyer details...<Icon name='spinner' loading /></span>
+          ? <span>Loading owner details...<Icon name='spinner' loading /></span>
           : investors.length
           ? <div className='tableContainer'>
             <Table className='abTable' unstackable>
@@ -201,7 +201,7 @@ class InvestorsView extends Component {
               }
             </Table>
           </div>
-          : <Segment>{ search.investors ? 'No buyers match your search criteria' : 'No buyer data available' }</Segment> }
+          : <Segment>{ search.investors ? 'No owners match your search criteria' : 'No owners' }</Segment> }
       </div>
     )
   }
