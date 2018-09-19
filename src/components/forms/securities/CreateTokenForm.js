@@ -69,7 +69,7 @@ const CreateTokenForm = props => {
             <Grid.Row>
               <Grid.Column width={16}>
                 <Label>Token Format *</Label>
-                <Dropdown name='type' options={tokenTypeOptions} />
+                <Dropdown name='type' options={tokenTypeOptions} defaultValue='Aboveboard R-token RegD/RegS with governance' />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>

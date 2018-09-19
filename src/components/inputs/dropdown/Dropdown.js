@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Dropdown as DropdownWrapper } from 'semantic-ui-react'
 import { Field } from 'redux-form'
 
-const CustomInput = initialValue => ({ input: { value, onChange, onBlur }, meta: { touched, error }, options, multiple, search, selection }) => {
+const CustomInput = (initialValue, defaultValue) => ({ input: { value, onChange, onBlur }, meta: { touched, error }, options, multiple, search, selection }) => {
   return (
     <div>
       <DropdownWrapper
@@ -14,6 +14,7 @@ const CustomInput = initialValue => ({ input: { value, onChange, onBlur }, meta:
         multiple={multiple}
         search={search}
         selection={selection}
+        defaultValue={defaultValue}
       />
       {touched && error && <span className='input__error'>{error}</span>}
     </div>
@@ -32,7 +33,7 @@ const Dropdown = ({ name, options, multiple = false, search = false, selection =
   <Field
     className='dropdown'
     name={name}
-    component={CustomInput(initialValue)}
+    component={CustomInput(initialValue, defaultValue)}
     options={options}
     multiple={multiple}
     search={search}
