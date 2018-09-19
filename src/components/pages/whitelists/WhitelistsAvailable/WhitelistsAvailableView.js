@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Grid, Header, Image, Table } from 'semantic-ui-react'
+import { Grid, Header, Image, Table } from 'semantic-ui-react'
 
 import './WhitelistsAvailable.css'
 
@@ -92,37 +92,37 @@ class WhitelistsAvailableView extends Component {
                 <Table.Cell>Company Direct Sales Portal</Table.Cell>
                 <Table.Cell>Company</Table.Cell>
                 <Table.Cell>Accredited</Table.Cell>
-                <Table.Cell><Button>Request Your Portal</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Your Portal</a></Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Aboveboard US QIB</Table.Cell>
                 <Table.Cell>Aboveboard</Table.Cell>
                 <Table.Cell>QIB</Table.Cell>
-                <Table.Cell><Button>Request Distribution</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Distribution</a></Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>US Broker-Dealer</Table.Cell>
                 <Table.Cell>A Broker</Table.Cell>
                 <Table.Cell>US Accredited</Table.Cell>
-                <Table.Cell><Button>Request Distribution</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Distribution</a></Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Japan Broker</Table.Cell>
                 <Table.Cell>Japan Broker</Table.Cell>
                 <Table.Cell>Sophisticated</Table.Cell>
-                <Table.Cell><Button>Request Distribution</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Distribution</a></Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Exchange 1</Table.Cell>
                 <Table.Cell>Exchange 1</Table.Cell>
                 <Table.Cell>Unregulated Only</Table.Cell>
-                <Table.Cell><Button>Request Distribution</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Distribution</a></Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Exchange 2</Table.Cell>
                 <Table.Cell>Exchange 2</Table.Cell>
                 <Table.Cell>Sophisticated</Table.Cell>
-                <Table.Cell><Button>Request Distribution</Button></Table.Cell>
+                <Table.Cell><a className='ui button' href='mailto:contact@aboveboard.ai'>Request Distribution</a></Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
