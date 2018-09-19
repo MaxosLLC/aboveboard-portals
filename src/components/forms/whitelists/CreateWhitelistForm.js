@@ -14,12 +14,11 @@ import {
 import { Dropdown, Label, Text } from 'components/inputs'
 
 const whitelistTypeOptions = [
-  { value: 'RegD', text: 'RegD' },
-  { value: 'RegS', text: 'RegS' },
+  { value: 'US Accredited', text: 'US Accredited' },
+  { value: 'Non-US Sophisticated', text: 'Non-US Sophisticated' },
+  { value: 'Qualified Purchaser', text: 'Qualified Purchaser' },
   { value: 'QIB', text: 'QIB' },
-  { value: 'Accredited', text: 'Accredited' },
-  { value: 'Sophisticated', text: 'Sophisticated' },
-  { value: 'Unsophisticated', text: 'Unsophisticated' },
+  { value: 'Unregulated', text: 'Unregulated' },
   { value: 'Other', text: 'Other' }
 ]
 
@@ -40,14 +39,7 @@ const validate = values => {
 }
 
 const CreateWhitelistForm = props => {
-  const { handleSubmit, errors, pristine, submitting, localTokens } = props
-
-  const localTokenOptions = localTokens.map(localToken => {
-    return {
-      value: localToken.address,
-      text: localToken.name
-    }
-  })
+  const { handleSubmit, errors, pristine, submitting } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -69,18 +61,6 @@ const CreateWhitelistForm = props => {
                   search
                   name='type'
                   options={whitelistTypeOptions}
-                />
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>
-                <Label>Apply to Tokens *</Label>
-                <Dropdown
-                  selection
-                  multiple
-                  search
-                  name='tokens'
-                  options={localTokenOptions}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -118,7 +98,6 @@ const Form = reduxForm({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    localTokens: state.localToken.queryResult ? state.localToken.queryResult.data : [],
     errors: state.wallet.error || (state.whitelist.isError || {}).message
   }
 }

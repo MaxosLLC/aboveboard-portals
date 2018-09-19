@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Grid, Header, Image, Input, Table } from 'semantic-ui-react'
+import { Button, Grid, Header, Image, Table } from 'semantic-ui-react'
 
 import './WhitelistsAvailable.css'
 
