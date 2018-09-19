@@ -3,11 +3,11 @@ import CreateUserForm from 'components/forms/users/CreateUserForm'
 
 class CreateUserView extends Component {
   render () {
-    const { createUser, connected } = this.props
+    const { createUser } = this.props
 
     return (
       <div className='createUsersComponent'>
-        { !connected ? 'Please connect your wallet.' : <CreateUserForm onSubmit={createUser} /> }
+        <CreateUserForm onSubmit={createUser} />
       </div>
     )
   }
