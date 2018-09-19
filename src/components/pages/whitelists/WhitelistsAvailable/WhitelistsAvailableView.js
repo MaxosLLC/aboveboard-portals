@@ -140,7 +140,7 @@ class WhitelistsAvailableView extends Component {
             </Table.Body>
           </Table>
         </div>
-    </div>
+      </div>
     )
   }
 }

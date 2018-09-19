@@ -402,7 +402,7 @@ class InvestorDetailView extends Component {
           </div>
         }
         <div>
-          <Input loading={ currentToken !== 'none' && !loaded } icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search['investors'] : search.transactions} />
+          <Input loading={currentToken !== 'none' && !loaded} icon={activeIndex === 0 ? 'user' : 'dollar'} placeholder='Search...' onChange={handleSearch} value={activeIndex === 0 ? search['investors'] : search.transactions} />
         </div>
         <br />
         { currentToken === 'none' ? <Segment>You must select or create a security token to use the registry of security owners</Segment>
