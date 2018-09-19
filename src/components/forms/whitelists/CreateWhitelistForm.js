@@ -14,6 +14,7 @@ import {
 import { Dropdown, Label, Text } from 'components/inputs'
 
 const whitelistTypeOptions = [
+  { value: 'KYC/AML Only', text: 'KYC/AML Only' },
   { value: 'US Accredited', text: 'US Accredited' },
   { value: 'Non-US Sophisticated', text: 'Non-US Sophisticated' },
   { value: 'Qualified Purchaser', text: 'Qualified Purchaser' },
@@ -55,7 +56,7 @@ const CreateWhitelistForm = props => {
                 <Text name='name' />
               </Grid.Column>
               <Grid.Column>
-                <Label>Type *</Label>
+                <Label>Qualification *</Label>
                 <Dropdown
                   selection
                   search
