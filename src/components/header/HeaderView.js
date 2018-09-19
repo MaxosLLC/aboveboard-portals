@@ -18,7 +18,7 @@ const walletRegexp = /^\/wallet/
 const getPageDescription = path => {
   if (securitiesRegexp.test(path)) return 'Create and manage security tokens'
   if (whitelistsRegexp.test(path)) return 'Create and use private whitelists of security owners'
-  if (ownersRegexp.test(path)) return 'Enter private information about owners. Enter ethereum addresses to share on specific whitelists'
+  if (ownersRegexp.test(path)) return 'Enter private information about security owners. Enter ethereum addresses to share on specific whitelists'
   if (usersRegexp.test(path)) return 'Add users that can login to this registry by their Google account e-mail address'
   if (txStatusRegexp.test(path)) return 'See the actions that are submitted to the Ethereum chain from this registry'
   if (distributionRegexp.test(path)) return (<span> To request distribution, please contact us at <a href='mailto:contact@aboveboard.ai'>contact@aboveboard.ai</a></span>)

@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    createToken: async ({ name, symbol, decimals, affiliates }) => {
+    createToken: async ({ name, symbol, decimals = 0, affiliates = true }) => {
       try {
         const address = await ethereum.deployNewToken(name, symbol, decimals)
 

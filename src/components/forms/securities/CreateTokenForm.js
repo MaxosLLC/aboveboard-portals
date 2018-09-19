@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Segment
 } from 'semantic-ui-react'
 
-import { Checkbox, Label, Text } from 'components/inputs'
+import { Dropdown, Label, Text } from 'components/inputs'
 
 const numberRegExp = /\d{1,3}/
 
@@ -37,15 +37,22 @@ const validate = values => {
   return errors
 }
 
+const tokenTypeOptions = [
+  {
+    value: 'Aboveboard R-token RegD/RegS with governance',
+    text: 'Aboveboard R-token RegD/RegS with governance'
+  }
+]
+
 const CreateTokenForm = props => {
-  const { handleSubmit, errors, pristine, submitting, divisble } = props
+  const { handleSubmit, errors, pristine, submitting } = props
 
   return (
     <form onSubmit={handleSubmit}>
       <Container>
         <Segment textAlign='center'>
           <Header as='h2' textAlign='center'>
-            Launch New Token
+            Create a new Security Token
           </Header>
           <br />
           <Grid textAlign='center' stackable divided='vertically' columns={1}>
@@ -60,19 +67,14 @@ const CreateTokenForm = props => {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column width={5}>
-                <Label style={{ marginRight: '10px' }}>Divisible</Label>
-                <Checkbox name='divisble' />
-                { divisble && <br /> }
-                { divisble && <br /> }
-                { divisble && <Label>Decimal Precision *</Label> }
-                { divisble && <Text name='decimals' /> }
+              <Grid.Column width={16}>
+                <Label>Token Type *</Label>
+                <Dropdown name='type' options={tokenTypeOptions} />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column width={5}>
-                <Label style={{ marginRight: '10px' }}>Launch Affiliate's Whitelist</Label>
-                <Checkbox name='affiliates' />
+              <Grid.Column width={16}>
+                <Label style={{ marginRight: '10px' }}>We will create a related affiliate whitelist</Label>
               </Grid.Column>
             </Grid.Row>
             { errors &&
@@ -108,11 +110,9 @@ const Form = reduxForm({
   enableReinitialize: true
 })(CreateTokenForm)
 
-const selector = formValueSelector('CreateToken')
 const mapStateToProps = (state, ownProps) => {
   return {
-    errors: state.wallet.error || (state.localToken.isError || {}).message,
-    divisble: selector(state, 'divisble')
+    errors: state.wallet.error || (state.localToken.isError || {}).message
   }
 }
 

@@ -43,7 +43,7 @@ class TokensView extends Component {
           ? <span>Loading tokens...<Icon name='spinner' loading /></span>
           : localTokens.length
             ? <div className='tokensComponent'>
-              <Button floated='left' color='teal' onClick={() => routeTo('/securities/create')}>Launch Token</Button>
+              <Button floated='left' color='teal' onClick={() => routeTo('/securities/create')}>Create Security Token</Button>
               <Table className='abTable' unstackable>
                 <Table.Header className='tableHeader'>
                   <TableRow >
