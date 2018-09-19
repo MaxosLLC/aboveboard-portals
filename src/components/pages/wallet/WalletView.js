@@ -5,7 +5,7 @@ class WalletView extends Component {
   render () {
     return (
       <Segment className='descriptionPageHeader'>
-        Your local Ethereum wallet will allow you to put information on the chain, such as securities, whiteslists, and the Ethereum addresses for whitelisted owners.
+        Your local Ethereum wallet will allow you to put information on the chain, such as securities, whitelists, and the Ethereum addresses for whitelisted owners.
       </Segment>
     )
   }
