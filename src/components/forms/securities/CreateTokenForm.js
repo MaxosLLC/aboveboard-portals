@@ -14,6 +14,7 @@ import {
 import { Dropdown, Label, Text } from 'components/inputs'
 
 const numberRegExp = /\d{1,3}/
+const initialNumberRegexp = /[0-9,]+/
 
 const validate = values => {
   const errors = {}
@@ -32,6 +33,22 @@ const validate = values => {
 
   if (values.decimals && !numberRegExp.test(values.decimals)) {
     errors.decimals = 'Decimals must be between 1 and 999'
+  }
+
+  if (values.initialNumberRegexp && !initialNumberRegexp.test(values.initialNumberRegexp)) {
+    errors.decimals = 'Initial number must be a valid non-decimal number'
+  }
+
+  if (!values.firstName) {
+    errors.firstName = 'First name is required'
+  } else if (values.firstName.length > 100) {
+    errors.firstName = 'First name must be less than 100 characters'
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Last name is required'
+  } else if (values.lastName.length > 100) {
+    errors.lastName = 'Last name must be less than 100 characters'
   }
 
   return errors
@@ -61,18 +78,30 @@ const CreateTokenForm = props => {
                 <Label>Token Name *</Label>
                 <Text name='name' />
               </Grid.Column>
-              <Grid.Column width={4}>
+              <Grid.Column width={6}>
                 <Label>Token Symbol *</Label>
                 <Text name='symbol' />
+              </Grid.Column>
+              <Grid.Column width={10}>
+                <Label>Issue New Shares to My Account *</Label>
+                <Text name='initialNumber' />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={16}>
                 <Label>Token Format *</Label>
-                <Dropdown name='type' options={tokenTypeOptions} defaultValue='Aboveboard R-token RegD/RegS with governance' />
+                <Dropdown name='type' options={tokenTypeOptions} initialValue='Aboveboard R-token RegD/RegS with governance' />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
+              <Grid.Column width={8}>
+                <Label>First Name *</Label>
+                <Text name='firstName' />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <Label>Last Name *</Label>
+                <Text name='lastName' />
+              </Grid.Column>
               <Grid.Column width={16}>
                 <Label style={{ marginRight: '10px' }}>We will create a related affiliate whitelist</Label>
               </Grid.Column>
@@ -89,7 +118,7 @@ const CreateTokenForm = props => {
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>
-                  Launch
+                  Create
                 </Button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <Link to='/securities' className='ui button secondary'>
@@ -106,12 +135,12 @@ const CreateTokenForm = props => {
 
 const Form = reduxForm({
   form: 'CreateToken',
-  validate,
-  enableReinitialize: true
+  validate
 })(CreateTokenForm)
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    initialValues: { initialNumber: '10,000,000' },
     errors: state.wallet.error || (state.localToken.isError || {}).message
   }
 }

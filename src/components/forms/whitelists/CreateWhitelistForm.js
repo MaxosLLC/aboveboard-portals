@@ -77,7 +77,7 @@ const CreateWhitelistForm = props => {
             <Grid.Row>
               <Grid.Column width={16} textAlign='center'>
                 <Button type='submit' disabled={pristine || submitting}>
-                  Save
+                  Create
                 </Button>
                 <Link to='/owners' className='ui button secondary'>
                   Cancel

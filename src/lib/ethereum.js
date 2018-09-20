@@ -470,7 +470,6 @@ export default {
       await waitForWeb3()
 
       const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(whitelist.address)
-
       promisifyAll(deployedWhitelistContract.getAgentsOwnerAndQualifiers)
 
       const qualifiers = await deployedWhitelistContract.getAgentsOwnerAndQualifiers.callAsync({ from: currentAccount })
@@ -497,7 +496,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'confirmTransaction' })
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.confirmTransaction)
 
       const gas = await deployedWalletContract.confirmTransaction.estimateGasAsync(id, { from: currentAccount })
@@ -518,7 +516,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'revokeConfirmation' })
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.revokeConfirmation)
 
       const gas = await deployedWalletContract.revokeConfirmation.estimateGasAsync(id, { from: currentAccount })
@@ -542,7 +539,6 @@ export default {
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.submitTransaction)
 
       const approveEncoded = deployedTokenContract.approve.getData(multisigWalletAddress, 100, {from: multisigWalletAddress})
@@ -567,6 +563,8 @@ export default {
       const token = getTokenFromAddress(tokenAddress)
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+      promisifyAll(deployedTokenContract.owner)
+      promisifyAll(deployedTokenContract.mint)
 
       const tokenOwner = await deployedTokenContract.owner.callAsync()
 
@@ -575,16 +573,16 @@ export default {
 
         promisifyAll(deployedWalletContract.submitTransaction)
 
-        const txEncoded = deployedWalletContract.mint.getData(tokenOwner, amount, 0, { from: currentAccount })
+        const txEncoded = deployedWalletContract.mint.getData(tokenOwner, amount, { from: currentAccount })
 
         const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
         return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
       }
 
-      const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, 0, { from: currentAccount })
+      const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, { from: currentAccount })
 
-      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, 0, { from: currentAccount, gas })
+      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'mint' })
     } catch (e) {
@@ -593,7 +591,7 @@ export default {
     }
   },
 
-  transfer: async (tokenAddress, toAddress, amount) => {
+  transfer: async (tokenAddress, toAddress, amount, multisigWalletAddress) => {
     try {
       await waitForWeb3()
 
@@ -602,10 +600,23 @@ export default {
       const token = getTokenFromAddress(tokenAddress)
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+      promisifyAll(deployedTokenContract.transfer)
 
-      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, 0, { from: currentAccount })
+      if (multisigWalletAddress) {
+        const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
-      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, 0, { from: currentAccount, gas })
+        promisifyAll(deployedWalletContract.submitTransaction)
+
+        const txEncoded = deployedWalletContract.transfer.getData(toAddress, amount, { from: currentAccount })
+
+        const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
+
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
+      }
+
+      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, { from: currentAccount })
+
+      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
     } catch (e) {
@@ -623,13 +634,14 @@ export default {
       const token = getTokenFromAddress(tokenAddress)
 
       const deployedTokenContract = web3.eth.contract(getAbi('token', token.abiVersion)).at(tokenAddress)
+      promisifyAll(deployedTokenContract.arbitrage)
 
       if (multisigWalletAddress) {
         const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
 
         promisifyAll(deployedWalletContract.submitTransaction)
 
-        const txEncoded = deployedWalletContract.arbitrage.getData(fromAddress, toAddress, amount, 0, { from: currentAccount })
+        const txEncoded = deployedWalletContract.arbitrage.getData(fromAddress, toAddress, amount, { from: currentAccount })
 
         const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
@@ -654,7 +666,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'addSigner' })
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.submitTransaction)
 
       const txEncoded = deployedWalletContract.addOwner.getData(signer, { from: currentAccount })
@@ -677,7 +688,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'removeSigner' })
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.submitTransaction)
 
       const txEncoded = deployedWalletContract.removeOwner.getData(signer, { from: currentAccount })
@@ -698,7 +708,6 @@ export default {
       await waitForWeb3()
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.required)
 
       const required = await deployedWalletContract.required.callAsync()
@@ -715,7 +724,6 @@ export default {
       await waitForWeb3()
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.getOwners)
 
       return deployedWalletContract.getOwners.callAsync()
@@ -732,7 +740,6 @@ export default {
       store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'changeRequirement' })
 
       const deployedWalletContract = web3.eth.contract(getAbi('multisig')).at(multisigWalletAddress)
-
       promisifyAll(deployedWalletContract.submitTransaction)
 
       const txEncoded = deployedWalletContract.changeRequirement.getData(required, { from: currentAccount })
