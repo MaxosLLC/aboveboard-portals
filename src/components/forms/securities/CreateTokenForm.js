@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, formValueSelector } from 'redux-form'
 import { Link } from 'react-router-dom'
 import {
   Button,
@@ -61,8 +61,12 @@ const tokenTypeOptions = [
   }
 ]
 
+const sourceCodeUrlByTokenType = {
+  'Aboveboard R-token RegD/RegS with governance': 'https://github.com/MaxosLLC/AboveboardSecurityToken'
+}
+
 const CreateTokenForm = props => {
-  const { handleSubmit, errors, pristine, submitting } = props
+  const { tokenType, handleSubmit, errors, pristine, submitting } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -91,6 +95,9 @@ const CreateTokenForm = props => {
               <Grid.Column width={16}>
                 <Label>Token Format *</Label>
                 <Dropdown name='type' options={tokenTypeOptions} initialValue='Aboveboard R-token RegD/RegS with governance' />
+              </Grid.Column>
+              <Grid.Column width={16}>
+                <a href={ sourceCodeUrlByTokenType[tokenType] || 'https://github.com/MaxosLLC/AboveboardSecurityToken' } target='_blank' rel='noopener noreferrer'>View the Source Code</a>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -138,8 +145,10 @@ const Form = reduxForm({
   validate
 })(CreateTokenForm)
 
+const selector = formValueSelector('CreateToken')
 const mapStateToProps = (state, ownProps) => {
   return {
+    tokenType: selector(state, 'type'),
     initialValues: { initialNumber: '10,000,000' },
     errors: state.wallet.error || (state.localToken.isError || {}).message
   }
