@@ -1,14 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Accordion, Button, Grid, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
+import { Accordion, Grid, Icon, Input, Image, Pagination, Segment, Table, Dropdown } from 'semantic-ui-react'
 
 import { readFile } from 'lib/file'
 import { csvToJson, arrayToBuyer } from 'lib/csv'
-
-const qualificationByCode = {
-  'us-accredited': 'US Accredited',
-  'us-qib': 'US QIB'
-}
 
 const iconsPath = '/images/icons'
 const sortUpSrc = `${iconsPath}/up.svg`
@@ -67,17 +62,9 @@ class InvestorsView extends Component {
       }
     })
     const investorsHeaders = [
-      { name: '#', sortOption: '_id' },
       { name: 'First Name', sortOption: 'firstName' },
       { name: 'Last Name', sortOption: 'lastName' },
-      { name: 'Email', sortOption: 'email' },
-      { name: 'Phone', sortOption: 'phone' },
-      { name: 'Address', sortOption: 'country' },
-      { name: 'Qualifications', sortOption: 'qualifications' },
-      { name: 'KYC Status', sortOption: 'kycStatus' },
-      { name: 'KYC Expiration Date', sortOption: 'kycExpDate' },
-      { name: 'Accreditation Status', sortOption: 'accredStatus' },
-      { name: 'Jurisdiction', sortOption: 'jurisdiction' }
+      { name: 'Email', sortOption: 'email' }
     ]
 
     const handleMultipleUploadClick = (e, { index }) => {
@@ -137,46 +124,25 @@ class InvestorsView extends Component {
                 <Table.Row>
                   { investorsHeaders.map((investorsHeader, i) =>
                     <Table.HeaderCell key={`${investorsHeader.name}${i}`}>{investorsHeader.name}
-                      <span className='sortButtons'>
+                      { investors.length > 6 && <span className='sortButtons'>
                         <Image
                           src={sortUpSrc}
                           onClick={() => { setSort({ [investorsHeader.sortOption]: 1 }) }} />
                         <Image
                           src={sortDownSrc}
                           onClick={() => { setSort({ [investorsHeader.sortOption]: -1 }) }} />
-                      </span>
+                      </span> }
                     </Table.HeaderCell>
                   ) }
-                  <Table.HeaderCell>Edit</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {investors
                   .map((investor, i) =>
-                    <Table.Row key={investor.id + i}>
-                      <Table.Cell>{i + 1}</Table.Cell>
+                    <Table.Row key={investor.id + i} onClick={() => routeTo(`/owners/${investor.id}/edit`)} style={{ cursor: 'pointer' }}>
                       <Table.Cell>{investor.firstName || 'No'}</Table.Cell>
                       <Table.Cell>{investor.lastName || 'Data'}</Table.Cell>
                       <Table.Cell>{investor.email}</Table.Cell>
-                      <Table.Cell>{investor.phone}</Table.Cell>
-                      <Table.Cell>{investor.country}</Table.Cell>
-                      <Table.Cell>
-                        {qualificationByCode[investor.qualifications] || ''}
-                      </Table.Cell>
-                      <Table.Cell>{investor.kycStatus}</Table.Cell>
-                      <Table.Cell>{investor.kycExpDate}</Table.Cell>
-                      <Table.Cell>{investor.accredStatus}</Table.Cell>
-                      <Table.Cell>{investor.jurisdiction}</Table.Cell>
-                      <Table.Cell style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button
-                          onClick={() => routeTo(`/owners/${investor.id}/edit`)}>
-                          Edit
-                        </Button>
-                        <Button
-                          onClick={() => routeTo(`/owners/${investor.id}/detail`)}>
-                          Details
-                        </Button>
-                      </Table.Cell>
                     </Table.Row>
                   )}
               </Table.Body>
