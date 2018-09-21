@@ -14,7 +14,6 @@ class WhitelistsView extends Component {
     super(props)
     this.state = {
       loaded: false,
-      roleByWhitelist: {},
       whitelistsByToken: {},
       tokensByWhitelist: {}
     }
@@ -45,30 +44,17 @@ class WhitelistsView extends Component {
       this.setState({ whitelistsByToken, tokensByWhitelist })
     }
 
-    if (this.props.currentUser.role === 'broker' || this.props.currentUser.role === 'direct') {
-      const roleByWhitelist = {}
-
-      await each(this.props.whitelists, async whitelist => {
-        const role = await ethereum.getRoleForWhitelist(this.props.currentUser, whitelist).catch(e => console.log(`Could not get role for whitelist ${whitelist.address}`))
-        roleByWhitelist[whitelist.address] = role
-      })
-
-      this.setState({ roleByWhitelist })
-    }
-
     this.setState({ loaded: true })
   }
 
   render () {
     const { routeTo, whitelists, localTokens, setPage, setSort, setSearch, page, search, queryResult } = this.props
-    const { tokensByWhitelist, roleByWhitelist, loaded } = this.state
+    const { tokensByWhitelist, loaded } = this.state
 
     const whitelistHeaders = [
       { name: 'Name', sortOption: 'name' },
-      { name: 'Qualifier', sortOption: 'qualifier' },
       { name: 'Type', sortOption: 'type' },
       { name: 'Address', sortOption: 'address' },
-      { name: 'Role' },
       { name: 'Tokens' }
     ]
 
@@ -111,7 +97,6 @@ class WhitelistsView extends Component {
                   {whitelists
                       .map(whitelist => <Table.Row key={whitelist.id}>
                         <Table.Cell>{whitelist.name}</Table.Cell>
-                        <Table.Cell>{whitelist.qualifier}</Table.Cell>
                         <Table.Cell>{whitelist.type}</Table.Cell>
                         <Table.Cell>
                           <Link
@@ -125,7 +110,6 @@ class WhitelistsView extends Component {
                               .substr(whitelist.address.length - 4, 4)}
                           </Link>
                         </Table.Cell>
-                        <Table.Cell>{ roleByWhitelist[whitelist.address] }</Table.Cell>
                         <Table.Cell>{ tokensByWhitelist[whitelist.address] && tokensByWhitelist[whitelist.address].map(localTokenAddress => localTokens.filter(({ address }) => address === localTokenAddress)[0].name).join(', ') }</Table.Cell>
                       </Table.Row>)}
                 </Table.Body>

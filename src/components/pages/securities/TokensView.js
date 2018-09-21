@@ -62,7 +62,7 @@ class TokensView extends Component {
                     }}>
                     <Table.Cell>{token.name}</Table.Cell>
                     <Table.Cell>{token.address}</Table.Cell>
-                    <Table.Cell textAlign='right'>{ token.whitelists && token.whitelists.join(', ') }</Table.Cell>
+                    <Table.Cell>{ token.whitelists && token.whitelists.join(', ') }</Table.Cell>
                   </TableRow>)}
                 </Table.Body>
               </Table>
