@@ -97,7 +97,7 @@ const CreateTokenForm = props => {
                 <Dropdown name='type' options={tokenTypeOptions} initialValue='Aboveboard R-token RegD/RegS with governance' />
               </Grid.Column>
               <Grid.Column width={16}>
-                <a href={ sourceCodeUrlByTokenType[tokenType] || 'https://github.com/MaxosLLC/AboveboardSecurityToken' } target='_blank' rel='noopener noreferrer'>View the Source Code</a>
+                <a href={sourceCodeUrlByTokenType[tokenType] || 'https://github.com/MaxosLLC/AboveboardSecurityToken'} target='_blank' rel='noopener noreferrer'>View the Source Code</a>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
