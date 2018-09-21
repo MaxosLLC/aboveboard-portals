@@ -141,7 +141,7 @@ class InvestorDetailView extends Component {
       this.props.loadAll(type)
         .then(shareholders => {
           const headers = '"ID", "First Name", "Last Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Ethereum Addresses", "Balance"\n'
-          const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.token.address))
+          const csvSafeData = shareholders.map(convertToCSVSafeObject(this.props.localToken.address))
 
           const csv = csvSafeData.reduce((result, shareholder) => {
             const { id, firstName, lastName, email, phone, addressLine1, addressLine2, city, state, country, zip, ethAddresses, balance } = shareholder
@@ -156,7 +156,7 @@ class InvestorDetailView extends Component {
       this.props.loadAll('transaction')
         .then(transactions => {
           const headers = '"ID", "Transaction Hash", "Contract Address", "Shareholder Ethereum Address", "From Ethereum Address", "Tokens", "Date"\n'
-          const csvSafeData = transactions.map(convertToCSVSafeObject(this.props.token.address))
+          const csvSafeData = transactions.map(convertToCSVSafeObject(this.props.localToken.address))
 
           const csv = csvSafeData.reduce((result, transaction) => {
             const { id, transactionHash, contractAddress, shareholderEthAddress, fromEthAddress, tokens, createdAt } = transaction
