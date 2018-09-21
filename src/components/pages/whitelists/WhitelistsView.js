@@ -115,7 +115,7 @@ class WhitelistsView extends Component {
                         <Table.Cell>{whitelist.type}</Table.Cell>
                         <Table.Cell>
                           <Link
-                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${whitelist.address}`}
+                            to={`https://${window.REACT_APP_APP_TYPE && !/(enegra|polymath|kovan)/.test(window.location.hostname) ? '' : 'kovan.'}etherscan.io/address/${whitelist.address}`}
                             target='_blank'
                             rel='noopener noreferrer'>
                             {whitelist
