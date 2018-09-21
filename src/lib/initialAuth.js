@@ -13,7 +13,7 @@ const getParameterByName = (name, url) => {
 
 const queryStringAccessToken = getParameterByName('accessToken')
 
-const letmeinAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YmE1Mzk5YjVlZTU2MDAwNjZlZTc1MjEiLCJpYXQiOjE1Mzc1NTUzMjQsImV4cCI6MTU2OTA5MTMyNCwiYXVkIjoiaHR0cHM6Ly9rb3Zhbi5hYm92ZWJvYXJkLmFpIiwic3ViIjoiaW5zZWN1cmUtdG9rZW4iLCJqdGkiOiJkNzVhYmI4OS1lMGNjLTQ0NmYtOGE1Yy1iNzY1MWM1ODc4YTAifQ.AmvUMk14sFEs9h7gIrPa5Ns8F27UlvZoHfJ9HWGG6Jk'
+const letmeinAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YmE1Mzk5YjVlZTU2MDAwNjZlZTc1MjEiLCJpYXQiOjE1Mzc1NTYyMTgsImV4cCI6MTU2OTA5MjIxOCwiYXVkIjoiaHR0cHM6Ly9pbnZlc3QuYWJvdmVib2FyZC5haSIsInN1YiI6Imluc2VjdXJlLXRva2VuIiwianRpIjoiNzlkYTJjM2YtY2E2YS00ODdhLWE3N2QtMTI4NTk4MzcwNjQ3In0.zUNXP8ry7sI-6HfrfiiAWAlEDrGwGnnoUf-MBPA5a64'
 
 const accessToken = window.location.pathname === '/letmein' ? letmeinAccessToken : (queryStringAccessToken || (window.localStorage && window.localStorage.getItem && window.localStorage.getItem('local-feathers-jwt')))
 
