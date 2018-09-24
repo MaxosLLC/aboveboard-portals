@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, FieldArray } from 'redux-form'
 import { Link } from 'react-router-dom'
 import {
+  Accordion,
   Dropdown as DropdownForFieldArray,
   Button,
   Container,
@@ -130,12 +131,6 @@ const renderEthAddresses = ({
   meta: { error, submitFailed }
 }) => (
   <Fragment>
-    <Grid.Column style={{ margin: 'auto' }}>
-      <Button type='button' key='submit' onClick={() => fields.push({})}>
-        Add eth Address
-      </Button>
-      {submitFailed && error && <span>{error}</span>}
-    </Grid.Column>
     {fields.map((ethAddress, index) => (
       <Grid
         key={`ethAddressGrid${index}`}
@@ -145,7 +140,7 @@ const renderEthAddresses = ({
         columns={2}
       >
         <Grid.Column key={`ethAddressColumn${index}`} width={16}>
-          <Label style={{ padding: '10px' }}>ethAddress #{index + 1} </Label>
+          <Label style={{ padding: '10px' }}>Ethereum Address #{index + 1} </Label>
           <Icon
             name='trash outline'
             key={`ethAddressIcon${index}`}
@@ -164,128 +159,155 @@ const renderEthAddresses = ({
         </Grid.Column>
       </Grid>
     ))}
+    <Grid.Column style={{ margin: 'auto' }}>
+      <Button type='button' key='submit' onClick={() => fields.push({})}>
+        Add eth Address
+      </Button>
+      {submitFailed && error && <span>{error}</span>}
+    </Grid.Column>
   </Fragment>
 )
 
-const AddInvestorForm = props => {
-  const { handleSubmit, errors, whitelists, pristine, submitting } = props
+class AddInvestorForm extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { activeIndex: null }
+  }
 
-  const whitelistOptions = whitelists.map(whitelist => {
-    return {
-      text: whitelist.name,
-      value: whitelist.address
+  render () {
+    const { handleSubmit, errors, whitelists, pristine, submitting } = this.props
+    const { activeIndex } = this.state
+
+    const whitelistOptions = whitelists.map(whitelist => {
+      return {
+        text: whitelist.name,
+        value: whitelist.address
+      }
+    })
+
+    const handleClick = (e, titleProps) => {
+      const { index } = titleProps
+      const { activeIndex } = this.state
+      const newIndex = activeIndex === index ? -1 : index
+
+      this.setState({ activeIndex: newIndex })
     }
-  })
-  return (
-    <form onSubmit={handleSubmit}>
-      <Container text>
-        <Segment textAlign='center'>
-          <Header as='h2' textAlign='center'>
-            Add Buyer
-          </Header>
-          <Grid stackable divided='vertically' columns={2}>
-            <Grid.Row>
-              <Grid.Column>
-                <Label>First Name *</Label>
-                <Text name='firstName' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Last Name *</Label>
-                <Text name='lastName' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Email *</Label>
-                <Text name='email' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Phone</Label>
-                <Text name='phone' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Address Line 1*</Label>
-                <Text name='addressLine1' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Address Line 2</Label>
-                <Text name='addressLine2' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>City *</Label>
-                <Text name='city' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>State/Province</Label>
-                <Text name='state' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Country *</Label>
-                <Dropdown
-                  selection
-                  search
-                  name='country'
-                  options={countryOptions}
-                />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Zip/Postal Code *</Label>
-                <Text name='zip' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>KYC Status</Label>
-                <Text name='kycStatus' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>KYC Expiration Date</Label>
-                <Text name='kycExpDate' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Accreditation Status</Label>
-                <Text name='accredStatus' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Jurisdiction</Label>
-                <Text name='jurisdiction' />
-              </Grid.Column>
-              <Grid.Column>
-                <Label>Qualifications *</Label>
-                <Dropdown
-                  multiple
-                  selection
-                  search
-                  name='qualifications'
-                  options={qualificationsOptions}
-                />
-              </Grid.Column>
-              <FieldArray
-                name='ethAddresses'
-                component={renderEthAddresses}
-                props={{ whitelistOptions }}
-              />
-            </Grid.Row>
-            { errors &&
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <Container text>
+          <Segment textAlign='center'>
+            <Header as='h2' textAlign='center'>
+              Add Buyer
+            </Header>
+            <Grid stackable divided='vertically' columns={2}>
               <Grid.Row>
-                <Grid.Column width={16} textAlign='center'>
-                  <Segment>
-                    <OriginalLabel color='red'>{errors}</OriginalLabel>
-                  </Segment>
+                <Grid.Column>
+                  <Label>First Name *</Label>
+                  <Text name='firstName' />
+                </Grid.Column>
+                <Grid.Column>
+                  <Label>Last Name *</Label>
+                  <Text name='lastName' />
+                </Grid.Column>
+                <Grid.Column>
+                  <Label>Email *</Label>
+                  <Text name='email' />
+                </Grid.Column>
+                <Grid.Column>
+                  <Label>Phone</Label>
+                  <Text name='phone' />
+                </Grid.Column>
+                <Grid.Column>
+                  <Label>Qualifications *</Label>
+                  <Dropdown
+                    multiple
+                    selection
+                    search
+                    name='qualifications'
+                    options={qualificationsOptions}
+                  />
                 </Grid.Column>
               </Grid.Row>
-            }
-            <Grid.Row>
-              <Grid.Column width={16} textAlign='center'>
-                <Button type='submit' disabled={pristine || submitting}>
-                  Save
-                </Button>
-                <Link to='/owners' className='ui button secondary'>
-                  Cancel
-                </Link>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Segment>
-      </Container>
-    </form>
-  )
+              <Grid.Row>
+                <Grid.Column width={16} textAlign='center'>
+                  <Accordion>
+                    <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick.bind(this)}>
+                      <Icon name='dropdown' />
+                        Physical Address
+                      </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 0}>
+                      <Grid stackable divided='vertically' columns={2}>
+                        <Grid.Row>
+                          <Grid.Column>
+                            <Label>Address Line 1*</Label>
+                            <Text name='addressLine1' />
+                          </Grid.Column>
+                          <Grid.Column>
+                            <Label>Address Line 2</Label>
+                            <Text name='addressLine2' />
+                          </Grid.Column>
+                          <Grid.Column>
+                            <Label>City *</Label>
+                            <Text name='city' />
+                          </Grid.Column>
+                          <Grid.Column>
+                            <Label>State/Province</Label>
+                            <Text name='state' />
+                          </Grid.Column>
+                          <Grid.Column>
+                            <Label>Country *</Label>
+                            <Dropdown
+                              selection
+                              search
+                              name='country'
+                              options={countryOptions}
+                            />
+                          </Grid.Column>
+                          <Grid.Column>
+                            <Label>Zip/Postal Code *</Label>
+                            <Text name='zip' />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </Accordion.Content>
+                  </Accordion>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column width={16} textAlign='center'>
+                  <FieldArray
+                    name='ethAddresses'
+                    component={renderEthAddresses}
+                    props={{ whitelistOptions }}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+              { errors &&
+                <Grid.Row>
+                  <Grid.Column width={16} textAlign='center'>
+                    <Segment>
+                      <OriginalLabel color='red'>{errors}</OriginalLabel>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              }
+              <Grid.Row>
+                <Grid.Column width={16} textAlign='center'>
+                  <Button type='submit' disabled={pristine || submitting}>
+                    Save
+                  </Button>
+                  <Link to='/owners' className='ui button secondary'>
+                    Cancel
+                  </Link>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+        </Container>
+      </form>
+    )
+  }
 }
 
 const Form = reduxForm({

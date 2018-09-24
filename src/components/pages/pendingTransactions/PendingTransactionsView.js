@@ -103,7 +103,7 @@ class PendingTransactionsView extends Component {
                       </Table.Row>)}
                 </Table.Body>
 
-                <Table.Footer>
+                { queryResult.pendingTransactions.total > queryResult.pendingTransactions.limit && <Table.Footer>
                   <Table.Row>
                     <Table.HeaderCell floated='right' colSpan={transactionsHeaders.length}>
                       <Pagination
@@ -121,7 +121,7 @@ class PendingTransactionsView extends Component {
                       />
                     </Table.HeaderCell>
                   </Table.Row>
-                </Table.Footer>
+                </Table.Footer> }
               </Table>
             </div>
           </div>
