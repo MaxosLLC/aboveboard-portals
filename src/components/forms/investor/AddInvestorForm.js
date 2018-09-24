@@ -59,9 +59,7 @@ const validate = values => {
     errors.phone = 'Phone must be a valid phone number'
   }
 
-  if (!values.addressLine1) {
-    errors.addressLine1 = 'Required'
-  } else if (values.addressLine1.length > 120) {
+  if (values.addressLine1 && values.addressLine1.length > 120) {
     errors.addressLine1 = 'Address must be less than 120 characters'
   }
 
@@ -69,9 +67,7 @@ const validate = values => {
     errors.addressLine2 = 'Address must be less than 120 characters'
   }
 
-  if (!values.city) {
-    errors.city = 'Required'
-  } else if (values.city.length > 60) {
+  if (values.city && values.city.length > 60) {
     errors.city = 'City must be less than 60 characters'
   }
 
@@ -79,15 +75,11 @@ const validate = values => {
     errors.state = 'State must be less than 60 characters'
   }
 
-  if (!values.country) {
-    errors.country = 'Required'
-  } else if (values.country.length > 60) {
+  if (values.country && values.country.length > 60) {
     errors.country = 'Country must be less than 60 characters'
   }
 
-  if (!values.zip) {
-    errors.zip = 'Required'
-  } else if (!postalAndZipCodeRegexp.test(values.zip)) {
+  if (values.zip && !postalAndZipCodeRegexp.test(values.zip)) {
     errors.zip = 'Zip/Postal Code code must be valid'
   }
 
@@ -240,7 +232,7 @@ class AddInvestorForm extends Component {
                       <Grid stackable divided='vertically' columns={2}>
                         <Grid.Row>
                           <Grid.Column>
-                            <Label>Address Line 1*</Label>
+                            <Label>Address Line 1</Label>
                             <Text name='addressLine1' />
                           </Grid.Column>
                           <Grid.Column>
@@ -248,7 +240,7 @@ class AddInvestorForm extends Component {
                             <Text name='addressLine2' />
                           </Grid.Column>
                           <Grid.Column>
-                            <Label>City *</Label>
+                            <Label>City</Label>
                             <Text name='city' />
                           </Grid.Column>
                           <Grid.Column>
@@ -256,7 +248,7 @@ class AddInvestorForm extends Component {
                             <Text name='state' />
                           </Grid.Column>
                           <Grid.Column>
-                            <Label>Country *</Label>
+                            <Label>Country</Label>
                             <Dropdown
                               selection
                               search
@@ -265,7 +257,7 @@ class AddInvestorForm extends Component {
                             />
                           </Grid.Column>
                           <Grid.Column>
-                            <Label>Zip/Postal Code *</Label>
+                            <Label>Zip/Postal Code</Label>
                             <Text name='zip' />
                           </Grid.Column>
                         </Grid.Row>
