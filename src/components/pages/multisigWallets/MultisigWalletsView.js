@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Accordion, Button, Header, Icon, Input, Label, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
@@ -10,11 +11,16 @@ class MultisigWalletsView extends Component {
   async componentDidMount () {
     await this.props.loadMultisigWallet()
 
-    this.props.getCurrentRequirement(this.props.multisigWallet.address)
-      .then(currentRequirement => this.setState({ currentRequirement }))
+    if (this.props.multisigWallet && this.props.multisigWallet.address) {
+      try {
+        const currentRequirement = await this.props.getCurrentRequirement(this.props.multisigWallet.address)
+        const currentOwners = await this.props.getOwners(this.props.multisigWallet.address)
 
-    this.props.getOwners(this.props.multisigWallet.address)
-      .then(currentOwners => this.setState({ currentOwners }))
+        this.setState({ currentOwners, currentRequirement })
+      } catch (e) {
+        console.log(`Could not load company multisig wallet: ${e.message || e}`)
+      }
+    }
   }
 
   handleAccordionClick (e, titleProps) {
@@ -26,7 +32,7 @@ class MultisigWalletsView extends Component {
   }
 
   render () {
-    const { loaded, multisigWallet, addMultisigWallet, changeMultisigWallet, sendTokens, addSigner, removeSigner, changeRequirement } = this.props
+    const { loaded, connected, multisigWallet, addMultisigWallet, changeMultisigWallet, addSigner, removeSigner, changeRequirement } = this.props
     const { activeIndex, changeWallet, currentRequirement, currentOwners } = this.state
 
     const handleAddWallet = async () => {
@@ -81,25 +87,14 @@ class MultisigWalletsView extends Component {
       this.setState({ activeIndex: undefined })
     }
 
-    const handleSendTokens = () => {
-      const tokenAddress = document.getElementById('send-tokens-token-address-input').value
-      const toAddress = document.getElementById('send-tokens-to-address-input').value
-      const toAmount = document.getElementById('send-tokens-amount-input').value
-
-      sendTokens(tokenAddress, toAddress, toAmount, multisigWallet.address)
-    }
-
     return (
       <div className='multisigWalletsComponent'>
-        { !loaded ? <Segment>Loading Company Multisig...</Segment>
+        { !connected ? <Segment>Please connect your <Link to='/wallet'>wallet</Link>.</Segment>
+          : !loaded ? <Segment>Loading Company Multisig...</Segment>
           : multisigWallet.address
             ? <div>
               <Segment><Header as='h3'>You currently have 0 transactions awaiting confirmation</Header></Segment>
-              <Header as='h4'>Company Governance Actions:</Header><br />
-              <Button primary>Security Replacement</Button><br /><br />
-              <Button primary>Issue New Securities</Button><br /><br />
-              <Button primary>Assign Issuer</Button><br /><br />
-              <br />
+              <Header as='h4'>Company Multi-Signature Wallet Governance Actions:</Header>
               <Segment>
                 <Accordion>
                   <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick.bind(this)}>
@@ -146,29 +141,6 @@ class MultisigWalletsView extends Component {
                   </Accordion.Content>
                 </Accordion>
               </Segment>
-              <br />
-              <Segment>
-                <Accordion>
-                  <Accordion.Title active={activeIndex === 3} index={3} onClick={this.handleAccordionClick.bind(this)}>
-                    <Icon name='dropdown' />
-                    Send Tokens
-                  </Accordion.Title>
-                  <Accordion.Content active={activeIndex === 3}>
-                    <Label>Token Address</Label>
-                    <Input id='send-tokens-token-address-input' style={{ width: '400px' }} />
-                    <br />
-                    <Label>To Address</Label>
-                    <Input id='send-tokens-to-address-input' style={{ width: '400px' }} />
-                    <br />
-                    <Label>Amount</Label>
-                    <Input id='send-tokens-amount-input' />
-                    <br />
-                    <br />
-                    <Button onClick={handleSendTokens} primary>Send</Button><br /><br />
-                  </Accordion.Content>
-                </Accordion>
-              </Segment>
-              <br />
               <Segment>
                 { changeWallet
                   ? <div>

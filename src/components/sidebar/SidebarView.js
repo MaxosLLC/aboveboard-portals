@@ -13,7 +13,7 @@ const ownersRegexp = /^\/owners/
 const whitelistsRegexp = /^\/whitelists(\/create)?$/
 const tokensRegexp = /^\/securities$/
 const tokenDetailRegexp = /^\/securities\/[\d||\w]+\/detail$/
-// const multisigWalletRegpex = /^\/company-multi-signature/
+const multisigWalletRegpex = /^\/company-multi-signature/
 const txStatusRegexp = /^\/tx-status/
 const usersRegexp = /^\/users/
 const walletRegexp = /^\/wallet/
@@ -51,6 +51,9 @@ class SidebarView extends Component {
         }
         <MenuItem active={distributionRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/distribution`)}>
           Distribution
+        </MenuItem>
+        <MenuItem active={multisigWalletRegpex.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/company-multi-signature`)}>
+          Company Multi-Signature
         </MenuItem>
         { currentUser.admin &&
           <MenuItem active={usersRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/users`)}>
