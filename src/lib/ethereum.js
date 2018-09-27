@@ -49,7 +49,11 @@ const pollForCurrentAccountUpdates = async () => {
     const [account] = await web3.eth.getAccountsAsync()
     if (currentAccount !== account) {
       currentAccount = account
-      store.dispatch({ type: 'WALLET_UPDATE_CURRENT_ACCOUNT', address: account })
+      if (account) {
+        store.dispatch({ type: 'WALLET_UPDATE_CURRENT_ACCOUNT', address: account })
+      } else {
+        store.dispatch({ type: 'WALLET_LOGOUT' })
+      }
     }
   } catch (e) {
     console.log(`Error polling for current account updates: ${e.message || e}`)

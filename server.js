@@ -35,5 +35,11 @@ if (process.env.REACT_APP_APP_TYPE) {
   }
 }
 
+if (process.env.USE_GA) {
+  const data = fs.readFileSync('./build/index.html', 'utf8')
+  const result = data.replace(/<!-- ga -->/, '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126573839-2"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "UA-126573839-2");</script>')
+  fs.writeFileSync('./build/index.html', result, 'utf8')
+}
+
 app.listen(process.env.PORT || 3000)
 console.log(`${process.env.REACT_APP_APP_TYPE} app listening on port ${process.env.PORT || 3000}`)

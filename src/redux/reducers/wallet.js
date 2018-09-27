@@ -11,7 +11,9 @@ export default (state = {}, action) => {
     case 'WALLET_TRANSACTION_ERROR':
       return Object.assign({}, state, { error: action.error, processing: false })
     case 'WALLET_UPDATE_CURRENT_ACCOUNT':
-      return Object.assign({}, state, { address: action.address })
+      return Object.assign({}, state, { connected: true, address: action.address })
+    case 'WALLET_LOGOUT':
+      return { connected: false }
     default:
       return state
   }

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import { all } from 'bluebird'
 import { Link } from 'react-router-dom'
-import { Checkbox, Header, Icon, Image, Input, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
+import { Button, Checkbox, Grid, Header, Icon, Image, Input, Label, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
@@ -374,6 +374,41 @@ class InvestorDetailView extends Component {
             </div>
           </div>
           : <Segment>{ search.transactions ? 'No transactions match your search criteria' : 'No transactions have been made yet' }</Segment>
+      }, {
+        menuItem: 'Governance',
+        render: () => {
+          return (
+            <div>
+              <br />
+              <Image src='/images/under-construction.png' size='medium' centered />
+              <br />
+              <Grid columns={2}>
+                <Grid.Column>
+                  <Segment>
+                    <Header as='h2' textAlign='center'>Governance Group Actions</Header>
+                    <br />
+                    <Button>Mint Shares</Button><Input style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button>Distribute Shares</Button><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button>Arbitrate Shares</Button><br />From: <Input style={{ marginLeft: '10px' }} /><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button>Add Officer</Button><Input style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button>Remove Officer</Button><Input style={{ marginLeft: '10px' }} />
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                  <Segment>
+                    <Header as='h2' textAlign='center'>Officer Settings</Header>
+                    <br />
+                    <Button>Lock trading</Button><Label style={{ marginLeft: '10px' }}>Yes</Label><br /><br />
+                    <Button>Add Whitelist to Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                    <Button>Remove Whitelist from Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                    <Button>Set Initial Offer End Date</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                    <Button>Set Allowing/Disallowing New Shareholders</Button><Label style={{ marginLeft: '10px' }}>Yes</Label>
+                  </Segment>
+                </Grid.Column>
+              </Grid>
+            </div>
+          )
+        }
       }
     ]
     return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Accordion, Button, Header, Icon, Input, Label, Segment } from 'semantic-ui-react'
+import { Accordion, Button, Header, Icon, Image, Input, Label, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
   constructor (props) {
@@ -89,12 +89,14 @@ class MultisigWalletsView extends Component {
 
     return (
       <div className='multisigWalletsComponent'>
+        <Image src='/images/under-construction.png' size='medium' centered />
+        <br />
         { !connected ? <Segment>Please connect your <Link to='/wallet'>wallet</Link>.</Segment>
           : !loaded ? <Segment>Loading Company Multisig...</Segment>
           : multisigWallet.address
             ? <div>
               <Segment><Header as='h3'>You currently have 0 transactions awaiting confirmation</Header></Segment>
-              <Header as='h4'>Company Multi-Signature Wallet Governance Actions:</Header>
+              <Header as='h4'>Governance Actions:</Header>
               <Segment>
                 <Accordion>
                   <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordionClick.bind(this)}>
@@ -156,8 +158,14 @@ class MultisigWalletsView extends Component {
               </Segment>
             </div>
           : <Segment>
-            <Header as='h3'>Please add a wallet.</Header>
-            <Input id='multisig-wallet-add-input' style={{ width: '400px' }} />
+            <Header as='h3'>Deploy a new multi-signature wallet</Header>
+            <a href={'https://github.com/MaxosLLC/AboveboardSecurityToken/blob/master/contracts/MultiSigArbitration.sol'} target='_blank' rel='noopener noreferrer'>View the Source Code</a>
+            <br /><br />
+            <Button onClick={() => {}}>Deploy</Button>
+            <br />
+            <Header as='h4'>or</Header>
+            <Header as='h3'>Add an existing wallet</Header>
+            <Input id='multisig-wallet-add-input' style={{ width: '40%' }} />
             <br />
             <br />
             <Button onClick={() => handleAddWallet()}>Add</Button>

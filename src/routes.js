@@ -47,8 +47,8 @@ class Routes extends Component {
           { role === 'issuer' || role === 'direct' ? <Route exact path='/securities' component={Tokens} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/securities/:address/detail' component={TokenDetail} /> : '' }
           { role === 'issuer' || role === 'direct' ? <Route exact path='/securities/:address/shareholders/:id/detail' component={ShareholderDetail} /> : '' }
-          { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature' component={MultisigWallets} /> : '' }
-          { role === 'direct' || role === 'issuer' ? <Route exact path='/company-multi-signature/:address/detail' component={MultisigWalletDetail} /> : '' }
+          { role === 'direct' || role === 'issuer' ? <Route exact path='/governance' component={MultisigWallets} /> : '' }
+          { role === 'direct' || role === 'issuer' ? <Route exact path='/governance/:address/detail' component={MultisigWalletDetail} /> : '' }
 
           { role === 'direct' && <Route exact path='/securities/create' component={CreateToken} /> }
           <Route exact path='/whitelists/create' component={CreateWhitelist} />
