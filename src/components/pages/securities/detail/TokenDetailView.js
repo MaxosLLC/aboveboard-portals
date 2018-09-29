@@ -190,7 +190,7 @@ class InvestorDetailView extends Component {
       const amount = document.getElementById('mint-shares-amount-input').value
 
       if (isNaN(amount)) {
-        alert('Mint shares amount must be a number')
+        alert('Mint shares amount must be a number') // eslint-disable-line
       }
 
       return mintShares(amount)
@@ -201,11 +201,11 @@ class InvestorDetailView extends Component {
       const to = document.getElementById('distribute-shares-to-input').value
 
       if (isNaN(amount)) {
-        alert('Mint shares amount must be a number')
+        alert('Mint shares amount must be a number') // eslint-disable-line
       }
 
       if (!to) {
-        alert('To is required')
+        alert('To is required') // eslint-disable-line
       }
 
       try {

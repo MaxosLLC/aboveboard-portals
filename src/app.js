@@ -23,6 +23,8 @@ if (/herokuapp\.com/.test(window.location.hostname)) {
   }
 }
 
+history.listen(() => store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED' }))
+
 class App extends Component {
   render () {
     return (

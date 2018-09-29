@@ -76,7 +76,6 @@ const validate = values => {
   return errors
 }
 
-
 const renderwhitelistAddresses = ({
   initialWhitelists,
   whitelistOptions,

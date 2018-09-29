@@ -17,11 +17,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       try {
         const user = store.getState().currentUser
         const address = await ethereum.deployNewToken(name, symbol, decimals)
+        const settingsStorage = await ethereum.getStorageSettingsForToken(address)
 
         await dispatch(localServices.localToken.create({ name, symbol, address, decimals }))
 
         if (affiliates) {
-          const tokens = [{ address }]
+          const tokens = [{ address: settingsStorage.address }]
           const whitelistAddress = await ethereum.deployNewWhitelist('affiliates', tokens)
 
           await ethereum.addWhitelistToToken(whitelistAddress, address)

@@ -70,7 +70,7 @@ const getTokenFromAddress = tokenAddress =>
 const getWhitelistFromAddress = contractAddress =>
   store.getState().whitelist.queryResult.data.filter(({ address }) => contractAddress === address)[0]
 
-const getStorageSettingsForToken = async tokenAddress => {
+const getRegulatorServiceForToken = async tokenAddress => {
   await waitForWeb3()
 
   const token = getTokenFromAddress(tokenAddress) || { abiVersion: '07-26-18' } // TODO: find a permanent solution for this
@@ -79,7 +79,15 @@ const getStorageSettingsForToken = async tokenAddress => {
   promisifyAll(deployedTokenContract.service)
 
   const regulatorServiceAddress = await deployedTokenContract.service.callAsync()
-  const deployedRegulatorServiceContract = web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
+  return web3.eth.contract(getAbi('regulatorService', token.abiVersion)).at(regulatorServiceAddress)
+}
+
+const getStorageSettingsForToken = async tokenAddress => {
+  await waitForWeb3()
+
+  const token = getTokenFromAddress(tokenAddress) || { abiVersion: '07-26-18' } // TODO: find a permanent solution for this
+
+  const deployedRegulatorServiceContract = await getRegulatorServiceForToken(tokenAddress)
   promisifyAll(deployedRegulatorServiceContract.settingsStorage)
 
   const storageAddress = await deployedRegulatorServiceContract.settingsStorage.callAsync()
@@ -135,6 +143,8 @@ const methodByHex = {
 }
 
 export default {
+  getRegulatorServiceForToken,
+  getStorageSettingsForToken,
   getCurrentAccount: () => currentAccount,
   methodByHex,
   init: async ({
