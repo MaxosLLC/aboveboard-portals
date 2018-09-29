@@ -622,7 +622,7 @@ export default {
 
       await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, { from: currentAccount, gas })
 
-      return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
+      return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'transfer' })
     } catch (e) {
       store.dispatch({ type: 'WALLET_TRANSACTION_ERROR', error: e.message || e })
       throw e

@@ -168,7 +168,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders } = this.props
+    const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders, mintShares, distributeShares } = this.props
     const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
@@ -184,6 +184,35 @@ class InvestorDetailView extends Component {
     const handleSetTradingLock = async (e, { checked: active }) => {
       await setTokenTrading(localToken.address, active)
       this.setState({ locked: !active })
+    }
+
+    const handleMintShares = async () => {
+      const amount = document.getElementById('mint-shares-amount-input').value
+
+      if (isNaN(amount)) {
+        alert('Mint shares amount must be a number')
+      }
+
+      return mintShares(amount)
+    }
+
+    const handleDistributeShares = async () => {
+      const amount = document.getElementById('distribute-shares-amount-input').value
+      const to = document.getElementById('distribute-shares-to-input').value
+
+      if (isNaN(amount)) {
+        alert('Mint shares amount must be a number')
+      }
+
+      if (!to) {
+        alert('To is required')
+      }
+
+      try {
+        await distributeShares(amount, to)
+      } catch (e) {
+        console.log(`Could not distribute shares: ${e.message || e}`)
+      }
     }
 
     const shareholderHeaders = [
@@ -387,8 +416,8 @@ class InvestorDetailView extends Component {
                   <Segment>
                     <Header as='h2' textAlign='center'>Governance Group Actions</Header>
                     <br />
-                    <Button>Mint Shares</Button><Input style={{ marginLeft: '10px' }} /><br /><br />
-                    <Button>Distribute Shares</Button><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button onClick={handleMintShares}>Mint Shares</Button><br />Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><br /><br />
+                    <Button onClick={handleDistributeShares}>Distribute Shares</Button><br />To: <Input id='distribute-shares-to-input' style={{ marginLeft: '10px' }} /><br />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><br /><br />
                     <Button>Arbitrate Shares</Button><br />From: <Input style={{ marginLeft: '10px' }} /><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><br /><br />
                     <Button>Add Officer</Button><Input style={{ marginLeft: '10px' }} /><br /><br />
                     <Button>Remove Officer</Button><Input style={{ marginLeft: '10px' }} />
