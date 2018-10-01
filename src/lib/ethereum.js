@@ -628,9 +628,9 @@ export default {
         return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
       }
 
-      const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, { from: currentAccount })
+      // const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, { from: currentAccount })
 
-      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, { from: currentAccount, gas })
+      await deployedTokenContract.transfer.sendTransactionAsync(toAddress, amount, { from: currentAccount })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'transfer' })
     } catch (e) {
