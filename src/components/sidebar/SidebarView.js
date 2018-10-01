@@ -36,7 +36,7 @@ class SidebarView extends Component {
         <MenuItem active={whitelistsRegexp.test(router.location.pathname)} className='sidebarMenuItem' onClick={() => routeTo(`/whitelists`)}>
           Whitelists
         </MenuItem>
-        { (currentUser.role === 'broker' || currentUser.role === 'direct') &&
+        { (currentUser.role === 'broker' || currentUser.role === 'direct' || currentUser.role === 'issuer') &&
           <MenuItem name='owners' onClick={() => routeTo('/owners')} active={ownersRegexp.test(router.location.pathname)} className='sidebarMenuItem'>
             Owners
           </MenuItem>
