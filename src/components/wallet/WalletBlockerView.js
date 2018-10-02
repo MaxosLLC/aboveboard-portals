@@ -20,7 +20,7 @@ class WalletBlockerView extends Component {
               : method === 'deployNewWhitelist'
                 ? <Segment size='large' textAlign='center'>
                   <Header>Your new Whitelist is now being deployed...</Header>
-                  <Header>There will 3 or more transactions following that must be confirmed.</Header>
+                  <Header>There will 4 or more transactions following that must be confirmed.</Header>
                   <Header>Please confirm all transactions with your wallet.</Header>
                   <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
                 </Segment>

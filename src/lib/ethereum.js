@@ -769,7 +769,7 @@ export default {
     }
   },
 
-  deployNewWhitelist: async (type, tokens = []) => {
+  deployNewWhitelist: async (type, tokens = [], addOwner = true) => {
     try {
       await waitForWeb3()
 
@@ -779,6 +779,19 @@ export default {
 
       const deployedWhitelistContract = web3.eth.contract(getAbi('whitelist')).at(address)
       promisifyAll(deployedWhitelistContract.addToken)
+
+      if (addOwner) {
+        promisifyAll(deployedWhitelistContract.add)
+
+        const kycStatus = ''
+        const kycExpDate = 0
+        const accredStatus = ''
+        const jurisdiction = ''
+
+        const gas = await deployedWhitelistContract.add.estimateGasAsync(currentAccount, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount })
+
+        await deployedWhitelistContract.add.sendTransactionAsync(currentAccount, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas })
+      }
 
       await each(tokens, async token => {
         const gas = await deployedWhitelistContract.addToken.estimateGasAsync(token.address, { from: currentAccount })

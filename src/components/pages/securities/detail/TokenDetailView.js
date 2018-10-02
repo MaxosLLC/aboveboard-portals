@@ -416,16 +416,16 @@ class InvestorDetailView extends Component {
                   <Segment>
                     <Header as='h2' textAlign='center'>Governance Group Actions</Header>
                     <br />
-                    <Button onClick={handleMintShares}>Mint Shares</Button><br />Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><br /><br />
-                    <Button onClick={handleDistributeShares}>Distribute Shares</Button><br />To: <Input id='distribute-shares-to-input' style={{ marginLeft: '10px' }} /><br />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><br /><br />
-                    <Button>Arbitrate Shares</Button><br />From: <Input style={{ marginLeft: '10px' }} /><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><br /><br />
-                    <Button>Add Officer</Button><Input style={{ marginLeft: '10px' }} /><br /><br />
-                    <Button>Remove Officer</Button><Input style={{ marginLeft: '10px' }} />
+                    Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleMintShares} style={{ marginLeft: '10px' }}>Mint Shares</Button><br /><br />
+                    To: <Input id='distribute-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
+                    From: <Input style={{ marginLeft: '10px' }} /><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
+                    Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Add Officer</Button><br /><br />
+                    Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button>
                   </Segment>
                 </Grid.Column>
                 <Grid.Column>
                   <Segment>
-                    <Header as='h2' textAlign='center'>Officer Settings</Header>
+                    <Header as='h2' textAlign='center'>Officer Permissions</Header>
                     <br />
                     <Button>Lock trading</Button><Label style={{ marginLeft: '10px' }}>Yes</Label><br /><br />
                     <Button>Add Whitelist to Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />

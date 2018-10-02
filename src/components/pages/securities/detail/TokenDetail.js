@@ -27,34 +27,38 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     routeTo: path => dispatch(push(path)),
     setCurrentToken: tokenAddress => dispatch({ type: 'SET_CURRENT_TOKEN', tokenAddress }),
     loadShareholders: async currentUser => {
-      const contractAddress = ownProps.match.params.address
-      const query = { 'ethAddresses.issues.address': contractAddress }
+      try {
+        const contractAddress = ownProps.match.params.address
+        const query = { 'ethAddresses.issues.address': contractAddress }
 
-      const { value } = await dispatch(localServices.investor.find({ query }))
+        const { value } = await dispatch(localServices.investor.find({ query }))
 
-      dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders: value.total })
+        dispatch({ type: 'SET_TOTAL_SHAREHOLDERS', contractAddress, shareholders: value.total })
 
-      value.data = await map(value.data, async investor => {
-        investor.ethAddresses = await map(investor.ethAddresses, async ethAddress => {
-          if (Array.isArray(ethAddress.issues)) {
-            ethAddress.issues = await map(ethAddress.issues, async issue => {
-              if (issue.address === contractAddress) {
-                const tokens = await ethereum.getBalanceForAddress(contractAddress, ethAddress.address)
+        value.data = await map(value.data, async investor => {
+          investor.ethAddresses = await map(investor.ethAddresses, async ethAddress => {
+            if (Array.isArray(ethAddress.issues)) {
+              ethAddress.issues = await map(ethAddress.issues, async issue => {
+                if (issue.address === contractAddress) {
+                  const tokens = await ethereum.getBalanceForAddress(contractAddress, ethAddress.address)
 
-                issue.tokens = tokens
-              }
+                  issue.tokens = tokens
+                }
 
-              return issue
-            })
-          }
+                return issue
+              })
+            }
 
-          return ethAddress
+            return ethAddress
+          })
+
+          return investor
         })
 
-        return investor
-      })
-
-      return value
+        return value
+      } catch (e) {
+        console.log(`Could not load shareholders ${e.message || e}`)
+      }
     },
     loadTransactions: () => {
       const contractAddress = ownProps.match.params.address
