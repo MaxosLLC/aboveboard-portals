@@ -92,7 +92,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getTokenTrading: tokenAddress => ethereum.getTradingLock(tokenAddress),
     setTokenTrading: (tokenAddress, active) => ethereum.setTradingLock(tokenAddress, !active),
     mintShares: amount => ethereum.mint(ownProps.match.params.address, amount),
-    distributeShares: (amount, to) => ethereum.transfer(ownProps.match.params.address, to, amount)
+    distributeShares: (amount, to) => ethereum.transfer(ownProps.match.params.address, to, amount),
+    arbitrateShares: (amount, from, to) => ethereum.arbitrate(ownProps.match.params.address, from, to, amount)
   }
 }
 

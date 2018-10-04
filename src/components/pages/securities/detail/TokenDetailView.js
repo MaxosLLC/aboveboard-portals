@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import { all } from 'bluebird'
 import { Link } from 'react-router-dom'
-import { Button, Checkbox, Grid, Header, Icon, Image, Input, Label, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
+import { Button, Checkbox, Header, Icon, Image, Input, Label, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
@@ -168,7 +168,7 @@ class InvestorDetailView extends Component {
     }
   }
   render () {
-    const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders, mintShares, distributeShares } = this.props
+    const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders, mintShares, distributeShares, arbitrateShares } = this.props
     const { activeIndex, locked } = this.state
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
@@ -210,6 +210,30 @@ class InvestorDetailView extends Component {
 
       try {
         await distributeShares(amount, to)
+      } catch (e) {
+        console.log(`Could not distribute shares: ${e.message || e}`)
+      }
+    }
+
+    const handleArbitrateShares = async () => {
+      const amount = document.getElementById('arbitrate-shares-amount-input').value
+      const to = document.getElementById('arbitrate-shares-to-input').value
+      const from = document.getElementById('arbitrate-shares-from-input').value
+
+      if (isNaN(amount)) {
+        alert('Mint shares amount must be a number') // eslint-disable-line
+      }
+
+      if (!to) {
+        alert('To is required') // eslint-disable-line
+      }
+
+      if (!from) {
+        alert('From is required') // eslint-disable-line
+      }
+
+      try {
+        await arbitrateShares(amount, from, to)
       } catch (e) {
         console.log(`Could not distribute shares: ${e.message || e}`)
       }
@@ -411,30 +435,39 @@ class InvestorDetailView extends Component {
               <br />
               <Image src='/images/under-construction.png' size='medium' centered />
               <br />
-              <Grid columns={2}>
-                <Grid.Column>
-                  <Segment>
-                    <Header as='h2' textAlign='center'>Governance Group Actions</Header>
-                    <br />
-                    Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleMintShares} style={{ marginLeft: '10px' }}>Mint Shares</Button><br /><br />
-                    To: <Input id='distribute-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
-                    From: <Input style={{ marginLeft: '10px' }} /><br />To: <Input style={{ marginLeft: '10px' }} /><br />Amount: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
-                    Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Add Officer</Button><br /><br />
-                    Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button>
-                  </Segment>
-                </Grid.Column>
-                <Grid.Column>
-                  <Segment>
-                    <Header as='h2' textAlign='center'>Officer Permissions</Header>
-                    <br />
-                    <Button>Lock trading</Button><Label style={{ marginLeft: '10px' }}>Yes</Label><br /><br />
-                    <Button>Add Whitelist to Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
-                    <Button>Remove Whitelist from Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
-                    <Button>Set Initial Offer End Date</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
-                    <Button>Set Allowing/Disallowing New Shareholders</Button><Label style={{ marginLeft: '10px' }}>Yes</Label>
-                  </Segment>
-                </Grid.Column>
-              </Grid>
+              <Segment textAlign='center'>
+                <Header as='h2' textAlign='center'>Governance Group Actions</Header>
+                <br />
+                <Header as='h4' textAlign='center'>The Governance Group can perform actions that must be signed by a majority of it's members in order to be processed.</Header>
+                <br />
+                Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleMintShares} style={{ marginLeft: '10px' }}>Mint Shares</Button><br /><br />
+                To: <Input id='distribute-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
+                From: <Input id='arbitrate-shares-from-input' style={{ margin: '0 10px' }} />To: <Input id='arbitrate-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='arbitrate-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleArbitrateShares} style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
+                Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Add Officer</Button><br /><br />
+                Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button>
+              </Segment>
+            </div>
+          )
+        }
+      }, {
+        menuItem: 'Officers',
+        render: () => {
+          return (
+            <div>
+              <br />
+              <Image src='/images/under-construction.png' size='medium' centered />
+              <br />
+              <Segment textAlign='center'>
+                <Header as='h2' textAlign='center'>Officer Permissions</Header>
+                <br />
+                <Header as='h4' textAlign='center'>An officer is someone who has been assigned by the Governance Group to perform actions that normally only the Governance Group can perform.</Header>
+                <br />
+                <Button>Lock trading</Button><Label style={{ marginLeft: '10px' }}>Yes</Label><br /><br />
+                <Button>Add Whitelist to Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                <Button>Remove Whitelist from Token</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                <Button>Set Initial Offer End Date</Button><Label style={{ marginLeft: '10px' }}>No</Label><br /><br />
+                <Button>Set Allowing/Disallowing New Shareholders</Button><Label style={{ marginLeft: '10px' }}>Yes</Label>
+              </Segment>
             </div>
           )
         }

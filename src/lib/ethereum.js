@@ -662,9 +662,9 @@ export default {
         return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas })
       }
 
-      const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, 0, { from: currentAccount })
+      const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, { from: currentAccount })
 
-      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, 0, { from: currentAccount, gas })
+      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, { from: currentAccount, gas })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
     } catch (e) {

@@ -7,7 +7,7 @@ class WalletBlockerView extends Component {
 
     return (
       processing
-        ? <div style={{ position: 'absolute', height: '100%', width: '100%', zIndex: '1000000', top: '0', left: '0', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        ? <div style={{ position: 'fixed', height: '100%', width: '100%', zIndex: '1000000', top: '0', left: '0', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <Grid textAlign='center' style={{ position: 'relative', top: '4em' }}>
             <Grid.Column style={{ maxWidth: 600 }}>
               { method === 'deployNewToken'
