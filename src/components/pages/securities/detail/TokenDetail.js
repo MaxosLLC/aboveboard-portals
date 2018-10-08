@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 if (issue.address === contractAddress) {
                   const tokens = await ethereum.getBalanceForAddress(contractAddress, ethAddress.address)
 
-                  issue.tokens = tokens
+                  issue.tokens = +tokens
                 }
 
                 return issue

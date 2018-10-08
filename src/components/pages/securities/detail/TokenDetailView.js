@@ -104,11 +104,15 @@ class InvestorDetailView extends Component {
         if (result2) { return result2 }
 
         if (Array.isArray(ethAddress.issues)) {
-          const issues = ethAddress.issues.filter(issue => issue.address === address)
+          const tokens = ethAddress.issues.reduce((result3, issue) => {
+            if (issue.address === address && issue.tokens) {
+              return result3 + issue.tokens
+            }
 
-          if (issues && issues.length) {
-            return result2 + (issues[0].tokens || 0)
-          }
+            return result3
+          }, 0)
+
+          return result2 + tokens
         }
 
         return result2
@@ -435,7 +439,7 @@ class InvestorDetailView extends Component {
               <br />
               <Image src='/images/under-construction.png' size='medium' centered />
               <br />
-              <Segment textAlign='center'>
+              <Segment>
                 <Header as='h2' textAlign='center'>Governance Group Actions</Header>
                 <br />
                 <Header as='h4' textAlign='center'>The Governance Group can perform actions that must be signed by a majority of it's members in order to be processed.</Header>
@@ -457,7 +461,7 @@ class InvestorDetailView extends Component {
               <br />
               <Image src='/images/under-construction.png' size='medium' centered />
               <br />
-              <Segment textAlign='center'>
+              <Segment>
                 <Header as='h2' textAlign='center'>Officer Permissions</Header>
                 <br />
                 <Header as='h4' textAlign='center'>An officer is someone who has been assigned by the Governance Group to perform actions that normally only the Governance Group can perform.</Header>
