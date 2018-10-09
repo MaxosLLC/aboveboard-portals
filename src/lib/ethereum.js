@@ -120,7 +120,7 @@ const deployContract = async (type, ...contractParams) => {
   const web3Contract = web3.eth.contract(abi)
 
   const deployedContract = await new Promise((resolve, reject) => {
-    web3Contract.new.apply(web3Contract, contractParams.concat([{ from: currentAccount, data }, (err, res) => {
+    web3Contract.new.apply(web3Contract, contractParams.concat([{ from: currentAccount, gas: 7000000, data }, (err, res) => {
       if (err) { reject(err) }
 
       resolve(res)
@@ -315,7 +315,7 @@ export default {
       const contract = web3.eth.contract(getAbi('whitelist', whitelist.abiVersion)).at(contractAddress)
       promisifyAll(contract.remove)
 
-      await contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 150000 })
+      await contract.remove.sendTransactionAsync(investorAddress, { from: currentAccount, gas: 180000 })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'removeInvestorFromWhitelist' })
     } catch (e) {
