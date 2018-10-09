@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { each } from 'bluebird'
 
 import localServices from 'lib/feathers/local/feathersServices'
 import CreateTokenView from './CreateTokenView'
@@ -39,8 +38,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               throw e
             }
           }
-
-          await each(user.ethAddresses, ({ address }) => ethereum.addInvestorToWhitelist(address, whitelistAddress))
 
           await ethereum.mint(address, +initialNumber.replace(/[,]/g, ''))
         }
