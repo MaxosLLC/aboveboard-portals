@@ -24,7 +24,7 @@ if (url.split(':')[2]) {
 let web3
 let currentAccount
 const currentGasPriceInGwei = 8
-const gasPrice: gasPrice() = () => web3.toWei(currentGasPriceInGwei, 'gwei')
+const gasPrice = () => web3.toWei(currentGasPriceInGwei, 'gwei')
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time))
 
