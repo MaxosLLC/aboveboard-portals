@@ -24,7 +24,7 @@ if (url.split(':')[2]) {
 let web3
 let currentAccount
 const currentGasPriceInGwei = 8
-const gasPrice = web3.toWei(currentGasPriceInGwei, 'gwei')
+const gasPrice: gasPrice() = () => web3.toWei(currentGasPriceInGwei, 'gwei')
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time))
 
@@ -252,7 +252,7 @@ export default {
 
       const gas = await deployedSettingsStorageContract.addWhitelist.estimateGasAsync(whitelistAddress, { from: currentAccount })
 
-      await deployedSettingsStorageContract.addWhitelist.sendTransactionAsync(whitelistAddress, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedSettingsStorageContract.addWhitelist.sendTransactionAsync(whitelistAddress, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addWhitelistToToken' })
     } catch (e) {
@@ -275,7 +275,7 @@ export default {
 
       const gas = await contract.add.estimateGasAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount })
 
-      await contract.add.sendTransactionAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas: gas * 2, gasPrice })
+      await contract.add.sendTransactionAsync(investorAddress, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addInvestorToWhitelist' })
     } catch (e) {
@@ -297,7 +297,7 @@ export default {
 
       const gas = await contract.addBuyers.estimateGasAsync(investorAddresses, { from: currentAccount })
 
-      await contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount, gas: gas * 2, gasPrice })
+      await contract.addBuyers.sendTransactionAsync(investorAddresses, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addInvestorsToWhitelist' })
     } catch (e) {
@@ -348,7 +348,7 @@ export default {
       if (currentMessagingAddress !== messagingAddress) {
         const gas = await deployedContract.setMessagingAddress.estimateGasAsync(messagingAddress, { from: currentAccount })
 
-        await deployedContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas: gas * 2, gasPrice })
+        await deployedContract.setMessagingAddress.sendTransactionAsync(messagingAddress, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       }
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setMessagingAddress' })
@@ -381,7 +381,7 @@ export default {
 
       const gas = await contract.setLocked.estimateGasAsync(locked, { from: currentAccount })
 
-      await contract.setLocked.sendTransactionAsync(locked, { from: currentAccount, gas: gas * 2, gasPrice })
+      await contract.setLocked.sendTransactionAsync(locked, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setTradingLock' })
     } catch (e) {
@@ -516,7 +516,7 @@ export default {
 
       const gas = await deployedWalletContract.confirmTransaction.estimateGasAsync(id, { from: currentAccount })
 
-      await deployedWalletContract.confirmTransaction.sendTransactionAsync(id, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.confirmTransaction.sendTransactionAsync(id, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'confirmTransaction' })
     } catch (e) {
@@ -536,7 +536,7 @@ export default {
 
       const gas = await deployedWalletContract.revokeConfirmation.estimateGasAsync(id, { from: currentAccount })
 
-      await deployedWalletContract.revokeConfirmation.sendTransactionAsync(id, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.revokeConfirmation.sendTransactionAsync(id, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'revokeConfirmation' })
     } catch (e) {
@@ -561,7 +561,7 @@ export default {
 
       const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(tokenAddress, 0, approveEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, approveEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(tokenAddress, 0, approveEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'setTokenApproval' })
     } catch (e) {
@@ -593,12 +593,12 @@ export default {
 
         const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       }
 
       const gas = await deployedTokenContract.mint.estimateGasAsync(tokenOwner, amount, { from: currentAccount })
 
-      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedTokenContract.mint.sendTransactionAsync(tokenOwner, amount, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'mint' })
     } catch (e) {
@@ -627,7 +627,7 @@ export default {
 
         const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       }
 
       // const gas = await deployedTokenContract.transfer.estimateGasAsync(toAddress, amount, { from: currentAccount })
@@ -661,12 +661,12 @@ export default {
 
         const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+        return deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       }
 
       const gas = await deployedTokenContract.arbitrage.estimateGasAsync(fromAddress, toAddress, amount, { from: currentAccount })
 
-      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedTokenContract.arbitrage.sendTransactionAsync(fromAddress, toAddress, amount, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'arbitrate' })
     } catch (e) {
@@ -688,7 +688,7 @@ export default {
 
       const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'addSigner' })
     } catch (e) {
@@ -710,7 +710,7 @@ export default {
 
       const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'removeSigner' })
     } catch (e) {
@@ -762,7 +762,7 @@ export default {
 
       const gas = await deployedWalletContract.submitTransaction.estimateGasAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount })
 
-      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice })
+      await deployedWalletContract.submitTransaction.sendTransactionAsync(multisigWalletAddress, 0, txEncoded, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
 
       return store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'changeRequirement' })
     } catch (e) {
@@ -792,13 +792,13 @@ export default {
 
         const gas = await deployedWhitelistContract.add.estimateGasAsync(currentAccount, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount })
 
-        await deployedWhitelistContract.add.sendTransactionAsync(currentAccount, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas: gas * 2, gasPrice })
+        await deployedWhitelistContract.add.sendTransactionAsync(currentAccount, kycStatus, kycExpDate, accredStatus, jurisdiction, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       }
 
       await each(tokens, async token => {
         const gas = await deployedWhitelistContract.addToken.estimateGasAsync(token.address, { from: currentAccount })
 
-        return deployedWhitelistContract.addToken.sendTransactionAsync(token.address, { from: currentAccount, gas: gas * 2, gasPrice })
+        return deployedWhitelistContract.addToken.sendTransactionAsync(token.address, { from: currentAccount, gas: gas * 2, gasPrice: gasPrice() })
       })
 
       store.dispatch({ type: 'WALLET_TRANSACTION_FINISHED', method: 'deployNewWhitelist' })
