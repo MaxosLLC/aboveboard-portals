@@ -435,8 +435,6 @@ class InvestorDetailView extends Component {
           return (
             <div>
               <br />
-              <Image src='/images/under-construction.png' size='medium' centered />
-              <br />
               <Segment>
                 <Header as='h2' textAlign='center'>Governance Group Actions</Header>
                 <br />
@@ -446,7 +444,13 @@ class InvestorDetailView extends Component {
                 To: <Input id='distribute-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
                 From: <Input id='arbitrate-shares-from-input' style={{ margin: '0 10px' }} />To: <Input id='arbitrate-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='arbitrate-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleArbitrateShares} style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
                 Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Add Officer</Button><br /><br />
-                Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button>
+                Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button><br /><br />
+                <Button>Share Split</Button><br /><br />
+                <Button>Certificate Replacement</Button><br /><br />
+                <Button>Initiate Voting</Button><br /><br />
+                <Button>Shareholder Announcement</Button><br /><br />
+                <Button>Share Transfer</Button><br /><br />
+                <Button>Trading Control</Button>
               </Segment>
             </div>
           )
