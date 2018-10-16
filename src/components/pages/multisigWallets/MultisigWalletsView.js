@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Accordion, Button, Header, Icon, Image, Input, Label, Segment } from 'semantic-ui-react'
+import { Accordion, Button, Header, Icon, Input, Label, Segment } from 'semantic-ui-react'
 
 class MultisigWalletsView extends Component {
   constructor (props) {
