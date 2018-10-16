@@ -89,8 +89,6 @@ class MultisigWalletsView extends Component {
 
     return (
       <div className='multisigWalletsComponent'>
-        <Image src='/images/under-construction.png' size='medium' centered />
-        <br />
         { !connected ? <Segment>Please connect your <Link to='/wallet'>wallet</Link>.</Segment>
           : !loaded ? <Segment>Loading Company Multisig...</Segment>
           : multisigWallet.address

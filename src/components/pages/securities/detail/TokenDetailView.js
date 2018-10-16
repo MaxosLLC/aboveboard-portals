@@ -461,8 +461,6 @@ class InvestorDetailView extends Component {
           return (
             <div>
               <br />
-              <Image src='/images/under-construction.png' size='medium' centered />
-              <br />
               <Segment>
                 <Header as='h2' textAlign='center'>Officer Permissions</Header>
                 <br />
