@@ -48,7 +48,6 @@ class WhitelistsAvailableView extends Component {
   render () {
     return (
       <div className='whitelistsComponent'>
-        <Image src='/images/under-construction.png' size='medium' centered />
         <Grid style={{ marginTop: '10px' }}>
           <Grid.Column floated='left' width={12}>
             <Header as='h2'>Available Whitelists</Header>
