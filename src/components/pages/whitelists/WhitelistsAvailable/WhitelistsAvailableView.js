@@ -22,12 +22,10 @@ class WhitelistsAvailableView extends Component {
 
     // if (this.props.currentUser.role === 'issuer' || this.props.currentUser.role === 'direct') {
     //   const whitelistsByToken = {}
-
     //   await each(this.props.localTokens, async localToken => {
     //     const whitelists = await ethereum.getWhitelistsForToken(localToken.address)
     //     whitelistsByToken[localToken.address] = whitelists
     //   })
-
     //   this.setState({ whitelistsByToken })
     // }
 
