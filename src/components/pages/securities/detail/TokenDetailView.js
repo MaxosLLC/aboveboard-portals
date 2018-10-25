@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import { all } from 'bluebird'
 import { Link } from 'react-router-dom'
-import { Button, Checkbox, Header, Icon, Image, Input, Label, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
+import { Button, Checkbox, Dropdown, Header, Icon, Image, Input, Label, Pagination, Segment, Tab, Table } from 'semantic-ui-react'
 import StatsCard from 'components/statsCard/StatsCard'
 import './TokenDetail.css'
 
@@ -171,17 +171,36 @@ class InvestorDetailView extends Component {
   }
   render () {
     const { loaded, currentToken, localToken, transactions, shareholders, queryResult, routeTo, page, search, setPage, setSort, setSearch, setTokenTrading, totalTransactions, totalShareholders, mintShares, distributeShares, arbitrateShares } = this.props
-    const { activeIndex, locked } = this.state
+    const { activeIndex, locked, distributeToShareholder, arbitrateToShareholder, arbitrateFromShareholder } = this.state
+
     const shareholdersWithData = shareholders.map(shareholder => {
       if (shareholder.firstName) { return shareholder }
 
       return Object.assign({}, shareholder, { firstName: 'No', lastName: 'Data' })
     })
+
+    const shareholderDropdownOptions = shareholders.reduce((result, shareholder) => {
+      if (Array.isArray(shareholder.ethAddresses)) {
+        shareholder.ethAddresses.forEach(ethAddress => {
+          result.push({
+            text: `${shareholder.firstName} ${shareholder.lastName}`,
+            value: ethAddress.address
+          })
+        })
+      }
+
+      return result
+    }, [])
+
     const stats = this.setStats(totalShareholders, totalTransactions)
 
     const handleSearch = (e, { value }) => {
       setSearch(activeIndex === 0 ? 'investors' : 'transactions', value)
     }
+
+    const handleDistributeToChange = (e, { value }) => this.setState({ distributeToShareholder: value })
+    const handleArbitrateToChange = (e, { value }) => this.setState({ arbitrateToShareholder: value })
+    const handleArbitrateFromChange = (e, { value }) => this.setState({ arbitrateFromShareholder: value })
 
     const handleSetTradingLock = async (e, { checked: active }) => {
       await setTokenTrading(localToken.address, active)
@@ -200,18 +219,17 @@ class InvestorDetailView extends Component {
 
     const handleDistributeShares = async () => {
       const amount = document.getElementById('distribute-shares-amount-input').value
-      const to = document.getElementById('distribute-shares-to-input').value
 
       if (isNaN(amount)) {
         alert('Mint shares amount must be a number') // eslint-disable-line
       }
 
-      if (!to) {
+      if (!distributeToShareholder) {
         alert('To is required') // eslint-disable-line
       }
 
       try {
-        await distributeShares(amount, to)
+        await distributeShares(amount, distributeToShareholder)
       } catch (e) {
         console.log(`Could not distribute shares: ${e.message || e}`)
       }
@@ -219,23 +237,21 @@ class InvestorDetailView extends Component {
 
     const handleArbitrateShares = async () => {
       const amount = document.getElementById('arbitrate-shares-amount-input').value
-      const to = document.getElementById('arbitrate-shares-to-input').value
-      const from = document.getElementById('arbitrate-shares-from-input').value
 
       if (isNaN(amount)) {
         alert('Mint shares amount must be a number') // eslint-disable-line
       }
 
-      if (!to) {
+      if (!arbitrateToShareholder) {
         alert('To is required') // eslint-disable-line
       }
 
-      if (!from) {
+      if (!arbitrateFromShareholder) {
         alert('From is required') // eslint-disable-line
       }
 
       try {
-        await arbitrateShares(amount, from, to)
+        await arbitrateShares(amount, arbitrateFromShareholder, arbitrateToShareholder)
       } catch (e) {
         console.log(`Could not distribute shares: ${e.message || e}`)
       }
@@ -441,8 +457,8 @@ class InvestorDetailView extends Component {
                 <Header as='h4' textAlign='center'>The Governance Group can perform actions that must be signed by a majority of it's members in order to be processed.</Header>
                 <br />
                 Amount: <Input id='mint-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleMintShares} style={{ marginLeft: '10px' }}>Mint Shares</Button><br /><br />
-                To: <Input id='distribute-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
-                From: <Input id='arbitrate-shares-from-input' style={{ margin: '0 10px' }} />To: <Input id='arbitrate-shares-to-input' style={{ margin: '0 10px' }} />Amount: <Input id='arbitrate-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleArbitrateShares} style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
+                To: <Dropdown selection options={shareholderDropdownOptions} style={{ margin: '0 10px' }} onChange={handleDistributeToChange} />Amount: <Input id='distribute-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleDistributeShares} style={{ marginLeft: '10px' }}>Distribute Shares</Button><br /><br />
+                From: <Dropdown selection options={shareholderDropdownOptions} style={{ margin: '0 10px' }} onChange={handleArbitrateFromChange} />To: <Dropdown selection options={shareholderDropdownOptions} style={{ margin: '0 10px' }} onChange={handleArbitrateToChange} />Amount: <Input id='arbitrate-shares-amount-input' style={{ marginLeft: '10px' }} /><Button onClick={handleArbitrateShares} style={{ marginLeft: '10px' }}>Arbitrate Shares</Button><br /><br />
                 Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Add Officer</Button><br /><br />
                 Address: <Input style={{ marginLeft: '10px' }} /><Button style={{ marginLeft: '10px' }}>Remove Officer</Button><br /><br />
                 <Button>Share Split</Button><br /><br />
