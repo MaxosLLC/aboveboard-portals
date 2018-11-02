@@ -85,6 +85,8 @@ function * loginSuccess ({ user, accessToken }) {
   yield store.dispatch(localServices.user.patch(null, { ethAddresses }, { query: { id: user.id } }))
   yield store.dispatch(localServices.whitelist.find())
 
+  store.dispatch({ type: 'ETHEREUM_CONNECTED' })
+
   // if (user.role === 'broker' || user.role === 'direct') {
   //   if (localTokens.length) {
   //     const allWhitelists = yield localServices.whitelist.find()

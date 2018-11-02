@@ -214,6 +214,7 @@ export default {
 
     promisifyAll(web3.eth)
     promisifyAll(web3.personal)
+    promisifyAll(web3.version)
 
     try {
       const accounts = await web3.eth.getAccountsAsync()
@@ -235,6 +236,8 @@ export default {
   },
 
   getAccounts: () => web3.eth.getAccountsAsync(),
+
+  getCurrentNetwork: () => web3.version.getNetworkAsync(),
 
   setCurrentAccount (address) {
     currentAccount = address
