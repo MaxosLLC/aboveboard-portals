@@ -2,7 +2,7 @@ import { all, fork } from 'redux-saga/effects'
 import watchAuth from 'redux/sagas/auth'
 import watchData from 'redux/sagas/data'
 import pendingTransactions from 'redux/sagas/pendingTransactions'
-import watchNetworkChecker from 'redux/sagas/networkChecker'
+import watchEthereumNetworkChecker from 'redux/sagas/ethereumNetworkChecker'
 import watchUpdate from 'redux/sagas/update'
 
 export default function * rootSaga () {
@@ -10,7 +10,7 @@ export default function * rootSaga () {
     fork(watchAuth),
     fork(watchData),
     fork(pendingTransactions),
-    fork(watchNetworkChecker),
+    fork(watchEthereumNetworkChecker),
     fork(watchUpdate)
   ])
 }

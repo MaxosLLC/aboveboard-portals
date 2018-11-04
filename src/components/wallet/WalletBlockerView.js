@@ -24,6 +24,11 @@ class WalletBlockerView extends Component {
                   <Header>Please confirm all transactions with your wallet.</Header>
                   <Header>If your wallet does not load, please open it manually or refresh the page.</Header>
                 </Segment>
+              : method === 'changeToKovanNetwork'
+                ? <Segment size='large' textAlign='center'>
+                  <Header>Your wallet is currently targetting the wrong Ethereum network.</Header>
+                  <Header>Please connect your wallet to the Kovan network.</Header>
+                </Segment>
               : <Segment size='large' textAlign='center'>
                 <Header>Your wallet is now loading...</Header>
                 <Header>Please complete any outstanding transactions.</Header>
