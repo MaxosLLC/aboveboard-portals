@@ -6,7 +6,7 @@ import store from 'redux/store'
 function * checkCurrentNetwork () {
   const currentNetwork = yield ethereum.getCurrentNetwork()
 
-  if (+currentNetwork === 42 && /kovan/.test(window.location.hostname)) {
+  if (+currentNetwork !== 42 && /kovan/.test(window.location.hostname)) {
     store.dispatch({ type: 'WALLET_TRANSACTION_START', method: 'changeToKovanNetwork' })
   }
 }
